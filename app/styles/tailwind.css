@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: 'protogrotesk-light';
+        src: url('/fonts/proto-grotesk/protogroteskweb-light.eot');
+        src: url('/fonts/proto-grotesk/protogroteskweb-light.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/proto-grotesk/protogroteskweb-light.woff') format('woff');
+    }
+
+    @font-face {
+        font-family: 'untitled-sans-regular';
+        src: url('/fonts/untitled-sans/WOFF2/untitled-sans-regular.woff2') format('woff2');
+    }
+
+    @font-face {
+        font-family: 'untitled-sans-light';
+        src: url('/fonts/untitled-sans/WOFF2/untitled-sans-light.woff2') format('woff2');
+    }
+
+    .display--1 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 110px;
+        line-height: 105%;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+    }
+
+    .display--2 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 80px;
+        line-height: 105%;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+    }
+
+    .heading--1 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 60px;
+        line-height: 105%;
+        letter-spacing: -2px;
+        text-transform: capitalize;
+    }
+
+    .heading--2 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 32px;
+        line-height: 105%;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+    }
+
+    .heading--3 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 24px;
+        line-height: 105%;
+        letter-spacing: -1px;
+        text-transform: uppercase;
+    }
+
+    .body--1 {
+        font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
+        font-size: 24px;
+        line-height: 125%;
+        letter-spacing: -2px;
+    }
+
+    .body--2 {
+        font-family: theme('fontFamily.untitled-sans-regular'), sans-serif;
+        font-size: 18px;
+        line-height: 125%;
+        letter-spacing: -1px;
+    }
+
+    .body--3 {
+        font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
+        font-size: 16px;
+        line-height: 130%;
+        letter-spacing: 0;
+    }
+
+    .label--1 {
+        font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
+        font-size: 14px;
+        line-height: 130%;
+        letter-spacing: 0;
+        text-transform: capitalize;
+    }
+
+    .label--2 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 12px;
+        line-height: 105%;
+        letter-spacing: 0;
+        text-transform: uppercase;
+    }
+
+    .grid-container {
+        @apply mx-2 grid grid-cols-4 gap-x-2 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
+    }
+
+    .max-container {
+        @apply mx-auto w-[90%] max-w-screen-xl md:w-full md:px-2;
+    }
+
+    .grid-full {
+        @apply grid w-full grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
+    }
+}
