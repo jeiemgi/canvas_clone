@@ -102,7 +102,7 @@
     }
 
     .max-container {
-        @apply mx-auto w-[90%] max-w-screen-xl md:w-full md:px-2;
+        @apply mx-2 md:px-8 md:w-full md:px-2;
     }
 
     .grid-full {
