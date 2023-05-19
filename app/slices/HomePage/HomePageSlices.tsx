@@ -8,16 +8,18 @@ import background from "public/img/home-background.png";
 function HomePageSlices(props) {
     // TODO: get the data and a switch for the slice type.
     return (
-        <div
-            className={'w-full bg-cover bg-fixed'}
-            style={{backgroundImage: `url('${background}')`}}
-        >
-            <HomePageHero/>
-            <HomePageQuote/>
+        <>
+            <div
+                className={'w-full bg-contain bg-repeat-y bg-black'}
+                style={{backgroundImage: `url('${background}')`}}
+            >
+                <HomePageHero/>
+                <HomePageQuote/>
+            </div>
             <HomePageProject/>
             <HomePageCapabilities/>
             <HomePagePortfolio/>
-        </div>
+        </>
     );
 }
 

@@ -97,15 +97,21 @@
         text-transform: uppercase;
     }
 
+    .text-blur {
+        @apply blur-sm text-white;
+        -webkit-text-stroke: 2px white;
+        -webkit-text-fill-color: white;
+    }
+
     .grid-container {
         @apply mx-2 grid grid-cols-4 gap-x-2 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
     }
 
     .max-container {
-        @apply mx-2 md:px-8 md:w-full md:px-2;
+        @apply md:px-8 md:w-full md:px-2;
     }
 
     .grid-full {
-        @apply grid w-full grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
+        @apply w-full grid grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
     }
 }

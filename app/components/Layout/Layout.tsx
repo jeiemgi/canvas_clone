@@ -6,7 +6,7 @@ function Layout({children}) {
     return (
         <main>
             <Navigation/>
-            <main className={'pb-10'}>
+            <main>
                 {children}
             </main>
             <Footer/>

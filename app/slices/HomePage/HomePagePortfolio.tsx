@@ -14,7 +14,7 @@ function HomePagePortfolio(props) {
                 </div>
             </div>
 
-            <div className={'flex flex-row items-start mb-20'}>
+            <div className={'flex flex-row items-start mb-20 overflow-hidden'}>
                 <img className={'object-contain'}
                      width={"90"}
                      height={"auto"}
@@ -128,35 +128,11 @@ function HomePagePortfolio(props) {
                      width={"90"}
                      height={"auto"}
                      src="/img/sample/portfolio-3.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-1.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-3.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
                      alt="sample-1"
                 />
             </div>
 
-            <div className={'flex flex-row items-start mb-20'}>
+            <div className={'flex flex-row items-start mb-20 overflow-hidden'}>
                 <img className={'object-contain'}
                      width={"90"}
                      height={"auto"}
@@ -245,30 +221,6 @@ function HomePagePortfolio(props) {
                      width={"90"}
                      height={"auto"}
                      src="/img/sample/portfolio-1.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-3.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-1.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
                      alt="sample-1"
                 />
                 <img className={'object-contain'}
@@ -291,7 +243,7 @@ function HomePagePortfolio(props) {
                 />
             </div>
 
-            <div className={'flex flex-row items-start mb-20'}>
+            <div className={'flex flex-row items-start mb-20 overflow-hidden'}>
                 <img className={'object-contain'}
                      width={"90"}
                      height={"auto"}
@@ -405,30 +357,6 @@ function HomePagePortfolio(props) {
                      width={"90"}
                      height={"auto"}
                      src="/img/sample/portfolio-3.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-1.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-3.png"
-                     alt="sample-1"
-                />
-                <img className={'object-contain'}
-                     width={"90"}
-                     height={"auto"}
-                     src="/img/sample/portfolio-2.png"
                      alt="sample-1"
                 />
             </div>
