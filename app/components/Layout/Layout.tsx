@@ -4,13 +4,11 @@ import Navigation from "~/components/Layout/Navigation";
 
 function Layout({children}) {
     return (
-        <main>
+        <>
             <Navigation/>
-            <main>
-                {children}
-            </main>
+            {children}
             <Footer/>
-        </main>
+        </>
     );
 }
 

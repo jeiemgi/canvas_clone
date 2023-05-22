@@ -3,10 +3,12 @@ import aliveSample from "public/img/sample/alive-bg.png"
 
 function HomePageProject() {
     return (
-        <div className={'w-full h-screen bg-cover flex flex-col justify-between relative'}
-             style={{backgroundImage: `url('${aliveSample}')`}}>
+        <div
+            className={'w-full h-screen bg-cover flex flex-col justify-between relative'}
+            style={{backgroundImage: `url('${aliveSample}')`}}
+        >
             <div className="grid-container">
-                <div className={'col-span-3 flex pt-8 justify-between'}>
+                <div className={'col-span-3 flex pt-8 justify-between items-end'}>
                     <h3 className={'text-white heading--3'}> ALIVE <br/> CASE STUDY</h3>
                     <h3 className={'text-white heading--3'}> 1 / 5</h3>
                 </div>
@@ -18,7 +20,7 @@ function HomePageProject() {
                 </div>
             </div>
             <div className="grid-container absolute h-[500px] bottom-0 overflow-hidden">
-                <div className={'col-span-4 col-start-8'}>
+                <div className={'col-span-4 col-start-9'}>
                     <p className={'text-white body--2 mb-5'}>
                         A description of the project. Maybe one to two sentences. More
                         content goes here. Think it will be two to three lines.

@@ -1,5 +1,10 @@
 import Layout from "~/components/Layout/Layout";
-import HomePageSlices from "~/slices/HomePage/HomePageSlices";
+import HomePageHero from "~/slices/HomePage/HomePageHero";
+import HomePageQuote from "~/slices/HomePage/HomePageQuote";
+import HomePageProject from "~/slices/HomePage/HomePageProject";
+import HomePageCapabilities from "~/slices/HomePage/HomePageCapabilities";
+import HomePagePortfolio from "~/slices/HomePage/HomePagePortfolio";
+import background from "public/img/home-background.png";
 import type {V2_MetaFunction} from "@remix-run/node";
 
 export const meta: V2_MetaFunction = () => {
@@ -7,11 +12,18 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function _index() {
-    // TODO: Fetch and create the slice machine
-
     return (
         <Layout>
-            <HomePageSlices/>
+            <div
+                className={'w-full bg-contain bg-repeat-y bg-black'}
+                style={{backgroundImage: `url('${background}')`}}
+            >
+                <HomePageHero/>
+                <HomePageQuote/>
+            </div>
+            <HomePageProject/>
+            <HomePageCapabilities/>
+            <HomePagePortfolio/>
         </Layout>
     );
 }

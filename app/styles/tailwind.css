@@ -97,9 +97,21 @@
         text-transform: uppercase;
     }
 
-    .text-blur {
-        @apply blur-sm text-white;
+    .text-blur-top {
+        color: #ffffff;
+        filter: blur(2px);
         -webkit-text-stroke: 2px white;
+        -webkit-text-fill-color: white;
+    }
+
+    .text-blur-bottom {
+        top: 2px;
+        left: 2px;
+        position: absolute;
+
+        color: white;
+        filter: blur(4px);
+        -webkit-text-stroke: 4px white;
         -webkit-text-fill-color: white;
     }
 
