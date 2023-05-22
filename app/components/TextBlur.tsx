@@ -4,6 +4,9 @@ function TextBlur({children, as: Tag = "h1"}: { children: React.ReactNode, as?: 
 
     return (
         <Tag className={'relative display--2'}>
+             <span className={'text-blur-bottom-2'}>
+                {children}
+            </span>
              <span className={'text-blur-bottom'}>
                 {children}
             </span>

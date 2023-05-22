@@ -241,7 +241,7 @@ function HomePagePortfolio(props) {
                      alt="sample-1"
                 />
             </div>
-            <div className={'flex flex-row items-start mb-20 overflow-hidden'}>
+            <div className={'flex flex-row items-start mb-64 overflow-hidden'}>
                 <img className={'object-contain'}
                      width={"90"}
                      height={"auto"}

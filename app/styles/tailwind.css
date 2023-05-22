@@ -111,8 +111,20 @@
 
         color: white;
         filter: blur(4px);
-        -webkit-text-stroke: 4px white;
+        -webkit-text-stroke: 6px white;
         -webkit-text-fill-color: white;
+    }
+
+    .text-blur-bottom-2 {
+        top: 0;
+        left: 0;
+        position: absolute;
+
+        color: white;
+        filter: blur(7px);
+        -webkit-text-stroke: 6px white;
+        -webkit-text-fill-color: transparent;
+        opacity: 0.4;
     }
 
     .grid-container {
