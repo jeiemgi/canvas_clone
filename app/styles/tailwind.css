@@ -110,7 +110,7 @@
         position: absolute;
 
         color: white;
-        filter: blur(6px);
+        filter: blur(5px);
         -webkit-text-stroke: 6px white;
         -webkit-text-fill-color: white;
     }
