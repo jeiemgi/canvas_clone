@@ -108,9 +108,9 @@
         top: 2px;
         left: 2px;
         position: absolute;
+        filter: blur(5px);
 
         color: white;
-        filter: blur(5px);
         -webkit-text-stroke: 6px white;
         -webkit-text-fill-color: white;
     }
@@ -125,6 +125,41 @@
         -webkit-text-stroke: 6px white;
         -webkit-text-fill-color: transparent;
         opacity: 0.4;
+    }
+
+    .text-blur-top.black {
+        color: #000;
+        -webkit-text-stroke: 2px black;
+        -webkit-text-fill-color: black;
+    }
+
+    .text-blur-bottom.black {
+        color: black;
+        -webkit-text-stroke: 6px black;
+        -webkit-text-fill-color: black;
+    }
+
+    .text-blur-bottom-2.black {
+        color: black;
+        -webkit-text-stroke: 6px black;
+        -webkit-text-fill-color: black;
+    }
+
+    .text-blur-top.verticalRight,
+    .text-blur-bottom.verticalRight,
+    .text-blur-bottom-2.verticalRight {
+        writing-mode: vertical-lr;
+    }
+
+    .text-blur-top.verticalLeft,
+    .text-blur-bottom.verticalLeft,
+    .text-blur-bottom-2.verticalLeft {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .footer-background {
+        background: url("public/img/footer-bg.png") repeat center center;
     }
 
     .grid-container {

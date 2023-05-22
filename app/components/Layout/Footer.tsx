@@ -3,7 +3,7 @@ import TextBlur from "~/components/TextBlur";
 
 function Footer(props) {
     return (
-        <footer className={'relative bg-black text-white'}>
+        <footer className={'footer-background relative bg-black text-white'}>
             <div className={"grid-container pt-11 mb-56"}>
                 <div className="col-span-6 body--1">
                     If you are curious about some of our process or are interested in the details, we document much of

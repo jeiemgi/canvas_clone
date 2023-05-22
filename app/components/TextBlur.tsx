@@ -1,16 +1,31 @@
 import React from 'react';
+import clsx from "clsx";
 
-function TextBlur({children, as: Tag = "h1"}: { children: React.ReactNode, as?: string }) {
+interface Props {
+    verticalLeft?: boolean,
+    verticalRight?: boolean,
+    black?: boolean,
+    children: React.ReactNode,
+    as?: string
+}
+
+function TextBlur({
+                      as: Tag = "h1",
+                      children,
+                      verticalRight = false,
+                      verticalLeft = false,
+                      black = false
+                  }: Props) {
 
     return (
-        <Tag className={'relative display--2'}>
-             <span className={'text-blur-bottom-2'}>
+        <Tag className={clsx('relative display--2')}>
+             <span className={clsx(`text-blur-bottom-2`, {black, verticalLeft, verticalRight})}>
                 {children}
             </span>
-             <span className={'text-blur-bottom'}>
+            <span className={clsx(`text-blur-bottom`, {black, verticalLeft, verticalRight})}>
                 {children}
             </span>
-            <span className={'text-blur-top'}>
+            <span className={clsx(`text-blur-top`, {black, verticalLeft, verticalRight})}>
                 {children}
             </span>
         </Tag>
