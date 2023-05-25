@@ -29,7 +29,7 @@ function TextBlur({
   return (
     <Tag
       className={clsx(
-        "relative w-full text-blur-top display--2",
+        "text-blur-top display--2 relative w-full",
         textAlignment,
         {
           black,

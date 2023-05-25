@@ -16,7 +16,7 @@ export default function _index() {
   return (
     <Layout>
       <div
-        className={"w-full bg-contain bg-repeat-y bg-black"}
+        className={"w-full bg-black bg-contain bg-repeat-y"}
         style={{ backgroundImage: `url('${background}')` }}
       >
         <HomePageHero />

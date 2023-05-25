@@ -3,7 +3,7 @@ import TextBlur from "~/components/TextBlur";
 
 function HomePageQuote() {
   return (
-    <div className={"pt-16 pb-16 md:pt-64 md:pb-56 overflow-hidden"}>
+    <div className={"overflow-hidden pb-16 pt-16 md:pb-56 md:pt-64"}>
       <div className="grid-container">
         <div className={"col-span-4 md:col-span-5"}>
           <TextBlur>CANVAS IS AN</TextBlur>

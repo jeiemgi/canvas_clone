@@ -5,11 +5,11 @@ function Footer(props) {
   return (
     <footer
       className={
-        "footer-background relative bg-black text-white overflow-hidden"
+        "footer-background relative overflow-hidden bg-black text-white"
       }
     >
       <div className={"grid-container pt-11 md:mb-56"}>
-        <div className="col-span-6 body--1">
+        <div className="body--1 col-span-6">
           If you are curious about some of our process or are interested in the
           details, we document much of what we do in Notion. We leave some of it
           public for those interested.
@@ -17,7 +17,7 @@ function Footer(props) {
       </div>
 
       <div className={"grid-container relative"}>
-        <div className="col-span-2 border-opacity-20 border-white border-t border-l pl-3 pt-3 flex flex-col justify-between">
+        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white border-opacity-20 pl-3 pt-3">
           <div>
             <h3 className={"label--2 mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
@@ -38,7 +38,7 @@ function Footer(props) {
             </ul>
           </div>
         </div>
-        <div className="h-[500px] col-span-2 border-opacity-20 border-white border-t border-l pl-3 pt-3 flex flex-col justify-between">
+        <div className="col-span-2 flex h-[500px] flex-col justify-between border-l border-t border-white border-opacity-20 pl-3 pt-3">
           <div>
             <h3 className={"label--2 mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
@@ -56,7 +56,7 @@ function Footer(props) {
             </ul>
           </div>
         </div>
-        <div className="h-[500px] col-span-2 border-opacity-20 border-white border-t border-l pl-3 pt-3 flex flex-col justify-between">
+        <div className="col-span-2 flex h-[500px] flex-col justify-between border-l border-t border-white border-opacity-20 pl-3 pt-3">
           <div>
             <h3 className={"label--2 mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
@@ -68,7 +68,7 @@ function Footer(props) {
         </div>
       </div>
 
-      <div className={"select-none grid-container absolute bottom-4"}>
+      <div className={"grid-container absolute bottom-4 select-none"}>
         <div className="col-span-4 md:col-span-5">
           <TextBlur>PROPERLY </TextBlur>
         </div>

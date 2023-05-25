@@ -8,7 +8,8 @@
     "dev:remix": "remix dev",
     "dev:svg": "run-s icons",
     "icons": "npx @svgr/cli --out-dir app/svg -- svg",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",

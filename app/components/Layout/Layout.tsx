@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import Footer from "~/components/Layout/Footer";
 import Navigation from "~/components/Layout/Navigation";
 
-function Layout({children}) {
-    return (
-        <>
-            <Navigation/>
-            {children}
-            <Footer/>
-        </>
-    );
+function Layout({ children }) {
+  return (
+    <>
+      <Navigation />
+      {children}
+      <Footer />
+    </>
+  );
 }
 
 export default Layout;
