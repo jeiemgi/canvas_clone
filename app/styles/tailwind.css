@@ -253,6 +253,22 @@
     transform: rotate(180deg);
   }
 
+  .footer-background {
+    background: url("public/img/footer-bg-noise.png") repeat center center;
+  }
+
+  .grid-container {
+    @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
+  }
+
+  .grid-container--full {
+    @apply grid grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
+  }
+
+  .max-container {
+    @apply md:w-full md:px-2 md:px-8;
+  }
+
   .mobile-only {
     @apply block md:hidden;
   }
@@ -269,27 +285,15 @@
     @apply hidden md:block;
   }
 
+  .desktop-only--grid {
+    @apply hidden md:grid;
+  }
+
   .desktop-only--flex {
     @apply hidden md:flex;
   }
 
   .desktop-only--inline {
     @apply hidden md:inline-block;
-  }
-
-  .footer-background {
-    background: url("public/img/footer-bg-noise.png") repeat center center;
-  }
-
-  .grid-container {
-    @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
-  }
-
-  .max-container {
-    @apply md:w-full md:px-2 md:px-8;
-  }
-
-  .grid-full {
-    @apply grid w-full grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
   }
 }

@@ -5,11 +5,15 @@ function HomePageCapabilities() {
   return (
     <div className={"py-40"}>
       <div className="grid-container">
-        <div className={"col-span-12 mb-5 border-b border-b-black"}>
+        <div
+          className={
+            "col-span-4 mb-6 md:col-span-12 md:mb-0 md:border-b md:border-b-black"
+          }
+        >
           <h1 className={"display--2"}>CAPABILITIES</h1>
         </div>
       </div>
-      <div className="grid-container mb-44">
+      <div className="grid-container desktop-only--grid mb-44">
         <div className="col-span-3">
           <h2 className={"heading--2"}>01</h2>
         </div>
@@ -21,7 +25,7 @@ function HomePageCapabilities() {
         </div>
       </div>
       <div className="grid-container">
-        <div className="col-span-12">
+        <div className="col-span-4 md:col-span-12">
           <Table />
         </div>
       </div>
