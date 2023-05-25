@@ -199,22 +199,20 @@
     -webkit-text-fill-color: white;
   }
 
-  .text-blur-bottom {
+  .text-blur-middle {
     top: 2px;
     left: 2px;
     position: absolute;
-    filter: blur(5px);
-
     color: white;
+    filter: blur(4px);
     -webkit-text-stroke: 6px white;
     -webkit-text-fill-color: white;
   }
 
-  .text-blur-bottom-2 {
+  .text-blur-bottom {
     top: 0;
     left: 0;
     position: absolute;
-
     color: white;
     filter: blur(7px);
     -webkit-text-stroke: 6px white;
@@ -228,27 +226,27 @@
     -webkit-text-fill-color: black;
   }
 
+  .text-blur-middle.black {
+    color: black;
+    -webkit-text-stroke: 6px black;
+    -webkit-text-fill-color: black;
+  }
+
   .text-blur-bottom.black {
     color: black;
     -webkit-text-stroke: 6px black;
     -webkit-text-fill-color: black;
   }
 
-  .text-blur-bottom-2.black {
-    color: black;
-    -webkit-text-stroke: 6px black;
-    -webkit-text-fill-color: black;
-  }
-
   .text-blur-top.verticalRight,
-  .text-blur-bottom.verticalRight,
-  .text-blur-bottom-2.verticalRight {
+  .text-blur-middle.verticalRight,
+  .text-blur-bottom.verticalRight {
     writing-mode: vertical-lr;
   }
 
   .text-blur-top.verticalLeft,
-  .text-blur-bottom.verticalLeft,
-  .text-blur-bottom-2.verticalLeft {
+  .text-blur-middle.verticalLeft,
+  .text-blur-bottom.verticalLeft {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
   }

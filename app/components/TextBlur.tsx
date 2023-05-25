@@ -28,26 +28,12 @@ function TextBlur({
 
   return (
     <Tag
-      className={clsx(
-        "text-blur-top display--2 relative w-full",
-        textAlignment,
-        {
-          black,
-          verticalLeft,
-          verticalRight,
-        }
-      )}
+      className={clsx("display--2 relative w-full", textAlignment, {
+        black,
+        verticalLeft,
+        verticalRight,
+      })}
     >
-      {children}
-      <span
-        className={clsx(`text-blur-bottom-2`, alignments, {
-          black,
-          verticalLeft,
-          verticalRight,
-        })}
-      >
-        {children}
-      </span>
       <span
         className={clsx(`text-blur-bottom`, alignments, {
           black,
@@ -57,6 +43,16 @@ function TextBlur({
       >
         {children}
       </span>
+      <span
+        className={clsx(`text-blur-middle`, alignments, {
+          black,
+          verticalLeft,
+          verticalRight,
+        })}
+      >
+        {children}
+      </span>
+      <span className={"text-blur-top"}>{children}</span>
     </Tag>
   );
 }
