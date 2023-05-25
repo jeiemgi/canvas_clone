@@ -3,7 +3,7 @@ import Table from "~/components/Table/Table";
 
 function HomePageCapabilities() {
   return (
-    <div className={"py-40"}>
+    <div className={"pb-0 pt-40 md:pb-40"}>
       <div className="grid-container">
         <div
           className={

@@ -266,7 +266,7 @@
   }
 
   .max-container {
-    @apply md:w-full md:px-2 md:px-8;
+    @apply w-full px-4 md:px-8;
   }
 
   .mobile-only {
