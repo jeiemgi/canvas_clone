@@ -284,7 +284,7 @@
     }
 
     .grid-container {
-        @apply grid grid-cols-4 gap-x-2 px-2 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
+        @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
     }
 
     .max-container {
