@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/*
+* {
+    outline: 1px solid #f00 !important;
+}
+ */
 
 @layer base {
     @font-face {
@@ -249,12 +254,37 @@
         transform: rotate(180deg);
     }
 
+    .mobile-only {
+        @apply block md:hidden;
+    }
+
+
+    .mobile-only--flex {
+        @apply inline-block md:hidden;
+    }
+
+    .mobile-only--inline {
+        @apply inline-block md:hidden;
+    }
+
+    .desktop-only {
+        @apply hidden md:block;
+    }
+
+    .desktop-only--flex {
+        @apply hidden md:flex;
+    }
+
+    .desktop-only--inline {
+        @apply hidden md:inline-block;
+    }
+
     .footer-background {
-        background: url("public/img/footer-bg.png") repeat center center;
+        background: url("public/img/footer-bg-noise.png") repeat center center;
     }
 
     .grid-container {
-        @apply mx-2 grid grid-cols-4 gap-x-2 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
+        @apply grid grid-cols-4 gap-x-2 px-2 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
     }
 
     .max-container {
