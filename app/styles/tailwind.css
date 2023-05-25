@@ -29,7 +29,7 @@
   }
 
   .display--1 {
-    font-size: 4.063rem;
+    font-size: 4.063vw;
     line-height: 105%;
     letter-spacing: -0.02rem;
     text-transform: uppercase;
@@ -39,7 +39,7 @@
 
   @screen md {
     .display--1 {
-      font-size: 6.875rem;
+      font-size: 6.875vw;
       line-height: 105%;
       letter-spacing: -0.02rem;
       text-transform: uppercase;
@@ -48,7 +48,7 @@
 
   .display--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 3.125rem;
+    font-size: 3.125vw;
     line-height: 105%;
     letter-spacing: -0.02rem;
     text-transform: uppercase;
@@ -57,7 +57,7 @@
   @screen md {
     .display--2 {
       font-weight: 300;
-      font-size: 5rem;
+      font-size: 5vw;
       line-height: 105%;
       letter-spacing: -0.02rem;
       text-transform: uppercase;
@@ -66,7 +66,7 @@
 
   .heading--1 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 3.75rem;
+    font-size: 60px;
     line-height: 105%;
     letter-spacing: -0.02rem;
     text-transform: capitalize;
@@ -74,7 +74,7 @@
 
   @screen md {
     .heading--1 {
-      font-size: 5rem;
+      font-size: 80px;
       line-height: 105%;
       letter-spacing: -0.02rem;
       text-transform: capitalize;
@@ -83,7 +83,7 @@
 
   .heading--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 1.375rem;
+    font-size: 22px;
     line-height: 105%;
     letter-spacing: -0.02rem;
     text-transform: uppercase;
@@ -91,7 +91,7 @@
 
   @screen md {
     .heading--2 {
-      font-size: 2rem;
+      font-size: 32px;
       line-height: 105%;
       letter-spacing: -0.02rem;
       text-transform: uppercase;
@@ -100,7 +100,7 @@
 
   .heading--3 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 0.938rem;
+    font-size: 15px;
     line-height: 105%;
     letter-spacing: -0.01rem;
     text-transform: uppercase;
@@ -108,7 +108,7 @@
 
   @screen md {
     .heading--3 {
-      font-size: 1.5rem;
+      font-size: 24px;
       line-height: 105%;
       letter-spacing: -0.01rem;
       text-transform: uppercase;
@@ -117,14 +117,14 @@
 
   .body--1 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 1.125rem;
+    font-size: 18px;
     line-height: 125%;
     letter-spacing: -0.02rem;
   }
 
   @screen md {
     .body--1 {
-      font-size: 1.5rem;
+      font-size: 24px;
       line-height: 125%;
       letter-spacing: -0.02rem;
     }
@@ -132,14 +132,14 @@
 
   .body--2 {
     font-family: theme("fontFamily.untitled-sans-regular"), sans-serif;
-    font-size: 1rem;
+    font-size: 16px;
     line-height: 125%;
     letter-spacing: -0.01rem;
   }
 
   @screen md {
     .body--2 {
-      font-size: 1.125rem;
+      font-size: 18px;
       line-height: 125%;
       letter-spacing: -0.01rem;
     }
@@ -147,13 +147,13 @@
 
   .body--3 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 0.875rem;
+    font-size: 14px;
     line-height: 130%;
   }
 
   @screen md {
     .body--3 {
-      font-size: 1rem;
+      font-size: 16px;
       line-height: 130%;
       letter-spacing: 0;
     }
@@ -162,14 +162,14 @@
   .label--1 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
     font-weight: 300;
-    font-size: 0.625rem;
+    font-size: 10px;
     line-height: 105%;
     text-transform: uppercase;
   }
 
   @screen md {
     .label--1 {
-      font-size: 0.875rem;
+      font-size: 14px;
       line-height: 130%;
       letter-spacing: 0;
       text-transform: capitalize;
@@ -178,14 +178,14 @@
 
   .label--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 0.625rem;
+    font-size: 10px;
     line-height: 105%;
     text-transform: uppercase;
   }
 
   @screen md {
     .label--2 {
-      font-size: 0.75rem;
+      font-size: 12px;
       line-height: 105%;
       letter-spacing: 0;
       text-transform: uppercase;
@@ -214,6 +214,7 @@
     left: 0;
     position: absolute;
     color: white;
+
     filter: blur(7px);
     -webkit-text-stroke: 6px white;
     -webkit-text-fill-color: transparent;
