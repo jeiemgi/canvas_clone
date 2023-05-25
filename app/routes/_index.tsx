@@ -25,7 +25,7 @@ export default function _index() {
             <HomePageProject/>
             <HomePageCapabilities/>
             <HomePagePortfolio/>
-            <HomePageReviews/>
+            {/*<HomePageReviews/>*/}
         </Layout>
     );
 }

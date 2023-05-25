@@ -61,19 +61,19 @@ function Footer(props) {
             </div>
 
             <div className={"select-none grid-container absolute bottom-4"}>
-                <div className="col-span-5">
+                <div className="col-span-4 md:col-span-5">
                     <TextBlur>PROPERLY </TextBlur>
                 </div>
 
-                <div className="col-span-5 col-start-8">
+                <div className="col-span-4 md:col-span-5 md:col-start-8">
                     <TextBlur>BALANCED</TextBlur>
                 </div>
 
-                <div className="col-span-5 col-start-6">
+                <div className="col-span-4 md:col-span-5 md:col-start-6">
                     <TextBlur>FOR FEELING &</TextBlur>
                 </div>
 
-                <div className="col-span-5 col-start-6">
+                <div className="col-span-4 md:col-span-5 md:col-start-6">
                     <TextBlur>FUNCTION</TextBlur>
                 </div>
             </div>

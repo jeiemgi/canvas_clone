@@ -6,7 +6,7 @@ function HomePageCapabilities() {
         <div className={'py-40'}>
             <div className="grid-container">
                 <div className={'col-span-12 border-b border-b-black mb-5'}>
-                    <h1 className={'display--1'}>CAPABILITIES</h1>
+                    <h1 className={'display--2'}>CAPABILITIES</h1>
                 </div>
             </div>
             <div className="grid-container mb-44">

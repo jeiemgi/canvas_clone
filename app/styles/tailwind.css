@@ -21,20 +21,41 @@
     }
 
     .display--1 {
+        font-size: 65px;
+        line-height: 105%;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+
         font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
-        font-size: 110px;
+    }
+
+    @screen md {
+        .display--1 {
+            font-size: 110px;
+            line-height: 105%;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+    }
+
+    .display--2 {
+        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
+        font-size: 50px;
         line-height: 105%;
         letter-spacing: -0.02em;
         text-transform: uppercase;
     }
 
-    .display--2 {
-        font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
-        font-size: 80px;
-        line-height: 105%;
-        letter-spacing: -0.02em;
-        text-transform: uppercase;
+    @screen md {
+        .display--2 {
+            font-weight: 300;
+            font-size: 80px;
+            line-height: 105%;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
     }
+
 
     .heading--1 {
         font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
@@ -44,58 +65,128 @@
         text-transform: capitalize;
     }
 
+    @screen md {
+        .heading--1 {
+            font-size: 80px;
+            line-height: 105%;
+            letter-spacing: -0.02em;
+            text-transform: capitalize;
+        }
+    }
+
     .heading--2 {
         font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
-        font-size: 32px;
+        font-size: 22px;
         line-height: 105%;
         letter-spacing: -0.02em;
         text-transform: uppercase;
+    }
+
+    @screen md {
+        .heading--2 {
+            font-size: 32px;
+            line-height: 105%;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
     }
 
     .heading--3 {
         font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
-        font-size: 24px;
+        font-size: 15px;
         line-height: 105%;
         letter-spacing: -0.01em;
         text-transform: uppercase;
+    }
+
+    @screen md {
+        .heading--3 {
+            font-size: 24px;
+            line-height: 105%;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
     }
 
     .body--1 {
         font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
-        font-size: 24px;
+        font-size: 18px;
         line-height: 125%;
         letter-spacing: -0.02em;
     }
 
+    @screen md {
+        .body--1 {
+            font-size: 24px;
+            line-height: 125%;
+            letter-spacing: -0.02em;
+        }
+    }
+
     .body--2 {
         font-family: theme('fontFamily.untitled-sans-regular'), sans-serif;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 125%;
         letter-spacing: -0.01em;
     }
 
-    .body--3 {
-        font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
-        font-size: 16px;
-        line-height: 130%;
-        letter-spacing: 0;
+    @screen md {
+        .body--2 {
+            font-size: 18px;
+            line-height: 125%;
+            letter-spacing: -0.01em;
+        }
     }
 
-    .label--1 {
+    .body--3 {
         font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
         font-size: 14px;
         line-height: 130%;
-        letter-spacing: 0;
-        text-transform: capitalize;
+    }
+
+    @screen md {
+        .body--3 {
+            font-size: 16px;
+            line-height: 130%;
+            letter-spacing: 0;
+        }
+    }
+
+
+
+    .label--1 {
+        font-family: theme('fontFamily.untitled-sans-light'), sans-serif;
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 105%;
+        text-transform: uppercase;
+    }
+
+    @screen md {
+        .label--1 {
+            font-size: 14px;
+            line-height: 130%;
+            letter-spacing: 0;
+            text-transform: capitalize;
+        }
     }
 
     .label--2 {
         font-family: theme('fontFamily.protogrotesk-light'), sans-serif;
-        font-size: 12px;
+        font-size: 10px;
         line-height: 105%;
-        letter-spacing: 0;
         text-transform: uppercase;
     }
+
+    @screen md {
+        .label--2 {
+            font-size: 12px;
+            line-height: 105%;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+    }
+
 
     .text-blur-top {
         color: #ffffff;
