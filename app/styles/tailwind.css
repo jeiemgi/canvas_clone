@@ -29,9 +29,9 @@
   }
 
   .display--1 {
-    font-size: 65px;
+    font-size: 4.063rem;
     line-height: 105%;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02rem;
     text-transform: uppercase;
 
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
@@ -39,121 +39,121 @@
 
   @screen md {
     .display--1 {
-      font-size: 110px;
+      font-size: 6.875rem;
       line-height: 105%;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.02rem;
       text-transform: uppercase;
     }
   }
 
   .display--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 50px;
+    font-size: 3.125rem;
     line-height: 105%;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02rem;
     text-transform: uppercase;
   }
 
   @screen md {
     .display--2 {
       font-weight: 300;
-      font-size: 80px;
+      font-size: 5rem;
       line-height: 105%;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.02rem;
       text-transform: uppercase;
     }
   }
 
   .heading--1 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 60px;
+    font-size: 3.75rem;
     line-height: 105%;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02rem;
     text-transform: capitalize;
   }
 
   @screen md {
     .heading--1 {
-      font-size: 80px;
+      font-size: 5rem;
       line-height: 105%;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.02rem;
       text-transform: capitalize;
     }
   }
 
   .heading--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 105%;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02rem;
     text-transform: uppercase;
   }
 
   @screen md {
     .heading--2 {
-      font-size: 32px;
+      font-size: 2rem;
       line-height: 105%;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.02rem;
       text-transform: uppercase;
     }
   }
 
   .heading--3 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 15px;
+    font-size: 0.938rem;
     line-height: 105%;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.01rem;
     text-transform: uppercase;
   }
 
   @screen md {
     .heading--3 {
-      font-size: 24px;
+      font-size: 1.5rem;
       line-height: 105%;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.01rem;
       text-transform: uppercase;
     }
   }
 
   .body--1 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 125%;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02rem;
   }
 
   @screen md {
     .body--1 {
-      font-size: 24px;
+      font-size: 1.5rem;
       line-height: 125%;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.02rem;
     }
   }
 
   .body--2 {
     font-family: theme("fontFamily.untitled-sans-regular"), sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 125%;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.01rem;
   }
 
   @screen md {
     .body--2 {
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 125%;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.01rem;
     }
   }
 
   .body--3 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 130%;
   }
 
   @screen md {
     .body--3 {
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 130%;
       letter-spacing: 0;
     }
@@ -162,14 +162,14 @@
   .label--1 {
     font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
     font-weight: 300;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 105%;
     text-transform: uppercase;
   }
 
   @screen md {
     .label--1 {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 130%;
       letter-spacing: 0;
       text-transform: capitalize;
@@ -178,14 +178,14 @@
 
   .label--2 {
     font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 105%;
     text-transform: uppercase;
   }
 
   @screen md {
     .label--2 {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 105%;
       letter-spacing: 0;
       text-transform: uppercase;

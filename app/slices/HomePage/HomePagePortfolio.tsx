@@ -7,7 +7,6 @@ function HomePagePortfolio() {
   return (
     <div className={"w-full bg-white"}>
       <HomePagePortfolioImages />
-
       <HomePagePortfolioMobile />
 
       <div className="grid-container desktop-only--grid pb-28">
