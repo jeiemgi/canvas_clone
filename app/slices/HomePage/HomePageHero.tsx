@@ -5,14 +5,13 @@ import React from "react";
 function HomePageHeroImage() {
     return (
         <div className={'grid-container h-full items-center'}>
-            <div className={'flex justify-center col-span-4 block md:hidden'}>
-                <div className={'max-w-[280px] max-w-auto'}>
-                    <CanvasLogoGlow width={"100%"}/>
-                </div>
+            <div className={'flex items-center justify-center col-span-4 md:col-start-5'}>
+                <CanvasLogoGlow className={'w-[281px] md:w-[372px]'}/>
             </div>
-            <div className={'hidden md:block md:col-span-5 md:col-start-5'}>
+
+            {/* <div className={'hidden md:block md:col-span-5 md:col-start-5'}>
                 <img className={'object-contain'} src={heroSample} alt=""/>
-            </div>
+            </div>*/}
         </div>
     )
 }
@@ -24,7 +23,8 @@ function HomePageHeroFooter() {
                 <h2 className={'heading--2 text-white'}>DESIGN, MOTION,</h2>
                 <h2 className={'flex justify-between md:block heading--2 text-white'}>
                     &
-                    <div className="block md:inline-block md:w-24"/>DEVELOPMENT STUDIO</h2>
+                    <div className="block md:inline-block md:w-24"/>DEVELOPMENT STUDIO
+                </h2>
             </div>
             <div className={'hidden md:col-start-6'}>
                 <CanvasLogomark/>
