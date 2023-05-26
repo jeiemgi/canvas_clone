@@ -1,6 +1,3 @@
-// import { gsap } from "gsap";
-// import { useEffect } from "react";
-// import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import clsx from "clsx";
 import aliveSample from "public/img/sample/alive-bg.png";
 import ernestBaker from "public/img/sample/ernest-baker-bg.png";
@@ -65,7 +62,7 @@ function HomePageProject({
 
 function HomePageProjects() {
   return (
-    <section className={"relative"}>
+    <section>
       <HomePageProject
         image={aliveSample}
         cta={"VIEW PROJECT"}
@@ -74,7 +71,6 @@ function HomePageProjects() {
         description={
           "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
         }
-        containerClassName={"canvas-project-item"}
       />
       <HomePageProject
         image={ernestBaker}
@@ -84,7 +80,6 @@ function HomePageProjects() {
         description={
           "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
         }
-        containerClassName={"canvas-project-item"}
       />
     </section>
   );

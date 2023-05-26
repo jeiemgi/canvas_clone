@@ -29,10 +29,16 @@
 
     .display--2--vw {
         font-family: var(--fn-primary);
-        font-size: clamp(3.125rem, 2.551rem + 2.449vw, 5rem);
+        font-size: 50px;
         line-height: 105%;
-        letter-spacing: -0.02rem;
+        letter-spacing: -0.02em;
         text-transform: uppercase;
+    }
+
+    @screen lg {
+        .display--2--vw {
+            font-size: 5vw;
+        }
     }
 
     .display--1 {
@@ -213,23 +219,18 @@
     }
 
 
-    .text-blur-top.black,
-    .text-blur-middle.black,
-    .text-blur-bottom.black {
-        color: #000;
-        -webkit-text-stroke-color: black;
-        -webkit-text-fill-color: black;
+    .text-blur.black {
+        text-shadow:
+                0 0 var(--text-blur--sm) hsl(0, 0%, 0%),
+                0 0 var(--text-blur--md) hsl(0, 0%, 0%),
+                0 0 var(--text-blur--lg) hsl(0, 0%, 0%);
     }
 
-    .text-blur-top.verticalRight,
-    .text-blur-middle.verticalRight,
-    .text-blur-bottom.verticalRight {
+    .text-blur.verticalRight {
         writing-mode: vertical-lr;
     }
 
-    .text-blur-top.verticalLeft,
-    .text-blur-middle.verticalLeft,
-    .text-blur-bottom.verticalLeft {
+    .text-blur.verticalLeft {
         writing-mode: vertical-rl;
         transform: rotate(180deg);
     }
