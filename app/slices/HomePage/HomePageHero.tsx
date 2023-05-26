@@ -6,21 +6,23 @@ function HomePageHeroImage() {
   return (
     <div className={"grid-container h-full items-center"}>
       <div
-        className={"col-span-4 flex items-center justify-center md:col-start-5"}
+        className={"mobile-only--flex col-span-4 items-center justify-center"}
       >
         <CanvasLogoGlow className={"w-[281px] md:w-[372px]"} />
       </div>
 
-      {/* <div className={'hidden md:block md:col-span-5 md:col-start-5'}>
-                <img className={'object-contain'} src={heroSample} alt=""/>
-            </div>*/}
+      <div
+        className={"desktop-only--flex col-span-5 col-start-5 justify-center"}
+      >
+        <img className={"ml-[150px]"} src={heroSample} alt="" />
+      </div>
     </div>
   );
 }
 
 function HomePageHeroFooter() {
   return (
-    <div className={"grid-container border-t border-t-white py-2"}>
+    <div className={"grid-container border-t border-t-white/30 py-2"}>
       <div className={"col-span-4 md:col-span-5"}>
         <h2 className={"heading--2 text-white"}>DESIGN, MOTION,</h2>
         <h2 className={"heading--2 flex justify-between text-white md:block"}>
@@ -29,7 +31,7 @@ function HomePageHeroFooter() {
           DEVELOPMENT STUDIO
         </h2>
       </div>
-      <div className={"hidden md:col-start-6"}>
+      <div className={"hidden md:col-start-6 md:block"}>
         <CanvasLogomark />
       </div>
       <div

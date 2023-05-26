@@ -2,7 +2,7 @@ export function TableHeader({ number, title, description }) {
   return (
     <div
       className={
-        "col-span-4 w-full border-t border-t-black pt-2.5 text-left md:col-span-3 md:border-none md:pt-0"
+        "col-span-4 w-full border-t border-t-black/30 pt-2.5 text-left md:col-span-3 md:border-none md:pt-0"
       }
     >
       <h2 className={"mobile-only heading--2 mb-10"}>{number}</h2>

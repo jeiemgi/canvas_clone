@@ -1,298 +1,284 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/*
-* {
-    outline: 1px solid #f00 !important;
-}
- */
 
 @layer base {
-  @font-face {
-    font-family: "protogrotesk-light";
-    src: url("/fonts/proto-grotesk/protogroteskweb-light.eot");
-    src: url("/fonts/proto-grotesk/protogroteskweb-light.eot?#iefix")
-        format("embedded-opentype"),
-      url("/fonts/proto-grotesk/protogroteskweb-light.woff") format("woff");
-  }
+    :root {
+        --fn-primary: "protogrotesk-light", sans-serif;
+        --fn-secondary: "untitled-sans-regular", sans-serif;
+        --fn-secondary--light: "untitled-sans-light", sans-serif;
+    }
 
-  @font-face {
-    font-family: "untitled-sans-regular";
-    src: url("/fonts/untitled-sans/WOFF2/untitled-sans-regular.woff2")
-      format("woff2");
-  }
+    @font-face {
+        font-family: var(--fn-primary);
+        src: url("/fonts/proto-grotesk/protogroteskweb-light.eot");
+        src: url("/fonts/proto-grotesk/protogroteskweb-light.eot?#iefix") format("embedded-opentype"),
+        url("/fonts/proto-grotesk/protogroteskweb-light.woff") format("woff");
+    }
 
-  @font-face {
-    font-family: "untitled-sans-light";
-    src: url("/fonts/untitled-sans/WOFF2/untitled-sans-light.woff2")
-      format("woff2");
-  }
+    @font-face {
+        font-family: var(--fn-secondary);
+        src: url("/fonts/untitled-sans/WOFF2/untitled-sans-regular.woff2") format("woff2");
+    }
 
-  .display--1 {
-    font-size: 4.063vw;
-    line-height: 105%;
-    letter-spacing: -0.02rem;
-    text-transform: uppercase;
+    @font-face {
+        font-family: var(--fn-secondary--light);
+        src: url("/fonts/untitled-sans/WOFF2/untitled-sans-light.woff2") format("woff2");
+    }
 
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-  }
 
-  @screen md {
+    .display--2--vw {
+        font-family: var(--fn-primary);
+        font-size: clamp(3.125rem, 2.551rem + 2.449vw, 5rem);
+        line-height: 105%;
+        letter-spacing: -0.02rem;
+        text-transform: uppercase;
+    }
+
     .display--1 {
-      font-size: 6.875vw;
-      line-height: 105%;
-      letter-spacing: -0.02rem;
-      text-transform: uppercase;
+        font-size: 4.063rem;
+        line-height: 105%;
+        letter-spacing: -0.02rem;
+        text-transform: uppercase;
+        font-family: var(--fn-primary);
     }
-  }
 
-  .display--2 {
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 3.125vw;
-    line-height: 105%;
-    letter-spacing: -0.02rem;
-    text-transform: uppercase;
-  }
 
-  @screen md {
+    @screen md {
+        .display--1 {
+            font-size: 6.875rem;
+            line-height: 105%;
+            letter-spacing: -0.02rem;
+            text-transform: uppercase;
+        }
+    }
+
     .display--2 {
-      font-weight: 300;
-      font-size: 5vw;
-      line-height: 105%;
-      letter-spacing: -0.02rem;
-      text-transform: uppercase;
+        font-family: var(--fn-primary);
+        font-size: 3.125rem;
+        line-height: 105%;
+        letter-spacing: -0.02rem;
+        text-transform: uppercase;
     }
-  }
 
-  .heading--1 {
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 60px;
-    line-height: 105%;
-    letter-spacing: -0.02rem;
-    text-transform: capitalize;
-  }
+    @screen md {
+        .display--2 {
+            font-weight: 300;
+            font-size: 5rem;
+            line-height: 105%;
+            letter-spacing: -0.02rem;
+            text-transform: uppercase;
+        }
+    }
 
-  @screen md {
     .heading--1 {
-      font-size: 80px;
-      line-height: 105%;
-      letter-spacing: -0.02rem;
-      text-transform: capitalize;
+        font-family: var(--fn-primary);
+        font-size: 3.75rem;
+        line-height: 105%;
+        letter-spacing: -0.02rem;
+        text-transform: capitalize;
     }
-  }
 
-  .heading--2 {
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 22px;
-    line-height: 105%;
-    letter-spacing: -0.02rem;
-    text-transform: uppercase;
-  }
+    @screen md {
+        .heading--1 {
+            font-size: 5rem;
+            line-height: 105%;
+            letter-spacing: -0.02rem;
+            text-transform: capitalize;
+        }
+    }
 
-  @screen md {
     .heading--2 {
-      font-size: 32px;
-      line-height: 105%;
-      letter-spacing: -0.02rem;
-      text-transform: uppercase;
+        font-family: var(--fn-primary);
+        font-size: 1.375rem;
+        line-height: 105%;
+        letter-spacing: -0.02rem;
+        text-transform: uppercase;
     }
-  }
 
-  .heading--3 {
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 15px;
-    line-height: 105%;
-    letter-spacing: -0.01rem;
-    text-transform: uppercase;
-  }
+    @screen md {
+        .heading--2 {
+            font-size: 2rem;
+            line-height: 105%;
+            letter-spacing: -0.02rem;
+            text-transform: uppercase;
+        }
+    }
 
-  @screen md {
     .heading--3 {
-      font-size: 24px;
-      line-height: 105%;
-      letter-spacing: -0.01rem;
-      text-transform: uppercase;
+        font-family: var(--fn-primary);
+        font-size: 0.938rem;
+        line-height: 105%;
+        letter-spacing: -0.01rem;
+        text-transform: uppercase;
     }
-  }
 
-  .body--1 {
-    font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 18px;
-    line-height: 125%;
-    letter-spacing: -0.02rem;
-  }
+    @screen md {
+        .heading--3 {
+            font-size: 1.5rem;
+            line-height: 105%;
+            letter-spacing: -0.01rem;
+            text-transform: uppercase;
+        }
+    }
 
-  @screen md {
     .body--1 {
-      font-size: 24px;
-      line-height: 125%;
-      letter-spacing: -0.02rem;
+        font-family: var(--fn-secondary--light);
+        font-size: 1.125rem;
+        line-height: 125%;
+        letter-spacing: -0.02rem;
     }
-  }
 
-  .body--2 {
-    font-family: theme("fontFamily.untitled-sans-regular"), sans-serif;
-    font-size: 16px;
-    line-height: 125%;
-    letter-spacing: -0.01rem;
-  }
+    @screen md {
+        .body--1 {
+            font-size: 1.5rem;
+            line-height: 125%;
+            letter-spacing: -0.02rem;
+        }
+    }
 
-  @screen md {
     .body--2 {
-      font-size: 18px;
-      line-height: 125%;
-      letter-spacing: -0.01rem;
+        font-family: var(--fn-secondary);
+        font-size: 1rem;
+        line-height: 125%;
+        letter-spacing: -0.01rem;
     }
-  }
 
-  .body--3 {
-    font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-size: 14px;
-    line-height: 130%;
-  }
+    @screen md {
+        .body--2 {
+            font-size: 1.125rem;
+            line-height: 125%;
+            letter-spacing: -0.01rem;
+        }
+    }
 
-  @screen md {
     .body--3 {
-      font-size: 16px;
-      line-height: 130%;
-      letter-spacing: 0;
+        font-family: var(--fn-secondary--light);
+        font-size: 0.875rem;
+        line-height: 130%;
     }
-  }
 
-  .label--1 {
-    font-family: theme("fontFamily.untitled-sans-light"), sans-serif;
-    font-weight: 300;
-    font-size: 10px;
-    line-height: 105%;
-    text-transform: uppercase;
-  }
+    @screen md {
+        .body--3 {
+            font-size: 1rem;
+            line-height: 130%;
+            letter-spacing: 0;
+        }
+    }
 
-  @screen md {
     .label--1 {
-      font-size: 14px;
-      line-height: 130%;
-      letter-spacing: 0;
-      text-transform: capitalize;
+        font-family: var(--fn-secondary--light);
+        font-weight: 300;
+        font-size: 0.625rem;
+        line-height: 105%;
+        text-transform: uppercase;
     }
-  }
 
-  .label--2 {
-    font-family: theme("fontFamily.protogrotesk-light"), sans-serif;
-    font-size: 10px;
-    line-height: 105%;
-    text-transform: uppercase;
-  }
+    @screen md {
+        .label--1 {
+            font-size: 0.875rem;
+            line-height: 130%;
+            letter-spacing: 0;
+            text-transform: capitalize;
+        }
+    }
 
-  @screen md {
     .label--2 {
-      font-size: 12px;
-      line-height: 105%;
-      letter-spacing: 0;
-      text-transform: uppercase;
+        font-family: var(--fn-primary);
+        font-size: 0.625rem;
+        line-height: 105%;
+        text-transform: uppercase;
     }
-  }
 
-  .text-blur-top {
-    color: #ffffff;
-    filter: blur(2px);
-    -webkit-text-stroke: 2px white;
-    -webkit-text-fill-color: white;
-  }
+    @screen md {
+        .label--2 {
+            font-size: 0.75rem;
+            line-height: 105%;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+    }
 
-  .text-blur-middle {
-    top: 2px;
-    left: 2px;
-    position: absolute;
-    color: white;
-    filter: blur(4px);
-    -webkit-text-stroke: 6px white;
-    -webkit-text-fill-color: white;
-  }
+    :root {
+        --text-blur--sm: clamp(0.1rem, 1vw, 0.5rem);
+        --text-blur--md: clamp(0.1rem, 0.8vw, 0.7rem);
+        --text-blur--lg: clamp(0.2rem, 0.5vw, 0.9rem);
+    }
 
-  .text-blur-bottom {
-    top: 0;
-    left: 0;
-    position: absolute;
-    color: white;
+    .text-blur {
+        color: transparent;
+        text-shadow: 0 0 var(--text-blur--sm) hsla(0, 0%, 100%, 1),
+        0 0 var(--text-blur--md) hsla(0, 0%, 100%, 1),
+        0 0 var(--text-blur--lg) hsla(0, 0%, 100%, 1);
+    }
 
-    filter: blur(7px);
-    -webkit-text-stroke: 6px white;
-    -webkit-text-fill-color: transparent;
-    opacity: 0.4;
-  }
 
-  .text-blur-top.black {
-    color: #000;
-    -webkit-text-stroke: 2px black;
-    -webkit-text-fill-color: black;
-  }
+    .text-blur-top.black,
+    .text-blur-middle.black,
+    .text-blur-bottom.black {
+        color: #000;
+        -webkit-text-stroke-color: black;
+        -webkit-text-fill-color: black;
+    }
 
-  .text-blur-middle.black {
-    color: black;
-    -webkit-text-stroke: 6px black;
-    -webkit-text-fill-color: black;
-  }
+    .text-blur-top.verticalRight,
+    .text-blur-middle.verticalRight,
+    .text-blur-bottom.verticalRight {
+        writing-mode: vertical-lr;
+    }
 
-  .text-blur-bottom.black {
-    color: black;
-    -webkit-text-stroke: 6px black;
-    -webkit-text-fill-color: black;
-  }
+    .text-blur-top.verticalLeft,
+    .text-blur-middle.verticalLeft,
+    .text-blur-bottom.verticalLeft {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
 
-  .text-blur-top.verticalRight,
-  .text-blur-middle.verticalRight,
-  .text-blur-bottom.verticalRight {
-    writing-mode: vertical-lr;
-  }
+    .noise-background {
+        background: url("public/img/footer-bg-noise.png") repeat center center;
+    }
 
-  .text-blur-top.verticalLeft,
-  .text-blur-middle.verticalLeft,
-  .text-blur-bottom.verticalLeft {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
+    .grid-container {
+        @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
+    }
 
-  .footer-background {
-    background: url("public/img/footer-bg-noise.png") repeat center center;
-  }
+    .grid-container--full {
+        @apply grid grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
+    }
 
-  .grid-container {
-    @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
-  }
+    .max-container {
+        @apply px-4 md:px-8;
+    }
 
-  .grid-container--full {
-    @apply grid grid-cols-4 gap-x-2 md:grid-cols-12 md:gap-x-[20px];
-  }
+    .mobile-only {
+        @apply block md:hidden;
+    }
 
-  .max-container {
-    @apply w-full px-4 md:px-8;
-  }
+    .mobile-only--flex {
+        @apply flex md:hidden;
+    }
 
-  .mobile-only {
-    @apply block md:hidden;
-  }
+    .mobile-only--grid {
+        @apply grid md:hidden;
+    }
 
-  .mobile-only--flex {
-    @apply inline-block md:hidden;
-  }
+    .mobile-only--inline {
+        @apply inline-block md:hidden;
+    }
 
-  .mobile-only--inline {
-    @apply inline-block md:hidden;
-  }
+    .desktop-only {
+        @apply hidden md:block;
+    }
 
-  .desktop-only {
-    @apply hidden md:block;
-  }
+    .desktop-only--grid {
+        @apply hidden md:grid;
+    }
 
-  .desktop-only--grid {
-    @apply hidden md:grid;
-  }
+    .desktop-only--flex {
+        @apply hidden md:flex;
+    }
 
-  .desktop-only--flex {
-    @apply hidden md:flex;
-  }
-
-  .desktop-only--inline {
-    @apply hidden md:inline-block;
-  }
+    .desktop-only--inline {
+        @apply hidden md:inline-block;
+    }
 }

@@ -4,7 +4,7 @@ import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import HomePageProject from "~/slices/HomePage/HomePageProject";
 import HomePageCapabilities from "~/slices/HomePage/HomePageCapabilities";
 import HomePagePortfolio from "~/slices/HomePage/HomePagePortfolio";
-import HomePageReviews from "~/slices/HomePage/HomePageReviews";
+// import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import background from "public/img/home-background.png";
 import type { V2_MetaFunction } from "@remix-run/node";
 

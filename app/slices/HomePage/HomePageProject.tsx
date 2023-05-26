@@ -1,4 +1,7 @@
-import React from "react";
+// import { gsap } from "gsap";
+// import { useEffect } from "react";
+// import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import clsx from "clsx";
 import aliveSample from "public/img/sample/alive-bg.png";
 import ernestBaker from "public/img/sample/ernest-baker-bg.png";
 
@@ -8,6 +11,7 @@ interface HomepageProjectProps {
   description: string;
   cta: string;
   image: string;
+  containerClassName?: string;
 }
 
 function HomePageProject({
@@ -16,12 +20,14 @@ function HomePageProject({
   description,
   cta,
   image,
+  containerClassName = "",
 }: HomepageProjectProps) {
   return (
     <div
-      className={
-        "relative flex h-[90vh] w-full flex-col justify-between bg-cover bg-center md:h-screen"
-      }
+      className={clsx(
+        "relative flex h-[90vh] flex-col justify-between bg-cover bg-center md:h-screen",
+        containerClassName
+      )}
       style={{ backgroundImage: `url('${image}')` }}
     >
       <div className="grid-container">
@@ -30,10 +36,8 @@ function HomePageProject({
             "col-span-4 flex items-end justify-between pt-5 md:col-span-3 md:pt-8"
           }
         >
-          <h3 className={"heading--3 whitespace-pre-line text-white"}>
-            {title}
-          </h3>
-          <h3 className={"desktop-only heading--3 text-white"}> 1 / 5</h3>
+          <h3 className={"heading--3 text-white"}>{title}</h3>
+          <h3 className={"desktop-only heading--3 text-white"}>1 / 5</h3>
         </div>
       </div>
 
@@ -63,28 +67,25 @@ function HomePageProjects() {
   return (
     <section className={"relative"}>
       <HomePageProject
+        image={aliveSample}
         cta={"VIEW PROJECT"}
         title={"ALIVE \n CASE STUDY"}
         capabilities={"Branding, App, Website"}
-        image={aliveSample}
         description={
           "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
         }
+        containerClassName={"canvas-project-item"}
       />
-
       <HomePageProject
+        image={ernestBaker}
         cta={"VIEW PROJECT"}
         title={"ERNEST W. BAKER \n CASE STUDY"}
         capabilities={"Ecommerce Website"}
-        image={ernestBaker}
         description={
           "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
         }
+        containerClassName={"canvas-project-item"}
       />
-
-      <div className={"mobile-only absolute right-4 top-5"}>
-        <h3 className={"heading--3 text-white"}> 1 / 5</h3>
-      </div>
     </section>
   );
 }

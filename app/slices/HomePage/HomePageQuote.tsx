@@ -1,45 +1,42 @@
 import React from "react";
 import TextBlur from "~/components/TextBlur";
 
+const innerGrid = "grid grid-cols-4 md:grid-cols-12 md:gap-x-[20px]";
+
 function HomePageQuote() {
   return (
     <div className={"overflow-hidden pb-16 pt-16 md:pb-56 md:pt-64"}>
-      <div className="grid-container">
-        <div className={"col-span-4 md:col-span-5"}>
-          <TextBlur>CANVAS IS AN</TextBlur>
-        </div>
-        <div className={"desktop-only col-span-8 md:col-start-2 md:mb-80"}>
-          <TextBlur>INTERACTIVE DESIGN & DEVELOPMENT STUDIO.</TextBlur>
-        </div>
-        <div className={"desktop-only col-span-4 md:col-span-7"}>
-          <TextBlur align={"right"}>WE CREATE</TextBlur>
-          <TextBlur>
-            strategy-focused & design-driven digital experiences.
-          </TextBlur>
-        </div>
+      <div className="max-container">
+        <TextBlur className={"mb-28 md:mb-56"}>
+          <span className={innerGrid}>
+            <span className={"col-span-4 md:col-span-12"}>CANVAS IS AN</span>
+            <span className={"col-span-4 md:col-span-10 md:col-start-3"}>
+              INTERACTIVE <span className={"desktop-only--auto"}>DESIGN</span>
+            </span>
+            <span className={"col-span-3 col-start-2 md:hidden"}>DESIGN &</span>
+            <span className={"md:col-span-10 md:col-start-3"}>
+              DEVELOP<span className={"mobile-only"}>-</span>
+              MENT STUDIO.
+            </span>
+          </span>
+          <br />
+        </TextBlur>
 
-        <div className={"mobile-only col-span-4"}>
-          <TextBlur>INTERACTIVE</TextBlur>
-          <TextBlur align={"right"}>DESIGN &</TextBlur>
-          <TextBlur>
-            DEVELOP-
+        <TextBlur>
+          <span>
+            WE CREATE
             <br />
-            MENT.
-          </TextBlur>
-          <div className={"mb-28"}>
-            <TextBlur align={"right"}> STUDIO</TextBlur>
-          </div>
-          <TextBlur align={"right"}>WE CREATE</TextBlur>
-          <TextBlur>
-            strategy-
-            <br /> focused
-          </TextBlur>
-          <TextBlur align={"right"}>
-            & design- <br />
-            driven
-          </TextBlur>
-          <TextBlur>digital experiences.</TextBlur>
-        </div>
+            STRATEGY-
+            <br className={"mobile-only"} />
+            FOCUSED <br className={"mobile-only"} />
+            <br className={"desktop-only"} />& DESIGN-
+            <br className={"mobile-only"} />
+            DRIVEN <br />
+            DIGITAL
+            <br className={"mobile-only"} />
+            EXPERIENCES.
+          </span>
+        </TextBlur>
       </div>
     </div>
   );

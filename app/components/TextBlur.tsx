@@ -2,59 +2,36 @@ import React from "react";
 import clsx from "clsx";
 
 interface Props {
-  verticalLeft?: boolean;
-  verticalRight?: boolean;
+  as?: string;
   black?: boolean;
   children: React.ReactNode;
-  align?: "left" | "center" | "right";
-  as?: string;
+  className?: string;
+  textAlign?: "text-left" | "text-center" | "text-right";
+  verticalLeft?: boolean;
+  verticalRight?: boolean;
 }
 
 function TextBlur({
   as: Tag = "h1",
   children,
-  align = "left",
-  verticalRight = false,
+  textAlign,
+  className,
   verticalLeft = false,
+  verticalRight = false,
   black = false,
 }: Props) {
-  const textAlignment =
-    align === "left"
-      ? "text-left"
-      : align === "center"
-      ? "text-center"
-      : "text-right";
-  const alignments = align === "left" ? "left-0" : "right-0";
-
-  return (
-    <Tag
-      className={clsx("display--2 relative w-full", textAlignment, {
-        black,
-        verticalLeft,
-        verticalRight,
-      })}
-    >
-      <span
-        className={clsx(`text-blur-bottom`, alignments, {
-          black,
-          verticalLeft,
-          verticalRight,
-        })}
-      >
-        {children}
-      </span>
-      <span
-        className={clsx(`text-blur-middle`, alignments, {
-          black,
-          verticalLeft,
-          verticalRight,
-        })}
-      >
-        {children}
-      </span>
-      <span className={"text-blur-top"}>{children}</span>
-    </Tag>
+  const wrapperClassNames = clsx(
+    "text-blur display--2--vw relative",
+    textAlign,
+    {
+      black,
+      verticalLeft,
+      verticalRight,
+    },
+    className
   );
+
+  return <Tag className={wrapperClassNames}>{children}</Tag>;
 }
 
 export default TextBlur;

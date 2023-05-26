@@ -1,25 +1,25 @@
 import React from "react";
 
-export function TableRowDesktop({ number, title, description }) {
+export function TableRowDesktop() {
   return (
-    <div className={"grid-container--full border-b border-b-black"}>
+    <div className={"grid-container--full border-b border-b-black/30"}>
       <div
         className={
-          "md:border-b-none col-span-4 w-full border-b border-b-black text-left md:col-span-3"
+          "col-span-4 w-full border-b border-b-black/30 text-left md:col-span-3 md:border-b-0"
         }
       >
         <h3 className={"body--3 my-1"}>STRATEGY</h3>
       </div>
       <div
         className={
-          "md:border-b-none col-span-4 w-full border-b border-b-black text-left md:col-span-3"
+          "col-span-4 w-full border-b border-b-black/30 text-left md:col-span-3 md:border-b-0"
         }
       >
         <h3 className={"body--3 my-1"}>DESIGN</h3>
       </div>
       <div
         className={
-          "md:border-b-none col-span-4 w-full border-b border-b-black text-left md:col-span-3"
+          "col-span-4 w-full border-b border-b-black/30 text-left md:col-span-3 md:border-b-0"
         }
       >
         <h3 className={"body--3 my-1"}>DEVELOPMENT</h3>

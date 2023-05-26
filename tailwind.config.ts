@@ -15,11 +15,6 @@ export default {
         red: "#E02D3E",
         green: "#0B6F6D",
       },
-      fontFamily: {
-        "protogrotesk-light": "protogrotesk-light",
-        "untitled-sans-light": "untitled-sans-light",
-        "untitled-sans-regular": "untitled-sans-regular",
-      },
     },
   },
   plugins: [],
