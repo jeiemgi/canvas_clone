@@ -12,7 +12,7 @@ function Footer() {
         <div className="col-span-4 py-20 md:order-last md:col-start-9 md:py-0">
           <h1 className={"heading--1 md:text-right"}>(Let’s Chat)</h1>
         </div>
-        <div className="body--1 col-span-4 md:col-span-6">
+        <div className="body--1 col-span-4 mr-10 md:col-span-6">
           If you are curious about some of our process or are interested in the
           details, we document much of what we do in Notion. We leave some of it
           public for those interested.
@@ -24,13 +24,13 @@ function Footer() {
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
-              <li className={"mb-5 md:mb-0"}>Development</li>
-              <li className={"mb-5 md:mb-0"}>Design</li>
-              <li className={"mb-5 md:mb-0"}>Process</li>
+              <li className={"mb-5"}>Development</li>
+              <li className={"mb-5"}>Design</li>
+              <li className={"mb-5"}>Process</li>
             </ul>
           </div>
 
-          <div className={"label--2 desktop-only"}>
+          <div className={"label--2 desktop-only mb-5"}>
             <ul>
               <li className={"mb-4"}>
                 <a href={"#"}>PRIVACY POLICY</a>
@@ -46,13 +46,13 @@ function Footer() {
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>SOCIAL</h3>
             <ul className={"body--3"}>
-              <li className={"mb-5 md:mb-0"}>Instagram</li>
-              <li className={"mb-5 md:mb-0"}>LinkedIn</li>
-              <li className={"mb-5 md:mb-0"}>Twitter</li>
+              <li className={"mb-5"}>Instagram</li>
+              <li className={"mb-5"}>LinkedIn</li>
+              <li className={"mb-5"}>Twitter</li>
             </ul>
           </div>
 
-          <div className={"label--2 desktop-only"}>
+          <div className={"label--2 desktop-only mb-5"}>
             <ul>
               <li className={"mb-4"}>
                 <a href={"#"}>©2023 Canvas LLC</a>
@@ -64,8 +64,8 @@ function Footer() {
           <div>
             <h3 className={"label--2 mb-5"}>CONTACTS</h3>
             <ul className={"body--3"}>
-              <li className={"mb-5 md:mb-0"}>info@canvascreative.co</li>
-              <li className={"mb-5 md:mb-0"}>Careers</li>
+              <li className={"mb-5"}>info@canvascreative.co</li>
+              <li className={"mb-5"}>Careers</li>
             </ul>
           </div>
         </div>
@@ -103,14 +103,14 @@ function Footer() {
       >
         <div className={"col-span-2 border-l border-l-white/20 pl-2.5 md:pl-3"}>
           <ul className={"label--2"}>
-            <li className={"mb-5 md:mb-0"}>privacy policy</li>
-            <li className={"mb-5 md:mb-0"}>terms & Conditions</li>
+            <li className={"mb-5"}>privacy policy</li>
+            <li className={"mb-5"}>terms & Conditions</li>
           </ul>
         </div>
 
         <div className={"col-span-2 pl-2.5 md:pl-3"}>
           <ul className={"label--2"}>
-            <li className={"mb-5 md:mb-0"}>©2023 Canvas LLC</li>
+            <li className={"mb-5"}>©2023 Canvas LLC</li>
           </ul>
         </div>
       </div>
