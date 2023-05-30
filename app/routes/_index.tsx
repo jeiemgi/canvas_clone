@@ -7,15 +7,15 @@ import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import background from "public/img/home-background.png";
 import { client } from "~/lib/prismicClient";
-import type { V2_MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/node";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
 };
 
 export const loader = async () => {
-  const data = await client.get("homepage");
+  const data = await client.getByType("homepage");
   return {
     data,
   };
@@ -23,7 +23,6 @@ export const loader = async () => {
 
 export default function HomePage() {
   const data = useLoaderData();
-  console.log(data);
 
   return (
     <Layout>
