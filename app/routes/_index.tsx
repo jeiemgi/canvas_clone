@@ -6,7 +6,7 @@ import HomePageProjects from "~/slices/HomePage/HomePageProject";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import background from "public/img/home-background.png";
-import { client } from "~/lib/prismicClient";
+import { createClient } from "~/lib/prismicClient";
 import { useLoaderData } from "@remix-run/react";
 import type { V2_MetaFunction } from "@remix-run/node";
 
@@ -15,6 +15,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const loader = async () => {
+  const client = createClient();
   const data = await client.getByType("homepage");
   return {
     data,
