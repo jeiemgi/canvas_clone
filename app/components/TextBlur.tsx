@@ -12,7 +12,6 @@ interface Props {
 }
 
 function TextBlur({
-  as: Tag = "h1",
   children,
   textAlign,
   className,
@@ -31,7 +30,7 @@ function TextBlur({
     className
   );
 
-  return <Tag className={wrapperClassNames}>{children}</Tag>;
+  return <h1 className={wrapperClassNames}>{children}</h1>;
 }
 
 export default TextBlur;

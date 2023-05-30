@@ -1,5 +1,41 @@
 import React from "react";
 import Table from "~/components/Table/Table";
+import type { TableProps } from "~/components/Table/Table";
+
+const CAPABILITIES_DATA = [
+  {
+    title: "Strategy",
+    number: "01",
+    description:
+      "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do.",
+    rows: [
+      "Creative Direction",
+      "Research",
+      "Discovery",
+      "Insights",
+      "Analytics",
+    ],
+  },
+  {
+    title: "Design",
+    number: "02",
+    description:
+      "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do.",
+    rows: ["UX", "UI", "Branding", "Illustration", "Motion Design"],
+  },
+  {
+    title: "Development",
+    description:
+      "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do.",
+    number: "03",
+    rows: ["Frontend", "Backend", "Mobile", "DevOps", "Architecture"],
+  },
+];
+
+interface Props {
+  title: string;
+  data: TableProps["data"];
+}
 
 function HomePageCapabilities() {
   return (
@@ -13,21 +49,9 @@ function HomePageCapabilities() {
           <h1 className={"display--2"}>CAPABILITIES</h1>
         </div>
       </div>
-
-      <div className="grid-container desktop-only--grid mb-44 pt-2.5">
-        <div className="col-span-3">
-          <h2 className={"heading--2"}>01</h2>
-        </div>
-        <div className="col-span-3">
-          <h2 className={"heading--2"}>02</h2>
-        </div>
-        <div className="col-span-3">
-          <h2 className={"heading--2"}>03</h2>
-        </div>
-      </div>
       <div className="grid-container">
         <div className="col-span-4 md:col-span-12">
-          <Table />
+          <Table data={CAPABILITIES_DATA} />
         </div>
       </div>
     </div>

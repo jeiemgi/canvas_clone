@@ -1,42 +1,24 @@
 import React from "react";
-import { TableHeader } from "~/components/Table/TableHeader";
-import { TableRowsMobile } from "~/components/Table/TableRowsMobile";
-import { TableRowsDesktop } from "~/components/Table/TableRowsDesktop";
+import { TableColumn } from "~/components/Table/TableColumn";
+import type { TableColumnProps } from "~/components/Table/TableColumn";
 
-function Table() {
+export interface TableProps {
+  data: Array<TableColumnProps>;
+}
+
+function Table({ data }: TableProps) {
   return (
-    <>
-      <div className={"grid-container--full"}>
-        <TableHeader
-          number={"01"}
-          title={"STRATEGY"}
-          description={
-            "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do."
-          }
+    <div className={"grid-container--full"}>
+      {data.map((item, index) => (
+        <TableColumn
+          key={`TableHeader-${item.title}-${index}`}
+          number={item.number}
+          title={item.title}
+          description={item.description}
+          rows={item.rows}
         />
-        <TableRowsMobile />
-
-        <TableHeader
-          number={"02"}
-          title={"DESIGN"}
-          description={
-            "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do."
-          }
-        />
-        <TableRowsMobile />
-
-        <TableHeader
-          number={"01"}
-          title={"STRATEGY"}
-          description={
-            "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do."
-          }
-        />
-        <TableRowsMobile />
-      </div>
-
-      <TableRowsDesktop />
-    </>
+      ))}
+    </div>
   );
 }
 

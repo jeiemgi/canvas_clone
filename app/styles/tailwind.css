@@ -7,6 +7,7 @@
         --fn-primary: "protogrotesk-light", sans-serif;
         --fn-secondary: "untitled-sans-regular", sans-serif;
         --fn-secondary--light: "untitled-sans-light", sans-serif;
+        --color-border: rgba(0, 0, 0, 0.30);
     }
 
     @font-face {
@@ -39,6 +40,10 @@
         .display--2--vw {
             font-size: 5vw;
         }
+    }
+
+    body {
+        @apply text-black;
     }
 
     .display--1 {
@@ -220,10 +225,9 @@
 
 
     .text-blur.black {
-        text-shadow:
-                0 0 var(--text-blur--sm) hsl(0, 0%, 0%),
-                0 0 var(--text-blur--md) hsl(0, 0%, 0%),
-                0 0 var(--text-blur--lg) hsl(0, 0%, 0%);
+        text-shadow: 0 0 var(--text-blur--sm) hsl(0, 0%, 0%),
+        0 0 var(--text-blur--md) hsl(0, 0%, 0%),
+        0 0 var(--text-blur--lg) hsl(0, 0%, 0%);
     }
 
     .text-blur.verticalRight {
@@ -281,5 +285,28 @@
 
     .desktop-only--inline {
         @apply hidden md:inline-block;
+    }
+
+
+    @screen md {
+        .TableColumn__row-element:first-of-type .TableColumn__cell-element::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100vw - 4rem);
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .TableColumn__row-element:first-of-type .TableColumn__cell-group::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: calc(100vw - 4rem);
+            height: 1px;
+            background: var(--color-border);
+        }
     }
 }
