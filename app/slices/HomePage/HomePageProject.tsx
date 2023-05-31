@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import aliveSample from "public/img/sample/alive-bg.png";
-import ernestBaker from "public/img/sample/ernest-baker-bg.png";
+import { asText } from "@prismicio/richtext";
+import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 
 interface HomepageProjectProps {
   title: string;
@@ -60,26 +60,19 @@ function HomePageProject({
   );
 }
 
-function HomePageProjects() {
+function HomePageProjects({
+  data,
+}: {
+  data: HomepageDocumentDataBodyHomepageProjectSlice;
+}) {
   return (
     <section>
       <HomePageProject
-        image={aliveSample}
-        cta={"VIEW PROJECT"}
-        title={"ALIVE \n CASE STUDY"}
-        capabilities={"Branding, App, Website"}
-        description={
-          "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
-        }
-      />
-      <HomePageProject
-        image={ernestBaker}
-        cta={"VIEW PROJECT"}
-        title={"ERNEST W. BAKER \n CASE STUDY"}
-        capabilities={"Ecommerce Website"}
-        description={
-          "A description of the project. Maybe one to two sentences. More goes here. Think it will be two to three lines."
-        }
+        image={data.primary.background_image.url || ""}
+        cta={asText(data.primary.cta) || ""}
+        title={asText(data.primary.title) || ""}
+        capabilities={asText(data.primary.capabilities) || ""}
+        description={asText(data.primary.description) || ""}
       />
     </section>
   );

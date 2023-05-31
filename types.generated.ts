@@ -8,17 +8,239 @@ type Simplify<T> = {
 /** Content for Homepage documents */
 interface HomepageDocumentData {
     /**
-     * title field in *Homepage*
+     * Slice zone field in *Homepage*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    body: prismic.SliceZone<HomepageDocumentDataBodySlice>;
+}
+/**
+ * Primary content in Homepage → Slice zone → `homepage_project` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
+    /**
+     * Title field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.RichTextField;
+    /**
+     * Capabilities field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.capabilities
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    capabilities: prismic.RichTextField;
+    /**
+     * description field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+    /**
+     * cta field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.cta
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    cta: prismic.RichTextField;
+    /**
+     * Background Image field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.background_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    background_image: prismic.ImageField<never>;
+}
+/**
+ * Item in Homepage → Slice zone → `homepage_project` → Items
+ *
+ */
+export interface HomepageDocumentDataBodyHomepageProjectSliceItem {
+    /**
+     * Slide field in *Homepage → Slice zone → `homepage_project` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.items[].slide
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    slide: prismic.ImageField<never>;
+}
+export type HomepageDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepageProjectSliceItem>>;
+/**
+ * Primary content in Homepage → Slice zone → `homepage_hero` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyHomepageHeroSlicePrimary {
+    /**
+     * hero-footer-left-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
      *
      * - **Field Type**: Title
      * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.title
-     * - **Tab**: Main
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-1"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-left-1": prismic.TitleField;
+    /**
+     * hero-footer-left-2 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-2"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-left-2": prismic.TitleField;
+    /**
+     * hero-footer-left-3 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-3"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-left-3": prismic.TitleField;
+    /**
+     * hero-footer-center-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-1"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-center-1": prismic.TitleField;
+    /**
+     * hero-footer-center-2 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-2"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-center-2": prismic.TitleField;
+    /**
+     * hero-footer-center-3 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-3"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-center-3": prismic.TitleField;
+    /**
+     * hero-footer-right-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-right-1"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-right-1": prismic.TitleField;
+    /**
+     * hero-footer-right-mobile field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-right-mobile"
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    "hero-footer-right-mobile": prismic.TitleField;
+    /**
+     * Hero texture Image field in *Homepage → Slice zone → `homepage_hero` → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_hero.primary.hero_texture_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    hero_texture_image: prismic.ImageField<never>;
+}
+export type HomepageDocumentDataBodyHomepageHeroSlice = prismic.Slice<"homepage_hero", Simplify<HomepageDocumentDataBodyHomepageHeroSlicePrimary>, never>;
+/**
+ * Item in Homepage → Slice zone → `table` → Items
+ *
+ */
+export interface HomepageDocumentDataBodyTableSliceItem {
+    /**
+     * title field in *Homepage → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].table.items[].title
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
     title: prismic.TitleField;
+    /**
+     * number field in *Homepage → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].table.items[].number
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    number: prismic.TitleField;
+    /**
+     * Description field in *Homepage → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].table.items[].description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+    /**
+     * rows field in *Homepage → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: Sepparated with commas e.g "Creative Direction, Research, Discovery"
+     * - **API ID Path**: homepage.body[].table.items[].rows
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    rows: prismic.RichTextField;
 }
+export type HomepageDocumentDataBodyTableSlice = prismic.Slice<"table", Record<string, never>, Simplify<HomepageDocumentDataBodyTableSliceItem>>;
+/**
+ * Slice for *Homepage → Slice zone*
+ *
+ */
+type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice;
 /**
  * Homepage document from Prismic
  *
@@ -29,12 +251,113 @@ interface HomepageDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageDocumentData>, "homepage", Lang>;
-export type AllDocumentTypes = HomepageDocument;
+/** Content for Navigation documents */
+interface NavigationDocumentData {
+    /**
+     * Title field in *Navigation*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.TitleField;
+    /**
+     * Logo Mark field in *Navigation*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.logo_mark
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    logo_mark: prismic.LinkField;
+    /**
+     * Logo mark field in *Navigation*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.logo_mark1
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    logo_mark1: prismic.ImageField<never>;
+    /**
+     * Slice zone field in *Navigation*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.body[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    body: prismic.SliceZone<NavigationDocumentDataBodySlice>;
+}
+/**
+ * Primary content in Navigation → Slice zone → `menu_item` → Primary
+ *
+ */
+interface NavigationDocumentDataBodyMenuItemSlicePrimary {
+    /**
+     * Title field in *Navigation → Slice zone → `menu_item` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.body[].menu_item.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.RichTextField;
+    /**
+     * Link field in *Navigation → Slice zone → `menu_item` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: navigation.body[].menu_item.primary.link
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    link: prismic.RichTextField;
+}
+export type NavigationDocumentDataBodyMenuItemSlice = prismic.Slice<"menu_item", Simplify<NavigationDocumentDataBodyMenuItemSlicePrimary>, never>;
+/**
+ * Slice for *Navigation → Slice zone*
+ *
+ */
+type NavigationDocumentDataBodySlice = NavigationDocumentDataBodyMenuItemSlice;
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<NavigationDocumentData>, "navigation", Lang>;
+/** Content for Table documents */
+type TableDocumentData = Record<string, never>;
+/**
+ * Table document from Prismic
+ *
+ * - **API ID**: `table`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TableDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TableDocumentData>, "table", Lang>;
+export type AllDocumentTypes = HomepageDocument | NavigationDocument | TableDocument;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomepageDocumentData, HomepageDocument, AllDocumentTypes };
+        export type { HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodySlice, HomepageDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, TableDocumentData, TableDocument, AllDocumentTypes };
     }
 }

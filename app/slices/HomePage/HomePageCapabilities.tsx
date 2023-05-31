@@ -1,6 +1,9 @@
 import React from "react";
 import Table from "~/components/Table/Table";
-import type { TableProps } from "~/components/Table/Table";
+import {
+  HomepageDocumentDataBodyTableSlice,
+  TableDocument,
+} from "../../../types.generated";
 
 const CAPABILITIES_DATA = [
   {
@@ -25,21 +28,20 @@ const CAPABILITIES_DATA = [
   },
   {
     title: "Development",
+    number: "03",
     description:
       "We are a strategy driven studio. We focus on the “why”, giving insight into everything we do.",
-    number: "03",
     rows: ["Frontend", "Backend", "Mobile", "DevOps", "Architecture"],
   },
 ];
 
-interface Props {
-  title: string;
-  data: TableProps["data"];
-}
-
-function HomePageCapabilities() {
+function HomePageCapabilities({
+  data,
+}: {
+  data: HomepageDocumentDataBodyTableSlice;
+}) {
   return (
-    <div className={"pb-0 pt-40 md:pb-40"}>
+    <section className={"pb-0 pt-40 md:pb-40"}>
       <div className="grid-container">
         <div
           className={
@@ -49,12 +51,13 @@ function HomePageCapabilities() {
           <h1 className={"display--2"}>CAPABILITIES</h1>
         </div>
       </div>
+
       <div className="grid-container">
         <div className="col-span-4 md:col-span-12">
-          <Table data={CAPABILITIES_DATA} />
+          <Table data={data} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

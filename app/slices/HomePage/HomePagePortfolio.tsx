@@ -34,7 +34,7 @@ const SAMPLE_DATA = [
 
 function HomePagePortfolio() {
   return (
-    <div className={"w-full bg-white"}>
+    <section className={"w-full bg-white"}>
       <HomePagePortfolioImages />
       <HomePagePortfolioMobile
         title={"ECOMMERCE"}
@@ -47,11 +47,9 @@ function HomePagePortfolio() {
       />
 
       <div className="grid-container desktop-only--grid pb-28">
-        <div className="col-span-12">
-          <Table data={SAMPLE_DATA} />
-        </div>
+        <div className="col-span-12">{/*<Table data={SAMPLE_DATA} />*/}</div>
       </div>
-    </div>
+    </section>
   );
 }
 

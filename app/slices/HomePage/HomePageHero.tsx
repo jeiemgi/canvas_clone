@@ -1,6 +1,9 @@
 import { CanvasLogoGlow, CanvasLogomark } from "~/svg";
 import heroSample from "public/img/sample/canvas-logo-hero-sample.png";
 import React from "react";
+import background from "../../../public/img/home-background.png";
+import HomePageQuote from "~/slices/HomePage/HomePageQuote";
+import { HomepageDocumentDataBodyHomepageHeroSlice } from "../../../types.generated";
 
 function HomePageHeroImage() {
   return (
@@ -43,13 +46,13 @@ function HomePageHeroFooter() {
         </h2>
       </div>
 
-      <div className={"md-block hidden md:col-span-2 md:flex md:justify-end"}>
+      <div className={"desktop-only md:col-span-2 md:flex md:justify-end"}>
         <h2 className={"heading--2 text-white"}>2012—2023</h2>
       </div>
 
       <div
         className={
-          "col-span-4 flex justify-between md:col-span-2 md:flex md:hidden md:justify-end"
+          "col-span-4 flex justify-between md:col-span-2 md:hidden md:justify-end"
         }
       >
         <h2 className={"heading--2 text-white"}>2012—2023</h2>
@@ -59,11 +62,21 @@ function HomePageHeroFooter() {
   );
 }
 
-function HomePageHero() {
+function HomePageHero({
+  data,
+}: {
+  data: HomepageDocumentDataBodyHomepageHeroSlice;
+}) {
   return (
-    <section className={"relative flex h-screen w-full flex-col"}>
-      <HomePageHeroImage />
-      <HomePageHeroFooter />
+    <section
+      style={{ backgroundImage: `url('${background}')` }}
+      className={"w-full bg-black bg-contain bg-repeat-y"}
+    >
+      <div className={"relative flex h-screen w-full flex-col"}>
+        <HomePageHeroImage />
+        <HomePageHeroFooter />
+      </div>
+      <HomePageQuote />
     </section>
   );
 }

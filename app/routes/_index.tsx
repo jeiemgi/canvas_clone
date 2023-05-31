@@ -1,42 +1,50 @@
 import Layout from "~/components/Layout/Layout";
-import HomePageCapabilities from "~/slices/HomePage/HomePageCapabilities";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
+import HomePageProject from "~/slices/HomePage/HomePageProject";
+import HomePageCapabilities from "~/slices/HomePage/HomePageCapabilities";
+
 import HomePagePortfolio from "~/slices/HomePage/HomePagePortfolio";
-import HomePageProjects from "~/slices/HomePage/HomePageProject";
-import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
-import background from "public/img/home-background.png";
+
 import { createClient } from "~/lib/prismicClient";
-import { useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
 };
-
 export const loader = async () => {
   const client = createClient();
-  const data = await client.getByType("homepage");
-  return {
-    data,
-  };
+  const navigation = await client.getByUID("navigation", "top-navigation");
+  const homepage = await client.getByType("homepage");
+
+  return json({
+    navigation,
+    homepage,
+  });
 };
 
 export default function HomePage() {
-  const data = useLoaderData();
+  const { homepage } = useLoaderData<typeof loader>();
 
   return (
     <Layout>
       <main>
-        <div
-          className={"w-full bg-black bg-contain bg-repeat-y"}
-          style={{ backgroundImage: `url('${background}')` }}
-        >
-          <HomePageHero />
-          <HomePageQuote />
-        </div>
-        <HomePageProjects />
-        <HomePageCapabilities />
+        {homepage.results.map((result) => {
+          return result.data.body.map((slice) => {
+            switch (slice.slice_type) {
+              case "homepage_hero":
+                return <HomePageHero key={slice.id} data={slice} />;
+              case "homepage_project":
+                return <HomePageProject key={slice.id} data={slice} />;
+              case "table":
+                return <HomePageCapabilities key={slice.id} data={slice} />;
+              default:
+                return null;
+            }
+          });
+        })}
         <HomePagePortfolio />
         <HomePageReviews />
       </main>

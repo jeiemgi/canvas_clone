@@ -3,7 +3,7 @@ import TextBlur from "~/components/TextBlur";
 
 function HomePageReviews() {
   return (
-    <div className={"h-screen w-full select-none bg-royal-blue"}>
+    <section className={"h-screen w-full select-none bg-royal-blue"}>
       <div className={"grid-container relative"}>
         <div className="col-span-3">
           <TextBlur black>5 STARS</TextBlur>
@@ -38,7 +38,7 @@ function HomePageReviews() {
           </TextBlur>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

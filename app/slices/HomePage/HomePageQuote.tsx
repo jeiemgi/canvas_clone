@@ -5,7 +5,7 @@ const innerGrid = "grid grid-cols-4 md:grid-cols-12 md:gap-x-[20px]";
 
 function HomePageQuote() {
   return (
-    <div className={"overflow-hidden pb-16 pt-16 md:pb-56 md:pt-64"}>
+    <section className={"overflow-hidden pb-16 pt-16 md:pb-56 md:pt-64"}>
       <div className="max-container">
         <TextBlur className={"mb-28 md:mb-56"}>
           <span className={innerGrid}>
@@ -32,13 +32,12 @@ function HomePageQuote() {
             <br className={"desktop-only"} />& DESIGN-
             <br className={"mobile-only"} />
             DRIVEN <br />
-            DIGITAL
-            <br className={"mobile-only"} />
+            DIGITAL <br className={"mobile-only"} />
             EXPERIENCES.
           </span>
         </TextBlur>
       </div>
-    </div>
+    </section>
   );
 }
 

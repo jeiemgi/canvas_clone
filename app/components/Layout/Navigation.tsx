@@ -1,16 +1,30 @@
 import clsx from "clsx";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { useScrollPosition } from "~/hooks";
 import { CanvasLogo } from "~/svg";
+import { asText } from "@prismicio/richtext";
+import type { loader } from "~/routes/_index";
 
-function NavigationLogo({ isScrolled }: { isScrolled: boolean }) {
+function NavigationLogo({
+  src,
+  isScrolled,
+}: {
+  src?: string | null;
+  isScrolled: boolean;
+}) {
   return (
     <>
       {/*Mobile logo*/}
       <div className={"block pl-4 md:hidden"}>
-        <div className={clsx(isScrolled ? "block" : "hidden")}>
-          <CanvasLogo width={78} height={13} fill={"#000#"} />
-        </div>
+        {src ? (
+          <div className={clsx(isScrolled ? "block" : "hidden")}>
+            <img src={src} width={78} height={13} alt={"Canvas Studio Logo"} />
+          </div>
+        ) : (
+          <div className={clsx(isScrolled ? "block" : "hidden")}>
+            <CanvasLogo width={78} height={13} fill={"#000#"} />
+          </div>
+        )}
       </div>
 
       {/*Desk centered logo*/}
@@ -35,6 +49,7 @@ function NavigationLogo({ isScrolled }: { isScrolled: boolean }) {
 function Navigation() {
   const scrollY = useScrollPosition();
   const isScrolled = scrollY > 0;
+  const { navigation } = useLoaderData<typeof loader>();
 
   return (
     <nav
@@ -46,18 +61,26 @@ function Navigation() {
         isScrolled ? "bg-white" : "bg-transparent"
       )}
     >
-      <NavigationLogo isScrolled={isScrolled} />
+      <NavigationLogo
+        src={navigation.data.logo_mark1.url}
+        isScrolled={isScrolled}
+      />
       <ul>
-        <li
-          className={clsx(
-            isScrolled ? "text-black" : "text-white",
-            "pr-4 md:pr-10",
-            "md:text-white",
-            "heading--3 md:text-white"
-          )}
-        >
-          <Link to={"contact"}>(Contact)</Link>
-        </li>
+        {navigation.data.body.map((item) => (
+          <li
+            key={`${asText(item.primary.link)}`}
+            className={clsx(
+              isScrolled ? "text-black" : "text-white",
+              "inline-block pr-4 md:pr-10",
+              "md:text-white",
+              "heading--3 md:text-white"
+            )}
+          >
+            <Link to={asText(item.primary.link)}>
+              ({asText(item.primary.title)})
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
