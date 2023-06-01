@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
@@ -25,7 +25,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     setPosition({
-      x: e.clientX + 10,
+      x: e.clientX + 50,
       y: e.clientY - 100,
     });
   };
@@ -39,6 +39,10 @@ function HomePagePortfolioDesktop({ data }: Props) {
   };
 
   const cursorWrapper = document?.getElementById("root-cursor");
+
+  useEffect(() => {
+    console.log(hoveredTag);
+  }, [hoveredTag]);
 
   return (
     <div
@@ -55,7 +59,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
                 <img
                   src={hoverImage}
                   alt="Hovered Preview"
-                  className={"max-w-[80vh] object-contain"}
+                  className={"max-h-[40vh] object-contain"}
                 />
               ) : null}
             </div>,
@@ -68,6 +72,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
             return (
               <div
                 key={`PortfolioDesk-${index}-${tag}`}
+                onMouseEnter={() => setHoveredTag(tag)}
+                onMouseLeave={() => setHoveredTag(null)}
                 onClick={() => {
                   setSelectedTag(tag);
                 }}
@@ -92,8 +98,9 @@ function HomePagePortfolioDesktop({ data }: Props) {
       >
         {data.items.map((item, index) => {
           let tags = item.tags?.split(", ") || [];
-          const active =
-            tags.includes(selectedTag) || selectedTag === ALL_TAGS_ID;
+          const active = hoveredTag
+            ? tags.includes(hoveredTag) || hoveredTag === ALL_TAGS_ID
+            : tags.includes(selectedTag) || selectedTag === ALL_TAGS_ID;
 
           return (
             <div
