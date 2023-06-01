@@ -90,6 +90,16 @@ export interface HomepageDocumentDataBodyHomepageProjectSliceItem {
      *
      */
     slide: prismic.ImageField<never>;
+    /**
+     * Tags field in *Homepage → Slice zone → `homepage_project` → Items*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: Separated by commas (e.g "A, B, C")
+     * - **API ID Path**: homepage.body[].homepage_project.items[].tags
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    tags: prismic.KeyTextField;
 }
 export type HomepageDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepageProjectSliceItem>>;
 /**
@@ -190,6 +200,22 @@ interface HomepageDocumentDataBodyHomepageHeroSlicePrimary {
 }
 export type HomepageDocumentDataBodyHomepageHeroSlice = prismic.Slice<"homepage_hero", Simplify<HomepageDocumentDataBodyHomepageHeroSlicePrimary>, never>;
 /**
+ * Primary content in Homepage → Slice zone → `table` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyTableSlicePrimary {
+    /**
+     * Title field in *Homepage → Slice zone → `table` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].table.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.TitleField;
+}
+/**
  * Item in Homepage → Slice zone → `table` → Items
  *
  */
@@ -235,12 +261,108 @@ export interface HomepageDocumentDataBodyTableSliceItem {
      */
     rows: prismic.RichTextField;
 }
-export type HomepageDocumentDataBodyTableSlice = prismic.Slice<"table", Record<string, never>, Simplify<HomepageDocumentDataBodyTableSliceItem>>;
+export type HomepageDocumentDataBodyTableSlice = prismic.Slice<"table", Simplify<HomepageDocumentDataBodyTableSlicePrimary>, Simplify<HomepageDocumentDataBodyTableSliceItem>>;
+/**
+ * Primary content in Homepage → Slice zone → `homepage_portfolio_slice` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary {
+    /**
+     * TITLE field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.TitleField;
+    /**
+     * Description field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+    /**
+     * tags field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.tags
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    tags: prismic.KeyTextField;
+}
+/**
+ * Item in Homepage → Slice zone → `homepage_portfolio_slice` → Items
+ *
+ */
+export interface HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem {
+    /**
+     * images field in *Homepage → Slice zone → `homepage_portfolio_slice` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.items[].images
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    images: prismic.ImageField<never>;
+}
+export type HomepageDocumentDataBodyHomepagePortfolioSliceSlice = prismic.Slice<"homepage_portfolio_slice", Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem>>;
+/**
+ * Primary content in Homepage → Slice zone → `homepage_portfolio_desktop` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary {
+    /**
+     * Available Tags field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: Separated with commas (e.g "A, B, C, D")
+     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.primary.available_tags
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    available_tags: prismic.KeyTextField;
+}
+/**
+ * Item in Homepage → Slice zone → `homepage_portfolio_desktop` → Items
+ *
+ */
+export interface HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem {
+    /**
+     * Image field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items[].image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    image: prismic.ImageField<never>;
+    /**
+     * tags field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Items*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items[].tags
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    tags: prismic.KeyTextField;
+}
+export type HomepageDocumentDataBodyHomepagePortfolioDesktopSlice = prismic.Slice<"homepage_portfolio_desktop", Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem>>;
 /**
  * Slice for *Homepage → Slice zone*
  *
  */
-type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice;
+type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice | HomepageDocumentDataBodyHomepagePortfolioSliceSlice | HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
 /**
  * Homepage document from Prismic
  *
@@ -251,6 +373,190 @@ type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlic
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageDocumentData>, "homepage", Lang>;
+/** Content for Homepage Portfolio documents */
+interface HomepagePortfolioDocumentData {
+    /**
+     * Slice zone field in *Homepage Portfolio*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_portfolio.body[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    body: prismic.SliceZone<HomepagePortfolioDocumentDataBodySlice>;
+}
+/**
+ * Primary content in Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Primary
+ *
+ */
+interface HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlicePrimary {
+    /**
+     * TITLE field in *Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_portfolio.body[].homepage_portfolio_slice.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.TitleField;
+    /**
+     * Description field in *Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_portfolio.body[].homepage_portfolio_slice.primary.description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+    /**
+     * tags field in *Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_portfolio.body[].homepage_portfolio_slice.primary.tags
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    tags: prismic.KeyTextField;
+}
+/**
+ * Item in Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Items
+ *
+ */
+export interface HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSliceItem {
+    /**
+     * images field in *Homepage Portfolio → Slice zone → `homepage_portfolio_slice` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_portfolio.body[].homepage_portfolio_slice.items[].images
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    images: prismic.ImageField<never>;
+}
+export type HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice = prismic.Slice<"homepage_portfolio_slice", Simplify<HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlicePrimary>, Simplify<HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSliceItem>>;
+/**
+ * Slice for *Homepage Portfolio → Slice zone*
+ *
+ */
+type HomepagePortfolioDocumentDataBodySlice = HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice;
+/**
+ * Homepage Portfolio document from Prismic
+ *
+ * - **API ID**: `homepage_portfolio`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomepagePortfolioDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepagePortfolioDocumentData>, "homepage_portfolio", Lang>;
+/** Content for Homepage Projects documents */
+interface HomepageProjectsDocumentData {
+    /**
+     * Slice zone field in *Homepage Projects*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    body: prismic.SliceZone<HomepageProjectsDocumentDataBodySlice>;
+}
+/**
+ * Primary content in Homepage Projects → Slice zone → `homepage_project` → Primary
+ *
+ */
+interface HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary {
+    /**
+     * Title field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismic.RichTextField;
+    /**
+     * Capabilities field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.capabilities
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    capabilities: prismic.RichTextField;
+    /**
+     * description field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+    /**
+     * cta field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.cta
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    cta: prismic.RichTextField;
+    /**
+     * Background Image field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.background_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    background_image: prismic.ImageField<never>;
+}
+/**
+ * Item in Homepage Projects → Slice zone → `homepage_project` → Items
+ *
+ */
+export interface HomepageProjectsDocumentDataBodyHomepageProjectSliceItem {
+    /**
+     * Slide field in *Homepage Projects → Slice zone → `homepage_project` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage_projects.body[].homepage_project.items[].slide
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    slide: prismic.ImageField<never>;
+}
+export type HomepageProjectsDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSliceItem>>;
+/**
+ * Slice for *Homepage Projects → Slice zone*
+ *
+ */
+type HomepageProjectsDocumentDataBodySlice = HomepageProjectsDocumentDataBodyHomepageProjectSlice;
+/**
+ * Homepage Projects document from Prismic
+ *
+ * - **API ID**: `homepage_projects`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomepageProjectsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageProjectsDocumentData>, "homepage_projects", Lang>;
 /** Content for Navigation documents */
 interface NavigationDocumentData {
     /**
@@ -352,12 +658,12 @@ type TableDocumentData = Record<string, never>;
  * @typeParam Lang - Language API ID of the document.
  */
 export type TableDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<TableDocumentData>, "table", Lang>;
-export type AllDocumentTypes = HomepageDocument | NavigationDocument | TableDocument;
+export type AllDocumentTypes = HomepageDocument | HomepagePortfolioDocument | HomepageProjectsDocument | NavigationDocument | TableDocument;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodySlice, HomepageDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, TableDocumentData, TableDocument, AllDocumentTypes };
+        export type { HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodySlice, HomepageDocument, HomepagePortfolioDocumentData, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice, HomepagePortfolioDocumentDataBodySlice, HomepagePortfolioDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, TableDocumentData, TableDocument, AllDocumentTypes };
     }
 }

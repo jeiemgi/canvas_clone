@@ -9,11 +9,13 @@ import {
 } from "@remix-run/react";
 import tailwind from "~/styles/tailwind.css";
 import { cssBundleHref } from "@remix-run/css-bundle";
+import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref
     ? [{ rel: "stylesheet", href: cssBundleHref }]
     : [{ rel: "stylesheet", href: tailwind }]),
+  { rel: "stylesheet", href: splideCss },
 ];
 
 export default function App() {

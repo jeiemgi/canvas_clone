@@ -1,15 +1,14 @@
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { createClient } from "~/lib/prismicClient";
 import Layout from "~/components/Layout/Layout";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
+import HomePagePortfolioDesktop from "~/slices/HomePage/HomePagePortfolioDesktop";
+import HomePagePortfolioMobile from "~/slices/HomePage/HomePagePortfolioMobile";
 import HomePageProject from "~/slices/HomePage/HomePageProject";
-import HomePageCapabilities from "~/slices/HomePage/HomePageCapabilities";
-
-import HomePagePortfolio from "~/slices/HomePage/HomePagePortfolio";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
-
-import { createClient } from "~/lib/prismicClient";
-import { json } from "@remix-run/node";
+import HomePageTable from "~/slices/HomePage/HomePageTable";
 import type { V2_MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
@@ -39,14 +38,18 @@ export default function HomePage() {
               case "homepage_project":
                 return <HomePageProject key={slice.id} data={slice} />;
               case "table":
-                return <HomePageCapabilities key={slice.id} data={slice} />;
+                return <HomePageTable key={slice.id} data={slice} />;
+              case "homepage_portfolio_slice":
+                return <HomePagePortfolioMobile key={slice.id} data={slice} />;
+              case "homepage_portfolio_desktop":
+                return <HomePagePortfolioDesktop key={slice.id} data={slice} />;
               default:
                 return null;
             }
           });
         })}
-        <HomePagePortfolio />
         <HomePageReviews />
+        <div id={"root-cursor"} />
       </main>
     </Layout>
   );
