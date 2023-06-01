@@ -1,10 +1,8 @@
 import clsx from "clsx";
-import { Fragment, useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
+import { useMemo, useState } from "react";
+import Portal from "~/components/Portal";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
-
-const document = typeof window !== "undefined" ? window.document : null;
 
 interface Props {
   data: HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
@@ -19,13 +17,12 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
-
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hoverImage, setHoverImage] = useState<string | null>(null);
 
-  const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+  const onMouseMoveImage = (e: MouseEvent<HTMLDivElement>) => {
     setPosition({
-      x: e.clientX + 50,
+      x: e.clientX + 100,
       y: e.clientY - 100,
     });
   };
@@ -36,36 +33,26 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   const onMouseLeaveImage = () => {
     setHoverImage(null);
+    setPosition({ x: 0, y: 0 });
   };
 
-  const cursorWrapper = document?.getElementById("root-cursor");
-
-  useEffect(() => {
-    console.log(hoveredTag);
-  }, [hoveredTag]);
-
   return (
-    <div
-      onMouseMove={onMouseMove}
-      className={"desktop-only overflow-hidden py-[20vh]"}
-    >
-      {document && cursorWrapper
-        ? createPortal(
-            <div
-              style={{ left: position.x, top: position.y }}
-              className="fixed left-0 top-0 bg-red"
-            >
-              {hoverImage ? (
-                <img
-                  src={hoverImage}
-                  alt="Hovered Preview"
-                  className={"max-h-[40vh] object-contain"}
-                />
-              ) : null}
-            </div>,
-            cursorWrapper
-          )
-        : null}
+    <section className={"desktop-only overflow-hidden py-[20vh]"}>
+      <Portal wrapperId={"root-cursor"}>
+        <div
+          style={{ left: position.x, top: position.y }}
+          className={clsx(
+            "fixed left-0 top-0 h-0 w-0",
+            hoverImage ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <img
+            src={hoverImage || ""}
+            alt="Hovered Preview"
+            className={"max-h-[70vh] max-w-none"}
+          />
+        </div>
+      </Portal>
       <div className={"max-container py-10"}>
         <div className={"heading--2 flex flex-row justify-end text-grey"}>
           {availableTags?.map((tag, index) => {
@@ -113,6 +100,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
               <img
                 src={item.image.url!}
                 alt={item.image.alt!}
+                onMouseMove={onMouseMoveImage}
                 onMouseEnter={onMouseEnterImage}
                 onMouseLeave={onMouseLeaveImage}
                 className={clsx(
@@ -124,7 +112,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
 

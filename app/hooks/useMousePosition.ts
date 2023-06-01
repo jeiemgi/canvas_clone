@@ -10,6 +10,7 @@ const useMousePosition = ({ container }: Props = {}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    // @ts-ignore
     const updateMousePosition = (ev) => {
       setMousePosition({ x: ev.clientX, y: ev.clientY });
     };
