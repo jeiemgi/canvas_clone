@@ -1,12 +1,12 @@
 import clsx from "clsx";
+import { useLayoutEffect } from "~/hooks";
+import { useCallback, useRef } from "react";
 import { asText } from "@prismicio/richtext";
+import { gsap } from "gsap";
 import type {
   HomepageDocumentDataBodyHomepageProjectSlice,
   HomepageDocumentDataBodyHomepageProjectSliceItem,
 } from "types.generated";
-import { useCallback, useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 
 interface HomepageProjectProps {
   capabilities: string;
@@ -19,7 +19,6 @@ interface HomepageProjectProps {
 }
 
 function HomePageProject({
-  id,
   capabilities,
   containerClassName,
   cta,
@@ -31,7 +30,7 @@ function HomePageProject({
   return (
     <div
       className={clsx(
-        "relative flex h-[90vh] flex-col justify-between bg-cover bg-center md:h-screen",
+        "relative flex h-screen flex-col justify-between overflow-hidden bg-cover bg-center",
         containerClassName
       )}
       style={{ backgroundImage: `url('${image}')` }}
@@ -61,7 +60,7 @@ function HomePageProject({
 
       <div className="desktop-only--grid grid-container">
         <div className={"relative col-span-4 h-[500px] md:col-start-9"}>
-          <div className="HomepageProject-Slider absolute  w-full">
+          <div className="HomepageProject-Slider absolute w-full">
             <p className={"body--2 mb-5 max-w-[500px] text-white"}>
               {description}
             </p>
@@ -91,32 +90,34 @@ function HomePageProjects({
 }: {
   data: HomepageDocumentDataBodyHomepageProjectSlice;
 }) {
-  const container = useRef<HTMLDivElement>();
+  const containerRef = useRef<HTMLDivElement>();
 
   const setRef = useCallback((ref: never) => {
-    if (ref) container.current = ref;
+    if (ref) containerRef.current = ref;
   }, []);
 
   useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     let ctx = gsap.context(() => {
-      if (container.current) {
-        const slider = container.current?.getElementsByClassName(
-          "HomepageProject-Slider"
-        );
+      const container = containerRef.current;
 
-        gsap.to(slider, {
-          y: "-100%",
-          scrollTrigger: {
-            trigger: container.current,
-            end: `+=${slider[0].scrollHeight + window.innerHeight / 2}`,
-            pin: true,
-            scrub: true,
-          },
-        });
+      if (container) {
+        const slider = container.getElementsByClassName(
+          "HomepageProject-Slider"
+        )[0];
+
+        // const scrollHeight = slider.scrollHeight - window.innerHeight / 2;
+        // gsap.to(slider, {
+        //   y: "-100%",
+        //   scrollTrigger: {
+        //     trigger: container,
+        //     end: `+=${scrollHeight}`,
+        //     // pin: container,
+        //     scrub: true,
+        //   },
+        // });
       }
     });
+
     return () => ctx.revert();
   }, []);
 

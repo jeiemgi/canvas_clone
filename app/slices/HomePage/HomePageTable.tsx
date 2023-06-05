@@ -12,7 +12,7 @@ function HomePageTable({
 }) {
   return (
     <section>
-      {data.primary.title ? (
+      {asText(data.primary.title) !== "" ? (
         <div className="grid-container">
           <div
             className={

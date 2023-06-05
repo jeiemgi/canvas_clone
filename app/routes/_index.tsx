@@ -1,4 +1,5 @@
-import { defer, json } from "@remix-run/node";
+import { Suspense } from "react";
+import { defer } from "@remix-run/node";
 import { Await, useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import Layout from "~/components/Layout/Layout";
@@ -9,9 +10,10 @@ import HomePageProject from "~/slices/HomePage/HomePageProject";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
 import type { V2_MetaFunction } from "@remix-run/node";
-import { Suspense, useEffect } from "react";
-import is from "@sindresorhus/is";
-import date = is.date;
+import { useLayoutEffect } from "~/hooks";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollSmoother from "gsap/dist/ScrollSmoother";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
@@ -45,41 +47,64 @@ const HomePageError = () => {
 export default function HomePage() {
   const { homepage } = useLoaderData<typeof loader>();
 
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+    let ctx = gsap.context(() => {
+      ScrollSmoother.create({
+        smooth: 0.4, // seconds it takes to "catch up" to native scroll position
+        effects: true,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <Layout>
-      <main>
-        <Suspense fallback={<h1 className={"heading--1"}>loading...</h1>}>
-          <Await
-            resolve={homepage}
-            errorElement={<h1 className={"heading--1"}>error...</h1>}
-          >
-            {homepage.results.map((result) => {
-              return result.data.body.map((slice) => {
-                switch (slice.slice_type) {
-                  case "homepage_hero":
-                    return <HomePageHero key={slice.id} data={slice} />;
-                  case "homepage_project":
-                    return <HomePageProject key={slice.id} data={slice} />;
-                  case "table":
-                    return <HomePageTable key={slice.id} data={slice} />;
-                  case "homepage_portfolio_slice":
-                    return (
-                      <HomePagePortfolioMobile key={slice.id} data={slice} />
-                    );
-                  case "homepage_portfolio_desktop":
-                    return (
-                      <HomePagePortfolioDesktop key={slice.id} data={slice} />
-                    );
-                  default:
-                    return null;
-                }
-              });
-            })}
-            <div id={"root-cursor z-50"} />
-          </Await>
-        </Suspense>
-        <HomePageReviews />
-      </main>
-    </Layout>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <Layout>
+          <main>
+            <Suspense fallback={<h1 className={"heading--1"}>loading...</h1>}>
+              <Await
+                resolve={homepage}
+                errorElement={<h1 className={"heading--1"}>error...</h1>}
+              >
+                {homepage.results.map((result) => {
+                  return result.data.body.map((slice) => {
+                    switch (slice.slice_type) {
+                      case "homepage_hero":
+                        return <HomePageHero key={slice.id} data={slice} />;
+                      case "homepage_project":
+                        return <HomePageProject key={slice.id} data={slice} />;
+                      case "table":
+                        return <HomePageTable key={slice.id} data={slice} />;
+                      case "homepage_portfolio_slice":
+                        return (
+                          <HomePagePortfolioMobile
+                            key={slice.id}
+                            data={slice}
+                          />
+                        );
+                      case "homepage_portfolio_desktop":
+                        return (
+                          <HomePagePortfolioDesktop
+                            key={slice.id}
+                            data={slice}
+                          />
+                        );
+                      default:
+                        return null;
+                    }
+                  });
+                })}
+                <div id={"root-cursor z-50"} />
+              </Await>
+            </Suspense>
+          </main>
+          <HomePageReviews />
+        </Layout>
+      </div>
+    </div>
   );
 }
