@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { defer } from "@remix-run/node";
 import { Await, useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
+import { useLayoutEffect } from "~/hooks";
 import Layout from "~/components/Layout/Layout";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
 import HomePagePortfolioDesktop from "~/slices/HomePage/HomePagePortfolioDesktop";
@@ -10,7 +11,7 @@ import HomePageProject from "~/slices/HomePage/HomePageProject";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
 import type { V2_MetaFunction } from "@remix-run/node";
-import { useLayoutEffect } from "~/hooks";
+
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
@@ -44,15 +45,15 @@ const HomePageError = () => {
     </div>
   );
 };
+
 export default function HomePage() {
   const { homepage } = useLoaderData<typeof loader>();
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
     let ctx = gsap.context(() => {
-      ScrollSmoother.create({
-        smooth: 0.4, // seconds it takes to "catch up" to native scroll position
+      const smoother = ScrollSmoother.create({
+        smooth: 0.3,
         effects: true,
       });
     });
@@ -65,11 +66,8 @@ export default function HomePage() {
       <div id="smooth-content">
         <Layout>
           <main>
-            <Suspense fallback={<h1 className={"heading--1"}>loading...</h1>}>
-              <Await
-                resolve={homepage}
-                errorElement={<h1 className={"heading--1"}>error...</h1>}
-              >
+            <Suspense fallback={<HomePageLoader />}>
+              <Await resolve={homepage} errorElement={<HomePageError />}>
                 {homepage.results.map((result) => {
                   return result.data.body.map((slice) => {
                     switch (slice.slice_type) {

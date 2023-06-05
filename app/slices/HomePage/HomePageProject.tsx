@@ -8,6 +8,68 @@ import type {
   HomepageDocumentDataBodyHomepageProjectSliceItem,
 } from "types.generated";
 
+function HomePageProjects({
+  data,
+}: {
+  data: HomepageDocumentDataBodyHomepageProjectSlice;
+}) {
+  const containerRef = useRef<HTMLDivElement>();
+
+  const setRef = useCallback((ref: never) => {
+    if (ref) containerRef.current = ref;
+  }, []);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      try {
+        const container = containerRef.current;
+        const background = container?.getElementsByClassName(
+          "HomepageProject-Background"
+        )[0];
+        const backgroundImage = background?.getElementsByTagName("img")[0];
+        const slider = container?.getElementsByClassName(
+          "HomepageProject-Slider"
+        )[0];
+
+        if (container && background && backgroundImage && slider) {
+          const scrollHeight = slider.scrollHeight + window.innerHeight * 1.5;
+
+          // PIN AND MOVE THE IMAGE UP FOR PARALLAX EFFECT
+          gsap.to(backgroundImage, {
+            // y: "-10%",
+            scrollTrigger: {
+              trigger: container,
+              start: "top top",
+              end: `bottom+=${scrollHeight} top`,
+              scrub: true,
+              pin: background,
+            },
+          });
+        }
+      } catch (error) {
+        console.log("HomePageProject [ERROR]", error);
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div className={"HomePageProject"} ref={setRef}>
+      <HomePageProject
+        image={data.primary.background_image.url || ""}
+        cta={asText(data.primary.cta) || ""}
+        title={asText(data.primary.title) || ""}
+        capabilities={asText(data.primary.capabilities) || ""}
+        description={asText(data.primary.description) || ""}
+        slides={data.items.map((item) => item.slide)}
+      />
+    </div>
+  );
+}
+
+export default HomePageProjects;
+
 interface HomepageProjectProps {
   capabilities: string;
   containerClassName?: string;
@@ -30,11 +92,18 @@ function HomePageProject({
   return (
     <div
       className={clsx(
-        "relative flex h-screen flex-col justify-between overflow-hidden bg-cover bg-center",
+        "relative flex  flex-col justify-between overflow-hidden",
         containerClassName
       )}
-      style={{ backgroundImage: `url('${image}')` }}
     >
+      <div
+        className={
+          "HomepageProject-Background absolute inset-0 h-screen w-full overflow-hidden"
+        }
+      >
+        <img src={image} alt="Background" className={"w-full object-cover "} />
+      </div>
+
       <div className="grid-container">
         <div
           className={
@@ -59,80 +128,31 @@ function HomePageProject({
       </div>
 
       <div className="desktop-only--grid grid-container">
-        <div className={"relative col-span-4 h-[500px] md:col-start-9"}>
-          <div className="HomepageProject-Slider absolute w-full">
-            <p className={"body--2 mb-5 max-w-[500px] text-white"}>
-              {description}
-            </p>
-            {slides.map((slide, index) => (
-              <div
-                key={`ProjectImage-${slide.url}-${index}`}
-                className={"mb-5 w-full"}
-              >
-                {slide.url ? (
-                  <img
-                    src={slide.url}
-                    alt={slide.alt || ""}
-                    className={"h-full w-full object-contain"}
-                  />
-                ) : null}
-              </div>
-            ))}
-          </div>
+        <div
+          className={
+            "HomepageProject-Slider relative col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"
+          }
+        >
+          <p className={"body--2 mb-5 max-w-[500px] text-white"}>
+            {description}
+          </p>
+          {slides.map((slide, index) => (
+            <div
+              data-lag={0.2 * index}
+              key={`ProjectImage-${slide.url}-${index}`}
+              className={"mb-5 w-full"}
+            >
+              {slide.url ? (
+                <img
+                  src={slide.url}
+                  alt={slide.alt || ""}
+                  className={"h-full w-full object-contain"}
+                />
+              ) : null}
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
-
-function HomePageProjects({
-  data,
-}: {
-  data: HomepageDocumentDataBodyHomepageProjectSlice;
-}) {
-  const containerRef = useRef<HTMLDivElement>();
-
-  const setRef = useCallback((ref: never) => {
-    if (ref) containerRef.current = ref;
-  }, []);
-
-  useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      const container = containerRef.current;
-
-      if (container) {
-        const slider = container.getElementsByClassName(
-          "HomepageProject-Slider"
-        )[0];
-
-        // const scrollHeight = slider.scrollHeight - window.innerHeight / 2;
-        // gsap.to(slider, {
-        //   y: "-100%",
-        //   scrollTrigger: {
-        //     trigger: container,
-        //     end: `+=${scrollHeight}`,
-        //     // pin: container,
-        //     scrub: true,
-        //   },
-        // });
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div className={"HomePageProject"} ref={setRef}>
-      <HomePageProject
-        image={data.primary.background_image.url || ""}
-        cta={asText(data.primary.cta) || ""}
-        title={asText(data.primary.title) || ""}
-        capabilities={asText(data.primary.capabilities) || ""}
-        description={asText(data.primary.description) || ""}
-        slides={data.items.map((item) => item.slide)}
-      />
-    </div>
-  );
-}
-
-export default HomePageProjects;
