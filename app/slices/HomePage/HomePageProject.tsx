@@ -3,6 +3,8 @@ import { useLayoutEffect } from "~/hooks";
 import { useCallback, useRef } from "react";
 import { asText } from "@prismicio/richtext";
 import { gsap } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+
 import type {
   HomepageDocumentDataBodyHomepageProjectSlice,
   HomepageDocumentDataBodyHomepageProjectSliceItem,
@@ -32,17 +34,25 @@ function HomePageProjects({
         )[0];
 
         if (container && background && backgroundImage && slider) {
-          const scrollHeight = slider.scrollHeight + window.innerHeight * 1.5;
+          const scrollHeight = slider.scrollHeight;
+
+          ScrollTrigger.create({
+            trigger: container,
+            start: "top top",
+            end: `bottom+=${scrollHeight} top`,
+            scrub: true,
+            pin: background,
+          });
 
           // PIN AND MOVE THE IMAGE UP FOR PARALLAX EFFECT
           gsap.to(backgroundImage, {
-            // y: "-10%",
+            y: "10%",
             scrollTrigger: {
-              trigger: container,
-              start: "top top",
-              end: `bottom+=${scrollHeight} top`,
+              trigger: slider,
+              start: "bottom bottom",
+              end: `bottom top`,
               scrub: true,
-              pin: background,
+              markers: true,
             },
           });
         }
@@ -98,7 +108,7 @@ function HomePageProject({
     >
       <div
         className={
-          "HomepageProject-Background absolute inset-0 h-screen w-full overflow-hidden"
+          "HomepageProject-Background absolute inset-0 flex h-screen w-full items-end overflow-hidden"
         }
       >
         <img src={image} alt="Background" className={"w-full object-cover "} />
@@ -138,7 +148,7 @@ function HomePageProject({
           </p>
           {slides.map((slide, index) => (
             <div
-              data-lag={0.2 * index}
+              data-lag={0.1 * index}
               key={`ProjectImage-${slide.url}-${index}`}
               className={"mb-5 w-full"}
             >
