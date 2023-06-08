@@ -62,11 +62,11 @@ function HomePageHeroFooter() {
   );
 }
 
-function HomePageHero({
-  data,
-}: {
-  data: HomepageDocumentDataBodyHomepageHeroSlice;
-}) {
+interface Props {
+  data?: HomepageDocumentDataBodyHomepageHeroSlice;
+}
+
+function HomePageHero({ data }: Props) {
   return (
     <section
       style={{ backgroundImage: `url('${background}')` }}

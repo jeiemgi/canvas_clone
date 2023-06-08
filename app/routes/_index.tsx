@@ -1,39 +1,58 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { defer } from "@remix-run/node";
 import { Await, useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { useLayoutEffect } from "~/hooks";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollSmoother from "gsap/dist/ScrollSmoother";
+import { findSliceByType, findAllSlicesByType } from "~/lib/prismicUtils";
 import Layout from "~/components/Layout/Layout";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
 import HomePagePortfolioDesktop from "~/slices/HomePage/HomePagePortfolioDesktop";
 import HomePagePortfolioMobile from "~/slices/HomePage/HomePagePortfolioMobile";
-import HomePageProject from "~/slices/HomePage/HomePageProject";
-import HomePageReviews from "~/slices/HomePage/HomePageReviews";
+import HomePageProjects from "~/slices/HomePage/HomePageProjects";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
+import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import type { V2_MetaFunction } from "@remix-run/node";
-
-import { gsap } from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import ScrollSmoother from "gsap/dist/ScrollSmoother";
+import type {
+  HomepageDocumentDataBodyHomepageHeroSlice,
+  HomepageDocumentDataBodyHomepageProjectSlice,
+} from "types.generated";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
 };
+
 export const loader = async () => {
   const client = createClient();
   const navigation = await client.getByUID("navigation", "top-navigation");
-  const homepage = await client.getByType("homepage");
+  const homepage = await client.getSingle("homepage");
+
+  const homeHero = findSliceByType(
+    homepage,
+    "homepage_hero"
+  ) as HomepageDocumentDataBodyHomepageHeroSlice;
+
+  const homeProjects = findAllSlicesByType(
+    homepage,
+    "homepage_project"
+  ) as HomepageDocumentDataBodyHomepageProjectSlice[];
 
   return defer({
     navigation,
     homepage,
+    slices: {
+      homeHero,
+      homeProjects,
+    },
   });
 };
 
 const HomePageLoader = () => {
   return (
     <div>
-      <h1 className={"heading--1"}>loading...</h1>
+      <h1 className={"heading--1"}>Loading...</h1>
     </div>
   );
 };
@@ -41,66 +60,40 @@ const HomePageLoader = () => {
 const HomePageError = () => {
   return (
     <div className={"bg-black text-white"}>
-      <h1 className={"heading--1"}>error...</h1>
+      <h1 className={"heading--1"}>Error...</h1>
     </div>
   );
 };
 
 export default function HomePage() {
-  const { homepage } = useLoaderData<typeof loader>();
-
-  useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-    let ctx = gsap.context(() => {
-      const smoother = ScrollSmoother.create({
-        smooth: 0.3,
-        effects: true,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const { homepage, slices } = useLoaderData<typeof loader>();
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <Layout>
           <main>
-            <Suspense fallback={<HomePageLoader />}>
-              <Await resolve={homepage} errorElement={<HomePageError />}>
-                {homepage.results.map((result) => {
-                  return result.data.body.map((slice) => {
-                    switch (slice.slice_type) {
-                      case "homepage_hero":
-                        return <HomePageHero key={slice.id} data={slice} />;
-                      case "homepage_project":
-                        return <HomePageProject key={slice.id} data={slice} />;
-                      case "table":
-                        return <HomePageTable key={slice.id} data={slice} />;
-                      case "homepage_portfolio_slice":
-                        return (
-                          <HomePagePortfolioMobile
-                            key={slice.id}
-                            data={slice}
-                          />
-                        );
-                      case "homepage_portfolio_desktop":
-                        return (
-                          <HomePagePortfolioDesktop
-                            key={slice.id}
-                            data={slice}
-                          />
-                        );
-                      default:
-                        return null;
-                    }
-                  });
-                })}
-                <div id={"root-cursor z-50"} />
-              </Await>
-            </Suspense>
+            <HomePageHero data={slices.homeHero} />
+            <HomePageProjects data={slices.homeProjects} />
+
+            {homepage.data.body.map((slice) => {
+              switch (slice.slice_type) {
+                case "table":
+                  return <HomePageTable key={slice.id} data={slice} />;
+                case "homepage_portfolio_slice":
+                  return (
+                    <HomePagePortfolioMobile key={slice.id} data={slice} />
+                  );
+                case "homepage_portfolio_desktop":
+                  return (
+                    <HomePagePortfolioDesktop key={slice.id} data={slice} />
+                  );
+                default:
+                  return null;
+              }
+            })}
+            <HomePageReviews />
           </main>
-          <HomePageReviews />
         </Layout>
       </div>
     </div>
