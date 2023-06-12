@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { asText } from "@prismicio/richtext";
 import { useLayoutEffect } from "~/hooks";
 import { gsap } from "gsap";
@@ -7,45 +7,47 @@ import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 
-function HomePageProject({
-  data,
-}: {
+interface HomePageProjectItemProps {
+  className?: string;
   data: HomepageDocumentDataBodyHomepageProjectSlice;
-}) {
+}
+
+function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
   return (
     <div
       className={clsx(
-        "border-2 border-red bg-blue-500/50",
+        className,
+        // "border-2 border-red bg-blue-500/50",
         "HomePageProjects--project",
         "relative flex flex-col justify-between overflow-hidden"
       )}
     >
-      <div className="grid-container">
-        <div
-          className={
-            "col-span-4 flex items-end justify-between pt-5 md:col-span-3 md:pt-8"
-          }
-        >
-          <h3 className={"heading--3 text-white"}>
-            {asText(data.primary.title)} <br /> CASE STUDY
-          </h3>
-          <h3 className={"desktop-only heading--3 text-white"}>1 / 5</h3>
-        </div>
-      </div>
+      {/*<div className="grid-container">*/}
+      {/*  <div*/}
+      {/*    className={*/}
+      {/*      "col-span-4 flex items-end justify-between pt-5 md:col-span-3 md:pt-8"*/}
+      {/*    }*/}
+      {/*  >*/}
+      {/*    <h3 className={"heading--3 text-white"}>*/}
+      {/*      {asText(data.primary.title)} <br /> CASE STUDY*/}
+      {/*    </h3>*/}
+      {/*    <h3 className={"desktop-only heading--3 text-white"}>1 / 5</h3>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
 
-      <div className={"mobile-only col-span-4"}>
-        <h3 className={"heading--3 text-center text-white"}>{`( ${asText(
-          data.primary.cta
-        )} )`}</h3>
-      </div>
+      {/*<div className={"mobile-only col-span-4"}>*/}
+      {/*  <h3 className={"heading--3 text-center text-white"}>*/}
+      {/*    {`( ${asText(data.primary.cta)} )`}*/}
+      {/*  </h3>*/}
+      {/*</div>*/}
 
-      <div className="grid-container bottom-0 overflow-hidden pb-28 md:absolute md:pb-0">
+      {/*<div className="grid-container bottom-0 overflow-hidden pb-28 md:absolute md:pb-0">
         <div className="col-span-5 mb-11 self-end md:mb-0 md:py-8">
           <h3 className={"heading--3 text-white"}>
             {asText(data.primary.capabilities)}
           </h3>
         </div>
-      </div>
+      </div>*/}
 
       <div className="desktop-only--grid grid-container">
         <div
@@ -81,72 +83,89 @@ interface HomePageProjectsProps {
   data: HomepageDocumentDataBodyHomepageProjectSlice[];
 }
 
+const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
+const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
+
 function HomePageProjects({ data }: HomePageProjectsProps) {
   const container = useRef<HTMLDivElement>(null);
 
-  // useLayoutEffect(() => {
-  //   console.log("scrollHeight");
-  //
-  //   const ctx = gsap.context((self) => {
-  //     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-  //
-  //     if (!self.selector) return;
-  //
-  //     const bgContainer = self.selector(".HomePageProjects--bgContainer");
-  //
-  //     const backgroundItems = self.selector(
-  //       ".HomePageProjects--bgItem"
-  //     ) as HTMLDivElement[];
-  //
-  //     const projectItems = self.selector(
-  //       ".HomePageProjects--project"
-  //     ) as HTMLDivElement[];
-  //
-  //     ScrollTrigger.create({
-  //       trigger: bgContainer,
-  //       pin: true,
-  //     });
-  //
-  //     backgroundItems.forEach((bgItem) => {
-  //       ScrollTrigger.create({
-  //         trigger: bgItem,
-  //         start: "top top",
-  //         end: `+=200%`,
-  //         pin: true,
-  //         markers: true,
-  //       });
-  //     });
-  //   }, container);
-  //
-  //   return () => ctx.revert();
-  // }, []);
+  useLayoutEffect(() => {
+    const ctx = gsap.context((self) => {
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+      setTimeout(() => {
+        ScrollSmoother.create({
+          smooth: 3,
+          effects: true,
+        });
+      }, 200);
+
+      if (!self.selector) return;
+
+      const bgContainer = self.selector(".gsap-bg--container")[0];
+      const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
+      const scrollItems = self.selector(
+        ".gsap-scroll--item"
+      ) as HTMLDivElement[];
+
+      bgItems.forEach((bgItem, _index) => {
+        const scrollItem = scrollItems[_index];
+        gsap.to(bgItem, {
+          clipPath: openPath,
+          scrollTrigger: {
+            trigger: scrollItem,
+            start: "top bottom",
+            end: `+=100%`,
+            scrub: true,
+          },
+        });
+      });
+
+      // Pin the background container for the whole scroll.
+      const scrollContainer = self.selector(".gsap-scroll--container")[0];
+      ScrollTrigger.create({
+        trigger: bgContainer,
+        pin: bgContainer,
+        pinSpacing: false,
+        end: `+=${scrollContainer.scrollHeight}`,
+      });
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div ref={container} className={"relative"}>
-      <div
-        className={
-          "HomePageProjects--bgContainer h-screen overflow-hidden border-2 border-red"
-        }
-      >
+      <div className={"gsap-bg--container h-screen overflow-hidden"}>
         {data.map((project, index) => (
           <div
             key={`HomePageProject-bg-${project.id}`}
-            className={"HomePageProjects--bgItem h-screen"}
+            className={clsx(
+              "gsap-bg--item",
+              "fixed h-screen w-full overflow-hidden"
+            )}
+            style={{
+              clipPath: index === 0 ? openPath : closedPath,
+            }}
           >
             <img
-              alt=""
-              className={"h-full w-full object-cover"}
+              alt="Background"
+              className={"h-screen w-full object-cover"}
               src={project.primary.background_image.url || ""}
             />
           </div>
         ))}
       </div>
 
-      {/*<div className={"HomePageProject--wrapper"}>
+      <div className={"gsap-scroll--container"}>
         {data.map((project, index) => (
-          <HomePageProject data={project} key={`HomePageProject-${index}`} />
+          <HomePageProjectItem
+            data={project}
+            className={"gsap-scroll--item"}
+            key={`HomePageProjectItem-${index}`}
+          />
         ))}
-      </div>*/}
+      </div>
     </div>
   );
 }
