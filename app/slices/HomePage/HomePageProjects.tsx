@@ -5,6 +5,7 @@ import { useLayoutEffect } from "~/hooks";
 import { gsap } from "gsap";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import SplitText from "gsap/dist/SplitText";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 
 interface HomePageProjectItemProps {
@@ -17,24 +18,10 @@ function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
     <div
       className={clsx(
         className,
-        // "border-2 border-red bg-blue-500/50",
         "HomePageProjects--project",
         "relative flex flex-col justify-between overflow-hidden"
       )}
     >
-      {/*<div className="grid-container">*/}
-      {/*  <div*/}
-      {/*    className={*/}
-      {/*      "col-span-4 flex items-end justify-between pt-5 md:col-span-3 md:pt-8"*/}
-      {/*    }*/}
-      {/*  >*/}
-      {/*    <h3 className={"heading--3 text-white"}>*/}
-      {/*      {asText(data.primary.title)} <br /> CASE STUDY*/}
-      {/*    </h3>*/}
-      {/*    <h3 className={"desktop-only heading--3 text-white"}>1 / 5</h3>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
-
       {/*<div className={"mobile-only col-span-4"}>*/}
       {/*  <h3 className={"heading--3 text-center text-white"}>*/}
       {/*    {`( ${asText(data.primary.cta)} )`}*/}
@@ -48,19 +35,14 @@ function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
           </h3>
         </div>
       </div>*/}
-
       <div className="desktop-only--grid grid-container">
-        <div
-          className={
-            "HomePageProject--slider relative col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"
-          }
-        >
-          <p className={"body--2 mb-5 max-w-[500px] text-white"}>
+        <div className={"col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"}>
+          <p data-lag={0.2} className={"body--2 mb-5 max-w-[500px] text-white"}>
             {asText(data.primary.description)}
           </p>
           {data.items.map(({ slide }, index) => (
             <div
-              data-lag={0.1 * index}
+              data-lag={0.2 * index}
               key={`ProjectImage-${slide.url}-${index}`}
               className={"mb-5 w-full"}
             >
@@ -91,18 +73,25 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
-      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-      setTimeout(() => {
-        ScrollSmoother.create({
-          smooth: 3,
-          effects: true,
-        });
-      }, 200);
-
       if (!self.selector) return;
 
-      const bgContainer = self.selector(".gsap-bg--container")[0];
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
+
+      //------------------------------
+      // Pin the background container for the whole scroll.
+      const bgContainer = self.selector(
+        ".gsap-bg--container"
+      )[0] as HTMLDivElement;
+      const scrollContainer = self.selector(".gsap-scroll--container")[0];
+      ScrollTrigger.create({
+        trigger: container.current,
+        pin: bgContainer,
+        pinSpacing: false,
+        end: `+=${scrollContainer.scrollHeight}`,
+      });
+
+      //------------------------------
+      // Animate each bg clip path on every slide
       const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
       const scrollItems = self.selector(
         ".gsap-scroll--item"
@@ -121,13 +110,81 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
         });
       });
 
-      // Pin the background container for the whole scroll.
-      const scrollContainer = self.selector(".gsap-scroll--container")[0];
+      //------------------------------
+      // Pin the title container for the whole scroll.
+      const titleContainer = self.selector(".gsap-title--container")[0];
       ScrollTrigger.create({
-        trigger: bgContainer,
-        pin: bgContainer,
-        pinSpacing: false,
+        trigger: container.current,
+        pin: titleContainer,
         end: `+=${scrollContainer.scrollHeight}`,
+      });
+
+      //------------------------------
+      // Add scroll triggers for each slide.
+      const titleItems = self.selector(".gsap-title--item") as HTMLDivElement[];
+      const indexItems = self.selector(".gsap-index--item") as HTMLDivElement[];
+
+      gsap.set(indexItems, { y: "100%" });
+
+      titleItems.forEach((text, index) => {
+        const scrollItem = scrollItems[index];
+        const indexItem = indexItems[index];
+
+        const splitText = new SplitText(text, {
+          type: "lines,words",
+          linesClass: "overflow-hidden",
+        });
+
+        if (splitText.words.length > 0) {
+          gsap.set(splitText.words, { y: "100%" });
+          gsap.to(splitText.words, {
+            y: "0%",
+            duration: 0.5,
+            ease: "power4.inOut",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: index === 0 ? "top 50%" : "top top",
+              toggleActions: "play none none reverse",
+            },
+          });
+          gsap.to(splitText.words, {
+            y: "-100%",
+            duration: 0.5,
+            ease: "power4.inOut",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "bottom top",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          // INDEX ITEMS
+          gsap.to(indexItem, {
+            y: "0%",
+            duration: 0.5,
+            ease: "power4.inOut",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: index === 0 ? "top 50%" : "top top",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          gsap.to(indexItem, {
+            y: "-100%",
+            duration: 0.5,
+            ease: "power4.inOut",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "bottom top",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
       });
     }, container);
 
@@ -165,6 +222,43 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
             key={`HomePageProjectItem-${index}`}
           />
         ))}
+      </div>
+
+      <div
+        className={clsx(
+          "gsap-title--container",
+          "grid-container absolute left-0 top-8"
+        )}
+      >
+        <div className={"relative md:col-span-3"}>
+          {data.map((project, index) => (
+            <h3
+              key={`HomePageProject-title-${index}`}
+              className={
+                "gsap-title--item heading--3 absolute inset-0 text-white"
+              }
+            >
+              {asText(project.primary.title)} <br />
+              CASE STUDY
+            </h3>
+          ))}
+
+          <h3
+            className={
+              "heading--3 absolute right-0 overflow-hidden pl-6 text-white"
+            }
+          >
+            {data.map((item, index) => (
+              <div
+                key={`HomePageProject-index-${index}`}
+                className={"gsap-index--item absolute inset-0 h-[50px]"}
+              >
+                {index + 1}
+              </div>
+            ))}
+            <div className={"inline-block"}>/ {data.length}</div>
+          </h3>
+        </div>
       </div>
     </div>
   );

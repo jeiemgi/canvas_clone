@@ -1,10 +1,7 @@
-import { Suspense, useEffect, useMemo, useRef } from "react";
 import { defer } from "@remix-run/node";
-import { Await, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { useLayoutEffect } from "~/hooks";
-import { gsap } from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import { findSliceByType, findAllSlicesByType } from "~/lib/prismicUtils";
 import Layout from "~/components/Layout/Layout";
@@ -49,24 +46,15 @@ export const loader = async () => {
   });
 };
 
-const HomePageLoader = () => {
-  return (
-    <div>
-      <h1 className={"heading--1"}>Loading...</h1>
-    </div>
-  );
-};
-
-const HomePageError = () => {
-  return (
-    <div className={"bg-black text-white"}>
-      <h1 className={"heading--1"}>Error...</h1>
-    </div>
-  );
-};
-
 export default function HomePage() {
   const { homepage, slices } = useLoaderData<typeof loader>();
+
+  useLayoutEffect(() => {
+    ScrollSmoother.create({
+      smooth: 10,
+      effects: true,
+    });
+  }, []);
 
   return (
     <div id="smooth-wrapper">
