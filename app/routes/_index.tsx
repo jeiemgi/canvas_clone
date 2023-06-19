@@ -51,7 +51,7 @@ export default function HomePage() {
 
   useLayoutEffect(() => {
     ScrollSmoother.create({
-      smooth: 10,
+      smooth: 2,
       effects: true,
     });
   }, []);

@@ -36,7 +36,7 @@ function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
         </div>
       </div>*/}
       <div className="desktop-only--grid grid-container">
-        <div className={"col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"}>
+        <div className={"col-span-4 pb-[50vh] pt-[25vh] md:col-start-9"}>
           <p data-lag={0.2} className={"body--2 mb-5 max-w-[500px] text-white"}>
             {asText(data.primary.description)}
           </p>
@@ -73,6 +73,8 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
+      gsap.defaults({ ease: "expo.inOut" });
+
       if (!self.selector) return;
 
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
@@ -91,7 +93,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
       });
 
       //------------------------------
-      // Animate each bg clip path on every slide
+      // Animate each bg clip path on scroll
       const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
       const scrollItems = self.selector(
         ".gsap-scroll--item"
@@ -101,10 +103,12 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
         const scrollItem = scrollItems[_index];
         gsap.to(bgItem, {
           clipPath: openPath,
+          immediateRender: false,
+          ease: "linear",
           scrollTrigger: {
             trigger: scrollItem,
             start: "top bottom",
-            end: `+=100%`,
+            end: "+=100%",
             scrub: true,
           },
         });
@@ -120,11 +124,26 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
       });
 
       //------------------------------
-      // Add scroll triggers for each slide.
+      // Add scroll triggers for each title.
+
       const titleItems = self.selector(".gsap-title--item") as HTMLDivElement[];
       const indexItems = self.selector(".gsap-index--item") as HTMLDivElement[];
+      const fixedIndexItem = self.selector(
+        ".gsap-index--fixed"
+      ) as HTMLDivElement[];
+      const firstScrollItem = scrollItems[0];
 
-      gsap.set(indexItems, { y: "100%" });
+      gsap.set([fixedIndexItem, ...indexItems], { y: "100%" });
+      gsap.to(fixedIndexItem, {
+        y: "0%",
+        duration: 0.5,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: firstScrollItem,
+          start: "top 50%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
       titleItems.forEach((text, index) => {
         const scrollItem = scrollItems[index];
@@ -140,7 +159,6 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
           gsap.to(splitText.words, {
             y: "0%",
             duration: 0.5,
-            ease: "power4.inOut",
             immediateRender: false,
             scrollTrigger: {
               trigger: scrollItem,
@@ -151,7 +169,6 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
           gsap.to(splitText.words, {
             y: "-100%",
             duration: 0.5,
-            ease: "power4.inOut",
             immediateRender: false,
             scrollTrigger: {
               trigger: scrollItem,
@@ -160,11 +177,9 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
             },
           });
 
-          // INDEX ITEMS
           gsap.to(indexItem, {
             y: "0%",
             duration: 0.5,
-            ease: "power4.inOut",
             immediateRender: false,
             scrollTrigger: {
               trigger: scrollItem,
@@ -176,7 +191,6 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
           gsap.to(indexItem, {
             y: "-100%",
             duration: 0.5,
-            ease: "power4.inOut",
             immediateRender: false,
             scrollTrigger: {
               trigger: scrollItem,
@@ -227,7 +241,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
       <div
         className={clsx(
           "gsap-title--container",
-          "grid-container absolute left-0 top-8"
+          "grid-container pointer-events-none absolute left-0 top-8 h-[50px]"
         )}
       >
         <div className={"relative md:col-span-3"}>
@@ -245,7 +259,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
 
           <h3
             className={
-              "heading--3 absolute right-0 overflow-hidden pl-6 text-white"
+              "heading--3 absolute bottom-0 right-0 overflow-hidden pl-6 text-white"
             }
           >
             {data.map((item, index) => (
@@ -256,7 +270,9 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
                 {index + 1}
               </div>
             ))}
-            <div className={"inline-block"}>/ {data.length}</div>
+            <div className={"gsap-index--fixed inline-block"}>
+              / {data.length}
+            </div>
           </h3>
         </div>
       </div>
