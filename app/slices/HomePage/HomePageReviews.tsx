@@ -3,7 +3,9 @@ import TextBlur from "~/components/TextBlur";
 
 function HomePageReviews() {
   return (
-    <section className={"h-screen w-full select-none bg-royal-blue"}>
+    <section
+      className={"h-screen w-full select-none overflow-hidden bg-royal-blue"}
+    >
       <div className={"grid-container relative"}>
         <div className="col-span-3">
           <TextBlur black>5 STARS</TextBlur>
