@@ -2,6 +2,8 @@ import { defer } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { useLayoutEffect } from "~/hooks";
+import SplitText from "gsap/dist/SplitText";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import { findSliceByType, findAllSlicesByType } from "~/lib/prismicUtils";
 import Layout from "~/components/Layout/Layout";
@@ -16,6 +18,7 @@ import type {
   HomepageDocumentDataBodyHomepageHeroSlice,
   HomepageDocumentDataBodyHomepageProjectSlice,
 } from "types.generated";
+import { gsap } from "gsap";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
@@ -46,12 +49,13 @@ export const loader = async () => {
   });
 };
 
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
+
 export default function HomePage() {
   const { homepage, slices } = useLoaderData<typeof loader>();
-
   useLayoutEffect(() => {
     ScrollSmoother.create({
-      smooth: 0.5,
+      smooth: 1,
       effects: true,
     });
   }, []);
@@ -60,28 +64,21 @@ export default function HomePage() {
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <Layout>
-          <main>
-            <HomePageHero data={slices.homeHero} />
-            <HomePageProjects data={slices.homeProjects} />
-
-            {homepage.data.body.map((slice) => {
-              switch (slice.slice_type) {
-                case "table":
-                  return <HomePageTable key={slice.id} data={slice} />;
-                case "homepage_portfolio_slice":
-                  return (
-                    <HomePagePortfolioMobile key={slice.id} data={slice} />
-                  );
-                case "homepage_portfolio_desktop":
-                  return (
-                    <HomePagePortfolioDesktop key={slice.id} data={slice} />
-                  );
-                default:
-                  return null;
-              }
-            })}
-            <HomePageReviews />
-          </main>
+          <HomePageHero data={slices.homeHero} />
+          <HomePageProjects data={slices.homeProjects} />
+          {homepage.data.body.map((slice) => {
+            switch (slice.slice_type) {
+              case "table":
+                return <HomePageTable key={slice.id} data={slice} />;
+              case "homepage_portfolio_slice":
+                return <HomePagePortfolioMobile key={slice.id} data={slice} />;
+              case "homepage_portfolio_desktop":
+                return <HomePagePortfolioDesktop key={slice.id} data={slice} />;
+              default:
+                return null;
+            }
+          })}
+          <HomePageReviews />
         </Layout>
       </div>
     </div>

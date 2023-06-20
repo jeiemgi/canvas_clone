@@ -3,9 +3,8 @@ import { useRef } from "react";
 import { asText } from "@prismicio/richtext";
 import { useLayoutEffect } from "~/hooks";
 import { gsap } from "gsap";
-import ScrollSmoother from "gsap/dist/ScrollSmoother";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import SplitText from "gsap/dist/SplitText";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 
 interface HomePageProjectItemProps {
@@ -36,7 +35,7 @@ function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
         </div>
       </div>*/}
       <div className="desktop-only--grid grid-container">
-        <div className={"col-span-4 pb-[50vh] pt-[25vh] md:col-start-9"}>
+        <div className={"col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"}>
           <p data-lag={0.2} className={"body--2 mb-5 max-w-[500px] text-white"}>
             {asText(data.primary.description)}
           </p>
@@ -65,19 +64,16 @@ interface HomePageProjectsProps {
   data: HomepageDocumentDataBodyHomepageProjectSlice[];
 }
 
-const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
-const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
-
 function HomePageProjects({ data }: HomePageProjectsProps) {
   const container = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
+    const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
+
     const ctx = gsap.context((self) => {
       gsap.defaults({ ease: "expo.inOut" });
-
       if (!self.selector) return;
-
-      gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
       //------------------------------
       // Pin the background container for the whole scroll.
@@ -100,6 +96,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
       ) as HTMLDivElement[];
 
       bgItems.forEach((bgItem, _index) => {
+        gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
         const scrollItem = scrollItems[_index];
         gsap.to(bgItem, {
           clipPath: openPath,
@@ -207,7 +204,9 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
 
   return (
     <div ref={container} className={"relative"}>
-      <div className={"gsap-bg--container h-screen overflow-hidden"}>
+      <div
+        className={"gsap-bg--container h-screen overflow-hidden md:select-none"}
+      >
         {data.map((project, index) => (
           <div
             key={`HomePageProject-bg-${project.id}`}
@@ -215,9 +214,6 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
               "gsap-bg--item",
               "fixed h-screen w-full overflow-hidden"
             )}
-            style={{
-              clipPath: index === 0 ? openPath : closedPath,
-            }}
           >
             <img
               alt="Background"
