@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
+import Cursor from "~/components/Cursor/Cursor";
 
 interface HomePageProjectItemProps {
   className?: string;
@@ -217,113 +218,115 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
   }, []);
 
   return (
-    <div ref={container} className={"relative"}>
-      <div
-        className={
-          "gsap-bg--container overflow-hidden md:h-screen md:select-none"
-        }
-      >
-        {data.map((project, index) => (
-          <div
-            key={`HomePageProject-bg-${project.id}`}
-            className={clsx(
-              "gsap-bg--item",
-              "relative h-screen w-full overflow-hidden text-white md:fixed"
-            )}
-          >
-            <img
-              alt="Background"
-              className={"absolute h-screen w-full object-cover md:relative"}
-              src={project.primary.background_image.url || ""}
-            />
+    <Cursor cta={"( VIEW PROJECT )"}>
+      <section ref={container} className={"relative"}>
+        <div
+          className={
+            "gsap-bg--container overflow-hidden md:h-screen md:select-none"
+          }
+        >
+          {data.map((project, index) => (
+            <div
+              key={`HomePageProject-bg-${project.id}`}
+              className={clsx(
+                "gsap-bg--item",
+                "relative h-screen w-full overflow-hidden text-white md:fixed"
+              )}
+            >
+              <img
+                alt="Background"
+                className={"absolute h-screen w-full object-cover md:relative"}
+                src={project.primary.background_image.url || ""}
+              />
 
-            <div className="mobile-only--flex absolute h-full flex-col pb-28 pt-headerHeightMobile">
-              <div className="grid-container h-fit w-full grow-0">
-                <div className="col-span-3">
-                  <h3 className={"heading--3"}>
-                    {asText(project.primary.title)}
-                    <br />
-                    CASE STUDY
+              <div className="mobile-only--flex absolute h-full flex-col pb-28 pt-headerHeightMobile">
+                <div className="grid-container h-fit w-full grow-0">
+                  <div className="col-span-3">
+                    <h3 className={"heading--3"}>
+                      {asText(project.primary.title)}
+                      <br />
+                      CASE STUDY
+                    </h3>
+                  </div>
+
+                  <div className="col-span-1 col-start-4">
+                    <h3 className={"heading--3 text-right"}>
+                      {`${index + 1} / ${data.length}`}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className={"flex grow items-center justify-center"}>
+                  <h3 className={"heading--3 text-center"}>
+                    {`( ${asText(project.primary.cta)} )`}
                   </h3>
                 </div>
 
-                <div className="col-span-1 col-start-4">
-                  <h3 className={"heading--3 text-right"}>
-                    {`${index + 1} / ${data.length}`}
-                  </h3>
-                </div>
-              </div>
-
-              <div className={"flex grow items-center justify-center"}>
-                <h3 className={"heading--3 text-center"}>
-                  {`( ${asText(project.primary.cta)} )`}
-                </h3>
-              </div>
-
-              <div className="grid-container mobile-only--grid h-fit grow-0">
-                <div className="col-span-4">
-                  <h3 className={"heading--3 mb-12"}>
-                    {asText(project.primary.capabilities)}
-                  </h3>
-                  <p className={"body--2"}>
-                    {asText(project.primary.description)}
-                  </p>
+                <div className="grid-container mobile-only--grid h-fit grow-0">
+                  <div className="col-span-4">
+                    <h3 className={"heading--3 mb-12"}>
+                      {asText(project.primary.capabilities)}
+                    </h3>
+                    <p className={"body--2"}>
+                      {asText(project.primary.description)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className={"gsap-scroll--container"}>
-        {data.map((project, index) => (
-          <HomePageProjectItem
-            data={project}
-            className={"gsap-scroll--item"}
-            key={`HomePageProjectItem-${index}`}
-          />
-        ))}
-      </div>
-
-      <div
-        className={clsx(
-          "gsap-title--container",
-          "desktop-only--grid grid-container pointer-events-none absolute left-0 top-8 h-[50px]"
-        )}
-      >
-        <div className={"relative md:col-span-3"}>
+        <div className={"gsap-scroll--container"}>
           {data.map((project, index) => (
+            <HomePageProjectItem
+              data={project}
+              className={"gsap-scroll--item"}
+              key={`HomePageProjectItem-${index}`}
+            />
+          ))}
+        </div>
+
+        <div
+          className={clsx(
+            "gsap-title--container",
+            "desktop-only--grid grid-container pointer-events-none absolute left-0 top-8 h-[50px]"
+          )}
+        >
+          <div className={"relative md:col-span-3"}>
+            {data.map((project, index) => (
+              <h3
+                key={`HomePageProject-title-${index}`}
+                className={
+                  "gsap-title--item heading--3 absolute inset-0 text-white"
+                }
+              >
+                {asText(project.primary.title)} <br />
+                CASE STUDY
+              </h3>
+            ))}
+
             <h3
-              key={`HomePageProject-title-${index}`}
               className={
-                "gsap-title--item heading--3 absolute inset-0 text-white"
+                "heading--3 absolute bottom-0 right-0 overflow-hidden pl-6 text-white"
               }
             >
-              {asText(project.primary.title)} <br />
-              CASE STUDY
-            </h3>
-          ))}
-
-          <h3
-            className={
-              "heading--3 absolute bottom-0 right-0 overflow-hidden pl-6 text-white"
-            }
-          >
-            {data.map((item, index) => (
-              <div
-                key={`HomePageProject-index-${index}`}
-                className={"gsap-index--item absolute inset-0 h-[50px]"}
-              >
-                {index + 1}
+              {data.map((item, index) => (
+                <div
+                  key={`HomePageProject-index-${index}`}
+                  className={"gsap-index--item absolute inset-0 h-[50px]"}
+                >
+                  {index + 1}
+                </div>
+              ))}
+              <div className={"gsap-index--fixed inline-block"}>
+                / {data.length}
               </div>
-            ))}
-            <div className={"gsap-index--fixed inline-block"}>
-              / {data.length}
-            </div>
-          </h3>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </Cursor>
   );
 }
 

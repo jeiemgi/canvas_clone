@@ -17,8 +17,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hoverImage, setHoverImage] = useState<string | null>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const onMouseMoveImage = (e: MouseEvent<HTMLDivElement>) => {
     setPosition({
