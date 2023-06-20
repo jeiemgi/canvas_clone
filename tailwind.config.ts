@@ -15,6 +15,9 @@ export default {
         red: "#E02D3E",
         green: "#0B6F6D",
       },
+      spacing: {
+        headerHeightMobile: "60px",
+      },
     },
   },
   plugins: [],

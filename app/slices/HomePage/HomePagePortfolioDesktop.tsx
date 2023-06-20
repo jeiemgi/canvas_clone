@@ -56,6 +56,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
       <div className={"max-container py-10"}>
         <div className={"heading--2 flex flex-row justify-end text-grey"}>
           {availableTags?.map((tag, index) => {
+            const isActive = selectedTag === tag;
             return (
               <div
                 key={`PortfolioDesk-${index}-${tag}`}
@@ -68,10 +69,12 @@ function HomePagePortfolioDesktop({ data }: Props) {
                 <span
                   className={clsx(
                     "cursor-pointer hover:text-black",
-                    selectedTag === tag ? "text-black" : "text-grey"
+                    isActive ? "text-black" : "text-grey"
                   )}
                 >
+                  {isActive ? <span>(&nbsp;</span> : null}
                   {`${tag}`}
+                  {isActive ? <span>&nbsp;)</span> : null}
                 </span>
                 {index !== availableTags?.length - 1 ? <>,&nbsp;</> : null}
               </div>
