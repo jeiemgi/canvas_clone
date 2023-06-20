@@ -127,6 +127,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
         ScrollTrigger.create({
           trigger: container.current,
           pin: titleContainer,
+          pinSpacing: false,
           end: `+=${scrollContainer.scrollHeight}`,
         });
 
@@ -135,6 +136,9 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
 
         const titleItems = self.selector(
           ".gsap-title--item"
+        ) as HTMLDivElement[];
+        const capabilitiesItems = self.selector(
+          ".gsap-title--capabilities"
         ) as HTMLDivElement[];
         const indexItems = self.selector(
           ".gsap-index--item"
@@ -156,60 +160,71 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
           },
         });
 
-        titleItems.forEach((text, index) => {
+        titleItems.forEach((title, index) => {
           const scrollItem = scrollItems[index];
           const indexItem = indexItems[index];
+          const capabilitiesItem = capabilitiesItems[index];
 
-          const splitText = new SplitText(text, {
+          const splitTitle = new SplitText(title, {
             type: "lines,words",
             linesClass: "overflow-hidden",
           });
 
-          if (splitText.words.length > 0) {
-            gsap.set(splitText.words, { y: "100%" });
-            gsap.to(splitText.words, {
-              y: "0%",
-              duration: 0.5,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: scrollItem,
-                start: index === 0 ? "top 50%" : "top top",
-                toggleActions: "play none none reverse",
-              },
-            });
-            gsap.to(splitText.words, {
-              y: "-100%",
-              duration: 0.5,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: scrollItem,
-                start: "bottom top",
-                toggleActions: "play none none reverse",
-              },
-            });
+          const splitCapabilities = new SplitText(capabilitiesItem, {
+            type: "lines,words",
+            linesClass: "overflow-hidden",
+          });
 
-            gsap.to(indexItem, {
-              y: "0%",
-              duration: 0.5,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: scrollItem,
-                start: index === 0 ? "top 50%" : "top top",
-                toggleActions: "play none none reverse",
-              },
-            });
+          const textToAnimate = [
+            ...splitTitle.words,
+            ...splitCapabilities.words,
+          ];
 
-            gsap.to(indexItem, {
-              y: "-100%",
-              duration: 0.5,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: scrollItem,
-                start: "bottom top",
-                toggleActions: "play none none reverse",
-              },
-            });
-          }
+          gsap.set(textToAnimate, { y: "100%" });
+
+          gsap.to(textToAnimate, {
+            y: "0%",
+            duration: 0.5,
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: index === 0 ? "top 50%" : "top top",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          gsap.to(textToAnimate, {
+            y: "-100%",
+            duration: 0.5,
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "bottom top",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          gsap.to(indexItem, {
+            y: "0%",
+            duration: 0.5,
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: index === 0 ? "top 50%" : "top top",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          gsap.to(indexItem, {
+            y: "-100%",
+            duration: 0.5,
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "bottom top",
+              toggleActions: "play none none reverse",
+            },
+          });
         });
       });
     }, container);
@@ -290,10 +305,11 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
         <div
           className={clsx(
             "gsap-title--container",
-            "desktop-only--grid grid-container pointer-events-none absolute left-0 top-8 h-[50px]"
+            "desktop-only pointer-events-none absolute inset-0 h-screen w-full"
           )}
         >
-          <div className={"relative md:col-span-3"}>
+          {/* TITLE AND INDEX */}
+          <div className={"absolute left-[30px] top-8 h-[50px] w-1/4"}>
             {data.map((project, index) => (
               <h3
                 key={`HomePageProject-title-${index}`}
@@ -323,6 +339,20 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
                 / {data.length}
               </div>
             </h3>
+          </div>
+
+          {/* CAPABILITIES */}
+          <div className={"absolute bottom-8 left-[30px] h-[25px] w-1/4"}>
+            {data.map((project, index) => (
+              <h3
+                key={`HomePageProject-capabilities-${index}`}
+                className={
+                  "gsap-title--capabilities heading--3 absolute inset-0 text-white"
+                }
+              >
+                {asText(project.primary.capabilities)}
+              </h3>
+            ))}
           </div>
         </div>
       </section>
