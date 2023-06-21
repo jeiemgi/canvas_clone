@@ -55,7 +55,7 @@ export default function HomePage() {
   const { homepage, slices } = useLoaderData<typeof loader>();
   useLayoutEffect(() => {
     ScrollSmoother.create({
-      smooth: 1,
+      smooth: 0.5,
       effects: true,
     });
   }, []);

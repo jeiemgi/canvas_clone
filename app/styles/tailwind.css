@@ -211,9 +211,9 @@
     }
 
     :root {
-        --text-blur--sm: clamp(0.1rem, 1vw, 0.5rem);
-        --text-blur--md: clamp(0.1rem, 0.8vw, 0.7rem);
-        --text-blur--lg: clamp(0.2rem, 0.5vw, 0.9rem);
+        --text-blur--sm: clamp(0.3rem, 1vw, 0.5rem);
+        --text-blur--md: clamp(0.3rem, 0.8vw, 0.7rem);
+        --text-blur--lg: clamp(0.4rem, 0.5vw, 0.9rem);
     }
 
     .text-blur {
@@ -228,6 +228,22 @@
         text-shadow: 0 0 var(--text-blur--sm) hsl(0, 0%, 0%),
         0 0 var(--text-blur--md) hsl(0, 0%, 0%),
         0 0 var(--text-blur--lg) hsl(0, 0%, 0%);
+    }
+
+    @screen md {
+        .text-blur {
+            color: transparent;
+            text-shadow: 0 0 var(--text-blur--sm) hsla(0, 0%, 100%, 1),
+            0 0 var(--text-blur--md) hsla(0, 0%, 100%, 1),
+            0 0 var(--text-blur--lg) hsla(0, 0%, 100%, 1);
+        }
+
+
+        .text-blur.black {
+            text-shadow: 0 0 var(--text-blur--sm) hsl(0, 0%, 0%),
+            0 0 var(--text-blur--md) hsl(0, 0%, 0%),
+            0 0 var(--text-blur--lg) hsl(0, 0%, 0%);
+        }
     }
 
     .text-blur.verticalRight {
