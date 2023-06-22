@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import { gsap } from "gsap";
+import { mdScreen } from "~/lib/gsapUtils";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import Cursor from "~/components/Cursor/Cursor";
@@ -23,7 +24,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
     const ctx = gsap.context((self) => {
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add(mdScreen, () => {
         gsap.defaults({ ease: "expo.out" });
 
         if (!self.selector) return;

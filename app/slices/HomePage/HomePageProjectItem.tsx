@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
-import { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
+import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
 
 interface HomePageProjectItemProps {
   className?: string;

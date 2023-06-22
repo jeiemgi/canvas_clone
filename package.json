@@ -6,11 +6,11 @@
     "start": "cross-env NODE_ENV=production netlify dev",
     "dev": "run-p dev:*",
     "dev:remix": "remix dev",
-    "dev:svg": "run-s icons",
-    "icons": "npx @svgr/cli --out-dir app/svg -- svg",
+    "dev:svg": "run-s svg",
+    "svg": "npx @svgr/cli --out-dir app/svg -- svg",
     "typecheck": "tsc",
     "format": "prettier --write .",
-    "prismic-codegen": "npx prismic-ts-codegen"
+    "types": "npx prismic-ts-codegen"
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",
@@ -24,8 +24,10 @@
     "@splidejs/splide": "^4.1.4",
     "@splidejs/splide-extension-auto-scroll": "^0.5.3",
     "@uidotdev/usehooks": "^0.0.3",
+    "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.2.1",
     "cross-env": "^7.0.3",
+    "git": "^0.1.5",
     "gsap": "./gsap-bonus.tgz",
     "isbot": "^3.6.8",
     "lodash.debounce": "^4.0.8",

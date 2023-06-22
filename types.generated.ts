@@ -90,16 +90,6 @@ export interface HomepageDocumentDataBodyHomepageProjectSliceItem {
      *
      */
     slide: prismic.ImageField<never>;
-    /**
-     * Tags field in *Homepage → Slice zone → `homepage_project` → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: Separated by commas (e.g "A, B, C")
-     * - **API ID Path**: homepage.body[].homepage_project.items[].tags
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    tags: prismic.KeyTextField;
 }
 export type HomepageDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepageProjectSliceItem>>;
 /**
@@ -359,10 +349,53 @@ export interface HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem {
 }
 export type HomepageDocumentDataBodyHomepagePortfolioDesktopSlice = prismic.Slice<"homepage_portfolio_desktop", Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem>>;
 /**
+ * Primary content in Homepage → Slice zone → `home_reviews` → Primary
+ *
+ */
+interface HomepageDocumentDataBodyHomeReviewsSlicePrimary {
+    /**
+     * Clear Text field in *Homepage → Slice zone → `home_reviews` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].home_reviews.primary.clear_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    clear_text: prismic.TitleField;
+    /**
+     * Background Image field in *Homepage → Slice zone → `home_reviews` → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].home_reviews.primary.background_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    background_image: prismic.ImageField<never>;
+}
+/**
+ * Item in Homepage → Slice zone → `home_reviews` → Items
+ *
+ */
+export interface HomepageDocumentDataBodyHomeReviewsSliceItem {
+    /**
+     * Image field in *Homepage → Slice zone → `home_reviews` → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].home_reviews.items[].image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    image: prismic.ImageField<never>;
+}
+export type HomepageDocumentDataBodyHomeReviewsSlice = prismic.Slice<"home_reviews", Simplify<HomepageDocumentDataBodyHomeReviewsSlicePrimary>, Simplify<HomepageDocumentDataBodyHomeReviewsSliceItem>>;
+/**
  * Slice for *Homepage → Slice zone*
  *
  */
-type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice | HomepageDocumentDataBodyHomepagePortfolioSliceSlice | HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
+type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice | HomepageDocumentDataBodyHomepagePortfolioSliceSlice | HomepageDocumentDataBodyHomepagePortfolioDesktopSlice | HomepageDocumentDataBodyHomeReviewsSlice;
 /**
  * Homepage document from Prismic
  *
@@ -664,6 +697,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodySlice, HomepageDocument, HomepagePortfolioDocumentData, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice, HomepagePortfolioDocumentDataBodySlice, HomepagePortfolioDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, TableDocumentData, TableDocument, AllDocumentTypes };
+        export type { HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocument, HomepagePortfolioDocumentData, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice, HomepagePortfolioDocumentDataBodySlice, HomepagePortfolioDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, TableDocumentData, TableDocument, AllDocumentTypes };
     }
 }

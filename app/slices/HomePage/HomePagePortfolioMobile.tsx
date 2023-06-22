@@ -20,13 +20,15 @@ export default function HomePagePortfolioMobile({ data }: Props) {
             {asText(data.primary.title)}
           </h2>
         </div>
+
         <div className={"w-full"}>
           <Splide
             extensions={{ AutoScroll }}
             options={{
               type: "loop",
               drag: "free",
-              perPage: 1,
+              perPage: 2,
+              trimSpace: false,
               focus: "center",
               fixedWidth: "15.5rem",
               gap: "0.625rem",
