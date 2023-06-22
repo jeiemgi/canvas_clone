@@ -43,18 +43,11 @@ function HomePageReviews({ data }: Props) {
     // @ts-ignore
     if (e.target.style.opacity === 1) return;
 
-    // @ts-ignore
-    e.target.style.display = "block";
+    gsap.set(e.target, { opacity: 1 });
   };
 
   const onClearClick = () => {
-    const images = document.getElementsByClassName(
-      "review-image"
-    ) as HTMLCollection;
-    for (let i = 0; i < images.length; i++) {
-      // @ts-ignore
-      images[i].style.display = "none";
-    }
+    gsap.set(".review-image-desk", { opacity: 0 });
   };
 
   useEffect(() => {
@@ -161,7 +154,7 @@ function HomePageReviews({ data }: Props) {
         </Splide>
       </div>
 
-      <div className="desktop-only absolute h-full w-full">
+      <div className="desktop-only absolute left-0 top-0 h-full w-full">
         {data.items.map((item, index) => {
           const x = random.range(0.1, 0.7) * 100;
           const y = random.range(0.2, 0.7) * 100;
@@ -173,7 +166,7 @@ function HomePageReviews({ data }: Props) {
               key={`Review-Card-Img-${index}`}
               src={item.image.url || ""}
               alt={item.image.alt || ""}
-              className={"review-image display-none absolute left-0 top-0 z-0"}
+              className={"review-image-desk absolute left-0 top-0 opacity-0"}
             />
           );
         })}
