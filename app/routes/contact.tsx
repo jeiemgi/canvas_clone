@@ -23,7 +23,7 @@ const ContactPage = () => {
           </p>
         </div>
 
-        <div className="col-span-4 mb-14 md:order-3 md:col-start-7 md:mb-0">
+        <div className="col-span-4 mb-14 md:order-3 md:col-span-6 md:col-start-7 md:mb-0">
           <ContactForm />
         </div>
 
