@@ -37,7 +37,7 @@ export function TableColumn({
           <div
             key={`${row}-${index}`}
             className={
-              "body--3 TableColumn__cell-element relative w-full border-b border-black/30 py-2.5 md:border-0"
+              "TableColumn__cell-element body--3 relative w-full border-b border-black/30 py-2.5 md:border-0"
             }
           >
             {row}

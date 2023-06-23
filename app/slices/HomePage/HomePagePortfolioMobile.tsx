@@ -28,10 +28,11 @@ export default function HomePagePortfolioMobile({ data }: Props) {
               type: "loop",
               drag: "free",
               perPage: 2,
-              trimSpace: false,
               focus: "center",
               fixedWidth: "15.5rem",
               gap: "0.625rem",
+              arrows: false,
+              pagination: false,
               autoScroll: {
                 speed: 1,
               },

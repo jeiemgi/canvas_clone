@@ -17,12 +17,28 @@ interface Props {
 
 function HomePageReviews({ data }: Props) {
   const container = useRef(null);
-  const [sliderWidth, setSliderWidth] = useState(0);
-  const [progress, setProgress] = useState(0);
+  // const [sliderWidth, setSliderWidth] = useState(0);
+  // const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const image = document.querySelector(
+      ".reviews-image-bg img"
+    ) as HTMLImageElement;
+    console.log(image.width);
     random.getRandomSeed();
   }, []);
+
+  /*useEffect(() => {
+      const x = gsap.utils.interpolate(
+        0,
+        sliderWidth - window.innerWidth,
+        progress
+      );
+      console.log(sliderWidth);
+      gsap.to(".reviews-image-bg", {
+        x: `-${x}`,
+      });
+    }, [progress, sliderWidth]);*/
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
@@ -42,25 +58,18 @@ function HomePageReviews({ data }: Props) {
   const onMouseEnter = (e: MouseEvent<HTMLImageElement>) => {
     // @ts-ignore
     if (e.target.style.opacity === 1) return;
-
-    gsap.set(e.target, { opacity: 1 });
+    gsap.set(e.target, { opacity: 1, expo: "linear" });
   };
 
   const onClearClick = () => {
     gsap.set(".review-image-desk", { opacity: 0 });
   };
 
-  useEffect(() => {
-    gsap.to(".reviews-image-bg", {
-      x: -gsap.utils.interpolate(0, sliderWidth, progress),
-    });
-  }, [progress, sliderWidth]);
-
   return (
     <section
       ref={container}
       className={
-        "relative h-screen w-full select-none overflow-hidden bg-royal-blue pt-headerHeightMobile md:pt-0"
+        "relative h-screen w-full select-none overflow-hidden bg-royal-blue"
       }
     >
       {/*<div className={"grid-container relative"}>
@@ -103,10 +112,10 @@ function HomePageReviews({ data }: Props) {
           "reviews-image-bg",
           "mobile-only pointer-events-none absolute left-0 top-0 h-full md:w-full"
         )}
-        style={{ width: `${sliderWidth}px` }}
+        // style={{ width: `${sliderWidth}px` }}
       >
         <img
-          className={"h-full"}
+          className={"h-full object-cover"}
           src={data.primary.background_image.url || ""}
           alt={data.primary.background_image.alt || ""}
         />
@@ -114,7 +123,7 @@ function HomePageReviews({ data }: Props) {
 
       <img
         className={
-          "desktop-only pointer-events-none h-full w-full object-cover"
+          "desktop-only pointer-events-none absolute h-full w-full object-contain"
         }
         src={data.primary.background_image.url || ""}
         alt={data.primary.background_image.alt || ""}
@@ -128,22 +137,25 @@ function HomePageReviews({ data }: Props) {
 
       <div className={"mobile-only flex h-full items-center"}>
         <Splide
-          onMounted={(splide) => {
-            const { Layout } = splide.Components;
-            setSliderWidth(Layout.sliderSize());
-          }}
-          onDragging={(splide) => {
-            const { Layout, Move, Direction } = splide.Components;
-            const position = Direction.orient(Move.getPosition());
-            const base = Layout.sliderSize() - Layout.listSize();
-            const rate = position / base;
-            const progress = Math.min(Math.max(rate, 0), 1);
+          /*onMounted={(splide) => {
+                      const { Layout } = splide.Components;
+                      setSliderWidth(Layout.sliderSize());
+                    }}*/
+          /*onDragging={(splide) => {
+                                const { Layout, Move, Direction } = splide.Components;
 
-            setProgress(progress);
-          }}
+                                const position = Direction.orient(Move.getPosition());
+                                const base = Layout.sliderSize() - Layout.listSize();
+                                const rate = position / base;
+                                const progress = Math.min(Math.max(rate, 0), 1);
+
+                                setProgress(Number(progress));
+                              }}*/
           options={{
+            perMove: 1,
             padding: { left: "8%", right: "8%" },
             arrows: false,
+            pagination: false,
           }}
         >
           {data.items.map((item, index) => (
@@ -166,7 +178,9 @@ function HomePageReviews({ data }: Props) {
               key={`Review-Card-Img-${index}`}
               src={item.image.url || ""}
               alt={item.image.alt || ""}
-              className={"review-image-desk absolute left-0 top-0 opacity-0"}
+              className={
+                "review-image-desk absolute left-0 top-0 w-2/6 opacity-0"
+              }
             />
           );
         })}
