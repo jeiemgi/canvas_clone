@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { Link, useLoaderData } from "@remix-run/react";
+import { asText } from "@prismicio/richtext";
 import { useScrollPosition } from "~/hooks";
 import { CanvasLogo } from "~/svg";
-import { asText } from "@prismicio/richtext";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "~/routes/_index";
 
 function NavigationLogo({

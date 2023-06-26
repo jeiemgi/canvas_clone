@@ -5,7 +5,7 @@ const ContactPage = () => {
   return (
     <div
       className={
-        "flex h-screen items-start bg-pure-black pt-headerHeightMobile text-white md:items-center md:pt-0"
+        "noise-background flex h-screen items-start bg-pure-black pt-headerHeightMobile text-white md:items-center md:pt-0"
       }
     >
       <div className="grid-container w-full pb-24">
