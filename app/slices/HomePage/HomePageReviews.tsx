@@ -1,15 +1,15 @@
 import { gsap } from "gsap";
-import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import { useRef } from "react";
 import { useLayoutEffect } from "~/hooks";
 import { ClearIcon } from "~/svg";
+import { mdScreen } from "~/lib/gsapUtils";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomeReviewsSlice } from "types.generated";
-// @ts-ignore
-import random from "canvas-sketch-util/random";
-import { mdScreen } from "~/lib/gsapUtils";
-import clsx from "clsx";
+
+// import random from "canvas-sketch-util/random";
 
 interface Props {
   data: HomepageDocumentDataBodyHomeReviewsSlice;
@@ -20,25 +20,17 @@ function HomePageReviews({ data }: Props) {
   // const [sliderWidth, setSliderWidth] = useState(0);
   // const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const image = document.querySelector(
-      ".reviews-image-bg img"
-    ) as HTMLImageElement;
-    console.log(image.width);
-    random.getRandomSeed();
-  }, []);
-
-  /*useEffect(() => {
-      const x = gsap.utils.interpolate(
-        0,
-        sliderWidth - window.innerWidth,
-        progress
-      );
-      console.log(sliderWidth);
-      gsap.to(".reviews-image-bg", {
-        x: `-${x}`,
-      });
-    }, [progress, sliderWidth]);*/
+  // useEffect(() => {
+  //   const x = gsap.utils.interpolate(
+  //     0,
+  //     sliderWidth - window.innerWidth,
+  //     progress
+  //   );
+  //   console.log(sliderWidth);
+  //   gsap.to(".reviews-image-bg", {
+  //     x: `-${x}`,
+  //   });
+  // }, [progress, sliderWidth]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
@@ -137,20 +129,20 @@ function HomePageReviews({ data }: Props) {
 
       <div className={"mobile-only flex h-full items-center"}>
         <Splide
-          /*onMounted={(splide) => {
-                      const { Layout } = splide.Components;
-                      setSliderWidth(Layout.sliderSize());
-                    }}*/
-          /*onDragging={(splide) => {
-                                const { Layout, Move, Direction } = splide.Components;
-
-                                const position = Direction.orient(Move.getPosition());
-                                const base = Layout.sliderSize() - Layout.listSize();
-                                const rate = position / base;
-                                const progress = Math.min(Math.max(rate, 0), 1);
-
-                                setProgress(Number(progress));
-                              }}*/
+          // onMounted={(splide) => {
+          //   const { Layout } = splide.Components;
+          //   setSliderWidth(Layout.sliderSize());
+          // }}
+          // onDragging={(splide) => {
+          //   const { Layout, Move, Direction } = splide.Components;
+          //
+          //   const position = Direction.orient(Move.getPosition());
+          //   const base = Layout.sliderSize() - Layout.listSize();
+          //   const rate = position / base;
+          //   const progress = Math.min(Math.max(rate, 0), 1);
+          //
+          //   setProgress(Number(progress));
+          // }}
           options={{
             perMove: 1,
             padding: { left: "8%", right: "8%" },
@@ -168,13 +160,12 @@ function HomePageReviews({ data }: Props) {
 
       <div className="desktop-only absolute left-0 top-0 h-full w-full">
         {data.items.map((item, index) => {
-          const x = random.range(0.1, 0.7) * 100;
-          const y = random.range(0.2, 0.7) * 100;
-
+          // const x = random.range(0.1, 0.7) * 100;
+          // const y = random.range(0.2, 0.7) * 100;
           return (
             <img
               onMouseEnter={onMouseEnter}
-              style={{ left: `${x}%`, top: `${y}%` }}
+              style={{ left: `0%`, top: `0%` }}
               key={`Review-Card-Img-${index}`}
               src={item.image.url || ""}
               alt={item.image.alt || ""}

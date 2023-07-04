@@ -1,4 +1,3 @@
-import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
   Meta,
@@ -7,9 +6,13 @@ import {
   LiveReload,
   ScrollRestoration,
 } from "@remix-run/react";
-import tailwind from "~/styles/tailwind.css";
+import { defer } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
+import tailwind from "~/styles/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
+import { createClient } from "~/lib/prismicClient";
+import Layout from "~/components/Layout";
+import type { LinksFunction } from "@remix-run/node";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref
@@ -17,6 +20,15 @@ export const links: LinksFunction = () => [
     : [{ rel: "stylesheet", href: tailwind }]),
   { rel: "stylesheet", href: splideCss },
 ];
+
+export const loader = async () => {
+  const client = createClient();
+  const navigation = await client.getByUID("navigation", "top-navigation");
+
+  return defer({
+    navigation,
+  });
+};
 
 export default function App() {
   return (
@@ -28,7 +40,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Layout>
+          <Outlet />
+        </Layout>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

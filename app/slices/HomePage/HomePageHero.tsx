@@ -1,9 +1,8 @@
 import { CanvasLogoGlow, CanvasLogomark } from "~/svg";
-import heroSample from "public/img/sample/canvas-logo-hero-sample.png";
-import React from "react";
-import background from "../../../public/img/home-background.png";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
-import { HomepageDocumentDataBodyHomepageHeroSlice } from "../../../types.generated";
+import background from "~/images/home-background.png";
+import heroSample from "~/images/sample/canvas-logo-hero-sample.png";
+import type { HomepageDocumentDataBodyHomepageHeroSlice } from "types.generated";
 
 function HomePageHeroImage() {
   return (

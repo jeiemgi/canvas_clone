@@ -4,30 +4,74 @@
 
 @layer base {
     :root {
-        --fn-primary: "protogrotesk-light", sans-serif;
-        --fn-secondary: "untitled-sans-regular", sans-serif;
-        --fn-secondary--light: "untitled-sans-light", sans-serif;
+        /* Colors */
+        --mg-black: "#23221E";
+        --black: "#1A171E";
+        --pure-black: "#000000";
+        --white: "#FFFFFF";
+        --light-grey: "#F5F5F5";
+        --grey: "#E0E0E0";
+        --pink: "#DAD2DD";
+        --royal-blue: "#00067C";
+        --red: "#E02D3E";
+        --green: "#0B6F6D";
+        /* Font name */
+        --fn-primary: Proto Grotesk, sans-serif;
+        --fn-secondary: Untitled Sans, sans-serif;
+
         --color-border: rgba(0, 0, 0, 0.30);
+
+        --text-blur--sm: clamp(0.3rem, 1vw, 0.5rem);
+        --text-blur--md: clamp(0.3rem, 0.8vw, 0.7rem);
+        --text-blur--lg: clamp(0.4rem, 0.5vw, 0.9rem);
     }
 
+    /*
+     Copyright (C) Production Type
+     This software is the property of Production Type.
+     Your right to access and use this software is subject to the
+     applicable License Agreement, or Terms of Service, that exists
+     between you and Production Type. If no such agreement exists,
+     you may not access or use this software for any purpose.
+     This software may only be hosted at the locations specified in
+     the applicable License Agreement or Terms of Service, and only
+     for the purposes expressly set forth therein. You may not copy,
+     modify, convert, create derivative works from or distribute this
+     software in any way, or make it accessible to any third party,
+     without first obtaining the written permission of Production Type.
+     For more information, please visit us at www.productiontype.com
+ */
     @font-face {
         font-family: var(--fn-primary);
-        src: url("/fonts/proto-grotesk/protogroteskweb-light.eot");
-        src: url("/fonts/proto-grotesk/protogroteskweb-light.eot?#iefix") format("embedded-opentype"),
-        url("/fonts/proto-grotesk/protogroteskweb-light.woff") format("woff");
+        src: url('/fonts/protogroteskweb-light.eot');
+        src: url('/fonts/protogroteskweb-light.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/protogroteskweb-light.woff') format('woff');
     }
 
     @font-face {
         font-family: var(--fn-secondary);
-        src: url("/fonts/untitled-sans/WOFF2/untitled-sans-regular.woff2") format("woff2");
+        font-weight: 300;
+        src: url('/fonts/untitled-sans/UntitledSans-Light.eot');
+        src: url('/fonts/untitled-sans/UntitledSans-Light.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/untitled-sans/UntitledSans-Light.woff2') format('woff2'),
+        url('/fonts/untitled-sans/UntitledSans-Light.woff') format('woff');
     }
 
     @font-face {
-        font-family: var(--fn-secondary--light);
-        src: url("/fonts/untitled-sans/WOFF2/untitled-sans-light.woff2") format("woff2");
+        font-family: var(--fn-secondary);
+        font-weight: 400;
+        src: url('/fonts/untitled-sans/UntitledSans-Regular.eot');
+        src: url('/fonts/untitled-sans/UntitledSans-Regular.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/untitled-sans/UntitledSans-Regular.woff2') format('woff2'),
+        url('/fonts/untitled-sans/UntitledSans-Regular.woff') format('woff');
+    }
+
+    body {
+        @apply text-black;
     }
 
 
+    /* Special classname for the Text Blur */
     .display--2--vw {
         font-family: var(--fn-primary);
         font-size: 50px;
@@ -42,178 +86,252 @@
         }
     }
 
-    body {
-        @apply text-black;
-    }
-
     .display--1 {
-        font-size: 4.063rem;
+        font-size: 4.0625rem;
+        font-family: Proto Grotesk, serif;
+        font-style: normal;
+        font-weight: 300;
         line-height: 105%;
-        letter-spacing: -0.02rem;
+        letter-spacing: -0.08125rem;
         text-transform: uppercase;
-        font-family: var(--fn-primary);
     }
 
-
-    @screen md {
-        .display--1 {
-            font-size: 6.875rem;
-            line-height: 105%;
-            letter-spacing: -0.02rem;
-            text-transform: uppercase;
-        }
-    }
 
     .display--2 {
-        font-family: var(--fn-primary);
-        font-size: 3.125rem;
-        line-height: 105%;
-        letter-spacing: -0.02rem;
-        text-transform: uppercase;
-    }
+        color: var(--mg-black, #23221E);
 
-    @screen md {
-        .display--2 {
-            font-weight: 300;
-            font-size: 5rem;
-            line-height: 105%;
-            letter-spacing: -0.02rem;
-            text-transform: uppercase;
-        }
+        /* Display/Mobile/D2 Proto 50 */
+        font-size: 3.125rem;
+        font-family: var(--fn-primary);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 105%;
+        letter-spacing: -0.0625rem;
+        text-transform: uppercase;
     }
 
     .heading--1 {
-        font-family: var(--fn-primary);
+        color: var(--mg-black, #23221E);
+
+        /* Header/Mobile/H1 Proto 40 */
         font-size: 2.5rem;
+        font-family: var(--fn-primary);
+        font-style: normal;
+        font-weight: 300;
         line-height: 105%;
-        letter-spacing: -0.02rem;
+        letter-spacing: -0.05rem;
         text-transform: capitalize;
     }
 
-    @screen md {
-        .heading--1 {
-            font-size: 5rem;
-            line-height: 105%;
-            letter-spacing: -0.02rem;
-            text-transform: capitalize;
-        }
-    }
-
     .heading--2 {
-        font-family: var(--fn-primary);
-        font-size: 1.375rem;
-        line-height: 105%;
-        letter-spacing: -0.02rem;
-        text-transform: uppercase;
-    }
+        color: var(--mg-black, #23221E);
 
-    @screen md {
-        .heading--2 {
-            font-size: 2rem;
-            line-height: 105%;
-            letter-spacing: -0.02rem;
-            text-transform: uppercase;
-        }
+        /* Header/Mobile/H2 Proto 22 */
+        font-size: 1.375rem;
+        font-family: var(--fn-primary);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 105%;
+        letter-spacing: -0.0275rem;
+        text-transform: uppercase;
     }
 
     .heading--3 {
-        font-family: var(--fn-primary);
-        font-size: 0.938rem;
-        line-height: 105%;
-        letter-spacing: -0.01rem;
-        text-transform: uppercase;
-    }
+        color: var(--mg-black, #23221E);
 
-    @screen md {
-        .heading--3 {
-            font-size: 1.5rem;
-            line-height: 105%;
-            letter-spacing: -0.01rem;
-            text-transform: uppercase;
-        }
+        /* Header/Mobile/H3 Proto 15 */
+        font-size: 0.9375rem;
+        font-family: var(--fn-primary);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 105%;
+        letter-spacing: -0.00938rem;
+        text-transform: uppercase;
     }
 
     .body--1 {
-        font-family: var(--fn-secondary--light);
-        font-size: 1.125rem;
-        line-height: 125%;
-        letter-spacing: -0.02rem;
-    }
+        color: var(--mg-black, #23221E);
 
-    @screen md {
-        .body--1 {
-            font-size: 1.5rem;
-            line-height: 125%;
-            letter-spacing: -0.02rem;
-        }
+        /* Body/Mobile/P1 Untitled Light 18 */
+        font-size: 1.125rem;
+        font-family: var(--fn-secondary);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 125%;
+        letter-spacing: -0.0225rem;
     }
 
     .body--2 {
-        font-family: var(--fn-secondary);
+        color: var(--mg-black, #23221E);
+
+        /* Body/Mobile/P2 Untitled Reg 16 */
         font-size: 1rem;
+        font-family: var(--fn-secondary);
+        font-style: normal;
+        font-weight: 400;
         line-height: 125%;
         letter-spacing: -0.01rem;
     }
 
-    @screen md {
-        .body--2 {
-            font-size: 1.125rem;
-            line-height: 125%;
-            letter-spacing: -0.01rem;
-        }
-    }
-
     .body--3 {
-        font-family: var(--fn-secondary--light);
+        color: var(--mg-black, #23221E);
+
+        /* Body/Mobile/P3 Untitled Light 14 */
         font-size: 0.875rem;
+        font-family: var(--fn-secondary);
+        font-style: normal;
+        font-weight: 300;
         line-height: 130%;
     }
 
-    @screen md {
-        .body--3 {
-            font-size: 1rem;
-            line-height: 130%;
-            letter-spacing: 0;
-        }
-    }
-
     .label--1 {
-        font-family: var(--fn-secondary--light);
-        font-weight: 300;
-        font-size: 0.625rem;
-        line-height: 105%;
-        text-transform: uppercase;
-    }
+        color: var(--mg-black, #23221E);
 
-    @screen md {
-        .label--1 {
-            font-size: 0.875rem;
-            line-height: 130%;
-            letter-spacing: 0;
-            text-transform: capitalize;
-        }
+        /* Label/Mobile/L1 Untitled Light 12 */
+        font-size: 0.75rem;
+        font-family: var(--fn-secondary);
+        font-style: normal;
+        font-weight: 300;
+        line-height: 130%;
+        text-transform: capitalize;
     }
 
     .label--2 {
-        font-family: var(--fn-primary);
+        color: var(--mg-black, #23221E);
+
+        /* Label/Mobile/L2 Proto 10 */
         font-size: 0.625rem;
+        font-family: var(--fn-primary);
+        font-style: normal;
+        font-weight: 300;
         line-height: 105%;
         text-transform: uppercase;
     }
 
     @screen md {
-        .label--2 {
-            font-size: 0.75rem;
+        .display--1 {
+            color: var(--mg-black, #23221E);
+
+            /* Display/D1 Proto 110 */
+            font-size: 6.875rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
             line-height: 105%;
-            letter-spacing: 0;
+            letter-spacing: -0.1375rem;
             text-transform: uppercase;
         }
-    }
 
-    :root {
-        --text-blur--sm: clamp(0.3rem, 1vw, 0.5rem);
-        --text-blur--md: clamp(0.3rem, 0.8vw, 0.7rem);
-        --text-blur--lg: clamp(0.4rem, 0.5vw, 0.9rem);
+        .display--2 {
+            color: var(--mg-black, #23221E);
+
+            /* Display/D2 Proto 80 */
+            font-size: 5rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 105%;
+            letter-spacing: -0.1rem;
+            text-transform: uppercase;
+        }
+
+        .heading--1 {
+            color: var(--mg-black, #23221E);
+
+            /* Header/H1 Proto 60 */
+            font-size: 3.75rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 105%;
+            letter-spacing: -0.075rem;
+            text-transform: capitalize;
+        }
+
+        .heading--2 {
+            color: var(--mg-black, #23221E);
+
+            /* Header/H2 Proto 32 */
+            font-size: 2rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 105%;
+            letter-spacing: -0.04rem;
+            text-transform: uppercase;
+        }
+
+        .heading--3 {
+            color: var(--mg-black, #23221E);
+
+            /* Header/H3 Proto 24 */
+            font-size: 1.5rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 105%;
+            letter-spacing: -0.015rem;
+            text-transform: uppercase;
+        }
+
+        .body--1 {
+            color: var(--mg-black, #23221E);
+
+            /* Body/P1 Untitled Light 24 */
+            font-size: 1.5rem;
+            font-family: var(--fn-secondary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 125%;
+            letter-spacing: -0.03rem;
+        }
+
+        .body--2 {
+            color: var(--mg-black, #23221E);
+
+            /* Body/P2 Untitled Reg 18 */
+            font-size: 1.125rem;
+            font-family: var(--fn-secondary);
+            font-style: normal;
+            font-weight: 400;
+            line-height: 125%;
+            letter-spacing: -0.01125rem;
+        }
+
+        .body--3 {
+            color: var(--mg-black, #23221E);
+
+            /* Body/P3 Untitled Light 16 */
+            font-size: 1rem;
+            font-family: var(--fn-secondary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 130%;
+        }
+
+        .label--1 {
+            color: var(--mg-black, #23221E);
+
+            /* Label/L1 Untitled Light 14 */
+            font-size: 0.875rem;
+            font-family: var(--fn-secondary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 130%;
+            text-transform: capitalize;
+        }
+
+        .label--2 {
+            color: var(--mg-black, #23221E);
+
+            /* Label/L2 Proto 12 */
+            font-size: 0.75rem;
+            font-family: var(--fn-primary);
+            font-style: normal;
+            font-weight: 300;
+            line-height: 105%;
+            text-transform: uppercase;
+        }
     }
 
     .text-blur {
@@ -256,9 +374,10 @@
     }
 
     .noise-background {
-        background: url("public/img/footer-bg-noise.png") repeat center center;
+        /*background: url("./images/footer-bg-noise.png") repeat center center;*/
     }
 
+    /* Utilities */
     .grid-container {
         @apply grid grid-cols-4 gap-x-2 px-4 md:w-full md:grid-cols-12 md:gap-x-[20px] md:px-8;
     }
@@ -301,28 +420,5 @@
 
     .desktop-only--inline {
         @apply hidden md:inline-block;
-    }
-
-
-    @screen md {
-        .TableColumn__row-element:first-of-type .TableColumn__cell-element::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: calc(100vw - 4rem);
-            height: 1px;
-            background: var(--color-border);
-        }
-
-        .TableColumn__row-element:first-of-type .TableColumn__cell-group::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: calc(100vw - 4rem);
-            height: 1px;
-            background: var(--color-border);
-        }
     }
 }
