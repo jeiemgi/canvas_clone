@@ -3,7 +3,7 @@ import { asText } from "@prismicio/richtext";
 import { useScrollPosition } from "~/hooks";
 import { CanvasLogo } from "~/svg";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "~/routes/_index";
+import type { loader } from "~/root";
 
 function NavigationLogo({
   src,
