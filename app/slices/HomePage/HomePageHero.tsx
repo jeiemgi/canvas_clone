@@ -1,6 +1,5 @@
 import { CanvasLogoGlow, CanvasLogomark } from "~/svg";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
-import background from "~/images/home-background.png";
 import heroSample from "~/images/sample/canvas-logo-hero-sample.png";
 import type { HomepageDocumentDataBodyHomepageHeroSlice } from "types.generated";
 
@@ -68,8 +67,7 @@ interface Props {
 function HomePageHero({ data }: Props) {
   return (
     <section
-      style={{ backgroundImage: `url('${background}')` }}
-      className={"w-full bg-black bg-cover bg-repeat-y"}
+      className={"texture-background w-full bg-black bg-cover bg-repeat-y"}
     >
       <div className={"relative flex h-screen w-full flex-col"}>
         <HomePageHeroImage />

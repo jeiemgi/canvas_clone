@@ -160,8 +160,6 @@ function HomePageReviews({ data }: Props) {
 
       <div className="desktop-only absolute left-0 top-0 h-full w-full">
         {data.items.map((item, index) => {
-          // const x = random.range(0.1, 0.7) * 100;
-          // const y = random.range(0.2, 0.7) * 100;
           return (
             <img
               onMouseEnter={onMouseEnter}

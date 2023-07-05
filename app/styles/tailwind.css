@@ -336,7 +336,11 @@
     }
 
     .noise-background {
-        /*background: url("./images/footer-bg-noise.png") repeat center center;*/
+        background: url("/images/footer-noise-background.png") repeat center center;
+    }
+
+    .texture-background {
+        background: url("/images/texture-background.png") repeat center center;
     }
 
     /* Utilities */
@@ -384,7 +388,7 @@
         @apply hidden md:inline-block;
     }
 
-    .bg-gradient {
-        @apply bg-gradient-to-b from-pure-black/10 to-transparent;
+    .transition-expo-transform {
+        @apply transition-transform ;
     }
 }

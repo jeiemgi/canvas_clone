@@ -4,6 +4,23 @@ export default {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      transitionTimingFunction: {
+        "in-expo": "cubic-bezier(0.95, 0.05, 0.795, 0.035)",
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+      screens: {
+        // These are Tailwind defaults, pasted here for reference.
+        sm: "640px",
+        // => @media (min-width: 640px) { ... }
+        md: "768px",
+        // => @media (min-width: 768px) { ... }
+        lg: "1024px",
+        // => @media (min-width: 1024px) { ... }
+        xl: "1280px",
+        // => @media (min-width: 1280px) { ... }
+        "2xl": "1536px",
+        // => @media (min-width: 1536px) { ... }
+      },
       colors: {
         black: "#1A171E",
         "pure-black": "#000000",

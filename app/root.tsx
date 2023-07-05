@@ -18,6 +18,7 @@ import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { LinksFunction } from "@remix-run/node";
+import { NavThemeProvider } from "~/components/Navigation/NavThemeProvider";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -72,12 +73,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Layout>
-          <Outlet />
-        </Layout>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <NavThemeProvider>
+          <Layout>
+            <Outlet />
+          </Layout>
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </NavThemeProvider>
       </body>
     </html>
   );
