@@ -7,7 +7,7 @@ function RichText(props: PrismicRichTextProps) {
       {...props}
       components={{
         heading1: ({ children }) => (
-          <h1 className={"heading--1"}>{children}</h1>
+          <h1 className={"display--1 text-white"}>{children}</h1>
         ),
         paragraph: ({ children }) => <p className={"body--1"}>{children}</p>,
       }}

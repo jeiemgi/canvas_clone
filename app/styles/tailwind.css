@@ -88,7 +88,7 @@
 
     .display--1 {
         font-size: 4.0625rem;
-        font-family: Proto Grotesk, serif;
+        font-family: var(--fn-secondary);
         font-style: normal;
         font-weight: 300;
         line-height: 105%;
@@ -382,5 +382,9 @@
 
     .desktop-only--inline {
         @apply hidden md:inline-block;
+    }
+
+    .bg-gradient {
+        @apply bg-gradient-to-b from-pure-black/10 to-transparent;
     }
 }

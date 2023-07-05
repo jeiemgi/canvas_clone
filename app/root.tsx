@@ -5,6 +5,8 @@ import {
   Scripts,
   LiveReload,
   ScrollRestoration,
+  useRouteError,
+  isRouteErrorResponse,
 } from "@remix-run/react";
 import { defer } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
@@ -35,6 +37,30 @@ export const loader = async () => {
     navigation,
   });
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1 className={"display--1"}>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div className={"bg-black"}>
+        <h1 className={"display--1"}>Error</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}
 
 export default function App() {
   return (
