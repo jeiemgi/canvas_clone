@@ -2,8 +2,52 @@ import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
 import { useScrollPosition } from "~/hooks";
 import { CanvasLogo } from "~/svg";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import type { loader } from "~/root";
+import type { ReactNode } from "react";
+import type { LinkProps } from "@remix-run/react";
+import type { NavigationDocumentDataBodyMenuItemSlice } from "types.generated";
+
+interface NavigationProps extends LinkProps {
+  show?: boolean;
+  isScrolled: boolean;
+}
+
+function NavigationUlList({ children }: { children: ReactNode }) {
+  return <ul className={"flex gap-4 md:gap-10"}>{children}</ul>;
+}
+
+function NavigationLink({
+  show = true,
+  children,
+  isScrolled,
+  ...props
+}: NavigationProps) {
+  return (
+    <li
+      className={clsx(
+        "heading--3 inline-block text-white transition-opacity",
+        show ? "opacity-100" : "opacity-0"
+        // isScrolled ? "text-black" : "text-white"
+      )}
+    >
+      <Link {...props}>{children}</Link>
+    </li>
+  );
+}
+
+interface NavigationLinkSliceProps {
+  isScrolled: boolean;
+  item: NavigationDocumentDataBodyMenuItemSlice;
+}
+
+function NavigationLinkSlice({ item, isScrolled }: NavigationLinkSliceProps) {
+  return (
+    <NavigationLink isScrolled={isScrolled} to={asText(item.primary.link)}>
+      ( {asText(item.primary.title)} )
+    </NavigationLink>
+  );
+}
 
 function NavigationLogo({
   src,
@@ -22,7 +66,7 @@ function NavigationLogo({
           </div>
         ) : (
           <div className={clsx(isScrolled ? "block" : "hidden")}>
-            <CanvasLogo width={78} height={13} fill={"#000#"} />
+            <CanvasLogo width={78} height={13} fill={"#000"} />
           </div>
         )}
       </div>
@@ -47,6 +91,7 @@ function NavigationLogo({
 }
 
 function Navigation() {
+  const location = useLocation();
   const scrollY = useScrollPosition();
   const isScrolled = scrollY > 0;
   const { navigation } = useLoaderData<typeof loader>();
@@ -54,34 +99,39 @@ function Navigation() {
   return (
     <nav
       className={clsx(
-        "h-[60px] md:h-[86px]",
-        "flex flex-row items-center justify-between md:justify-end ",
-        "fixed left-0 top-0 z-50 w-full " +
-          "transition-colors md:bg-transparent ",
-        isScrolled ? "bg-white" : "bg-transparent"
+        "fixed left-0 top-0 z-50 h-header w-full px-4 md:h-headerDesk md:px-8",
+        "flex flex-row items-center justify-between",
+        "transition-colors",
+        "bg-gradient-to-b from-pure-black/10 to-transparent"
+        // isScrolled
+        //   ? "bg-white"
+        //   : "bg-gradient-to-b from-pure-black/10 to-transparent"
       )}
     >
+      <NavigationUlList>
+        <NavigationLink
+          to={"/"}
+          isScrolled={isScrolled}
+          show={location.pathname !== "/"}
+        >
+          {`( BACK )`}
+        </NavigationLink>
+      </NavigationUlList>
+
       <NavigationLogo
         src={navigation.data.logo_mark1.url}
         isScrolled={isScrolled}
       />
-      <ul>
+
+      <NavigationUlList>
         {navigation.data.body.map((item) => (
-          <li
+          <NavigationLinkSlice
+            item={item}
+            isScrolled={isScrolled}
             key={`${asText(item.primary.link)}`}
-            className={clsx(
-              isScrolled ? "text-black" : "text-white",
-              "inline-block pr-4 md:pr-10",
-              "md:text-white",
-              "heading--3 md:text-white"
-            )}
-          >
-            <Link to={asText(item.primary.link)}>
-              ({asText(item.primary.title)})
-            </Link>
-          </li>
+          />
         ))}
-      </ul>
+      </NavigationUlList>
     </nav>
   );
 }

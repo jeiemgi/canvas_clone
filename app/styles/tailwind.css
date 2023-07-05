@@ -98,8 +98,6 @@
 
 
     .display--2 {
-        color: var(--mg-black, #23221E);
-
         /* Display/Mobile/D2 Proto 50 */
         font-size: 3.125rem;
         font-family: var(--fn-primary);
@@ -111,8 +109,6 @@
     }
 
     .heading--1 {
-        color: var(--mg-black, #23221E);
-
         /* Header/Mobile/H1 Proto 40 */
         font-size: 2.5rem;
         font-family: var(--fn-primary);
@@ -124,8 +120,6 @@
     }
 
     .heading--2 {
-        color: var(--mg-black, #23221E);
-
         /* Header/Mobile/H2 Proto 22 */
         font-size: 1.375rem;
         font-family: var(--fn-primary);
@@ -137,8 +131,6 @@
     }
 
     .heading--3 {
-        color: var(--mg-black, #23221E);
-
         /* Header/Mobile/H3 Proto 15 */
         font-size: 0.9375rem;
         font-family: var(--fn-primary);
@@ -150,8 +142,6 @@
     }
 
     .body--1 {
-        color: var(--mg-black, #23221E);
-
         /* Body/Mobile/P1 Untitled Light 18 */
         font-size: 1.125rem;
         font-family: var(--fn-secondary);
@@ -162,8 +152,6 @@
     }
 
     .body--2 {
-        color: var(--mg-black, #23221E);
-
         /* Body/Mobile/P2 Untitled Reg 16 */
         font-size: 1rem;
         font-family: var(--fn-secondary);
@@ -174,8 +162,6 @@
     }
 
     .body--3 {
-        color: var(--mg-black, #23221E);
-
         /* Body/Mobile/P3 Untitled Light 14 */
         font-size: 0.875rem;
         font-family: var(--fn-secondary);
@@ -185,8 +171,6 @@
     }
 
     .label--1 {
-        color: var(--mg-black, #23221E);
-
         /* Label/Mobile/L1 Untitled Light 12 */
         font-size: 0.75rem;
         font-family: var(--fn-secondary);
@@ -197,8 +181,6 @@
     }
 
     .label--2 {
-        color: var(--mg-black, #23221E);
-
         /* Label/Mobile/L2 Proto 10 */
         font-size: 0.625rem;
         font-family: var(--fn-primary);
@@ -210,8 +192,6 @@
 
     @screen md {
         .display--1 {
-            color: var(--mg-black, #23221E);
-
             /* Display/D1 Proto 110 */
             font-size: 6.875rem;
             font-family: var(--fn-primary);
@@ -223,8 +203,6 @@
         }
 
         .display--2 {
-            color: var(--mg-black, #23221E);
-
             /* Display/D2 Proto 80 */
             font-size: 5rem;
             font-family: var(--fn-primary);
@@ -236,8 +214,6 @@
         }
 
         .heading--1 {
-            color: var(--mg-black, #23221E);
-
             /* Header/H1 Proto 60 */
             font-size: 3.75rem;
             font-family: var(--fn-primary);
@@ -249,8 +225,6 @@
         }
 
         .heading--2 {
-            color: var(--mg-black, #23221E);
-
             /* Header/H2 Proto 32 */
             font-size: 2rem;
             font-family: var(--fn-primary);
@@ -262,8 +236,6 @@
         }
 
         .heading--3 {
-            color: var(--mg-black, #23221E);
-
             /* Header/H3 Proto 24 */
             font-size: 1.5rem;
             font-family: var(--fn-primary);
@@ -275,8 +247,6 @@
         }
 
         .body--1 {
-            color: var(--mg-black, #23221E);
-
             /* Body/P1 Untitled Light 24 */
             font-size: 1.5rem;
             font-family: var(--fn-secondary);
@@ -287,8 +257,6 @@
         }
 
         .body--2 {
-            color: var(--mg-black, #23221E);
-
             /* Body/P2 Untitled Reg 18 */
             font-size: 1.125rem;
             font-family: var(--fn-secondary);
@@ -299,8 +267,6 @@
         }
 
         .body--3 {
-            color: var(--mg-black, #23221E);
-
             /* Body/P3 Untitled Light 16 */
             font-size: 1rem;
             font-family: var(--fn-secondary);
@@ -310,8 +276,6 @@
         }
 
         .label--1 {
-            color: var(--mg-black, #23221E);
-
             /* Label/L1 Untitled Light 14 */
             font-size: 0.875rem;
             font-family: var(--fn-secondary);
@@ -322,8 +286,6 @@
         }
 
         .label--2 {
-            color: var(--mg-black, #23221E);
-
             /* Label/L2 Proto 12 */
             font-size: 0.75rem;
             font-family: var(--fn-primary);

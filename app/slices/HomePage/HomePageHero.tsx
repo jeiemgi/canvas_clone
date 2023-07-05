@@ -69,7 +69,7 @@ function HomePageHero({ data }: Props) {
   return (
     <section
       style={{ backgroundImage: `url('${background}')` }}
-      className={"w-full bg-black bg-contain bg-repeat-y"}
+      className={"w-full bg-black bg-cover bg-repeat-y"}
     >
       <div className={"relative flex h-screen w-full flex-col"}>
         <HomePageHeroImage />

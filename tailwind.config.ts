@@ -16,7 +16,8 @@ export default {
         green: "#0B6F6D",
       },
       spacing: {
-        headerHeightMobile: "60px",
+        header: "3.75rem",
+        headerDesk: "5.375rem",
       },
     },
   },

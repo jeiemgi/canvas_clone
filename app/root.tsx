@@ -12,7 +12,13 @@ import tailwind from "~/styles/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { createClient } from "~/lib/prismicClient";
 import Layout from "~/components/Layout";
+import { gsap } from "gsap";
+import SplitText from "gsap/dist/SplitText";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { LinksFunction } from "@remix-run/node";
+
+// NOTE: Register plugins here, so we register them only once.
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref
