@@ -391,4 +391,8 @@
     .transition-expo-transform {
         @apply transition-transform ;
     }
+
+    video[poster] {
+        @apply w-full h-full object-cover;
+    }
 }

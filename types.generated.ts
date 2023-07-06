@@ -718,6 +718,17 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 /** Content for Project Page documents */
 interface ProjectPageDocumentData {
     /**
+     * Background Image field in *Project Page*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.background_image
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    background_image: prismic.ImageField<never>;
+    /**
      * Title field in *Project Page*
      *
      * - **Field Type**: Rich Text
@@ -751,28 +762,6 @@ interface ProjectPageDocumentData {
      */
     cta: prismic.RichTextField;
     /**
-     * Background Image field in *Project Page*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.background_image
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image: prismic.ImageField<never>;
-    /**
-     * reel field in *Project Page*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.reel
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    reel: prismic.LinkField;
-    /**
      * Roles field in *Project Page*
      *
      * - **Field Type**: Group
@@ -794,6 +783,28 @@ interface ProjectPageDocumentData {
      *
      */
     links: prismic.GroupField<Simplify<ProjectPageDocumentDataLinksItem>>;
+    /**
+     * reel field in *Project Page*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.reel
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    reel: prismic.LinkField;
+    /**
+     * reel_cover field in *Project Page*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.reel_cover
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    reel_cover: prismic.ImageField<never>;
     /**
      * Slice zone field in *Project Page*
      *
@@ -882,7 +893,7 @@ export type ProjectPageDocumentDataBodyProjectFullWidthSlice = prismic.Slice<"pr
  */
 interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
     /**
-     * Left Image field in *Project Page → Slice zone → `project_2_column` → Primary*
+     * Left Image / Video Cover field in *Project Page → Slice zone → `project_2_column` → Primary*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
@@ -902,7 +913,7 @@ interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
      */
     left_video: prismic.LinkToMediaField;
     /**
-     * Right Image field in *Project Page → Slice zone → `project_2_column` → Primary*
+     * Right Image / Video Cover field in *Project Page → Slice zone → `project_2_column` → Primary*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*

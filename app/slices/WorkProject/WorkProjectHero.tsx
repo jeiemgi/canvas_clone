@@ -1,9 +1,9 @@
 import React from "react";
 import { useLoaderData } from "@remix-run/react";
+import { Video } from "~/components/Video";
 import { RichText } from "~/components/RichText";
-import type { loader } from "~/routes/work.$project";
-import Video from "../../components/Video/Video";
 import { ButtonCTA } from "~/components/Button";
+import type { loader } from "~/routes/work.$project";
 
 function WorkProjectHero() {
   const { hero } = useLoaderData<typeof loader>();
@@ -41,7 +41,7 @@ function WorkProjectHero() {
             return (
               <div
                 key={`WorkHero-Roles-${index}`}
-                className={"flex border-t border-t-white/30 py-2.5"}
+                className={"flex border-t border-white/30 py-2.5 last:border-b"}
               >
                 <div className={"w-1/2"}>
                   <span className={"body--3"}>{item.role_item}</span>
@@ -55,7 +55,7 @@ function WorkProjectHero() {
         </div>
 
         <div className={"col-span-4 mb-10 md:col-span-8 md:col-start-3"}>
-          <Video />
+          <Video poster={hero.reel_cover.url ?? ""} src={hero.reel.url} />
         </div>
 
         <div className="col-span-4 flex w-full justify-between md:hidden">

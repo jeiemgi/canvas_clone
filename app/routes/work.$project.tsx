@@ -2,13 +2,10 @@ import React from "react";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
+import { Video } from "~/components/Video";
 import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import type { LoaderArgs } from "@remix-run/node";
-import type { VideoProps } from "react-html-props";
-
-function Video(props: VideoProps) {
-  return <video loop muted autoPlay {...props} />;
-}
+import clsx from "clsx";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -20,18 +17,27 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const { capabilities, background_image, cta, reel, title, links, roles } =
-    page.data;
+  const {
+    background_image,
+    capabilities,
+    cta,
+    links,
+    reel,
+    reel_cover,
+    roles,
+    title,
+  } = page.data;
 
   return json({
     hero: {
-      capabilities,
       background_image,
+      capabilities,
       cta,
-      reel,
-      title,
       links,
+      reel,
+      reel_cover,
       roles,
+      title,
     },
     slices: page.data.body,
   });
@@ -48,25 +54,53 @@ function WorkProject() {
           case "project_full_width":
             return (
               <img
-                className={"w-full object-cover"}
+                className={"w-full select-none object-cover"}
                 key={`WorkProjectSlice-${index}`}
                 alt={item.primary.background.alt || ""}
                 src={item.primary.background.url || ""}
               />
             );
           case "project_2_column":
+            const leftIsVideo = !!item.primary.left_video.url;
+            const rightIsVideo = !!item.primary.right_video.url;
+
             return (
               <div className={"md:flex"} key={`WorkProjectSlice-${index}`}>
-                <img
-                  className={"w-full md:w-1/2"}
-                  alt={item.primary.left_image.url || ""}
-                  src={item.primary.left_image.url || ""}
-                />
-                <img
-                  className={"w-full md:w-1/2"}
-                  alt={item.primary.right_image.url || ""}
-                  src={item.primary.right_image.url || ""}
-                />
+                {/* RIGHT MEDIA */}
+                {leftIsVideo ? (
+                  <div className={"w-full bg-red md:w-1/2"}>
+                    <Video
+                      autoPlay
+                      muted
+                      loop
+                      src={item.primary.left_video.url}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    className={"w-full select-none md:w-1/2"}
+                    alt={item.primary.left_image.url || ""}
+                    src={item.primary.left_image.url || ""}
+                  />
+                )}
+
+                {/* RIGHT MEDIA */}
+                {rightIsVideo ? (
+                  <div className={"w-full bg-red md:w-1/2"}>
+                    <Video
+                      autoPlay
+                      muted
+                      loop
+                      src={item.primary.right_video.url}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    className={"w-full select-none md:w-1/2"}
+                    alt={item.primary.right_image.url || ""}
+                    src={item.primary.right_image.url || ""}
+                  />
+                )}
               </div>
             );
           case "project_plate_-_videocolor":
@@ -78,25 +112,41 @@ function WorkProject() {
                   backgroundColor: item.primary.background_color || "#fff000",
                 }}
               >
-                <div className="aspect-video md:col-span-8 md:col-start-3">
-                  <Video src={item.primary.video.url} />
+                <div className="md:col-span-8 md:col-start-3">
+                  <Video autoPlay muted loop src={item.primary.video.url} />
                 </div>
               </div>
             );
           case "project_plate_-_videophoto":
-            console.log(item.primary.image.url);
+            console.log("square", item.primary.square);
+
+            const containerClassNames = item.primary.square
+              ? "md:min-h-screen"
+              : "md:aspect-video";
+
+            const contentClassNames = item.primary.square
+              ? "md:col-span-6 md:col-start-4"
+              : "md:col-span-8 md:col-start-3";
+
             return (
               <div
                 key={`WorkProjectSlice-${index}`}
-                className={
-                  "md:grid-container items-center bg-cover bg-center bg-no-repeat md:aspect-video"
-                }
+                className={clsx(
+                  "md:grid-container items-center bg-cover bg-center bg-no-repeat",
+                  containerClassNames
+                )}
                 style={{
                   backgroundImage: `url(${item.primary.image.url})` || "",
                 }}
               >
-                <div className="aspect-video md:col-span-8 md:col-start-3">
-                  <Video src={item.primary.video.url} />
+                <div className={contentClassNames}>
+                  <Video
+                    loop
+                    muted
+                    autoPlay
+                    square={item.primary.square}
+                    src={item.primary.video.url}
+                  />
                 </div>
               </div>
             );
