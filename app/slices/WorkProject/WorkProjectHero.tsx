@@ -1,7 +1,7 @@
 import React from "react";
-import { useLoaderData } from "@remix-run/react";
+import { asText } from "@prismicio/richtext";
+import { Link, useLoaderData } from "@remix-run/react";
 import { Video } from "~/components/Video";
-import { RichText } from "~/components/RichText";
 import { ButtonCTA } from "~/components/Button";
 import type { loader } from "~/routes/work.$project";
 
@@ -14,7 +14,7 @@ function WorkProjectHero() {
     >
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52">
         <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-20"}>
-          <RichText field={hero.title} />
+          <h1 className={"display--1"}>{asText(hero.title)}</h1>
         </div>
 
         <div
@@ -22,13 +22,11 @@ function WorkProjectHero() {
             "col-span-4 mb-12 md:col-span-12 md:mb-2 md:border-b md:border-b-white/30 md:pb-20"
           }
         >
-          <RichText field={hero.capabilities} />
+          <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
         </div>
 
         <div className="desktop-only md:col-span-4">
-          <ButtonCTA>
-            <RichText field={hero.cta} />
-          </ButtonCTA>
+          <ButtonCTA>{asText(hero.cta)}</ButtonCTA>
         </div>
 
         <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:border-t-0">
@@ -47,7 +45,16 @@ function WorkProjectHero() {
                   <span className={"body--3"}>{item.role_item}</span>
                 </div>
                 <div className={"w-1/2"}>
-                  <span className={"body--3"}>{hero.links[index]?.label}</span>
+                  {hero.links[index] ? (
+                    <a
+                      rel="noreferrer"
+                      target={"_blank"}
+                      className={"body--3"}
+                      href={hero.links[index]?.link_item?.url}
+                    >
+                      {hero.links[index]?.label}
+                    </a>
+                  ) : null}
                 </div>
               </div>
             );

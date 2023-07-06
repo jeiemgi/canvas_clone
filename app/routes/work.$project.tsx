@@ -1,11 +1,10 @@
-import React from "react";
+import clsx from "clsx";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { Video } from "~/components/Video";
 import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import type { LoaderArgs } from "@remix-run/node";
-import clsx from "clsx";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -50,6 +49,8 @@ function WorkProject() {
     <>
       <WorkProjectHero />
       {slices.map((item, index) => {
+        let containerClassNames = "";
+        let contentClassNames = "";
         switch (item.slice_type) {
           case "project_full_width":
             return (
@@ -94,25 +95,40 @@ function WorkProject() {
               </div>
             );
           case "project_plate_-_videocolor":
+            containerClassNames = item.primary.square
+              ? "md:min-h-screen"
+              : "md:aspect-video";
+
+            contentClassNames = item.primary.square
+              ? "md:col-span-6 md:col-start-4"
+              : "md:col-span-8 md:col-start-3";
+
             return (
               <div
                 key={`WorkProjectSlice-${index}`}
-                className={"md:grid-container items-center md:aspect-video"}
+                className={clsx(
+                  "md:grid-container items-center md:aspect-video",
+                  containerClassNames
+                )}
                 style={{
                   backgroundColor: item.primary.background_color || "#fff000",
                 }}
               >
-                <div className="md:col-span-8 md:col-start-3">
-                  <Video autoPlay muted loop src={item.primary.video.url} />
+                <div className={contentClassNames}>
+                  <Video
+                    autoPlay
+                    square={item.primary.square}
+                    src={item.primary.video.url}
+                  />
                 </div>
               </div>
             );
           case "project_plate_-_videophoto":
-            const containerClassNames = item.primary.square
+            containerClassNames = item.primary.square
               ? "md:min-h-screen"
               : "md:aspect-video";
 
-            const contentClassNames = item.primary.square
+            contentClassNames = item.primary.square
               ? "md:col-span-6 md:col-start-4"
               : "md:col-span-8 md:col-start-3";
 
