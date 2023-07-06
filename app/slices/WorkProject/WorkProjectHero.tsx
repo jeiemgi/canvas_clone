@@ -3,40 +3,36 @@ import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/RichText";
 import type { loader } from "~/routes/work.$project";
 import Video from "../../components/Video/Video";
+import { ButtonCTA } from "~/components/Button";
 
 function WorkProjectHero() {
   const { hero } = useLoaderData<typeof loader>();
   return (
-    <div className={"relative"}>
-      <img
-        alt={"Background"}
-        className={"absolute left-0 top-0 h-full w-full object-cover"}
-        src={hero.background_image.url || ""}
-      />
-
+    <div
+      className={"relative bg-black bg-cover bg-top"}
+      style={{ backgroundImage: `url(${hero.background_image.url || ""})` }}
+    >
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52">
-        <div className={"col-span-4 my-12 md:col-span-12 md:my-32"}>
+        <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-20"}>
           <RichText field={hero.title} />
         </div>
 
         <div
           className={
-            "col-span-4 mb-10 border-b border-b-white/30 md:col-span-12 md:mb-2 md:pb-20"
+            "col-span-4 mb-12 md:col-span-12 md:mb-2 md:border-b md:border-b-white/30 md:pb-20"
           }
         >
           <RichText field={hero.capabilities} />
         </div>
 
-        <div className="desktop-only md:col-span-12">
-          <span>
-            <span className={"body--1"}>( </span>
+        <div className="desktop-only md:col-span-4">
+          <ButtonCTA>
             <RichText field={hero.cta} />
-            <span className={"body--1"}> )</span>
-          </span>
+          </ButtonCTA>
         </div>
 
         <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:border-t-0">
-          <div className={"flex items-center pb-7 pt-3"}>
+          <div className={"flex items-center pb-8 pt-3"}>
             <span className={"label--2 w-1/2"}>Role</span>
             <span className={"label--2 w-1/2"}>Links</span>
           </div>

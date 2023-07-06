@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useNavigate } from "react-router";
 import { asText } from "@prismicio/richtext";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
 
@@ -6,13 +7,16 @@ interface HomePageProjectItemProps {
   className?: string;
   data: HomepageDocumentDataBodyHomepageProjectSlice;
 }
+
 function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={() => navigate(`/work/${data.primary.slug}`)}
       className={clsx(
         className,
         "HomePageProjects--project",
-        "relative flex flex-col justify-between overflow-hidden"
+        "relative flex cursor-pointer flex-col justify-between overflow-hidden"
       )}
     >
       <div className="desktop-only--grid grid-container">

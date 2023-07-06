@@ -7,7 +7,7 @@ import type { LoaderArgs } from "@remix-run/node";
 import type { VideoProps } from "react-html-props";
 
 function Video(props: VideoProps) {
-  return <video muted autoPlay {...props} />;
+  return <video loop muted autoPlay {...props} />;
 }
 
 export const loader = async ({ params }: LoaderArgs) => {

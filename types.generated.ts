@@ -114,6 +114,16 @@ interface HomepageDocumentData {
  */
 interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
     /**
+     * slug field in *Homepage → Slice zone → `homepage_project` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: homepage.body[].homepage_project.primary.slug
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    slug: prismic.KeyTextField;
+    /**
      * Title field in *Homepage → Slice zone → `homepage_project` → Primary*
      *
      * - **Field Type**: Rich Text
@@ -882,6 +892,16 @@ interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
      */
     left_image: prismic.ImageField<never>;
     /**
+     * left_video field in *Project Page → Slice zone → `project_2_column` → Primary*
+     *
+     * - **Field Type**: Link to Media
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_2_column.primary.left_video
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    left_video: prismic.LinkToMediaField;
+    /**
      * Right Image field in *Project Page → Slice zone → `project_2_column` → Primary*
      *
      * - **Field Type**: Image
@@ -891,6 +911,16 @@ interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
      *
      */
     right_image: prismic.ImageField<never>;
+    /**
+     * right_video field in *Project Page → Slice zone → `project_2_column` → Primary*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_2_column.primary.right_video
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    right_video: prismic.RelationField;
 }
 export type ProjectPageDocumentDataBodyProject2ColumnSlice = prismic.Slice<"project_2_column", Simplify<ProjectPageDocumentDataBodyProject2ColumnSlicePrimary>, never>;
 /**
