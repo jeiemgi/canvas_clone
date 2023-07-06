@@ -88,9 +88,10 @@ function WorkProject() {
                 {rightIsVideo ? (
                   <div className={"w-full bg-red md:w-1/2"}>
                     <Video
-                      autoPlay
                       muted
                       loop
+                      autoPlay
+                      playsInline
                       src={item.primary.right_video.url}
                     />
                   </div>
@@ -142,6 +143,7 @@ function WorkProject() {
                     loop
                     muted
                     autoPlay
+                    playsInline
                     square={item.primary.square}
                     src={item.primary.video.url}
                   />

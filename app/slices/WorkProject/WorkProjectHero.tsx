@@ -56,6 +56,7 @@ function WorkProjectHero() {
 
         <div className={"col-span-4 mb-10 md:col-span-8 md:col-start-3"}>
           <Video
+            playsInline
             playable={true}
             src={hero.reel.url}
             poster={hero.reel_cover.url ?? ""}
