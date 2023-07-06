@@ -55,7 +55,11 @@ function WorkProjectHero() {
         </div>
 
         <div className={"col-span-4 mb-10 md:col-span-8 md:col-start-3"}>
-          <Video poster={hero.reel_cover.url ?? ""} src={hero.reel.url} />
+          <Video
+            playable={true}
+            src={hero.reel.url}
+            poster={hero.reel_cover.url ?? ""}
+          />
         </div>
 
         <div className="col-span-4 flex w-full justify-between md:hidden">

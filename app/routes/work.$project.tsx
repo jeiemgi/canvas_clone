@@ -118,8 +118,6 @@ function WorkProject() {
               </div>
             );
           case "project_plate_-_videophoto":
-            console.log("square", item.primary.square);
-
             const containerClassNames = item.primary.square
               ? "md:min-h-screen"
               : "md:aspect-video";
