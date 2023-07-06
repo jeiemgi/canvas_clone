@@ -69,12 +69,7 @@ function WorkProject() {
                 {/* RIGHT MEDIA */}
                 {leftIsVideo ? (
                   <div className={"w-full bg-red md:w-1/2"}>
-                    <Video
-                      autoPlay
-                      muted
-                      loop
-                      src={item.primary.left_video.url}
-                    />
+                    <Video autoPlay src={item.primary.left_video.url} />
                   </div>
                 ) : (
                   <img
@@ -87,13 +82,7 @@ function WorkProject() {
                 {/* RIGHT MEDIA */}
                 {rightIsVideo ? (
                   <div className={"w-full bg-red md:w-1/2"}>
-                    <Video
-                      muted
-                      loop
-                      autoPlay
-                      playsInline
-                      src={item.primary.right_video.url}
-                    />
+                    <Video autoPlay src={item.primary.right_video.url} />
                   </div>
                 ) : (
                   <img
@@ -140,10 +129,7 @@ function WorkProject() {
               >
                 <div className={contentClassNames}>
                   <Video
-                    loop
-                    muted
                     autoPlay
-                    playsInline
                     square={item.primary.square}
                     src={item.primary.video.url}
                   />

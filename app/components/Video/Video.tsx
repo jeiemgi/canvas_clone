@@ -20,12 +20,17 @@ const isVideoPlaying = (video: HTMLVideoElement | null) => {
 function Video({
   className,
   containerClassName,
+  autoPlay,
   playable = false,
   square = false,
   src,
   ...props
 }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
+
+  const extraProps: VideoProps = autoPlay
+    ? { autoPlay: true, playsInline: true, muted: true, loop: true }
+    : {};
 
   return (
     <div
@@ -49,6 +54,7 @@ function Video({
         }}
         ref={ref}
         src={src}
+        {...extraProps}
         {...props}
         className={clsx(
           "object-cover",
