@@ -21,7 +21,7 @@ function WorkProjectHero() {
 
         <div
           className={
-            "col-span-4 mb-10 border-b border-b-white/30 md:col-span-12 md:pb-20"
+            "col-span-4 mb-10 border-b border-b-white/30 md:col-span-12 md:mb-2 md:pb-20"
           }
         >
           <RichText field={hero.capabilities} />
@@ -29,11 +29,13 @@ function WorkProjectHero() {
 
         <div className="col-span-12">
           <span>
-            ( <RichText field={hero.cta} /> )
+            <span className={"body--1"}>( </span>
+            <RichText field={hero.cta} />
+            <span className={"body--1"}> )</span>
           </span>
         </div>
 
-        <div className="col-span-4 mb-10 border-t border-white/30 md:col-start-8">
+        <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:border-t-0">
           <div className={"flex items-center pb-7 pt-3"}>
             <span className={"label--2 w-1/2"}>Role</span>
             <span className={"label--2 w-1/2"}>Links</span>
