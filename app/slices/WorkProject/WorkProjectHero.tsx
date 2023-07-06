@@ -15,7 +15,7 @@ function WorkProjectHero() {
       />
 
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52">
-        <div className={"col-span-4 my-12 md:col-span-12"}>
+        <div className={"col-span-4 my-12 md:col-span-12 md:my-32"}>
           <RichText field={hero.title} />
         </div>
 
@@ -27,7 +27,7 @@ function WorkProjectHero() {
           <RichText field={hero.capabilities} />
         </div>
 
-        <div className="col-span-12">
+        <div className="desktop-only md:col-span-12">
           <span>
             <span className={"body--1"}>( </span>
             <RichText field={hero.cta} />
