@@ -1,6 +1,6 @@
 import React from "react";
 import { asText } from "@prismicio/richtext";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { Video } from "~/components/Video";
 import { ButtonCTA } from "~/components/Button";
 import type { loader } from "~/routes/work.$project";
