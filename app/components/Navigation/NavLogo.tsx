@@ -2,8 +2,10 @@ import clsx from "clsx";
 import { CanvasLogo } from "~/svg";
 import NavListItem from "~/components/Navigation/NavListItem";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
+import useIsScrolled from "~/hooks/useIsScrolled";
 
 export function NavLogoDesktop() {
+  const isScrolled = useIsScrolled();
   const { theme } = useNavTheme();
 
   return (

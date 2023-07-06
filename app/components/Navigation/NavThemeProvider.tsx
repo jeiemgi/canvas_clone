@@ -3,15 +3,6 @@ import type { ReactNode } from "react";
 import useIsScrolled from "~/hooks/useIsScrolled";
 import useIsMobile from "~/hooks/useIsMobile";
 
-/**
- * Desktop:
- * Should not show the canvas logo at the top.
- * Should react to white intersection backgrounds.
- *
- * Mobile:
- * Should show the Back button if it's not desktop
- */
-
 export interface NavThemeProps {
   theme: "transparent" | "white";
 }

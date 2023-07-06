@@ -26,7 +26,16 @@ function HomePageTable({
 
       <div className={clsx("grid-container", className)}>
         <div className="col-span-4 md:col-span-12">
-          <Table data={data} />
+          <Table
+            data={data.items.map((item, index) => {
+              return {
+                number: asText(item.number),
+                title: asText(item.title),
+                description: asText(item.description),
+                rows: asText(item.rows).split(", "),
+              };
+            })}
+          />
         </div>
       </div>
     </section>

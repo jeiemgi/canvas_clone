@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 export interface TableColumnProps {
   title: string;
@@ -29,15 +30,15 @@ export function TableColumn({
       </p>
 
       <div
-        className={
-          "TableColumn__cell-group body--3 relative col-span-4 mb-24 border-t border-black/30 md:border-0"
-        }
+        className={clsx(
+          "body--3 relative col-span-4 mb-24 border-t border-black/30 md:border-0"
+        )}
       >
         {rows.map((row, index) => (
           <div
             key={`${row}-${index}`}
             className={
-              "TableColumn__cell-element body--3 relative w-full border-b border-black/30 py-2.5 md:border-0"
+              "body--3 relative w-full border-b border-black/30 py-2.5 md:border-0"
             }
           >
             {row}

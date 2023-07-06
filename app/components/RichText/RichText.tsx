@@ -9,7 +9,9 @@ function RichText(props: PrismicRichTextProps) {
         heading1: ({ children }) => (
           <h1 className={"display--1 text-white"}>{children}</h1>
         ),
-        paragraph: ({ children }) => <p className={"body--1"}>{children}</p>,
+        paragraph: ({ children }) => (
+          <p className={"body--1 text-white"}>{children}</p>
+        ),
       }}
     />
   );
