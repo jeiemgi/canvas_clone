@@ -4,6 +4,11 @@ import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import type { LoaderArgs } from "@remix-run/node";
+import type { VideoProps } from "react-html-props";
+
+function Video(props: VideoProps) {
+  return <video muted autoPlay {...props} />;
+}
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -36,20 +41,22 @@ function WorkProject() {
   const { slices } = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <>
       <WorkProjectHero />
-      {slices.map((item) => {
+      {slices.map((item, index) => {
         switch (item.slice_type) {
           case "project_full_width":
             return (
               <img
+                className={"w-full object-cover"}
+                key={`WorkProjectSlice-${index}`}
                 alt={item.primary.background.alt || ""}
                 src={item.primary.background.url || ""}
               />
             );
           case "project_2_column":
             return (
-              <div className={"md:flex"}>
+              <div className={"md:flex"} key={`WorkProjectSlice-${index}`}>
                 <img
                   className={"w-full md:w-1/2"}
                   alt={item.primary.left_image.url || ""}
@@ -62,11 +69,42 @@ function WorkProject() {
                 />
               </div>
             );
+          case "project_plate_-_videocolor":
+            return (
+              <div
+                key={`WorkProjectSlice-${index}`}
+                className={"md:grid-container items-center md:aspect-video"}
+                style={{
+                  backgroundColor: item.primary.background_color || "#fff000",
+                }}
+              >
+                <div className="aspect-video md:col-span-8 md:col-start-3">
+                  <Video src={item.primary.video.url} />
+                </div>
+              </div>
+            );
+          case "project_plate_-_videophoto":
+            console.log(item.primary.image.url);
+            return (
+              <div
+                key={`WorkProjectSlice-${index}`}
+                className={
+                  "md:grid-container items-center bg-cover bg-center bg-no-repeat md:aspect-video"
+                }
+                style={{
+                  backgroundImage: `url(${item.primary.image.url})` || "",
+                }}
+              >
+                <div className="aspect-video md:col-span-8 md:col-start-3">
+                  <Video src={item.primary.video.url} />
+                </div>
+              </div>
+            );
           default:
             return <span>Unknown Slice Type {item.slice_type}</span>;
         }
       })}
-    </div>
+    </>
   );
 }
 

@@ -920,15 +920,25 @@ interface ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary {
      */
     background_color: prismic.ColorField;
     /**
-     * Image field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
+     * Cover field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.image
+     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.cover
      * - **Documentation**: https://prismic.io/docs/core-concepts/image
      *
      */
-    image: prismic.ImageField<never>;
+    cover: prismic.ImageField<never>;
+    /**
+     * video field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
+     *
+     * - **Field Type**: Link to Media
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.video
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    video: prismic.LinkToMediaField;
 }
 export type ProjectPageDocumentDataBodyProjectPlateVideocolorSlice = prismic.Slice<"project_plate_-_videocolor", Simplify<ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary>, never>;
 /**
