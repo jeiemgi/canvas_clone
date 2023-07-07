@@ -51,6 +51,7 @@ function WorkProject() {
       {slices.map((item, index) => {
         let containerClassNames = "";
         let contentClassNames = "";
+
         switch (item.slice_type) {
           case "project_full_width":
             return (
@@ -148,6 +149,25 @@ function WorkProject() {
                     autoPlay
                     square={item.primary.square}
                     src={item.primary.video.url}
+                  />
+                </div>
+              </div>
+            );
+          case "projectplate_-_picturecolor":
+            return (
+              <div className={"md:grid-container"}>
+                <div
+                  className={
+                    "flex items-center md:col-span-8 md:col-start-3 md:min-h-screen"
+                  }
+                  style={{
+                    backgroundColor: item.primary.background_color || "white",
+                  }}
+                >
+                  <img
+                    className={"w-full select-none"}
+                    alt={item.primary.image.url || ""}
+                    src={item.primary.image.url || ""}
                   />
                 </div>
               </div>
