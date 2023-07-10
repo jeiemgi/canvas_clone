@@ -13,7 +13,7 @@ function WorkProjectHero() {
       style={{ backgroundImage: `url(${hero.background_image.url || ""})` }}
     >
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52">
-        <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-20"}>
+        <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24"}>
           <h1 className={"display--1"}>{asText(hero.title)}</h1>
         </div>
 
@@ -29,7 +29,7 @@ function WorkProjectHero() {
           <ButtonCTA>{asText(hero.cta)}</ButtonCTA>
         </div>
 
-        <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:border-t-0">
+        <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:mb-40 md:border-t-0">
           <div className={"flex items-center pb-8 pt-3"}>
             <span className={"label--2 w-1/2"}>Role</span>
             <span className={"label--2 w-1/2"}>Links</span>

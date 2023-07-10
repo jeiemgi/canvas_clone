@@ -5,7 +5,6 @@ import type { VideoProps } from "react-html-props";
 interface Props extends VideoProps {
   playable?: boolean;
   square?: boolean;
-  containerClassName?: string;
 }
 
 const isVideoPlaying = (video: HTMLVideoElement | null) => {
@@ -19,7 +18,6 @@ const isVideoPlaying = (video: HTMLVideoElement | null) => {
 
 function Video({
   className,
-  containerClassName,
   autoPlay,
   playable = false,
   square = false,
@@ -33,36 +31,19 @@ function Video({
     : {};
 
   return (
-    <div
-      className={clsx(
-        "relative bg-black",
-        square ? "aspect-square" : "aspect-video",
-        containerClassName
-      )}
-    >
-      {!src ?? (
-        <div className={"absolute flex h-full w-full items-center"}>
-          <h1 className={"heading--3 text-white"}>VIDEO PLACEHOLDER</h1>
-        </div>
-      )}
-      <video
-        onClick={async () => {
-          if (!playable) return;
-          const isPlaying = isVideoPlaying(ref.current);
-          if (isPlaying) ref.current?.pause();
-          else await ref.current?.play();
-        }}
-        ref={ref}
-        src={src}
-        {...extraProps}
-        {...props}
-        className={clsx(
-          "object-cover",
-          playable ?? "cursor-pointer",
-          className
-        )}
-      />
-    </div>
+    <video
+      onClick={async () => {
+        if (!playable) return;
+        const isPlaying = isVideoPlaying(ref.current);
+        if (isPlaying) ref.current?.pause();
+        else await ref.current?.play();
+      }}
+      ref={ref}
+      src={src}
+      {...props}
+      {...extraProps}
+      className={clsx(playable ?? "cursor-pointer", className)}
+    />
   );
 }
 

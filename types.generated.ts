@@ -925,13 +925,13 @@ interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
     /**
      * right_video field in *Project Page → Slice zone → `project_2_column` → Primary*
      *
-     * - **Field Type**: Content Relationship
+     * - **Field Type**: Link
      * - **Placeholder**: *None*
      * - **API ID Path**: project_page.body[].project_2_column.primary.right_video
      * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
      *
      */
-    right_video: prismic.RelationField;
+    right_video: prismic.LinkField;
 }
 export type ProjectPageDocumentDataBodyProject2ColumnSlice = prismic.Slice<"project_2_column", Simplify<ProjectPageDocumentDataBodyProject2ColumnSlicePrimary>, never>;
 /**

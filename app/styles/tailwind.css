@@ -392,6 +392,10 @@
         @apply transition-transform ;
     }
 
+    .bg-gradient {
+        @apply bg-gradient-to-b from-pure-black/30 to-transparent
+    }
+
     video[poster] {
         @apply w-full h-full object-cover;
     }
