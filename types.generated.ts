@@ -1075,10 +1075,57 @@ interface ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary {
 }
 export type ProjectPageDocumentDataBodyProjectplatePicturecolorSlice = prismic.Slice<"projectplate_-_picturecolor", Simplify<ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary>, never>;
 /**
+ * Primary content in Project Page → Slice zone → `project_next_banner` → Primary
+ *
+ */
+interface ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary {
+    /**
+     * slug field in *Project Page → Slice zone → `project_next_banner` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_next_banner.primary.slug
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    slug: prismic.KeyTextField;
+    /**
+     * Title field in *Project Page → Slice zone → `project_next_banner` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_next_banner.primary.title1
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    title1: prismic.KeyTextField;
+    /**
+     * Capabilities field in *Project Page → Slice zone → `project_next_banner` → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_next_banner.primary.capabilities1
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    capabilities1: prismic.KeyTextField;
+    /**
+     * Background Image field in *Project Page → Slice zone → `project_next_banner` → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_next_banner.primary.background_image1
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    background_image1: prismic.ImageField<never>;
+}
+export type ProjectPageDocumentDataBodyProjectNextBannerSlice = prismic.Slice<"project_next_banner", Simplify<ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary>, never>;
+/**
  * Slice for *Project Page → Slice zone*
  *
  */
-type ProjectPageDocumentDataBodySlice = ProjectPageDocumentDataBodyProjectFullWidthSlice | ProjectPageDocumentDataBodyProject2ColumnSlice | ProjectPageDocumentDataBodyProjectPlateVideocolorSlice | ProjectPageDocumentDataBodyProjectPlateVideophotoSlice | ProjectPageDocumentDataBodyProjectplateVideovideoSlice | ProjectPageDocumentDataBodyProjectplatePicturecolorSlice;
+type ProjectPageDocumentDataBodySlice = ProjectPageDocumentDataBodyProjectFullWidthSlice | ProjectPageDocumentDataBodyProject2ColumnSlice | ProjectPageDocumentDataBodyProjectPlateVideocolorSlice | ProjectPageDocumentDataBodyProjectPlateVideophotoSlice | ProjectPageDocumentDataBodyProjectplateVideovideoSlice | ProjectPageDocumentDataBodyProjectplatePicturecolorSlice | ProjectPageDocumentDataBodyProjectNextBannerSlice;
 /**
  * Primary content in Project Page → Slice zone → `seo` → Primary
  *
@@ -1147,6 +1194,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { ContactPageDocumentData, ContactPageDocumentDataBodyContactFormSliceItem, ContactPageDocumentDataBodyContactFormSlice, ContactPageDocumentDataBodySlice, ContactPageDocument, HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocumentDataBody1SeoSlicePrimary, HomepageDocumentDataBody1SeoSlice, HomepageDocumentDataBody1Slice, HomepageDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, ProjectPageDocumentData, ProjectPageDocumentDataRolesItem, ProjectPageDocumentDataLinksItem, ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary, ProjectPageDocumentDataBodyProjectFullWidthSlice, ProjectPageDocumentDataBodyProject2ColumnSlicePrimary, ProjectPageDocumentDataBodyProject2ColumnSlice, ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideocolorSlice, ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideophotoSlice, ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary, ProjectPageDocumentDataBodyProjectplateVideovideoSlice, ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary, ProjectPageDocumentDataBodyProjectplatePicturecolorSlice, ProjectPageDocumentDataBodySlice, ProjectPageDocumentDataBody1SeoSlicePrimary, ProjectPageDocumentDataBody1SeoSlice, ProjectPageDocumentDataBody1Slice, ProjectPageDocument, AllDocumentTypes };
+        export type { ContactPageDocumentData, ContactPageDocumentDataBodyContactFormSliceItem, ContactPageDocumentDataBodyContactFormSlice, ContactPageDocumentDataBodySlice, ContactPageDocument, HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocumentDataBody1SeoSlicePrimary, HomepageDocumentDataBody1SeoSlice, HomepageDocumentDataBody1Slice, HomepageDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, ProjectPageDocumentData, ProjectPageDocumentDataRolesItem, ProjectPageDocumentDataLinksItem, ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary, ProjectPageDocumentDataBodyProjectFullWidthSlice, ProjectPageDocumentDataBodyProject2ColumnSlicePrimary, ProjectPageDocumentDataBodyProject2ColumnSlice, ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideocolorSlice, ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideophotoSlice, ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary, ProjectPageDocumentDataBodyProjectplateVideovideoSlice, ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary, ProjectPageDocumentDataBodyProjectplatePicturecolorSlice, ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary, ProjectPageDocumentDataBodyProjectNextBannerSlice, ProjectPageDocumentDataBodySlice, ProjectPageDocumentDataBody1SeoSlicePrimary, ProjectPageDocumentDataBody1SeoSlice, ProjectPageDocumentDataBody1Slice, ProjectPageDocument, AllDocumentTypes };
     }
 }

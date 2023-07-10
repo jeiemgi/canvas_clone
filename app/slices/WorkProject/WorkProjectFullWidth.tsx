@@ -1,6 +1,6 @@
 import React from "react";
-import type { ProjectPageDocumentDataBodyProjectFullWidthSlice } from "types.generated";
 import { PrismicImage } from "@prismicio/react";
+import type { ProjectPageDocumentDataBodyProjectFullWidthSlice } from "types.generated";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectFullWidthSlice;

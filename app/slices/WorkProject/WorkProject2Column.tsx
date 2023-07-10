@@ -15,7 +15,7 @@ function WorkProject2Column({ item }: Props) {
     <div className={"md:flex"}>
       {/* RIGHT MEDIA */}
       {leftIsVideo ? (
-        <div className={"w-full bg-red md:w-1/2"}>
+        <div className={"w-full bg-pure-black md:w-1/2"}>
           <Video
             square
             autoPlay
@@ -33,7 +33,7 @@ function WorkProject2Column({ item }: Props) {
 
       {/* RIGHT MEDIA */}
       {rightIsVideo ? (
-        <div className={"w-full bg-red md:w-1/2"}>
+        <div className={"w-full bg-pure-black md:w-1/2"}>
           <Video
             square
             autoPlay

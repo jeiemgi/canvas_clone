@@ -5,6 +5,7 @@ import WorkProject2Column from "~/slices/WorkProject/WorkProject2Column";
 import WorkProjectVideoColor from "~/slices/WorkProject/WorkProjectVideoColor";
 import WorkProjectVideoPhoto from "~/slices/WorkProject/WorkProjectVideoPhoto";
 import WorkProjectPictureColor from "~/slices/WorkProject/WorkProjectPictureColor";
+import WorkProjectNextProject from "~/slices/WorkProject/WorkProjectNextProject";
 import type { loader } from "~/routes/work.$project";
 
 function WorkProjectSliceZone() {
@@ -45,6 +46,13 @@ function WorkProjectSliceZone() {
           case "projectplate_-_picturecolor":
             return (
               <WorkProjectPictureColor
+                item={item}
+                key={`WorkProjectSlice-${index}`}
+              />
+            );
+          case "project_next_banner":
+            return (
+              <WorkProjectNextProject
                 item={item}
                 key={`WorkProjectSlice-${index}`}
               />

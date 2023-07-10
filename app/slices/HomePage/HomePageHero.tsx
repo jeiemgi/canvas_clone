@@ -64,7 +64,7 @@ interface Props {
   data?: HomepageDocumentDataBodyHomepageHeroSlice;
 }
 
-function HomePageHero({ data }: Props) {
+function HomePageHero(props: Props) {
   return (
     <section
       className={"texture-background w-full bg-black bg-cover bg-repeat-y"}
