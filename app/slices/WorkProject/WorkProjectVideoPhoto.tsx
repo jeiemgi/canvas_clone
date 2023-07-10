@@ -12,6 +12,7 @@ function WorkProjectVideoPhoto({ item }: Props) {
   return (
     <div className={"relative"}>
       <PrismicImage
+        loading="lazy"
         field={item.primary.image}
         className={"desktop-only w-full"}
       />

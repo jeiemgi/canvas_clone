@@ -93,7 +93,7 @@
         font-weight: 300;
         line-height: 105%;
         letter-spacing: -0.08125rem;
-        text-transform: uppercase;
+        @apply break-words hyphens-manual;
     }
 
 

@@ -18,6 +18,7 @@ function WorkProjectPictureColor({ item }: Props) {
         }}
       >
         <PrismicImage
+          loading="lazy"
           field={item.primary.image}
           className={"w-full select-none"}
         />

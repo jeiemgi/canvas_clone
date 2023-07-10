@@ -9,6 +9,7 @@ interface Props {
 function WorkProjectFullWidth({ item }: Props) {
   return (
     <PrismicImage
+      loading="lazy"
       field={item.primary.background}
       className={"w-full select-none object-cover"}
     />

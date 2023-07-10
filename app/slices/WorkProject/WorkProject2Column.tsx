@@ -25,6 +25,7 @@ function WorkProject2Column({ item }: Props) {
         </div>
       ) : (
         <PrismicImage
+          loading="lazy"
           className={"w-full select-none md:w-1/2"}
           field={item.primary.left_image}
         />
@@ -42,6 +43,7 @@ function WorkProject2Column({ item }: Props) {
         </div>
       ) : (
         <PrismicImage
+          loading="lazy"
           className={"w-full select-none md:w-1/2"}
           field={item.primary.right_image}
         />

@@ -14,7 +14,10 @@ function WorkProjectHero() {
     >
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52">
         <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24"}>
-          <h1 className={"display--1"}>{asText(hero.title)}</h1>
+          <h1
+            className={"display--1"}
+            dangerouslySetInnerHTML={{ __html: `${asText(hero.title)}` }}
+          />
         </div>
 
         <div
