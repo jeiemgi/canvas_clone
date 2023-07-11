@@ -1,7 +1,7 @@
 import React from "react";
+import { Image } from "~/components/Image";
 import { Video } from "~/components/Video";
 import type { ProjectPageDocumentDataBodyProject2ColumnSlice } from "types.generated";
-import { PrismicImage } from "@prismicio/react";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProject2ColumnSlice;
@@ -24,7 +24,7 @@ function WorkProject2Column({ item }: Props) {
           />
         </div>
       ) : (
-        <PrismicImage
+        <Image
           loading="lazy"
           className={"w-full select-none md:w-1/2"}
           field={item.primary.left_image}
@@ -42,7 +42,7 @@ function WorkProject2Column({ item }: Props) {
           />
         </div>
       ) : (
-        <PrismicImage
+        <Image
           loading="lazy"
           className={"w-full select-none md:w-1/2"}
           field={item.primary.right_image}

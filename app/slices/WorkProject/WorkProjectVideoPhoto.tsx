@@ -1,8 +1,8 @@
 import React from "react";
 import clsx from "clsx";
 import { Video } from "~/components/Video";
+import { Image } from "~/components/Image";
 import type { ProjectPageDocumentDataBodyProjectPlateVideophotoSlice } from "types.generated";
-import { PrismicImage } from "@prismicio/react";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectPlateVideophotoSlice;
@@ -11,7 +11,7 @@ interface Props {
 function WorkProjectVideoPhoto({ item }: Props) {
   return (
     <div className={"relative"}>
-      <PrismicImage
+      <Image
         loading="lazy"
         field={item.primary.image}
         className={"desktop-only w-full"}

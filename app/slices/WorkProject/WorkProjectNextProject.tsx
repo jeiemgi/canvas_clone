@@ -1,7 +1,7 @@
 import React from "react";
-import { PrismicImage } from "@prismicio/react";
-import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import { Link } from "@remix-run/react";
+import { Image } from "~/components/Image";
+import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -11,7 +11,7 @@ function WorkProjectNextProject({ item }: Props) {
   return (
     <Link to={`/work/${item.primary.slug}` ?? "#"} prefetch={"render"}>
       <div className={"relative"}>
-        <PrismicImage
+        <Image
           loading={"lazy"}
           className={"w-full object-cover md:h-screen"}
           field={item.primary.background_image1}

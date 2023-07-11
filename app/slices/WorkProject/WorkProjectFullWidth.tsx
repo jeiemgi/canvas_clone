@@ -1,6 +1,6 @@
 import React from "react";
-import { PrismicImage } from "@prismicio/react";
 import type { ProjectPageDocumentDataBodyProjectFullWidthSlice } from "types.generated";
+import Image from "~/components/Image/Image";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectFullWidthSlice;
@@ -8,7 +8,7 @@ interface Props {
 
 function WorkProjectFullWidth({ item }: Props) {
   return (
-    <PrismicImage
+    <Image
       loading="lazy"
       field={item.primary.background}
       className={"w-full select-none object-cover"}

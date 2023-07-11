@@ -1,6 +1,6 @@
 import React from "react";
 import type { ProjectPageDocumentDataBodyProjectplatePicturecolorSlice } from "types.generated";
-import { PrismicImage } from "@prismicio/react";
+import { Image } from "~/components/Image";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectplatePicturecolorSlice;
@@ -17,7 +17,7 @@ function WorkProjectPictureColor({ item }: Props) {
           backgroundColor: item.primary.background_color || "white",
         }}
       >
-        <PrismicImage
+        <Image
           loading="lazy"
           field={item.primary.image}
           className={"w-full select-none"}
