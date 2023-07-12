@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useNavigate } from "react-router";
 import { asText } from "@prismicio/richtext";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
+import { Image } from "~/components/Image";
 
 interface HomePageProjectItemProps {
   className?: string;
@@ -35,10 +36,8 @@ function HomePageProjectItem({ className, data }: HomePageProjectItemProps) {
               className={"mb-5 w-full"}
             >
               {slide.url ? (
-                <img
-                  data-speed={"auto"}
-                  src={slide.url}
-                  alt={slide.alt || ""}
+                <Image
+                  field={slide}
                   className={"h-full w-full object-contain"}
                 />
               ) : null}

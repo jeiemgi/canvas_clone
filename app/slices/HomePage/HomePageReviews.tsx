@@ -8,6 +8,7 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomeReviewsSlice } from "types.generated";
+import { Image } from "~/components/Image";
 
 // import random from "canvas-sketch-util/random";
 
@@ -152,7 +153,7 @@ function HomePageReviews({ data }: Props) {
         >
           {data.items.map((item, index) => (
             <SplideSlide key={`Review-Card-Img-Mobile-${index}`}>
-              <img src={item.image.url!} alt={item.image.alt || ""} />
+              <Image field={item.image} />
             </SplideSlide>
           ))}
         </Splide>

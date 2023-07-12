@@ -827,6 +827,17 @@ interface ProjectPageDocumentData {
      *
      */
     body1: prismic.SliceZone<ProjectPageDocumentDataBody1Slice>;
+    /**
+     * Slice zone field in *Project Page*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body2[]
+     * - **Tab**: Details
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    body2: prismic.SliceZone<ProjectPageDocumentDataBody2Slice>;
 }
 /**
  * Item in Project Page → Roles
@@ -885,6 +896,16 @@ interface ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary {
      *
      */
     background: prismic.ImageField<never>;
+    /**
+     * video field in *Project Page → Slice zone → `project_full_width` → Primary*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body[].project_full_width.primary.video
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    video: prismic.LinkField;
 }
 export type ProjectPageDocumentDataBodyProjectFullWidthSlice = prismic.Slice<"project_full_width", Simplify<ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary>, never>;
 /**
@@ -1179,6 +1200,75 @@ export type ProjectPageDocumentDataBody1SeoSlice = prismic.Slice<"seo", Simplify
  */
 type ProjectPageDocumentDataBody1Slice = ProjectPageDocumentDataBody1SeoSlice;
 /**
+ * Primary content in Project Page → Slice zone → `table` → Primary
+ *
+ */
+interface ProjectPageDocumentDataBody2TableSlicePrimary {
+    /**
+     * Title field in *Project Page → Slice zone → `table` → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body2[].table.primary.title1
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title1: prismic.TitleField;
+    /**
+     * description field in *Project Page → Slice zone → `table` → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body2[].table.primary.description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismic.RichTextField;
+}
+/**
+ * Item in Project Page → Slice zone → `table` → Items
+ *
+ */
+export interface ProjectPageDocumentDataBody2TableSliceItem {
+    /**
+     * isHeader field in *Project Page → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Boolean
+     * - **Placeholder**: *None*
+     * - **Default Value**: false
+     * - **API ID Path**: project_page.body2[].table.items[].isheader
+     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+     *
+     */
+    isheader: prismic.BooleanField;
+    /**
+     * label field in *Project Page → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body2[].table.items[].label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    label: prismic.KeyTextField;
+    /**
+     * link field in *Project Page → Slice zone → `table` → Items*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project_page.body2[].table.items[].link
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    link: prismic.LinkField;
+}
+export type ProjectPageDocumentDataBody2TableSlice = prismic.Slice<"table", Simplify<ProjectPageDocumentDataBody2TableSlicePrimary>, Simplify<ProjectPageDocumentDataBody2TableSliceItem>>;
+/**
+ * Slice for *Project Page → Slice zone*
+ *
+ */
+type ProjectPageDocumentDataBody2Slice = ProjectPageDocumentDataBody2TableSlice;
+/**
  * Project Page document from Prismic
  *
  * - **API ID**: `project_page`
@@ -1194,6 +1284,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { ContactPageDocumentData, ContactPageDocumentDataBodyContactFormSliceItem, ContactPageDocumentDataBodyContactFormSlice, ContactPageDocumentDataBodySlice, ContactPageDocument, HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocumentDataBody1SeoSlicePrimary, HomepageDocumentDataBody1SeoSlice, HomepageDocumentDataBody1Slice, HomepageDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, ProjectPageDocumentData, ProjectPageDocumentDataRolesItem, ProjectPageDocumentDataLinksItem, ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary, ProjectPageDocumentDataBodyProjectFullWidthSlice, ProjectPageDocumentDataBodyProject2ColumnSlicePrimary, ProjectPageDocumentDataBodyProject2ColumnSlice, ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideocolorSlice, ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideophotoSlice, ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary, ProjectPageDocumentDataBodyProjectplateVideovideoSlice, ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary, ProjectPageDocumentDataBodyProjectplatePicturecolorSlice, ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary, ProjectPageDocumentDataBodyProjectNextBannerSlice, ProjectPageDocumentDataBodySlice, ProjectPageDocumentDataBody1SeoSlicePrimary, ProjectPageDocumentDataBody1SeoSlice, ProjectPageDocumentDataBody1Slice, ProjectPageDocument, AllDocumentTypes };
+        export type { ContactPageDocumentData, ContactPageDocumentDataBodyContactFormSliceItem, ContactPageDocumentDataBodyContactFormSlice, ContactPageDocumentDataBodySlice, ContactPageDocument, HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocumentDataBody1SeoSlicePrimary, HomepageDocumentDataBody1SeoSlice, HomepageDocumentDataBody1Slice, HomepageDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, ProjectPageDocumentData, ProjectPageDocumentDataRolesItem, ProjectPageDocumentDataLinksItem, ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary, ProjectPageDocumentDataBodyProjectFullWidthSlice, ProjectPageDocumentDataBodyProject2ColumnSlicePrimary, ProjectPageDocumentDataBodyProject2ColumnSlice, ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideocolorSlice, ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideophotoSlice, ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary, ProjectPageDocumentDataBodyProjectplateVideovideoSlice, ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary, ProjectPageDocumentDataBodyProjectplatePicturecolorSlice, ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary, ProjectPageDocumentDataBodyProjectNextBannerSlice, ProjectPageDocumentDataBodySlice, ProjectPageDocumentDataBody1SeoSlicePrimary, ProjectPageDocumentDataBody1SeoSlice, ProjectPageDocumentDataBody1Slice, ProjectPageDocumentDataBody2TableSlicePrimary, ProjectPageDocumentDataBody2TableSliceItem, ProjectPageDocumentDataBody2TableSlice, ProjectPageDocumentDataBody2Slice, ProjectPageDocument, AllDocumentTypes };
     }
 }

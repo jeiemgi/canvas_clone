@@ -7,18 +7,18 @@ interface Props extends VideoProps {
   square?: boolean;
 }
 
-const isVideoPlaying = (video: HTMLVideoElement | null) => {
-  return video
-    ? video.currentTime > 0 &&
-        !video.paused &&
-        !video.ended &&
-        video.readyState > 2
-    : false;
-};
+// const isVideoPlaying = (video: HTMLVideoElement | null) => {
+//   return video
+//     ? video.currentTime > 0 &&
+//         !video.paused &&
+//         !video.ended &&
+//         video.readyState > 2
+//     : false;
+// };
 
 function Video({
-  className,
   autoPlay,
+  className,
   playable = false,
   square = false,
   src,
@@ -32,12 +32,12 @@ function Video({
 
   return (
     <video
-      onClick={async () => {
-        if (!playable) return;
-        const isPlaying = isVideoPlaying(ref.current);
-        if (isPlaying) ref.current?.pause();
-        else await ref.current?.play();
-      }}
+      // onClick={async () => {
+      //   if (!playable) return;
+      //   const isPlaying = isVideoPlaying(ref.current);
+      //   if (isPlaying) ref.current?.pause();
+      //   else await ref.current?.play();
+      // }}
       ref={ref}
       src={src}
       {...props}

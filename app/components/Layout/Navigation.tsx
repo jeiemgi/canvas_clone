@@ -1,4 +1,4 @@
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import Nav from "~/components/Navigation/Nav";
 import NavBack from "~/components/Navigation/NavBack";
 import NavList from "~/components/Navigation/NavList";
@@ -8,14 +8,12 @@ import type { loader } from "~/root";
 
 function Navigation() {
   const { navigation } = useLoaderData<typeof loader>();
-  const location = useLocation();
-  const isHome = location.pathname === "/";
 
   return (
     <Nav>
       <NavList className={"desktop-only"}>
-        <NavBack isHome={isHome} />
-        <NavLogoMobile isHome={isHome} />
+        <NavBack />
+        <NavLogoMobile />
       </NavList>
 
       <NavLogoDesktop />

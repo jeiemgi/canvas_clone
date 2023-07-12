@@ -1,11 +1,10 @@
 import clsx from "clsx";
 import { CanvasLogo } from "~/svg";
-import NavListItem from "~/components/Navigation/NavListItem";
+import { useLocation } from "@remix-run/react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import useIsScrolled from "~/hooks/useIsScrolled";
+import NavListItem from "~/components/Navigation/NavListItem";
 
 export function NavLogoDesktop() {
-  const isScrolled = useIsScrolled();
   const { theme } = useNavTheme();
 
   return (
@@ -22,8 +21,10 @@ export function NavLogoDesktop() {
   );
 }
 
-export function NavLogoMobile({ isHome = true }) {
+export function NavLogoMobile() {
   const { theme } = useNavTheme();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   return (
     <NavListItem
@@ -37,7 +38,7 @@ export function NavLogoMobile({ isHome = true }) {
         width={78}
         height={13}
         className={clsx(
-          "transition-colors ease-out-expo",
+          "transition-colors",
           theme === "transparent" ? "fill-white" : "fill-black"
         )}
       />

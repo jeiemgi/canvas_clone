@@ -9,7 +9,7 @@ function Nav({ children }: NavProps) {
     <nav
       className={clsx(
         "fixed left-0 top-0 z-50 h-header w-full px-4 md:h-headerDesk md:px-8",
-        "flex flex-row items-center justify-between",
+        "flex flex-row items-center justify-between transition-colors",
         theme === "white" ? "bg-white" : "bg-gradient"
       )}
     >

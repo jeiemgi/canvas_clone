@@ -3,16 +3,7 @@ import { Link } from "@remix-run/react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import type { LinkProps } from "@remix-run/react";
 
-export interface NavListItemProps extends LinkProps {
-  show?: boolean;
-}
-
-function NavListItem({
-  show,
-  children,
-  className,
-  ...props
-}: NavListItemProps) {
+function NavListItem({ children, className, ...props }: LinkProps) {
   const { theme } = useNavTheme();
 
   return (

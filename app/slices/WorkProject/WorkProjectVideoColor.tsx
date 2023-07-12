@@ -18,10 +18,7 @@ function WorkProjectVideoColor({ item }: Props) {
 
   return (
     <div
-      className={clsx(
-        "md:grid-container items-center md:aspect-video",
-        containerClassNames
-      )}
+      className={clsx("md:grid-container items-center", containerClassNames)}
       style={{
         backgroundColor: item.primary.background_color || "#fff000",
       }}
@@ -30,6 +27,7 @@ function WorkProjectVideoColor({ item }: Props) {
         <Video
           autoPlay
           square={item.primary.square}
+          // @ts-ignore
           src={item.primary.video.url}
         />
       </div>
