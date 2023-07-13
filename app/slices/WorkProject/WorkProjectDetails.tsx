@@ -7,9 +7,28 @@ import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField } from "@prismicio/types";
+import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
 
 function Title({ text }: { text: string | KeyTextField }) {
   return <h3 className={"label--2 mb-8 pt-3.5"}>{text}</h3>;
+}
+
+function TableCell({
+  item,
+}: {
+  item: ProjectPageDocumentDataBody2TableSliceItem;
+}) {
+  return (
+    <div className={"body--3 py-2"}>
+      {item?.link ? (
+        <a rel="noreferrer" target={"_blank"} href={item.link.url!}>
+          {item.label}
+        </a>
+      ) : (
+        <span>{item ? item.label : null}</span>
+      )}
+    </div>
+  );
 }
 
 function WorkProjectDetails() {
@@ -40,12 +59,12 @@ function WorkProjectDetails() {
         </div>
         {details.map((detailsItem, detailsIndex) => {
           const title = asText(detailsItem.title);
+
           return (
             <div
               className={"grid-container md:mb-24"}
               key={`ProjectDetailsTable-${title}-${detailsIndex}`}
             >
-              <div className="col-span-12 border-t border-t-pure-black/30"></div>
               <div className={"col-span-4"}>
                 <Title text={title} />
                 <PrismicRichText
@@ -58,42 +77,25 @@ function WorkProjectDetails() {
                 />
               </div>
 
-              <div
-                className={
-                  "relative col-span-5 col-start-8 flex w-full border-b border-b-pure-black/30"
-                }
-              >
-                {detailsItem.columns.map((colsItem, colIndex) => {
+              <div className={"relative col-span-5 col-start-8"}>
+                {detailsItem.rows.map((rowItem, rowIndex) => {
                   return (
                     <div
-                      className={"w-full"}
-                      key={`ProjectDetailsTable-${title}-${colIndex}`}
+                      className={"flex w-full border-b"}
+                      key={`ProjectDetailsTableRow-${title}-${rowIndex}`}
                     >
-                      {colsItem.map((rowItem, rowindex, rowsArray) => {
-                        if (rowItem.isheader) {
+                      {rowItem.map((cellItem, cellIndex) => {
+                        const key = `ProjectDetailsTableRowItem-${title}-${rowIndex}-${cellIndex}`;
+                        if (cellItem?.isheader) {
                           return (
-                            <Title
-                              text={rowItem.label}
-                              key={`ProjectDetailsTableItem-${title}-${rowindex}`}
-                            />
+                            <div className={"w-full"} key={key}>
+                              <Title text={cellItem.label} />
+                            </div>
                           );
                         } else {
                           return (
-                            <div
-                              className={"body--3 relative py-2"}
-                              key={`ProjectDetailsTableItem-${title}-${rowindex}`}
-                            >
-                              {rowItem.link ? (
-                                <a
-                                  rel="noreferrer"
-                                  target={"_blank"}
-                                  href={rowItem.link.url!}
-                                >
-                                  {rowItem.label}
-                                </a>
-                              ) : (
-                                <span>{rowItem.label}</span>
-                              )}
+                            <div key={key} className={"w-full"}>
+                              <TableCell item={cellItem} />
                             </div>
                           );
                         }
