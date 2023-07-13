@@ -21,7 +21,7 @@ function WorkProjectHero() {
   const [, setSearchParams] = useSearchParams();
   const { hero } = useLoaderData<typeof loader>();
   return (
-    <div className={"relative bg-black"}>
+    <div className={"relative overflow-hidden bg-black"}>
       <Image
         field={hero.background_image}
         className={"absolute left-0 top-0"}
