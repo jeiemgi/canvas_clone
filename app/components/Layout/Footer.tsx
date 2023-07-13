@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer
       className={
-        "noise-background relative overflow-hidden bg-black text-white"
+        "noise-background relative z-10 overflow-hidden bg-black text-white"
       }
     >
       <div className={"grid-container mb-10 md:mb-56 md:pt-11"}>
