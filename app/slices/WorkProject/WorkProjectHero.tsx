@@ -3,6 +3,7 @@ import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
 import ButtonCTA from "~/components/Button/ButtonCTA";
+// import { useLockedBody } from "usehooks-ts";
 import type { loader } from "~/routes/work.$project";
 import type { RichTextField } from "@prismicio/types";
 
@@ -18,6 +19,7 @@ export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
 }
 
 function WorkProjectHero() {
+  // const [, setLock] = useLockedBody();
   const [, setSearchParams] = useSearchParams();
   const { hero } = useLoaderData<typeof loader>();
   return (
@@ -37,7 +39,12 @@ function WorkProjectHero() {
         </div>
 
         <div className="desktop-only md:col-span-4">
-          <ButtonCTA onClick={() => setSearchParams("projectDetails=true")}>
+          <ButtonCTA
+            onClick={() => {
+              // setLock(true);
+              setSearchParams("projectDetails=true");
+            }}
+          >
             {asText(hero.cta)}
           </ButtonCTA>
         </div>

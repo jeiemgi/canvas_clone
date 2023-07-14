@@ -64,9 +64,12 @@ function WorkProjectDetails() {
 
       {details.map((detailsItem, detailsIndex) => {
         const title = asText(detailsItem.title);
-        const colSpan = title
-          ? "col-span-4 md:col-span-5 md:col-start-8"
-          : "col-span-4 md:col-span-12";
+        const description = asText(detailsItem.description);
+
+        const colSpan =
+          title && description
+            ? "col-span-4 md:col-span-5 md:col-start-8"
+            : "col-span-4 md:col-span-12";
 
         return (
           <div
@@ -74,17 +77,19 @@ function WorkProjectDetails() {
             key={`ProjectDetailsTable-${title}-${detailsIndex}`}
           >
             <div className="col-span-4 border-t border-t-black/30 md:col-span-12 md:mb-3.5" />
-            <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
-              <Title text={title} />
-              <PrismicRichText
-                field={detailsItem.description}
-                components={{
-                  paragraph: ({ children }) => (
-                    <p className={"body--3"}>{children}</p>
-                  ),
-                }}
-              />
-            </div>
+            {title && description ? (
+              <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
+                <Title text={title} />
+                <PrismicRichText
+                  field={detailsItem.description}
+                  components={{
+                    paragraph: ({ children }) => (
+                      <p className={"body--3"}>{children}</p>
+                    ),
+                  }}
+                />
+              </div>
+            ) : null}
 
             <div className={clsx(colSpan)}>
               {detailsItem.rows.map((rowItem, rowIndex) => {
@@ -97,7 +102,6 @@ function WorkProjectDetails() {
                   >
                     {rowItem.map((cellItem, cellIndex) => {
                       const key = `ProjectDetailsTableRowItem-${title}-${rowIndex}-${cellIndex}`;
-
                       if (cellItem?.isheader) {
                         return (
                           <div className={"w-1/2 md:w-full"} key={key}>
