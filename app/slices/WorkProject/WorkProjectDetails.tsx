@@ -6,8 +6,13 @@ import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
 import type { loader } from "~/routes/work.$project";
-import type { KeyTextField } from "@prismicio/types";
+import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
+import useIsMobile from "~/hooks/useIsMobile";
+
+function getKey(prefix: string, ...other: Array<string | number>) {
+  return `${prefix}-${other.join("-")}`;
+}
 
 function Title({ text }: { text: string | KeyTextField }) {
   return (
@@ -25,8 +30,12 @@ function TableCell({
   return (
     <div className={"body--3 py-2"}>
       {item?.link ? (
-        // @ts-ignore
-        <a rel="noreferrer" target={"_blank"} href={item.link.url}>
+        <a
+          rel="noreferrer"
+          target={"_blank"}
+          // @ts-ignore
+          href={item.link.url}
+        >
           {item.label}
         </a>
       ) : (
@@ -36,19 +45,219 @@ function TableCell({
   );
 }
 
+function TableInfo({
+  title,
+  description,
+}: {
+  title: string;
+  description: RichTextField;
+}) {
+  if (!title || !description) return null;
+  return (
+    <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
+      <Title text={title} />
+      <PrismicRichText
+        field={description}
+        components={{
+          paragraph: ({ children }) => <p className={"body--3"}>{children}</p>,
+        }}
+      />
+    </div>
+  );
+}
+
+function TableFull({
+  rows,
+  columns,
+}: {
+  columns: ProjectPageDocumentDataBody2TableSliceItem[][];
+  rows: ProjectPageDocumentDataBody2TableSliceItem[][];
+}) {
+  const keyPre = "DetailsTableFull";
+  const keyPreMobile = "DetailsTableFull";
+
+  return (
+    <div>
+      <div className={"desktop-only"}>
+        {rows.map((row, rowIndex) => {
+          let rowChunks = [];
+          for (let i = 0; i < row.length; i += 2) {
+            rowChunks.push(row.slice(i, i + 2));
+          }
+
+          return (
+            <div
+              key={getKey(keyPre, "row", rowIndex)}
+              className={"grid-container border-b border-b-black/30"}
+            >
+              {rowChunks.map((chunk, chunkIndex) => {
+                return (
+                  <div
+                    key={getKey(keyPre, "chunk", chunkIndex)}
+                    className={clsx(
+                      "col-span-4 flex md:col-span-5 md:even:col-start-8"
+                    )}
+                  >
+                    {chunk.map((chunkItem, chunkItemIndex) => {
+                      const key = getKey(keyPre, "chunkItem", chunkItemIndex);
+
+                      if (chunkItem?.isheader) {
+                        return (
+                          <div key={key} className={"w-1/2"}>
+                            <Title text={chunkItem.label} />
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={key} className={"w-1/2"}>
+                            <TableCell item={chunkItem} />
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className={"mobile-only"}>
+        <div
+          className={
+            "max-container grid grid-cols-4 border-b border-b-black/30"
+          }
+        >
+          {columns?.map((colItem, colIndex) => {
+            return (
+              <div
+                className={clsx(
+                  "relative col-span-2 mb-24 border-b border-b-black/30"
+                )}
+                key={getKey(keyPreMobile, "column", colIndex)}
+              >
+                {colItem.map((cellItem, cellItemIndex) => {
+                  const key = getKey(keyPreMobile, "cellItem", colIndex);
+                  return cellItem.isheader ? (
+                    <div
+                      className={
+                        colIndex % 2 === 0
+                          ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30" +
+                            "last:before:absolute last:before:bottom-0 last:before:h-[1px] last:before:w-[200%] last:before:bg-black/30"
+                          : ""
+                      }
+                    >
+                      <Title key={key} text={cellItem.label}></Title>
+                    </div>
+                  ) : (
+                    <div
+                      className={
+                        colIndex % 2 === 0
+                          ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30"
+                          : ""
+                      }
+                    >
+                      <TableCell key={key} item={cellItem} />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TableWithInfo({
+  title,
+  description,
+  rows,
+}: {
+  title: RichTextField;
+  description: RichTextField;
+  rows: ProjectPageDocumentDataBody2TableSliceItem[][];
+}) {
+  const keyPre = "DetailsTable";
+  const detailsTitle = asText(title);
+
+  return (
+    <div className={"grid-container mb-20 md:mb-28"}>
+      <div className="col-span-4 border-t border-t-black/30 md:col-span-12 md:mb-3.5" />
+      <TableInfo title={detailsTitle} description={description} />
+
+      <div className={"col-span-4 md:col-span-5 md:col-start-8"}>
+        {rows.map((row, rowIndex) => {
+          const rowKey = getKey(keyPre, "row", detailsTitle, rowIndex);
+
+          return (
+            <div key={rowKey} className={"flex border-b border-b-black/30"}>
+              {row.map((rowItem, rowItemIndex) => {
+                const rowItemKey = getKey(
+                  keyPre,
+                  "rowItem",
+                  detailsTitle,
+                  rowItemIndex
+                );
+
+                return rowItem?.isheader ? (
+                  <div key={rowItemKey} className={"w-1/2"}>
+                    <Title text={rowItem.label} />
+                  </div>
+                ) : (
+                  <div key={rowItemKey} className={"w-1/2"}>
+                    <TableCell item={rowItem} />
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Tables() {
+  const { details } = useLoaderData<typeof loader>();
+  return (
+    <>
+      {details.map(({ title, description, rows, columns }) => {
+        const isFull = !asText(title);
+
+        return (
+          <>
+            {isFull ? (
+              <TableFull columns={columns} rows={rows} />
+            ) : (
+              <TableWithInfo
+                rows={rows}
+                title={title}
+                description={description}
+              />
+            )}
+          </>
+        );
+      })}
+    </>
+  );
+}
+
 function WorkProjectDetails() {
-  const { hero, details } = useLoaderData<typeof loader>();
+  const { hero } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const show = searchParams.get("projectDetails") === "true";
 
   return (
     <div
       className={clsx(
-        "fixed left-0 top-0 z-20 h-full w-full overflow-scroll bg-white transition-opacity",
+        "fixed left-0 top-0 z-20 h-full w-full overflow-scroll bg-white pt-header transition-opacity  md:pb-[25vh] md:pt-headerDesk",
         show ? "opacity-100" : "pointer-events-none opacity-0"
       )}
     >
-      <div className="grid-container relative pt-header md:pt-headerDesk">
+      <div className="grid-container relative">
         <WorkProjectHeroTitle title={hero.title} />
       </div>
 
@@ -62,67 +271,7 @@ function WorkProjectDetails() {
         </div>
       </div>
 
-      {details.map((detailsItem, detailsIndex) => {
-        const title = asText(detailsItem.title);
-        const description = asText(detailsItem.description);
-
-        const colSpan =
-          title && description
-            ? "col-span-4 md:col-span-5 md:col-start-8"
-            : "col-span-4 md:col-span-12";
-
-        return (
-          <div
-            className={"grid-container mb-20 md:mb-28"}
-            key={`ProjectDetailsTable-${title}-${detailsIndex}`}
-          >
-            <div className="col-span-4 border-t border-t-black/30 md:col-span-12 md:mb-3.5" />
-            {title && description ? (
-              <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
-                <Title text={title} />
-                <PrismicRichText
-                  field={detailsItem.description}
-                  components={{
-                    paragraph: ({ children }) => (
-                      <p className={"body--3"}>{children}</p>
-                    ),
-                  }}
-                />
-              </div>
-            ) : null}
-
-            <div className={clsx(colSpan)}>
-              {detailsItem.rows.map((rowItem, rowIndex) => {
-                return (
-                  <div
-                    className={
-                      "flex w-full border-b border-black/30 first:border-t md:first:border-t-0"
-                    }
-                    key={`ProjectDetailsTableRow-${title}-${rowIndex}`}
-                  >
-                    {rowItem.map((cellItem, cellIndex) => {
-                      const key = `ProjectDetailsTableRowItem-${title}-${rowIndex}-${cellIndex}`;
-                      if (cellItem?.isheader) {
-                        return (
-                          <div className={"w-1/2 md:w-full"} key={key}>
-                            <Title text={cellItem.label} />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={key} className={"w-1/2 md:w-full"}>
-                            <TableCell item={cellItem} />
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
+      <Tables />
     </div>
   );
 }
