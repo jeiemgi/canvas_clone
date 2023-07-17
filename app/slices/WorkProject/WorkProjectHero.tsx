@@ -19,14 +19,13 @@ export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
 }
 
 function WorkProjectHero() {
-  // const [, setLock] = useLockedBody();
   const [, setSearchParams] = useSearchParams();
   const { hero } = useLoaderData<typeof loader>();
   return (
     <div className={"relative overflow-hidden bg-black"}>
       <Image
         field={hero.background_image}
-        className={"absolute left-0 top-0"}
+        className={"absolute left-0 top-0 h-full object-cover"}
       />
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52 md:pt-headerDesk">
         <WorkProjectHeroTitle title={hero.title} />
