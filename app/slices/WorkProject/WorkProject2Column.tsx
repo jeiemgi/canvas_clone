@@ -8,7 +8,9 @@ interface Props {
 }
 
 function WorkProject2Column({ item }: Props) {
+  // @ts-ignore
   const leftIsVideo = !!item.primary.left_video.url;
+  // @ts-ignore
   const rightIsVideo = !!item.primary.right_video.url;
 
   return (
@@ -20,6 +22,7 @@ function WorkProject2Column({ item }: Props) {
             square
             autoPlay
             className={"w-full"}
+            // @ts-ignore
             src={item.primary.left_video.url}
           />
         </div>

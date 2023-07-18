@@ -27,6 +27,7 @@ function WorkProjectVideoPhoto({ item }: Props) {
           <Video
             autoPlay
             square={item.primary.square}
+            // @ts-ignore
             src={item.primary.video.url}
           />
         </div>
