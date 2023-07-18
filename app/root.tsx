@@ -14,11 +14,13 @@ import tailwind from "~/styles/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { createClient } from "~/lib/prismicClient";
 import Layout from "~/components/Layout";
+import ErrorBoundaryComponent from "~/components/ErrorBoundary";
+import { NavThemeProvider } from "~/components/Navigation/NavThemeProvider";
 import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+
 import type { LinksFunction } from "@remix-run/node";
-import { NavThemeProvider } from "~/components/Navigation/NavThemeProvider";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -44,19 +46,25 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <div>
-        <h1 className={"display--1"}>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
+      <html lang="en">
+        <head>
+          <Links />
+        </head>
+        <body>
+          <ErrorBoundaryComponent error={error} />
+        </body>
+      </html>
     );
   } else if (error instanceof Error) {
     return (
-      <div className={"bg-black"}>
-        <h1 className={"display--1"}>Error</h1>
-        <p>{error.message}</p>
-      </div>
+      <html lang="en">
+        <head>
+          <Links />
+        </head>
+        <body>
+          <ErrorBoundaryComponent error={error} />
+        </body>
+      </html>
     );
   } else {
     return <h1>Unknown Error</h1>;

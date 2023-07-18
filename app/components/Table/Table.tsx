@@ -8,7 +8,7 @@ export interface TableProps {
 
 function Table({ data }: TableProps) {
   return (
-    <div className={"grid-container--full"}>
+    <div className={"grid-container--full overflow-hidden"}>
       {data.map((item, index) => (
         <TableColumn key={`TableHeader-${item.title}-${index}`} {...item} />
       ))}

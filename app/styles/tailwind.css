@@ -339,6 +339,11 @@
         background: url("/images/footer-noise-background.png") repeat center center;
     }
 
+    .texture-404-background {
+        @apply bg-center bg-cover;
+        background-image: url("/images/404-background.jpg");
+    }
+
     .texture-background {
         background: url("/images/texture-background.png") repeat center center;
     }

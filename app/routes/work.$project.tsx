@@ -11,8 +11,11 @@ export const loader = async ({ params }: LoaderArgs) => {
   const client = createClient();
   const page = await client.getByUID("project_page", params.project);
 
-  if (!page.data) {
-    throw new Response("Not Found", { status: 404 });
+  if (!page || !page.data) {
+    throw new Response(null, {
+      status: 404,
+      statusText: "Not Found",
+    });
   }
 
   const {

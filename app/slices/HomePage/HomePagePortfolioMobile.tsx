@@ -1,10 +1,10 @@
 import { asText } from "@prismicio/richtext";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
-import type { HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice } from "types.generated";
+import type { HomepageDocumentDataBodyHomepagePortfolioSliceSlice } from "types.generated";
 
 type Props = {
-  data: HomepagePortfolioDocumentDataBodyHomepagePortfolioSliceSlice;
+  data: HomepageDocumentDataBodyHomepagePortfolioSliceSlice;
 };
 
 export default function HomePagePortfolioMobile({ data }: Props) {
