@@ -26,6 +26,7 @@ function WorkProjectVideoColor({ item }: Props) {
       <div className={contentClassNames}>
         <Video
           autoPlay
+          poster={item.primary.cover.url || ""}
           square={item.primary.square}
           // @ts-ignore
           src={item.primary.video.url}

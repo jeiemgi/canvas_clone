@@ -21,11 +21,12 @@ export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
 function WorkProjectHero() {
   const [, setSearchParams] = useSearchParams();
   const { hero } = useLoaderData<typeof loader>();
+
   return (
     <div className={"relative overflow-hidden bg-black"}>
       <Image
         field={hero.background_image}
-        className={"absolute left-0 top-0 h-full object-cover"}
+        className={"absolute left-0 top-0 min-h-full w-full object-cover"}
       />
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52 md:pt-headerDesk">
         <WorkProjectHeroTitle title={hero.title} />
@@ -51,7 +52,9 @@ function WorkProjectHero() {
         <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:mb-40 md:border-t-0">
           <div className={"flex items-center pb-8 pt-3"}>
             <span className={"label--2 w-1/2"}>Role</span>
-            <span className={"label--2 w-1/2"}>Links</span>
+            {hero.links.length > 0 ? (
+              <span className={"label--2 w-1/2"}>Links</span>
+            ) : null}
           </div>
 
           {hero.roles.map((item, index) => {
