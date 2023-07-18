@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
 import { Button } from "~/components/Button";
@@ -224,7 +224,7 @@ function Tables() {
   const { details } = useLoaderData<typeof loader>();
   return (
     <>
-      {details.map(({ title, description, rows, columns }) => {
+      {details.tables.map(({ title, description, rows, columns }) => {
         const isFull = !asText(title);
 
         return (
@@ -241,6 +241,21 @@ function Tables() {
           </>
         );
       })}
+      {details.credits.map((item, index) => (
+        <div key={`CREDITS-${index}`} className="grid-container">
+          <div className={"label--2 col-span-1"}>CREDIT</div>
+          <div className={"label--2 md:col-span-2 md:col-start-8"}>
+            {item.type}
+          </div>
+          <div
+            className={
+              "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
+            }
+          >
+            {item.value}
+          </div>
+        </div>
+      ))}
     </>
   );
 }
@@ -253,7 +268,7 @@ function WorkProjectDetails() {
   return (
     <div
       className={clsx(
-        "fixed left-0 top-0 z-20 h-full w-full overflow-scroll bg-white pt-header transition-opacity  md:pb-[25vh] md:pt-headerDesk",
+        "fixed left-0 top-0 z-20 h-full w-full overflow-scroll bg-white pb-[10vh] pt-header  transition-opacity md:pb-[10vh] md:pt-headerDesk",
         show ? "opacity-100" : "pointer-events-none opacity-0"
       )}
     >

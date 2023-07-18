@@ -25,7 +25,11 @@ export const loader = async ({ params }: LoaderArgs) => {
     roles,
     title,
   } = page.data;
-  const details = normalizeProjectDetailsData(page.data.body2);
+
+  const details = {
+    credits: page.data.credits,
+    tables: normalizeProjectDetailsData(page.data.body2),
+  };
 
   return json({
     hero: {
