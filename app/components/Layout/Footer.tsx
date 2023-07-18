@@ -20,7 +20,7 @@ function Footer() {
       </div>
 
       <div className={"grid-container relative"}>
-        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[500px] md:pl-3">
+        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[600px] md:pl-3">
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
@@ -42,7 +42,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[500px] md:pl-3">
+        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[600px] md:pl-3">
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>SOCIAL</h3>
             <ul className={"body--3"}>
@@ -60,7 +60,7 @@ function Footer() {
             </ul>
           </div>
         </div>
-        <div className="col-span-4 flex flex-col justify-between border-l border-t border-white/20 pb-20 pl-3 pt-3 md:col-span-2 md:h-[500px] md:pb-0">
+        <div className="col-span-4 flex flex-col justify-between border-l border-t border-white/20 pb-20 pl-3 pt-3 md:col-span-2 md:h-[600px] md:pb-0">
           <div>
             <h3 className={"label--2 mb-5"}>CONTACTS</h3>
             <ul className={"body--3"}>
@@ -80,17 +80,17 @@ function Footer() {
           <TextBlur>PROPERLY </TextBlur>
         </div>
 
-        <div className="col-span-4 border-l border-l-white/20 md:col-span-5 md:border-0">
+        <div className="col-span-4 border-l border-l-white/20 md:col-start-9 md:border-0">
           <TextBlur>BALANCED</TextBlur>
         </div>
 
-        <div className="col-span-4 border-l border-l-white/20 md:col-span-5 md:border-0">
+        <div className="col-span-4 border-l border-l-white/20 md:col-span-5 md:col-start-6 md:border-0">
           <TextBlur>
             FOR FEELING <span className={"desktop-only--inline"}>&</span>
           </TextBlur>
         </div>
 
-        <div className="col-span-4 border-l border-l-white/20 pb-20 md:col-span-5 md:border-0 md:pb-0">
+        <div className="col-span-4 border-l border-l-white/20 pb-20 md:col-span-5 md:col-start-8 md:border-0 md:pb-0">
           <TextBlur>
             <span className={"mobile-only--inline"}>&</span> FUNCTION.
           </TextBlur>
