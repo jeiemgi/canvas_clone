@@ -41,6 +41,7 @@ function WorkProject2Column({ item }: Props) {
             square
             autoPlay
             className={"w-full"}
+            // @ts-ignore
             src={item.primary.right_video.url}
           />
         </div>

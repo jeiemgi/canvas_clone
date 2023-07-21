@@ -9,9 +9,9 @@ import {
   isRouteErrorResponse,
 } from "@remix-run/react";
 import { defer } from "@remix-run/node";
-import { cssBundleHref } from "@remix-run/css-bundle";
-import tailwind from "~/styles/tailwind.css";
+import stylesheet from "~/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
+import { cssBundleHref } from "@remix-run/css-bundle";
 import { createClient } from "~/lib/prismicClient";
 import Layout from "~/components/Layout";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
@@ -25,12 +25,18 @@ import type { LinksFunction } from "@remix-run/node";
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref
-    ? [{ rel: "stylesheet", href: cssBundleHref }]
-    : [{ rel: "stylesheet", href: tailwind }]),
+const otherCss = [
+  { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: splideCss },
 ];
+
+export const links: LinksFunction = () => {
+  return [
+    ...(cssBundleHref
+      ? [...[{ rel: "stylesheet", href: cssBundleHref }], ...otherCss]
+      : otherCss),
+  ];
+};
 
 export const loader = async () => {
   const client = createClient();
