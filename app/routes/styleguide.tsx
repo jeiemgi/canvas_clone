@@ -1,6 +1,6 @@
 import PrimaryCTA from "~/components/CTA/PrimaryCTA";
 import SecondaryCTA from "~/components/CTA/SecondaryCTA";
-import TextCTA from "~/components/CTA/TextCTA";
+import LinkCTA from "~/components/CTA/LinkCTA";
 
 function Styleguide() {
   return (
@@ -22,7 +22,7 @@ function Styleguide() {
         </div>
 
         <div className="my-4">
-          <TextCTA to={"#"}>This is a link</TextCTA>
+          <LinkCTA to={"#"}>This is a link</LinkCTA>
         </div>
       </div>
       <div
@@ -40,9 +40,9 @@ function Styleguide() {
         </div>
 
         <div className="my-4">
-          <TextCTA dark to={"#"}>
+          <LinkCTA dark to={"#"}>
             This is a link
-          </TextCTA>
+          </LinkCTA>
         </div>
       </div>
     </div>
