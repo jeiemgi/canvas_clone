@@ -1,5 +1,6 @@
-import React from "react";
 import PrimaryCTA from "~/components/CTA/PrimaryCTA";
+import SecondaryCTA from "~/components/CTA/SecondaryCTA";
+import TextCTA from "~/components/CTA/TextCTA";
 
 function Styleguide() {
   return (
@@ -15,6 +16,14 @@ function Styleguide() {
             {"CONTACT"}
           </PrimaryCTA>
         </div>
+
+        <div className="my-4">
+          <SecondaryCTA>See Project Details</SecondaryCTA>
+        </div>
+
+        <div className="my-4">
+          <TextCTA to={"#"}>This is a link</TextCTA>
+        </div>
       </div>
       <div
         className={"flex w-1/2 flex-col items-center justify-center bg-white"}
@@ -24,6 +33,16 @@ function Styleguide() {
         </div>
         <div className={"my-2"}>
           <PrimaryCTA size={"lg"}>{"CONTACT"}</PrimaryCTA>
+        </div>
+
+        <div className="my-4">
+          <SecondaryCTA border>See Project Details</SecondaryCTA>
+        </div>
+
+        <div className="my-4">
+          <TextCTA dark to={"#"}>
+            This is a link
+          </TextCTA>
         </div>
       </div>
     </div>

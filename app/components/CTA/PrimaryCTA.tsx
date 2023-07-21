@@ -3,7 +3,7 @@ import type { ButtonProps } from "react-html-props";
 import clsx from "clsx";
 
 interface Props extends ButtonProps {
-  size: "sm" | "lg";
+  size?: "sm" | "lg";
   dark?: boolean;
 }
 
@@ -20,7 +20,7 @@ function PrimaryCta({ size = "sm", dark = false, children, ...props }: Props) {
     >
       <div className={styles.inner}>
         <span className={clsx(textStyle, styles.parenthesisL)}>(</span>
-        <span className={clsx(textStyle, "px-1")}>{children}</span>
+        <span className={clsx(textStyle, "px-2")}>{children}</span>
         <span className={clsx(textStyle, styles.parenthesisR)}>)</span>
       </div>
     </button>

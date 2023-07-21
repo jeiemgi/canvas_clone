@@ -31,6 +31,7 @@ export default {
         "royal-blue": "#00067C",
         red: "#E02D3E",
         green: "#0B6F6D",
+        "border-color": "rgba(0, 0, 0, 0.3)",
       },
       spacing: {
         header: "3.75rem",

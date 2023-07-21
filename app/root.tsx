@@ -63,14 +63,11 @@ export function ErrorBoundary() {
     );
   } else if (error instanceof Error) {
     return (
-      <html lang="en">
-        <head>
-          <Links />
-        </head>
-        <body>
-          <ErrorBoundaryComponent error={error} />
-        </body>
-      </html>
+      <div style={{ padding: "0 2rem" }}>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <pre>{error.stack}</pre>
+      </div>
     );
   } else {
     return <h1>Unknown Error</h1>;
