@@ -3,6 +3,7 @@ import Portal from "~/components/Portal";
 import { useMemo, useState } from "react";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
+import TextCta from "~/components/CTA/TextCTA";
 
 interface Props {
   data: HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
@@ -54,7 +55,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
         </div>
       </Portal>
       <div className={"max-container py-10"}>
-        <div className={"heading--2 flex flex-row justify-end text-grey"}>
+        <div className={"flex flex-row justify-end text-grey"}>
           {availableTags?.map((tag, index) => {
             const isActive = selectedTag === tag;
             return (
@@ -65,17 +66,14 @@ function HomePagePortfolioDesktop({ data }: Props) {
                 onClick={() => {
                   setSelectedTag(tag);
                 }}
+                className={clsx(
+                  "heading--2 cursor-pointer hover:text-black",
+                  isActive ? "text-black" : "text-grey"
+                )}
               >
-                <span
-                  className={clsx(
-                    "cursor-pointer hover:text-black",
-                    isActive ? "text-black" : "text-grey"
-                  )}
-                >
-                  {isActive ? <span>(&nbsp;</span> : null}
-                  {`${tag}`}
-                  {isActive ? <span>&nbsp;)</span> : null}
-                </span>
+                {isActive ? <span>(&nbsp;</span> : null}
+                <TextCta className={"inline-block align-middle"}>{tag}</TextCta>
+                {isActive ? <span>&nbsp;)</span> : null}
                 {index !== availableTags?.length - 1 ? <>,&nbsp;</> : null}
               </div>
             );

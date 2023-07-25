@@ -1,17 +1,28 @@
+import clsx from "clsx";
+import { forwardRef } from "react";
 import type { ReactNode } from "react";
-import type { ButtonProps } from "react-html-props";
+import type { DivProps } from "react-html-props";
 
-interface Props extends ButtonProps {
+export interface TextCloneButtonProps extends DivProps {
   children: ReactNode;
+  className?: string;
 }
 
-export const TextCloneButton = ({ children }: Props) => {
-  return (
-    <div className={"relative overflow-hidden"} aria-label={children as string}>
-      <span className={"content block"}>{children}</span>
-      <span className={"clone absolute block"}>{children}</span>
-    </div>
-  );
-};
+export const TextCloneButton = forwardRef<HTMLDivElement, TextCloneButtonProps>(
+  ({ children, className = "" }, ref) => {
+    return (
+      <div
+        ref={ref}
+        aria-label={children as string}
+        className={clsx(className, "relative overflow-hidden")}
+      >
+        <span className={"content block"}>{children}</span>
+        <span className={"clone absolute block"}>{children}</span>
+      </div>
+    );
+  }
+);
+
+TextCloneButton.displayName = "TextCloneButton";
 
 export default TextCloneButton;
