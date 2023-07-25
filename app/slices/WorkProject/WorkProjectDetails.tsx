@@ -277,7 +277,11 @@ function WorkProjectDetails() {
         <WorkProjectHeroTitle title={hero.title} />
       </div>
 
-      <div className={"fixed bottom-0 left-0 md:pb-5 md:pl-8"}>
+      <div
+        className={
+          "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
+        }
+      >
         <SecondaryCTA dark onClick={() => setSearchParams()}>
           CLOSE
         </SecondaryCTA>
