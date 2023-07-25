@@ -24,7 +24,7 @@ function Navigation() {
             to={item.primary.link || "#"}
             key={`${item.primary.link}`}
           >
-            {`( ${item.primary.title} )`}
+            {item.primary.title}
           </NavListItem>
         ))}
       </NavList>

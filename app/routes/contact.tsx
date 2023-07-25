@@ -1,5 +1,6 @@
 import ContactForm from "~/slices/Contact/ContactForm";
 import React from "react";
+import { LinkCTA } from "~/components/CTA";
 
 const ContactPage = () => {
   return (
@@ -44,9 +45,9 @@ const ContactPage = () => {
           </div>
 
           <div className={"flex gap-4"}>
-            <a href="https://www.instagram.com">Instagram</a>
-            <a href="#https://www.linkedin.com">LinkedIn</a>
-            <a href="https://www.twitter.com">Twitter</a>
+            <LinkCTA to="https://www.instagram.com">Instagram</LinkCTA>
+            <LinkCTA to="#https://www.linkedin.com">LinkedIn</LinkCTA>
+            <LinkCTA to="https://www.twitter.com">Twitter</LinkCTA>
           </div>
         </div>
       </div>

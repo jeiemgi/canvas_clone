@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { useMemo, useState } from "react";
 import Portal from "~/components/Portal";
+import { useMemo, useState } from "react";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
 

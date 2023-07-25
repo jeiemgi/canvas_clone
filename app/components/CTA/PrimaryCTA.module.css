@@ -1,146 +1,150 @@
-.ctaButton {
-    --btn-height: 2rem;
-    --border-width: 0.08rem;
-    --border-radius: 3rem;
+@screen md {
+    .ctaButton {
+        --btn-height: 2rem;
+        --border-width: 0.08rem;
+        --border-radius: 3rem;
 
-    --main-color: var(--black);
-    --secondary-color: var(--white);
+        --main-color: var(--black);
+        --secondary-color: var(--white);
 
-    --duration: 350ms;
-    --delay: 50ms;
+        --duration: 350ms;
+        --delay: 50ms;
 
-    overflow: hidden;
-    position: relative;
-    padding: var(--border-width);
-    height: calc(var(--btn-height) + var(--border-width));
-    border-radius: var(--border-radius);
-}
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+        padding: var(--border-width);
+        height: calc(var(--btn-height) + var(--border-width));
+        border-radius: var(--border-radius);
+    }
 
-.ctaButton.lg {
-    --btn-height: 3.8rem;
-    --border-width: 0.18rem;
-}
+    .ctaButton.lg {
+        --btn-height: 3.8rem;
+        --border-width: 0.18rem;
+    }
 
-.ctaButton.dark {
-    --main-color: var(--white);
-    --secondary-color: var(--black);
-}
+    .ctaButton.dark {
+        --main-color: var(--white);
+        --secondary-color: var(--black);
+    }
 
-.ctaButton span {
-    z-index: 1;
-    position: relative;
-}
+    .ctaButton span {
+        z-index: 1;
+        position: relative;
+    }
 
-/* BORDERS */
-.ctaButton::before,
-.ctaButton::after {
-    z-index: 0;
-    content: "";
-    top: 0;
-    width: 50%;
-    height: 100%;
-    position: absolute;
-    background: var(--main-color);
-    transform: scaleX(0);
-    transition-property: transform;
-    transition-duration: var(--duration);
-    transition-timing-function: var(--ease-hover-out);
-    transition-delay: 0ms;
-}
+    /* BORDERS */
+    .ctaButton::before,
+    .ctaButton::after {
+        z-index: 0;
+        content: "";
+        top: 0;
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        /*background: var(--main-color);*/
+        transform: scaleX(0);
+        transition-property: transform;
+        transition-duration: var(--duration);
+        transition-timing-function: var(--ease-hover-out);
+        transition-delay: 0ms;
+    }
 
-.ctaButton::before {
-    left: 0;
-    transform-origin: left;
-}
+    .ctaButton::before {
+        left: 0;
+        transform-origin: left;
+    }
 
-.ctaButton::after {
-    right: 0;
-    transform-origin: right;
-}
+    .ctaButton::after {
+        right: 0;
+        transform-origin: right;
+    }
 
-.ctaButton:hover::before,
-.ctaButton:hover::after {
-    transform: scaleX(100%);
-    transition-delay: var(--delay);
-    transition-timing-function: var(--ease-hover-in);
-}
+    .ctaButton:hover::before,
+    .ctaButton:hover::after {
+        transform: scaleX(100%);
+        transition-delay: var(--delay);
+        transition-timing-function: var(--ease-hover-in);
+    }
 
-.inner {
-    z-index: 1;
-    background: var(--secondary-color);
-    position: relative;
-    padding: 0 0.81rem;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--border-radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-clip: content-box;
-}
-
-
-.inner {
-    color: var(--main-color);
-    transition-property: color;
-    transition-duration: var(--duration);
-    transition-timing-function: var(--ease-hover-out);
-}
-
-.ctaButton:hover .inner {
-    color: var(--secondary-color);
-}
-
-.inner::before,
-.inner::after {
-    z-index: 0;
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: var(--btn-height);
-    background: var(--main-color);
-    border-radius: var(--border-radius);
-    transition-delay: 0ms;
-    transition-property: width, transform;
-    transition-timing-function: var(--ease-hover-out);
-    transition-duration: var(--duration);
-}
+    .inner {
+        z-index: 1;
+        /*background: var(--secondary-color);*/
+        position: relative;
+        padding: 0 0.81rem;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-clip: content-box;
+    }
 
 
-.inner::before {
-    left: 0;
-    transform: translateX(calc(-100% - var(--border-width)));
-}
+    .inner {
+        color: var(--main-color);
+        transition-property: color;
+        transition-duration: var(--duration);
+        transition-timing-function: var(--ease-hover-out);
+    }
 
-.inner::after {
-    right: 0;
-    transform: translateX(calc(100% + var(--border-width)));
-}
+    .ctaButton:hover .inner {
+        color: var(--secondary-color);
+    }
 
-.ctaButton:hover .inner::before,
-.ctaButton:hover .inner::after {
-    width: calc(50% + 2rem);
-    transform: translateX(0%);
-    transition-delay: var(--delay);
-    transition-timing-function: var(--ease-hover-in);
-}
+    .inner::before,
+    .inner::after {
+        z-index: 0;
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: var(--btn-height);
+        background: var(--main-color);
+        border-radius: var(--border-radius);
+        transition-delay: 0ms;
+        transition-property: width, transform;
+        transition-timing-function: var(--ease-hover-out);
+        transition-duration: var(--duration);
+    }
 
-.parenthesisL, .parenthesisR {
-    color: var(--main-color);
-    transition-property: transform;
-    transition-duration: var(--duration);
-    transition-timing-function: var(--ease-hover-out);
-}
 
-.ctaButton:hover .parenthesisL {
-    color: var(--main-color);
-    transform: translateX(-110%);
-    transition-timing-function: var(--ease-hover-in);
-}
+    .inner::before {
+        left: 0;
+        transform: translateX(calc(-100% - var(--border-width)));
+    }
 
-.ctaButton:hover .parenthesisR {
-    color: var(--main-color);
-    transform: translateX(110%);
-    transition-timing-function: var(--ease-hover-in);
+    .inner::after {
+        right: 0;
+        transform: translateX(calc(100% + var(--border-width)));
+    }
+
+    .ctaButton:hover .inner::before,
+    .ctaButton:hover .inner::after {
+        width: calc(50% + 2rem);
+        transform: translateX(0%);
+        transition-delay: var(--delay);
+        transition-timing-function: var(--ease-hover-in);
+    }
+
+    .parenthesisL, .parenthesisR {
+        color: var(--main-color);
+        transition-property: transform;
+        transition-duration: var(--duration);
+        transition-timing-function: var(--ease-hover-out);
+    }
+
+    .ctaButton:hover .parenthesisL {
+        color: var(--main-color);
+        transform: translateX(-110%);
+        transition-timing-function: var(--ease-hover-in);
+    }
+
+    .ctaButton:hover .parenthesisR {
+        color: var(--main-color);
+        transform: translateX(110%);
+        transition-timing-function: var(--ease-hover-in);
+    }
+
 }

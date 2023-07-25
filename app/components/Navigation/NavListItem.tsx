@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Link } from "@remix-run/react";
+import { PrimaryCTALink } from "~/components/CTA";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import type { LinkProps } from "@remix-run/react";
 
@@ -14,7 +14,9 @@ function NavListItem({ children, className, ...props }: LinkProps) {
         className
       )}
     >
-      <Link {...props}>{children}</Link>
+      <PrimaryCTALink dark {...props}>
+        {children}
+      </PrimaryCTALink>
     </li>
   );
 }

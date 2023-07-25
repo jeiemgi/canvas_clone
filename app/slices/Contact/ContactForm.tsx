@@ -1,5 +1,6 @@
 import React from "react";
 import { Input, TextArea } from "~/components/Input";
+import { PrimaryCTALink } from "~/components/CTA";
 
 interface Props {}
 
@@ -28,9 +29,9 @@ function ContactForm(props: Props) {
         containerClassName={"mb-10"}
       />
       <div className={"flex justify-end"}>
-        <button className={"heading--1"} type={"submit"}>
-          ( Send )
-        </button>
+        <PrimaryCTALink dark to={"#"} size={"lg"}>
+          Send
+        </PrimaryCTALink>
       </div>
     </form>
   );

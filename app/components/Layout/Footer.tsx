@@ -1,5 +1,6 @@
 import React from "react";
 import TextBlur from "~/components/TextBlur";
+import { LinkCTA, PrimaryCTALink } from "~/components/CTA";
 
 function Footer() {
   return (
@@ -10,7 +11,11 @@ function Footer() {
     >
       <div className={"grid-container mb-10 md:mb-56 md:pt-11"}>
         <div className="col-span-4 py-20 md:order-last md:col-start-9 md:py-0">
-          <h1 className={"heading--1 md:text-right"}>(Let’s Chat)</h1>
+          <h1 className={"heading--1 md:text-right"}>
+            <PrimaryCTALink to={"contact"} dark size={"lg"}>
+              Let's Chat
+            </PrimaryCTALink>
+          </h1>
         </div>
         <div className="body--1 col-span-4 mr-10 md:col-span-6">
           If you are curious about some of our process or are interested in the
@@ -20,7 +25,7 @@ function Footer() {
       </div>
 
       <div className={"grid-container relative"}>
-        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[600px] md:pl-3">
+        <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[700px] md:pl-3">
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>DOCUMENTATION</h3>
             <ul className={"body--3"}>
@@ -33,10 +38,10 @@ function Footer() {
           <div className={"label--2 desktop-only mb-5"}>
             <ul>
               <li className={"mb-4"}>
-                <a href={"#"}>PRIVACY POLICY</a>
+                <LinkCTA to={"#"}>PRIVACY POLICY</LinkCTA>
               </li>
               <li className={"mb-4"}>
-                <a href={"#"}>TERMS & CONDITIONS</a>
+                <LinkCTA to={"#"}>TERMS & CONDITIONS</LinkCTA>
               </li>
             </ul>
           </div>
@@ -46,9 +51,15 @@ function Footer() {
           <div>
             <h3 className={"label--2 mb-24 md:mb-5"}>SOCIAL</h3>
             <ul className={"body--3"}>
-              <li className={"mb-5"}>Instagram</li>
-              <li className={"mb-5"}>LinkedIn</li>
-              <li className={"mb-5"}>Twitter</li>
+              <li className={"mb-5"}>
+                <LinkCTA to={"#"}>Instagram</LinkCTA>
+              </li>
+              <li className={"mb-5"}>
+                <LinkCTA to={"#"}>LinkedIn</LinkCTA>
+              </li>
+              <li className={"mb-5"}>
+                <LinkCTA to={"#"}>Twitter</LinkCTA>
+              </li>
             </ul>
           </div>
 
@@ -65,7 +76,9 @@ function Footer() {
             <h3 className={"label--2 mb-5"}>CONTACTS</h3>
             <ul className={"body--3"}>
               <li className={"mb-5"}>info@canvascreative.co</li>
-              <li className={"mb-5"}>Careers</li>
+              <li className={"mb-5"}>
+                <LinkCTA to={"#"}>Careers</LinkCTA>
+              </li>
             </ul>
           </div>
         </div>
@@ -73,7 +86,7 @@ function Footer() {
 
       <div
         className={
-          "grid-container select-none md:absolute md:bottom-4 md:mb-24"
+          "grid-container pointer-events-none select-none md:absolute md:bottom-4 md:mb-24"
         }
       >
         <div className="col-span-4 border-l border-l-white/20 md:col-span-5 md:border-0">

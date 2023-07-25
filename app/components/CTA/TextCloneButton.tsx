@@ -1,12 +1,13 @@
+import type { ReactNode } from "react";
 import type { ButtonProps } from "react-html-props";
 
 interface Props extends ButtonProps {
-  children: string;
+  children: ReactNode;
 }
 
-const TextCloneButton = ({ children }: Props) => {
+export const TextCloneButton = ({ children }: Props) => {
   return (
-    <div className={"relative overflow-hidden"} aria-label={children}>
+    <div className={"relative overflow-hidden"} aria-label={children as string}>
       <span className={"content block"}>{children}</span>
       <span className={"clone absolute block"}>{children}</span>
     </div>

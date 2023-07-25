@@ -25,10 +25,10 @@ export function Input({
         {...props}
       />
       <label
-        className={
-          "body--1 transition-expo-transform absolute left-0 top-0 origin-top-left scale-[0.6] peer-placeholder-shown:scale-100 peer-focus:scale-[0.6]"
-        }
         htmlFor={id}
+        className={
+          "body--1 absolute left-0 top-0 origin-top-left scale-[0.6] transition-transform peer-placeholder-shown:scale-100 peer-focus:scale-[0.6]"
+        }
       >
         {label}
       </label>
@@ -49,7 +49,7 @@ export function TextArea({
   ...props
 }: TextAreaProps) {
   return (
-    <div className={clsx("relative pt-6", containerClassName)}>
+    <div className={clsx("relative pt-8", containerClassName)}>
       <textarea
         id={id}
         rows={6}

@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import { CanvasLogo } from "~/svg";
-import { useLocation } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import NavListItem from "~/components/Navigation/NavListItem";
 
 export function NavLogoDesktop() {
   const { theme } = useNavTheme();
@@ -27,7 +26,7 @@ export function NavLogoMobile() {
   const isHome = location.pathname === "/";
 
   return (
-    <NavListItem
+    <Link
       to={"/"}
       className={clsx(
         "mobile-only transition-expo-transform absolute left-0",
@@ -42,6 +41,6 @@ export function NavLogoMobile() {
           theme === "transparent" ? "fill-white" : "fill-black"
         )}
       />
-    </NavListItem>
+    </Link>
   );
 }
