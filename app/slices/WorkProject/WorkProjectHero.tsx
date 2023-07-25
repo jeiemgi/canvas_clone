@@ -2,8 +2,7 @@ import { asText } from "@prismicio/richtext";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
-import ButtonCTA from "~/components/Button/ButtonCTA";
-// import { useLockedBody } from "usehooks-ts";
+import TextCta from "~/components/CTA/TextCTA";
 import type { loader } from "~/routes/work.$project";
 import type { RichTextField } from "@prismicio/types";
 
@@ -38,15 +37,17 @@ function WorkProjectHero() {
           <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
         </div>
 
-        <div className="desktop-only md:col-span-4">
-          <ButtonCTA
+        <div className="desktop-only heading--3 md:col-span-4">
+          <button
             onClick={() => {
               // setLock(true);
               setSearchParams("projectDetails=true");
             }}
           >
-            {asText(hero.cta)}
-          </ButtonCTA>
+            <span>( </span>
+            <TextCta>{asText(hero.cta)}</TextCta>
+            <span> )</span>
+          </button>
         </div>
 
         <div className="col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:mb-40 md:border-t-0">

@@ -14,7 +14,10 @@ export const TextCloneButton = forwardRef<HTMLDivElement, TextCloneButtonProps>(
       <div
         ref={ref}
         aria-label={children as string}
-        className={clsx(className, "relative overflow-hidden")}
+        className={clsx(
+          className,
+          "relative inline-block overflow-hidden align-middle"
+        )}
       >
         <span className={"content block"}>{children}</span>
         <span className={"clone absolute block"}>{children}</span>

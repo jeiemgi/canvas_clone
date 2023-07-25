@@ -9,6 +9,7 @@ import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
 import useIsMobile from "~/hooks/useIsMobile";
+import { SecondaryCTA } from "~/components/CTA";
 
 function getKey(prefix: string, ...other: Array<string | number>) {
   return `${prefix}-${other.join("-")}`;
@@ -277,7 +278,9 @@ function WorkProjectDetails() {
       </div>
 
       <div className={"fixed bottom-0 left-0 md:pb-5 md:pl-8"}>
-        <Button onClick={() => setSearchParams()}>CLOSE</Button>
+        <SecondaryCTA dark onClick={() => setSearchParams()}>
+          CLOSE
+        </SecondaryCTA>
       </div>
 
       <div className="grid-container">
