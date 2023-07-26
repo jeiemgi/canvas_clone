@@ -19,6 +19,12 @@
         white-space: nowrap;
     }
 
+    .ctaButton:disabled {
+        opacity: 0.3;
+        cursor: auto;
+        pointer-events: none;
+    }
+
     .ctaButton.lg {
         --btn-height: 3.8rem;
         --border-width: 0.18rem;
