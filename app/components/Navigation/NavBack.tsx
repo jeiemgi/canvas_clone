@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { BackArrow } from "~/svg";
+import { Link } from "@remix-run/react";
 import NavListItem from "~/components/Navigation/NavListItem";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import { Link } from "@remix-run/react";
 
 function NavBack() {
   const { theme, showBack } = useNavTheme();
@@ -12,18 +12,21 @@ function NavBack() {
       <NavListItem
         to={"/"}
         aria-label="Back Button"
-        className={clsx(showBack ? "opacity-0" : "opacity-100")}
+        className={clsx(
+          "desktop-only transition-opacity",
+          showBack ? "opacity-0" : "opacity-100"
+        )}
       >
         BACK
       </NavListItem>
 
       <Link
         to={"/"}
+        aria-label="Back Button"
         className={clsx(
           "mobile-only py-2 transition-opacity",
           showBack ? "opacity-0" : "opacity-100"
         )}
-        aria-label="Back Button"
       >
         <BackArrow
           width={"1.25rem"}

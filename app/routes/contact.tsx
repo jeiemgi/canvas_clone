@@ -1,6 +1,7 @@
 import ContactForm from "~/slices/Contact/ContactForm";
 import React from "react";
 import { LinkCTA } from "~/components/CTA";
+import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 
 const ContactPage = () => {
   return (
@@ -30,24 +31,24 @@ const ContactPage = () => {
 
         <div className={"col-span-4 md:order-2 md:col-start-1"}>
           <div className={"mb-7"}>
-            <p>new business</p>
+            <p className={"label--2"}>new business</p>
             <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
           </div>
           <div className={"mb-7"}>
-            <p>careers</p>
+            <p className={"label--2"}>careers</p>
             <a href="mailto:careers@canvascreative.co">
               careers@canvascreative.co
             </a>
           </div>
           <div className={"mb-14"}>
-            <p>general</p>
+            <p className={"label--2"}>general</p>
             <a href="mailto:info@canvascreative.co">info@canvascreative.co</a>
           </div>
 
-          <div className={"flex gap-4"}>
-            <LinkCTA to="https://www.instagram.com">Instagram</LinkCTA>
-            <LinkCTA to="#https://www.linkedin.com">LinkedIn</LinkCTA>
-            <LinkCTA to="https://www.twitter.com">Twitter</LinkCTA>
+          <div className={"flex gap-4 md:absolute md:bottom-0 md:pb-8"}>
+            <LinkCTA to={INSTAGRAM_URL}>Instagram</LinkCTA>
+            <LinkCTA to={LINKEDIN_URL}>LinkedIn</LinkCTA>
+            <LinkCTA to={TWITTER_URL}>Twitter</LinkCTA>
           </div>
         </div>
       </div>

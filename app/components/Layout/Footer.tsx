@@ -1,6 +1,7 @@
 import React from "react";
 import TextBlur from "~/components/TextBlur";
 import { LinkCTA, PrimaryCTALink } from "~/components/CTA";
+import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 
 function Footer() {
   return (
@@ -50,24 +51,23 @@ function Footer() {
         <div className="col-span-2 flex flex-col justify-between border-l border-t border-white/20 pl-2.5 pt-3 md:h-[700px] md:pl-3">
           <div>
             <h3 className={"label--2 mb-24 md:mb-10"}>SOCIAL</h3>
+
             <ul className={"body--3"}>
               <li className={"mb-5"}>
-                <LinkCTA to={"#"}>Instagram</LinkCTA>
+                <LinkCTA to={INSTAGRAM_URL}>Instagram</LinkCTA>
               </li>
               <li className={"mb-5"}>
-                <LinkCTA to={"#"}>LinkedIn</LinkCTA>
+                <LinkCTA to={LINKEDIN_URL}>LinkedIn</LinkCTA>
               </li>
               <li className={"mb-5"}>
-                <LinkCTA to={"#"}>Twitter</LinkCTA>
+                <LinkCTA to={TWITTER_URL}>Twitter</LinkCTA>
               </li>
             </ul>
           </div>
 
           <div className={"label--2 desktop-only mb-5"}>
             <ul>
-              <li className={"mb-4"}>
-                <a href={"#"}>©2023 Canvas LLC</a>
-              </li>
+              <li className={"mb-4"}>©2023 Canvas LLC</li>
             </ul>
           </div>
         </div>
@@ -77,7 +77,9 @@ function Footer() {
             <ul className={"body--3"}>
               <li className={"mb-5"}>info@canvascreative.co</li>
               <li className={"mb-5"}>
-                <LinkCTA to={"#"}>Careers</LinkCTA>
+                <LinkCTA className={"body--3"} to={"#"}>
+                  Careers
+                </LinkCTA>
               </li>
             </ul>
           </div>
