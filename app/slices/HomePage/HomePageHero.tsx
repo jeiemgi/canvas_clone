@@ -23,7 +23,8 @@ function HomePageHeroImage() {
 
 function HomePageHeroFooter() {
   return (
-    <div className={"grid-container border-t border-t-white/30 py-2"}>
+    <div className={"grid-container pb-5"}>
+      <div className="col-span-12 mb-2.5 border-t border-t-white/30"></div>
       <div className={"col-span-4 md:col-span-5"}>
         <h2 className={"heading--2 text-white"}>DESIGN, MOTION,</h2>
         <h2 className={"heading--2 flex justify-between text-white md:block"}>

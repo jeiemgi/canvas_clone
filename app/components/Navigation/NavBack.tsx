@@ -9,18 +9,20 @@ function NavBack() {
 
   return (
     <>
-      <NavListItem
-        to={"/"}
-        className={clsx(
-          "desktop-only transition-opacity",
-          showBack ? "opacity-0" : "opacity-100"
-        )}
-        aria-label="Back Button"
-      >
+      <NavListItem to={"/"} className={"desktop-only"} aria-label="Back Button">
         BACK
       </NavListItem>
 
-      <Link to={"/"} className={"mobile-only py-2"} aria-label="Back Button">
+      <Link
+        to={"/"}
+        className={clsx(
+          "mobile-only py-2",
+          showBack
+            ? "opacity-0 transition-opacity"
+            : "opacity-100 transition-opacity"
+        )}
+        aria-label="Back Button"
+      >
         <BackArrow
           width={"1.25rem"}
           height={"0.8125rem"}
