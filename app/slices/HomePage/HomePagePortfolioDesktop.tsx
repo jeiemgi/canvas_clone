@@ -38,7 +38,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
   };
 
   return (
-    <section className={"desktop-only overflow-hidden py-[20vh]"}>
+    <section className={"desktop-only overflow-hidden pb-64 pt-20"}>
       <Portal wrapperId={"root-cursor"}>
         <div
           style={{ left: position.x, top: position.y }}
@@ -54,7 +54,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
           />
         </div>
       </Portal>
-      <div className={"max-container py-10"}>
+
+      <div className={"max-container pb-16"}>
         <div className={"flex flex-row justify-end text-grey"}>
           {availableTags?.map((tag, index) => {
             const isActive = selectedTag === tag;
@@ -81,9 +82,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
         </div>
       </div>
 
-      <div
-        className={"relative mb-20 flex flex-row flex-wrap items-start gap-2"}
-      >
+      <div className={"relative flex flex-row flex-wrap items-start gap-2"}>
         {data.items.map((item, index) => {
           let tags = item.tags?.split(", ") || [];
           const active = hoveredTag

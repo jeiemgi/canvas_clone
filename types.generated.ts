@@ -303,6 +303,17 @@ interface HomepageDocumentDataBodyTableSlicePrimary {
      *
      */
     title: prismic.TitleField;
+    /**
+     * mobile field in *Homepage → Slice zone → `table` → Primary*
+     *
+     * - **Field Type**: Boolean
+     * - **Placeholder**: *None*
+     * - **Default Value**: true
+     * - **API ID Path**: homepage.body[].table.primary.mobile
+     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+     *
+     */
+    mobile: prismic.BooleanField;
 }
 /**
  * Item in Homepage → Slice zone → `table` → Items

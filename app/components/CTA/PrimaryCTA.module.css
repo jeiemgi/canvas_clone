@@ -16,6 +16,7 @@
         padding: var(--border-width);
         height: calc(var(--btn-height) + var(--border-width));
         border-radius: var(--border-radius);
+        white-space: nowrap;
     }
 
     .ctaButton.lg {

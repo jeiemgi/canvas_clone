@@ -93,17 +93,6 @@ function HomePageReviews({ data }: Props) {
           "md:items-center md:justify-center"
         )}
       >
-        {/*{data.items.map((item, index) => {*/}
-        {/*  return (*/}
-        {/*    <img*/}
-        {/*      key={`Review-Card-Img-${index}`}*/}
-        {/*      style={{ left: `0%`, top: `0%` }}*/}
-        {/*      src={item.image.url || ""}*/}
-        {/*      alt={item.image.alt || ""}*/}
-        {/*      className={"review-image-desk absolute left-0 top-0 w-2/6"}*/}
-        {/*    />*/}
-        {/*  );*/}
-        {/*})}*/}
         <img src="/images/reviews-sample.png" alt="" />
       </div>
 
