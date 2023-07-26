@@ -82,7 +82,7 @@ function HomePageBackgroundContainer({
           }}
         >
           <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
-            <div className="grid-container h-fit w-full grow-0">
+            <div className="grid-container h-fit w-full pt-5">
               <div className="col-span-3">
                 <h3 className={"heading--3"}>
                   {asText(project.primary.title)}

@@ -24,7 +24,7 @@ function HomePageHeroImage() {
 function HomePageHeroFooter() {
   return (
     <div className={"grid-container pb-5"}>
-      <div className="col-span-12 mb-2.5 border-t border-t-white/30"></div>
+      <div className="col-span-4 mb-2.5 border-t border-t-white/30 md:col-span-12"></div>
       <div className={"col-span-4 md:col-span-5"}>
         <h2 className={"heading--2 text-white"}>DESIGN, MOTION,</h2>
         <h2 className={"heading--2 flex justify-between text-white md:block"}>
@@ -51,7 +51,7 @@ function HomePageHeroFooter() {
 
       <div
         className={
-          "col-span-4 flex justify-between md:col-span-2 md:hidden md:justify-end"
+          "col-span-4 flex items-end justify-between md:col-span-2 md:hidden md:justify-end"
         }
       >
         <h2 className={"heading--2 text-white"}>2012—2023</h2>
