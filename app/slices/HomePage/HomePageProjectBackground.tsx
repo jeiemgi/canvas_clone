@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
 import { useLayoutEffect } from "~/hooks";
+import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { RefObject } from "react";
@@ -18,40 +19,42 @@ function HomePageBackgroundContainer({
 }) {
   useLayoutEffect(() => {
     if (!container.current) return;
+
     const ctx = gsap.context((self) => {
-      if (!self.selector) return;
+      const mm = gsap.matchMedia();
+      mm.add(mdScreen, () => {
+        if (!self.selector) return;
 
-      //------------------------------
-      // Pin the background container for the whole scroll.
-      const scrollContainer = self.selector(".gsap-scroll--container")[0];
-      const bgContainer = self.selector(".gsap-bg--container");
-      ScrollTrigger.create({
-        trigger: container.current,
-        pin: bgContainer,
-        pinSpacing: false,
-        end: `+=${scrollContainer.scrollHeight}`,
-      });
+        // Pin the background container for the whole scroll.
+        const scrollContainer = self.selector(".gsap-scroll--container")[0];
+        const bgContainer = self.selector(".gsap-bg--container");
+        ScrollTrigger.create({
+          trigger: container.current,
+          pin: bgContainer,
+          pinSpacing: false,
+          end: `+=${scrollContainer.scrollHeight}`,
+        });
 
-      //------------------------------
-      // Animate each bg clip path on scroll
-      const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
-      const scrollItems = self.selector(
-        ".gsap-scroll--item"
-      ) as HTMLDivElement[];
+        // Animate each bg clip path on scroll
+        const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
+        const scrollItems = self.selector(
+          ".gsap-scroll--item"
+        ) as HTMLDivElement[];
 
-      bgItems.forEach((bgItem, _index) => {
-        gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
-        const scrollItem = scrollItems[_index];
-        gsap.to(bgItem, {
-          clipPath: openPath,
-          immediateRender: false,
-          ease: "linear",
-          scrollTrigger: {
-            trigger: scrollItem,
-            start: "top bottom",
-            end: "+=100%",
-            scrub: true,
-          },
+        bgItems.forEach((bgItem, _index) => {
+          gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
+          const scrollItem = scrollItems[_index];
+          gsap.to(bgItem, {
+            clipPath: openPath,
+            immediateRender: false,
+            ease: "linear",
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "top bottom",
+              end: "+=100%",
+              scrub: true,
+            },
+          });
         });
       });
     }, container);

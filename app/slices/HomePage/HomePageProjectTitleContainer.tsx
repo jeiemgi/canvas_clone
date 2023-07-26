@@ -20,7 +20,6 @@ function HomePageTitleContainer({
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
 
-      //------------------------------
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(".gsap-title--container")[0];
       const scrollContainer = self.selector(".gsap-scroll--container")[0];

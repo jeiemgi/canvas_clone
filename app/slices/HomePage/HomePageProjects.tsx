@@ -15,7 +15,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <section ref={ref} className={"desktop-only relative"}>
+    <section ref={ref} className={"relative"}>
       <HomePageBackgroundContainer container={ref} data={data} />
       <HomePageProjectScrollContainer data={data} />
       <HomePageTitleContainer container={ref} data={data} />
