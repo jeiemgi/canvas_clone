@@ -21,7 +21,7 @@ function WorkProject2Column({ item }: Props) {
           <Video
             square
             autoPlay
-            className={"w-full"}
+            className={"h-full w-full object-cover"}
             // @ts-ignore
             src={item.primary.left_video.url}
           />
@@ -40,7 +40,7 @@ function WorkProject2Column({ item }: Props) {
           <Video
             square
             autoPlay
-            className={"w-full"}
+            className={"h-full w-full object-cover"}
             // @ts-ignore
             src={item.primary.right_video.url}
           />
