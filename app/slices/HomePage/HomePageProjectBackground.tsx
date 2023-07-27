@@ -22,8 +22,12 @@ function HomePageBackgroundContainer({
 
     const ctx = gsap.context((self) => {
       const mm = gsap.matchMedia();
+
       mm.add(mdScreen, () => {
-        if (!self.selector) return;
+        if (!self.selector) {
+          console.error("NO SELECTOR", self);
+          return;
+        }
 
         console.log("selector");
 
