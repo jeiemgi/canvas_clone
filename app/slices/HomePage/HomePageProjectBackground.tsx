@@ -25,6 +25,8 @@ function HomePageBackgroundContainer({
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 
+        console.log("selector");
+
         // Pin the background container for the whole scroll.
         const scrollContainer = self.selector(".gsap-scroll--container")[0];
         const bgContainer = self.selector(".gsap-bg--container");
@@ -35,11 +37,15 @@ function HomePageBackgroundContainer({
           end: `+=${scrollContainer.scrollHeight}`,
         });
 
+        console.log("scrollContainer", scrollContainer, bgContainer);
+
         // Animate each bg clip path on scroll
         const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
         const scrollItems = self.selector(
           ".gsap-scroll--item"
         ) as HTMLDivElement[];
+
+        console.log("scrollContainer", bgItems, scrollItems);
 
         bgItems.forEach((bgItem, _index) => {
           gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
