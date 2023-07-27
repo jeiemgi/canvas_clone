@@ -86,15 +86,16 @@ function HomePageBackgroundContainer({
         <div
           key={`HomePageProject-bg-${project.id}`}
           className={clsx(
-            "gsap-bg--item relative h-screen w-full overflow-hidden bg-cover bg-top text-white md:fixed"
+            "gsap-bg--item relative h-screen w-full overflow-hidden text-white md:fixed"
           )}
         >
-          <div className="absolute flex items-center">
+          <div className="absolute flex h-full w-full items-start">
             <Image
-              className={"object-cover"}
+              className={"min-h-full min-w-full object-cover"}
               field={project.primary.background_image}
             />
           </div>
+
           <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
             <div className="grid-container h-fit w-full pt-5">
               <div className="col-span-3">
