@@ -3,15 +3,21 @@ import Navigation from "~/components/Layout/Navigation";
 import type { ReactNode } from "react";
 import { useLocation } from "@remix-run/react";
 
-function Layout({ children }: { children: ReactNode }) {
+function Layout({
+  children,
+  footer = true,
+}: {
+  children: ReactNode;
+  footer: boolean;
+}) {
   const location = useLocation();
-  const footer = location.pathname === "/contact";
+  const isContact = location.pathname !== "/contact";
 
   return (
     <>
       <Navigation />
       {children}
-      {footer ? <Footer /> : null}
+      {isContact && footer ? <Footer /> : null}
     </>
   );
 }

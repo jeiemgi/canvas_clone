@@ -32,8 +32,8 @@ export function NavLogoMobile() {
     <Link
       to={"/"}
       className={clsx(
-        "mobile-only transition-expo-transform absolute left-0",
-        isHome ? "translate-x-0" : "translate-x-8"
+        "mobile-only absolute left-0 transition-transform",
+        isHome ? "translate-x-0" : "translate-x-10"
       )}
     >
       <CanvasLogo

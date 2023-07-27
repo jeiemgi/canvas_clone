@@ -4,11 +4,11 @@ import { LinkCTA, PrimaryCTALink } from "~/components/CTA";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 import clsx from "clsx";
 
-function Footer({ show = true }) {
+function Footer() {
   return (
     <footer
       className={clsx(
-        "h-0 transition-transform",
+        "transition-transform",
         "noise-background relative z-10 overflow-hidden bg-black text-white"
       )}
     >

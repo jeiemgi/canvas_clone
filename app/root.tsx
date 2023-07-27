@@ -18,6 +18,7 @@ import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
+import Layout from "~/components/Layout";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -71,9 +72,9 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error)) {
     return (
       <Document title={`${error.status} ${error.statusText}`}>
-        <div>
+        <Layout footer={false}>
           <ErrorBoundaryComponent error={error} />
-        </div>
+        </Layout>
       </Document>
     );
   }
