@@ -36,6 +36,8 @@ function HomePageBackgroundContainer({
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 
+        const easing = "power4.out";
+
         // Pin the background container for the whole scroll.
         const scrollContainer = self.selector(".gsap-scroll--container")[0];
         const bgContainer = self.selector(".gsap-bg--container");
@@ -53,16 +55,32 @@ function HomePageBackgroundContainer({
         ) as HTMLDivElement[];
 
         bgItems.forEach((bgItem, _index) => {
-          gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
           const scrollItem = scrollItems[_index];
+          const image = bgItem.querySelector(".gsap-bg--item-img");
+
+          gsap.set(image, { y: _index === 0 ? "0%" : "15%" });
+          gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
+
+          gsap.to(image, {
+            y: "0%",
+            immediateRender: false,
+            ease: easing,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "top 85%",
+              end: "+=125%",
+              scrub: true,
+            },
+          });
+
           gsap.to(bgItem, {
             clipPath: openPath,
             immediateRender: false,
-            ease: "power4.inOut",
+            ease: easing,
             scrollTrigger: {
               trigger: scrollItem,
-              start: "top bottom",
-              end: "+=100%",
+              start: "top 85%",
+              end: "+=125%",
               scrub: true,
             },
           });
@@ -86,10 +104,12 @@ function HomePageBackgroundContainer({
             "gsap-bg--item relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
           )}
         >
-          <div className="absolute flex h-full w-full items-start">
+          <div className="absolute flex h-full w-full items-end">
             <Image
-              className={"min-h-full min-w-full select-none object-cover"}
               field={project.primary.background_image}
+              className={
+                "gsap-bg--item-img min-h-full min-w-full select-none object-cover"
+              }
             />
           </div>
 

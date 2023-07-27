@@ -17,8 +17,8 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
   return (
     <section ref={(node) => setContainer(node)} className={"relative"}>
       <HomePageBackgroundContainer container={container} data={data} />
-      <HomePageProjectScrollContainer data={data} />
       <HomePageTitleContainer container={container} data={data} />
+      <HomePageProjectScrollContainer data={data} />
     </section>
   );
 }
