@@ -22,12 +22,11 @@ function HomePageTitleContainer({
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(".gsap-title--container")[0];
       const scrollContainer = self.selector(".gsap-scroll--container")[0];
-
       ScrollTrigger.create({
         trigger: container,
         pin: titleContainer,
         pinSpacing: false,
-        end: `+=${scrollContainer.scrollHeight}`,
+        end: `+=${scrollContainer.scrollHeight - window.innerHeight} `,
         toggleClass: "active",
       });
 
@@ -46,6 +45,7 @@ function HomePageTitleContainer({
       ) as HTMLDivElement[];
       const firstScrollItem = scrollItems[0];
 
+      const startTrigger = "top 50%";
       gsap.set([fixedIndexItem, ...indexItems], { y: "100%" });
       gsap.to(fixedIndexItem, {
         y: "0%",
@@ -53,7 +53,7 @@ function HomePageTitleContainer({
         immediateRender: false,
         scrollTrigger: {
           trigger: firstScrollItem,
-          start: "top 50%",
+          start: startTrigger,
           toggleActions: "play none none reverse",
         },
       });
@@ -83,7 +83,7 @@ function HomePageTitleContainer({
           immediateRender: false,
           scrollTrigger: {
             trigger: scrollItem,
-            start: index === 0 ? "top 50%" : "top top",
+            start: index === 0 ? startTrigger : "top top",
             toggleActions: "play none none reverse",
           },
         });
@@ -105,7 +105,7 @@ function HomePageTitleContainer({
           immediateRender: false,
           scrollTrigger: {
             trigger: scrollItem,
-            start: index === 0 ? "top 50%" : "top top",
+            start: index === 0 ? startTrigger : "top top",
             toggleActions: "play none none reverse",
           },
         });
@@ -128,10 +128,9 @@ function HomePageTitleContainer({
 
   return (
     <div
-      className={clsx(
-        "gsap-title--container",
-        "desktop-only pointer-events-none absolute inset-0 h-screen w-full"
-      )}
+      className={
+        "gsap-title--container desktop-only pointer-events-none absolute inset-0 h-screen w-full"
+      }
     >
       {/* TITLE AND INDEX */}
       <div

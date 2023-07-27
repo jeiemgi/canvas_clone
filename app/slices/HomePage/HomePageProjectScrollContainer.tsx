@@ -18,36 +18,23 @@ function HomePageProjectScrollContainer({
           key={`HomePageProjectItem-${index}`}
           onClick={() => navigate(`/work/${project.primary.slug}`)}
           className={clsx(
-            "gsap-scroll--item",
-            "group relative flex cursor-pointer flex-col justify-between overflow-hidden"
+            "gsap-scroll--item group relative flex cursor-pointer flex-col justify-between overflow-hidden"
           )}
         >
           <div className="desktop-only--grid grid-container">
-            <div
-              className={clsx(
-                index === 0 ? "pt-0" : "pt-[50vh]",
-                "col-span-4 pb-[50vh] pt-[50vh] md:col-start-9"
-              )}
-            >
-              <p
-                data-lag={0.2}
-                data-speed={"clamp(1.5)"}
-                className={"body--2 mb-5 max-w-[500px] text-white"}
-              >
+            <div className={clsx("col-span-4 py-[50vh] md:col-start-9")}>
+              <p className={"body--2 mb-5 max-w-[500px] text-white"}>
                 {asText(project.primary.description)}
               </p>
               {project.items.map(({ slide }, index) => (
                 <div
-                  data-lag={0.2 * index}
+                  data-lag={0.05 * index}
                   key={`ProjectImage-${slide.url}-${index}`}
-                  className={"mb-5 w-full"}
                 >
-                  {slide.url ? (
-                    <Image
-                      field={slide}
-                      className={"h-full w-full object-contain"}
-                    />
-                  ) : null}
+                  <Image
+                    field={slide}
+                    className={"mb-5 w-full object-contain"}
+                  />
                 </div>
               ))}
             </div>

@@ -14,14 +14,16 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 import Layout from "~/components/Layout";
+import { useLayoutEffect } from "~/hooks";
 
 // NOTE: Register plugins here, so we register them only once.
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
 const otherCss = [
   { rel: "stylesheet", href: stylesheet },
@@ -91,9 +93,25 @@ export function ErrorBoundary() {
 }
 
 export default function App() {
+  useLayoutEffect(() => {
+    ScrollTrigger.normalizeScroll(true);
+
+    ScrollSmoother.create({
+      smooth: 0.2, // how long (in seconds) it takes to "catch up" to the native scroll position
+      effects: true, // looks for data-speed and data-lag attributes on elements
+      smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
+      normalizeScroll: true,
+      ease: "power3.out",
+    });
+  }, []);
+
   return (
     <Document>
-      <Outlet />
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <Outlet />
+        </div>
+      </div>
     </Document>
   );
 }

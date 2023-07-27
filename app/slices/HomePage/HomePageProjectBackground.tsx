@@ -4,6 +4,7 @@ import { useLayoutEffect } from "~/hooks";
 import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import CustomEase from "gsap/dist/CustomEase";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import { Image } from "~/components/Image";
 
@@ -42,10 +43,8 @@ function HomePageBackgroundContainer({
           trigger: container,
           pin: bgContainer,
           pinSpacing: false,
-          end: `+=${scrollContainer.scrollHeight}`,
+          end: `+=${scrollContainer.scrollHeight - window.innerHeight}`,
         });
-
-        console.log("scrollContainer", scrollContainer, bgContainer);
 
         // Animate each bg clip path on scroll
         const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
@@ -53,15 +52,13 @@ function HomePageBackgroundContainer({
           ".gsap-scroll--item"
         ) as HTMLDivElement[];
 
-        console.log("scrollContainer", bgItems, scrollItems);
-
         bgItems.forEach((bgItem, _index) => {
           gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
           const scrollItem = scrollItems[_index];
           gsap.to(bgItem, {
             clipPath: openPath,
             immediateRender: false,
-            ease: "linear",
+            ease: "power4.inOut",
             scrollTrigger: {
               trigger: scrollItem,
               start: "top bottom",
@@ -79,19 +76,19 @@ function HomePageBackgroundContainer({
   return (
     <div
       className={
-        "gsap-bg--container pointer-events-none overflow-hidden md:h-screen md:select-none"
+        "gsap-bg--container pointer-events-none overflow-hidden md:absolute md:h-screen md:w-full"
       }
     >
       {data.map((project, index) => (
         <div
           key={`HomePageProject-bg-${project.id}`}
           className={clsx(
-            "gsap-bg--item relative h-screen w-full overflow-hidden text-white md:fixed"
+            "gsap-bg--item relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
           )}
         >
           <div className="absolute flex h-full w-full items-start">
             <Image
-              className={"min-h-full min-w-full object-cover"}
+              className={"min-h-full min-w-full select-none object-cover"}
               field={project.primary.background_image}
             />
           </div>
