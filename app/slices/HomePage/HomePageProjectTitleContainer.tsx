@@ -4,7 +4,6 @@ import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import type { RefObject } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 
 function HomePageTitleContainer({
@@ -12,10 +11,10 @@ function HomePageTitleContainer({
   container,
 }: {
   data: HomePageProjectsData;
-  container: RefObject<HTMLDivElement>;
+  container: HTMLElement | null;
 }) {
   useLayoutEffect(() => {
-    if (!container.current) return;
+    if (!container) return;
 
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
@@ -25,7 +24,7 @@ function HomePageTitleContainer({
       const scrollContainer = self.selector(".gsap-scroll--container")[0];
 
       ScrollTrigger.create({
-        trigger: container.current,
+        trigger: container,
         pin: titleContainer,
         pinSpacing: false,
         end: `+=${scrollContainer.scrollHeight}`,

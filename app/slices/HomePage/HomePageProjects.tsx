@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContainer";
 import HomePageBackgroundContainer from "~/slices/HomePage/HomePageProjectBackground";
 import HomePageProjectScrollContainer from "~/slices/HomePage/HomePageProjectScrollContainer";
@@ -12,13 +12,13 @@ interface HomePageProjectsProps {
 }
 
 function HomePageProjects({ data }: HomePageProjectsProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const [container, setContainer] = useState<HTMLElement | null>(null);
 
   return (
-    <section ref={ref} className={"relative"}>
-      <HomePageBackgroundContainer container={ref} data={data} />
+    <section ref={(node) => setContainer(node)} className={"relative"}>
+      <HomePageBackgroundContainer container={container} data={data} />
       <HomePageProjectScrollContainer data={data} />
-      <HomePageTitleContainer container={ref} data={data} />
+      <HomePageTitleContainer container={container} data={data} />
     </section>
   );
 }

@@ -4,8 +4,8 @@ import { useLayoutEffect } from "~/hooks";
 import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import type { RefObject } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import { Image } from "~/components/Image";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -15,27 +15,31 @@ function HomePageBackgroundContainer({
   container,
 }: {
   data: HomePageProjectsData;
-  container: RefObject<HTMLDivElement>;
+  container: HTMLElement | null;
 }) {
   useLayoutEffect(() => {
     console.log("HomePageBackgroundContainer");
 
+    if (!container) {
+      console.error("NO CONTAINER", container);
+      return;
+    }
+
     const ctx = gsap.context((self) => {
-      if (!self.selector || !container.current) {
+      if (!self.selector) {
         console.error("NO SELECTOR", self);
+        return;
       }
 
       const mm = gsap.matchMedia();
       mm.add(mdScreen, () => {
-        console.log("selector", container.current);
         if (!self.selector) return;
-        console.log("selector", self);
 
         // Pin the background container for the whole scroll.
         const scrollContainer = self.selector(".gsap-scroll--container")[0];
         const bgContainer = self.selector(".gsap-bg--container");
         ScrollTrigger.create({
-          trigger: container.current,
+          trigger: container,
           pin: bgContainer,
           pinSpacing: false,
           end: `+=${scrollContainer.scrollHeight}`,
@@ -84,12 +88,13 @@ function HomePageBackgroundContainer({
           className={clsx(
             "gsap-bg--item relative h-screen w-full overflow-hidden bg-cover bg-top text-white md:fixed"
           )}
-          style={{
-            backgroundImage: `url(${
-              project.primary.background_image.url || ""
-            })`,
-          }}
         >
+          <div className="absolute flex items-center">
+            <Image
+              className={"object-cover"}
+              field={project.primary.background_image}
+            />
+          </div>
           <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
             <div className="grid-container h-fit w-full pt-5">
               <div className="col-span-3">
