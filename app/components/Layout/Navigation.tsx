@@ -1,13 +1,19 @@
-import { useLoaderData } from "@remix-run/react";
 import Nav from "~/components/Navigation/Nav";
 import NavBack from "~/components/Navigation/NavBack";
 import NavList from "~/components/Navigation/NavList";
 import NavListItem from "~/components/Navigation/NavListItem";
 import { NavLogoDesktop, NavLogoMobile } from "~/components/Navigation/NavLogo";
-import type { loader } from "~/root";
+import { useLocation } from "@remix-run/react";
+
+const navLinks = [
+  {
+    label: "Contact",
+    link: "/contact",
+  },
+];
 
 function Navigation() {
-  const { navigation } = useLoaderData<typeof loader>();
+  let { pathname } = useLocation();
 
   return (
     <Nav>
@@ -17,16 +23,18 @@ function Navigation() {
       </NavList>
 
       <NavLogoDesktop />
-
       <NavList>
-        {navigation.data.body.map((item) => (
-          <NavListItem
-            to={item.primary.link || "#"}
-            key={`${item.primary.link}`}
-          >
-            {item.primary.title}
-          </NavListItem>
-        ))}
+        {navLinks.map(({ link, label }) => {
+          return (
+            <NavListItem
+              to={link || "#"}
+              show={pathname !== link}
+              key={`NavListItem-${link}`}
+            >
+              {label}
+            </NavListItem>
+          );
+        })}
       </NavList>
     </Nav>
   );

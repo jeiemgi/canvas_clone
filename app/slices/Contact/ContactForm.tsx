@@ -9,8 +9,7 @@ function ContactForm(props: Props) {
   const [email, setEmail] = useState("");
   const [text, setText] = useState("");
 
-  const isDisabled =
-    !name || name !== "" || !email || email !== "" || !text || text !== "";
+  const isDisabled = !name || !email || !text;
 
   return (
     <form>

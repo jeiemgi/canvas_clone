@@ -1,19 +1,17 @@
 import Footer from "~/components/Layout/Footer";
 import Navigation from "~/components/Layout/Navigation";
+import type { ReactNode } from "react";
+import { useLocation } from "@remix-run/react";
 
-function Layout({ children }: { children: React.ReactNode }) {
-  // useLayoutEffect(() => {
-  //   ScrollSmoother.create({
-  //     smooth: 0.5,
-  //     effects: true,
-  //   });
-  // }, []);
+function Layout({ children }: { children: ReactNode }) {
+  const location = useLocation();
+  const footer = location.pathname === "/contact";
 
   return (
     <>
       <Navigation />
       {children}
-      <Footer />
+      {footer ? <Footer /> : null}
     </>
   );
 }

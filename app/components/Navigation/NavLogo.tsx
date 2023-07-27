@@ -7,7 +7,10 @@ export function NavLogoDesktop() {
   const { theme } = useNavTheme();
 
   return (
-    <div className={"desktop-only absolute left-0 right-0 m-auto w-max"}>
+    <Link
+      to={"/"}
+      className={"desktop-only absolute left-0 right-0 m-auto w-max"}
+    >
       <CanvasLogo
         width={125}
         height={21}
@@ -16,7 +19,7 @@ export function NavLogoDesktop() {
           theme === "transparent" ? "fill-white" : "fill-black"
         )}
       />
-    </div>
+    </Link>
   );
 }
 

@@ -25,7 +25,7 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   const showProjectDetails = searchParams.get("projectDetails") === "true";
 
   const showBack = useMemo(() => {
-    return isHome || showProjectDetails;
+    return !isHome || showProjectDetails;
   }, [isHome, showProjectDetails]);
 
   const theme: NavThemeProps["theme"] = useMemo(() => {
@@ -43,3 +43,5 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
 export const useNavTheme = () => {
   return useContext(NavThemeContext);
 };
+
+export default NavThemeProvider;

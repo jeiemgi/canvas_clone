@@ -1,17 +1,18 @@
-import ContactForm from "~/slices/Contact/ContactForm";
-import React from "react";
 import { LinkCTA } from "~/components/CTA";
+import ContactForm from "~/slices/Contact/ContactForm";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 
 const ContactPage = () => {
   return (
     <div
       className={
-        "noise-background flex h-screen items-start bg-pure-black pt-header text-white md:items-center md:pt-0"
+        "noise-background flex min-h-screen items-start bg-pure-black pt-header text-white md:items-center md:pt-headerDesk"
       }
     >
-      <div className="grid-container w-full pb-24">
-        <div className="col-span-4 mb-12 border-t border-t-white/30 md:order-1 md:col-start-1 md:mb-0 md:border-0">
+      <div className="grid-container w-full pb-24 pt-24">
+        <div className="col-span-4 mb-5 border-t border-t-white/30 md:col-span-12"></div>
+
+        <div className="col-span-4 mb-12 md:order-1 md:col-start-1 md:mb-0">
           <h1 className={"heading--2 py-6 md:mb-20 md:py-0"}>Let’s chat</h1>
         </div>
 

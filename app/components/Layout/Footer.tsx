@@ -2,13 +2,15 @@ import React from "react";
 import TextBlur from "~/components/TextBlur";
 import { LinkCTA, PrimaryCTALink } from "~/components/CTA";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
+import clsx from "clsx";
 
-function Footer() {
+function Footer({ show = true }) {
   return (
     <footer
-      className={
+      className={clsx(
+        "h-0 transition-transform",
         "noise-background relative z-10 overflow-hidden bg-black text-white"
-      }
+      )}
     >
       <div className={"grid-container mb-10 md:mb-56 md:pt-11"}>
         <div className="col-span-4 py-20 md:order-last md:col-start-9 md:py-0">
