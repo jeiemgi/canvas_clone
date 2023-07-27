@@ -6,7 +6,6 @@ import { asText } from "@prismicio/richtext";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { RefObject } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
-import { Image } from "~/components/Image";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -73,16 +72,14 @@ function HomePageBackgroundContainer({
         <div
           key={`HomePageProject-bg-${project.id}`}
           className={clsx(
-            "gsap-bg--item",
-            "relative h-screen w-full overflow-hidden bg-cover bg-top text-white"
+            "gsap-bg--item relative h-screen w-full overflow-hidden bg-cover bg-top text-white md:fixed"
           )}
+          style={{
+            backgroundImage: `url(${
+              project.primary.background_image.url || ""
+            })`,
+          }}
         >
-          <div className={"absolute flex h-full w-full items-start"}>
-            <Image
-              className={"h-full w-full object-cover"}
-              field={project.primary.background_image}
-            />
-          </div>
           <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
             <div className="grid-container h-fit w-full pt-5">
               <div className="col-span-3">
