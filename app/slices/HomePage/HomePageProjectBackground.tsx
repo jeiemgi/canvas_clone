@@ -18,18 +18,18 @@ function HomePageBackgroundContainer({
   container: RefObject<HTMLDivElement>;
 }) {
   useLayoutEffect(() => {
-    if (!container.current) return;
+    console.log("HomePageBackgroundContainer");
 
     const ctx = gsap.context((self) => {
+      if (!self.selector || !container.current) {
+        console.error("NO SELECTOR", self);
+      }
+
       const mm = gsap.matchMedia();
-
       mm.add(mdScreen, () => {
-        if (!self.selector) {
-          console.error("NO SELECTOR", self);
-          return;
-        }
-
-        console.log("selector");
+        console.log("selector", container.current);
+        if (!self.selector) return;
+        console.log("selector", self);
 
         // Pin the background container for the whole scroll.
         const scrollContainer = self.selector(".gsap-scroll--container")[0];
