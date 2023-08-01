@@ -5,7 +5,7 @@ import { validationError } from "remix-validated-form";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs, RequestInit } from "@remix-run/node";
 
 export const validator = withZod(
   z.object({
@@ -18,22 +18,32 @@ export const validator = withZod(
   })
 );
 
-const encode = (data: Record<string, string>) => {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-};
-
 export const action = async ({ request }: DataFunctionArgs) => {
   const data = await request.formData();
   const validation = await validator.validate(data);
+
   if (validation.error) return validationError(validation.error);
 
-  const response = await fetch(`${request.url}/form`, {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  const urlencoded = new URLSearchParams();
+  urlencoded.append("form-name", "contact");
+  urlencoded.append("fullName", validation.data.fullName);
+  urlencoded.append("message", validation.data.message);
+  urlencoded.append("email", validation.data.email);
+
+  const response = fetch("https://main--canvas-v4-prod.netlify.app/form", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: encode({ "form-name": "contact", ...validation.data }),
-  });
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow",
+  })
+    .then((response) => response.text())
+    // .then((result) => console.log(result))
+    .catch((error) => error);
+
+  return json({ response });
 
   // .then((response) => {
   //   return json({
@@ -49,8 +59,6 @@ export const action = async ({ request }: DataFunctionArgs) => {
   //     message: "There was an error submitting the form.",
   //   });
   // });
-
-  return json({ response });
 };
 
 const ContactPage = () => {

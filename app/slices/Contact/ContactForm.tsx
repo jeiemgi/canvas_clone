@@ -23,12 +23,7 @@ function ContactForm({ validator }: { validator: Validator<InputTypes> }) {
           Someone from our team will be reaching out to you shortly.
         </h1>
       ) : (
-        <ValidatedForm
-          method="POST"
-          action={"/contact"}
-          fetcher={fetcher}
-          validator={validator}
-        >
+        <ValidatedForm method="post" fetcher={fetcher} validator={validator}>
           <Input
             type="text"
             name={"fullName"}
