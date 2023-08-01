@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
@@ -23,30 +23,37 @@ export const action = async ({ request }: DataFunctionArgs) => {
   const validation = await validator.validate(data);
   if (validation.error) return validationError(validation.error);
 
-  return await fetch(`${request.url}/form.html`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      ...validation.data,
-      ...{ "form-name": "contact" },
-    }).toString(),
-  })
-    .then((response) => {
-      return json({
-        ok: true,
-        data: response,
-        message: "Form successfully submitted",
-      });
-    })
-    .catch((error) => {
-      return json({
-        ok: false,
-        data: error,
-        message: "There was an error submitting the form.",
-      });
-    });
+  const body = new URLSearchParams({
+    ...validation.data,
+    ...{ "form-name": "contact" },
+  }).toString();
 
-  // return json({ ok: true });
+  console.log(body);
+
+  await fetch(`${request.url}/form`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: body,
+  });
+
+  // .then((response) => {
+  //   return json({
+  //     ok: true,
+  //     data: response,
+  //     message: "Form successfully submitted",
+  //   });
+  // })
+  // .catch((error) => {
+  //   return json({
+  //     ok: false,
+  //     data: error,
+  //     message: "There was an error submitting the form.",
+  //   });
+  // });
+
+  return redirect("/contact");
 };
 
 const ContactPage = () => {
