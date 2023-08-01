@@ -1,54 +1,46 @@
-import { useState } from "react";
 import { Input, TextArea } from "~/components/Input";
 import { PrimaryCTAButton } from "~/components/CTA";
+import { ValidatedForm } from "remix-validated-form";
+import { useFetcher } from "@remix-run/react";
+import type { validator as ValidatorType } from "~/routes/_layout.contact";
 
-interface Props {}
-
-function ContactForm(props: Props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [text, setText] = useState("");
-
-  const isDisabled = !name || !email || !text;
+function ContactForm({ validator }: { validator: typeof ValidatorType }) {
+  const fetcher = useFetcher();
 
   return (
-    <form>
+    <ValidatedForm
+      data-netlify={true}
+      fetcher={fetcher}
+      validator={validator}
+      method={"post"}
+      action={"/contact"}
+    >
       <Input
-        value={name}
-        // @ts-ignore
-        onChange={(e) => setName(e.target.value)}
-        label={"Full Name*"}
         type="text"
-        id={"full-name"}
+        name={"fullName"}
+        label={"Full Name*"}
         containerClassName={"mb-5"}
       />
       <Input
-        value={email}
-        // @ts-ignore
-        onChange={(e) => setEmail(e.target.value)}
-        label={"Email*"}
         type="text"
-        id={"email"}
+        name={"email"}
+        label={"Email*"}
         containerClassName={"mb-5"}
       />
       <TextArea
-        value={text}
-        // @ts-ignore
-        onChange={(e) => setText(e.target.value)}
+        name={"message"}
         label={"Project Detail*"}
-        type="textarea"
-        id={"project-detail"}
+        containerClassName={"mb-10"}
         placeholder={
           "Let’s start with a brief overview of what you’re looking for, budget range, and timeline."
         }
-        containerClassName={"mb-10"}
       />
       <div className={"flex justify-end"}>
-        <PrimaryCTAButton disabled={isDisabled} dark size={"lg"}>
+        <PrimaryCTAButton dark size={"lg"} type={"submit"}>
           Send
         </PrimaryCTAButton>
       </div>
-    </form>
+    </ValidatedForm>
   );
 }
 

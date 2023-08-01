@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { gsap } from "gsap";
 import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
@@ -14,10 +13,16 @@ function HomePageTitleContainer({
   container: HTMLElement | null;
 }) {
   useLayoutEffect(() => {
-    if (!container) return;
+    if (!container) {
+      console.error("HomePageTitleContainer: NO CONTAINER", container);
+      return;
+    }
 
     const ctx = gsap.context((self) => {
-      if (!self.selector) return;
+      if (!self.selector) {
+        console.error("HomePageTitleContainer: NO SELF", container);
+        return;
+      }
 
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(".gsap-title--container")[0];

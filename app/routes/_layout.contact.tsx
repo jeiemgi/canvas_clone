@@ -1,6 +1,29 @@
+import { json } from "@remix-run/node";
 import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
+import { z } from "zod";
+import { withZod } from "@remix-validated-form/with-zod";
+import { validationError } from "remix-validated-form";
+import type { DataFunctionArgs } from "@remix-run/node";
+
+export const validator = withZod(
+  z.object({
+    message: z.string().min(1, { message: "This field is required" }),
+    fullName: z.string().min(1, { message: "This field is required" }),
+    email: z
+      .string()
+      .min(1, { message: "This field is required" })
+      .email("Please enter a valid email address (e.g. email@domain.com)."),
+  })
+);
+
+export const action = async ({ request }: DataFunctionArgs) => {
+  const validation = await validator.validate(await request.formData());
+  if (validation.error) return validationError(validation.error);
+
+  return json({ validation, ok: true });
+};
 
 const ContactPage = () => {
   return (
@@ -27,7 +50,7 @@ const ContactPage = () => {
         </div>
 
         <div className="col-span-4 mb-14 md:order-3 md:col-span-6 md:col-start-7 md:mb-0">
-          <ContactForm />
+          <ContactForm validator={validator} />
         </div>
 
         <div className={"col-span-4 md:order-2 md:col-start-1"}>

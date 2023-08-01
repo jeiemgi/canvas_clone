@@ -1,73 +1,123 @@
-import type { HTMLProps } from "react";
-import React from "react";
 import clsx from "clsx";
+import { useRef } from "react";
+import { useField } from "remix-validated-form";
+import Transition from "~/components/Transition";
+import type { FieldError } from "react-hook-form";
+import type {
+  DivProps,
+  InputProps,
+  LabelProps,
+  TextAreaProps,
+} from "react-html-props";
 
-interface InputProps extends HTMLProps<HTMLInputElement> {
+interface Props {
+  name: string;
   label: string;
+  error?: FieldError;
   containerClassName?: string;
 }
 
-export function Input({
-  id,
-  label,
-  placeholder,
-  containerClassName,
-  ...props
-}: InputProps) {
+function ErrorMessage({ error }: { error?: string }) {
   return (
-    <div className={clsx("relative pt-6", containerClassName)}>
-      <input
-        id={id}
-        placeholder={placeholder ? placeholder : " "}
-        className={
-          "body--1 peer w-full border-b border-b-white/30 bg-transparent py-2 outline-0 ring-0"
-        }
+    <Transition.FadeInBottom show={Boolean(error)}>
+      <div className={"label--2 absolute bottom-5 left-0 text-red"}>
+        {error}
+      </div>
+    </Transition.FadeInBottom>
+  );
+}
+
+function Wrapper({ className, ...props }: DivProps) {
+  return (
+    <div className={"cursor-text"}>
+      <div
+        className={clsx("relative border-b border-b-white/30 pt-6", className)}
         {...props}
       />
-      <label
-        htmlFor={id}
-        className={
-          "body--1 absolute left-0 top-0 origin-top-left scale-[0.6] transition-transform peer-placeholder-shown:scale-100 peer-focus:scale-[0.6]"
-        }
-      >
-        {label}
-      </label>
     </div>
   );
 }
 
-interface TextAreaProps extends HTMLProps<HTMLTextAreaElement> {
-  label: string;
-  containerClassName?: string;
+function Label(props: LabelProps) {
+  return (
+    <label
+      className={
+        "body--1 absolute left-0 top-0 origin-top-left scale-[0.6] transition-transform peer-placeholder-shown:scale-100 peer-focus:scale-[0.6]"
+      }
+      {...props}
+    />
+  );
 }
 
-export function TextArea({
+export function Input({
   id,
+  name,
   label,
   placeholder,
   containerClassName,
   ...props
-}: TextAreaProps) {
+}: Props & InputProps) {
+  const ref = useRef<HTMLInputElement>(null);
+  const { error, getInputProps } = useField(name, {
+    validationBehavior: {
+      initial: "onSubmit",
+      whenTouched: "onSubmit",
+      whenSubmitted: "onSubmit",
+    },
+  });
+
   return (
-    <div className={clsx("relative pt-8", containerClassName)}>
+    <Wrapper
+      onClick={() => ref.current?.focus()}
+      className={containerClassName}
+    >
+      <input
+        ref={ref}
+        id={name}
+        name={name}
+        className={clsx(
+          "body--1 peer w-full bg-transparent outline-0 ring-0 transition-[padding]",
+          error ? "pb-8 text-red" : "pb-5 text-white"
+        )}
+        placeholder={placeholder ? placeholder : " "}
+        {...getInputProps({ id: name, ...props })}
+      />
+      <Label htmlFor={name}>{label}</Label>
+      <ErrorMessage error={error} />
+    </Wrapper>
+  );
+}
+
+export function TextArea({
+  id,
+  name,
+  label,
+  placeholder,
+  containerClassName,
+  ...props
+}: TextAreaProps & Props) {
+  const { error, getInputProps } = useField(name);
+  const ref = useRef<HTMLInputElement>(null);
+
+  return (
+    <Wrapper
+      onClick={() => ref.current?.focus()}
+      className={containerClassName}
+    >
       <textarea
-        id={id}
+        id={name}
+        name={name}
         rows={6}
         placeholder={placeholder ? placeholder : " "}
-        className={
-          "body--1 peer w-full border-b border-b-white/30 bg-transparent py-2 placeholder-white/30 outline-0 ring-0"
-        }
-        {...props}
+        className={clsx(
+          "body--1 peer w-full bg-transparent py-2 placeholder-white/30 outline-0 ring-0",
+          error ? "text-red" : "text-white"
+        )}
+        {...getInputProps({ id: name, ...props })}
       />
-      <label
-        className={
-          "body--1 absolute left-0 top-0 origin-top-left scale-[0.6] transition-transform peer-placeholder-shown:scale-100 peer-focus:scale-[0.6]"
-        }
-        htmlFor={id}
-      >
-        {label}
-      </label>
-    </div>
+      <Label htmlFor={name}>{label}</Label>
+      <ErrorMessage error={error} />
+    </Wrapper>
   );
 }
 

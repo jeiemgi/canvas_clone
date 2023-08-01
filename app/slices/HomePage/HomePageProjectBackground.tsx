@@ -1,12 +1,11 @@
 import clsx from "clsx";
-import { gsap } from "gsap";
-import { useLayoutEffect } from "~/hooks";
 import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import CustomEase from "gsap/dist/CustomEase";
-import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import { useLayoutEffect } from "~/hooks";
 import { Image } from "~/components/Image";
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -19,16 +18,14 @@ function HomePageBackgroundContainer({
   container: HTMLElement | null;
 }) {
   useLayoutEffect(() => {
-    console.log("HomePageBackgroundContainer");
-
     if (!container) {
-      console.error("NO CONTAINER", container);
+      console.error("HomePageBackgroundContainer: NO CONTAINER", container);
       return;
     }
 
     const ctx = gsap.context((self) => {
       if (!self.selector) {
-        console.error("NO SELECTOR", self);
+        console.error("HomePageBackgroundContainer: NO SELECTOR", self);
         return;
       }
 
@@ -36,7 +33,7 @@ function HomePageBackgroundContainer({
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 
-        const easing = "power4.out";
+        const easing = "power2.out";
 
         // Pin the background container for the whole scroll.
         const scrollContainer = self.selector(".gsap-scroll--container")[0];
@@ -48,13 +45,13 @@ function HomePageBackgroundContainer({
           end: `+=${scrollContainer.scrollHeight - window.innerHeight}`,
         });
 
-        // Animate each bg clip path on scroll
         const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
         const scrollItems = self.selector(
           ".gsap-scroll--item"
         ) as HTMLDivElement[];
 
         bgItems.forEach((bgItem, _index) => {
+          // Animate each bg clip path on scroll
           const scrollItem = scrollItems[_index];
           const image = bgItem.querySelector(".gsap-bg--item-img");
 
