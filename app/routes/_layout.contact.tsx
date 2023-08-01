@@ -24,21 +24,24 @@ export const action = async ({ request }: DataFunctionArgs) => {
   const validation = await validator.validate(data);
   if (validation.error) return validationError(validation.error);
 
-  const body = new URLSearchParams(validation.data).toString();
-  console.log("------- body \n:", body);
-
   return await fetch(`${request.url}/form`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(validation.data).toString(),
   })
-    .then(() => {
-      console.log("Form successfully submitted");
-      return json({ ok: true });
+    .then((response) => {
+      return json({
+        ok: true,
+        data: response,
+        message: "Form successfully submitted",
+      });
     })
     .catch((error) => {
-      console.error(error);
-      return json({ ok: false });
+      return json({
+        ok: false,
+        data: error,
+        message: "There was an error submitting the form.",
+      });
     });
 
   // return json({ ok: true });

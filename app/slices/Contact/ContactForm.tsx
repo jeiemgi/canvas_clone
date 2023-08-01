@@ -7,7 +7,6 @@ import type { validator as ValidatorType } from "~/routes/_layout.contact";
 function ContactForm({ validator }: { validator: typeof ValidatorType }) {
   const fetcher = useFetcher();
 
-  console.log(fetcher.data?.ok);
   return (
     <div className={"h-full"}>
       {fetcher.data?.ok ? (
