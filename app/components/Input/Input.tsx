@@ -96,8 +96,14 @@ export function TextArea({
   containerClassName,
   ...props
 }: TextAreaProps & Props) {
-  const { error, getInputProps } = useField(name);
   const ref = useRef<HTMLInputElement>(null);
+  const { error, getInputProps } = useField(name, {
+    validationBehavior: {
+      initial: "onSubmit",
+      whenTouched: "onSubmit",
+      whenSubmitted: "onSubmit",
+    },
+  });
 
   return (
     <Wrapper

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "@remix-run/react";
 
 function ErrorBoundary({ error }: { error: Error | unknown }) {
-  console.log(error);
+  console.log("ErrorBoundary", error);
 
   // TODO: Handle different error responses.
   return (

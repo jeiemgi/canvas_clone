@@ -1,4 +1,4 @@
-import { Transition as HTransition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -6,9 +6,10 @@ interface Props {
   children: ReactNode;
 }
 
-function FadeInOut(props: Props) {
+function FadeInOut({ show, ...props }: Props) {
   return (
-    <HTransition
+    <Transition
+      show={show}
       enter="transition-opacity duration-150 ease-in-out "
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -20,9 +21,10 @@ function FadeInOut(props: Props) {
   );
 }
 
-function FadeInBottom(props: Props) {
+function FadeInBottom({ show, ...props }: Props) {
   return (
-    <HTransition
+    <Transition
+      show={show}
       enter="transition-opacity transition-transform duration-150 ease-in-out "
       enterFrom="opacity-0 translate-y-1/2"
       enterTo="opacity-100 translate-y-0"
@@ -34,8 +36,7 @@ function FadeInBottom(props: Props) {
   );
 }
 
-const Transition = {
+export default {
   FadeInOut,
   FadeInBottom,
 };
-export default Transition;

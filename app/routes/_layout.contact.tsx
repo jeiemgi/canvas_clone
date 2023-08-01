@@ -9,6 +9,7 @@ import type { DataFunctionArgs } from "@remix-run/node";
 
 export const validator = withZod(
   z.object({
+    "form-name": z.string().min(1),
     message: z.string().min(1, { message: "This field is required" }),
     fullName: z.string().min(1, { message: "This field is required" }),
     email: z
@@ -19,10 +20,28 @@ export const validator = withZod(
 );
 
 export const action = async ({ request }: DataFunctionArgs) => {
-  const validation = await validator.validate(await request.formData());
+  const data = await request.formData();
+  const validation = await validator.validate(data);
   if (validation.error) return validationError(validation.error);
 
-  return json({ validation, ok: true });
+  const body = new URLSearchParams(validation.data).toString();
+  console.log("------- body \n:", body);
+
+  return await fetch(`${request.url}/form`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(validation.data).toString(),
+  })
+    .then(() => {
+      console.log("Form successfully submitted");
+      return json({ ok: true });
+    })
+    .catch((error) => {
+      console.error(error);
+      return json({ ok: false });
+    });
+
+  // return json({ ok: true });
 };
 
 const ContactPage = () => {
@@ -44,8 +63,10 @@ const ContactPage = () => {
             "col-span-4 md:order-2 md:col-span-6 md:col-start-7 md:mb-20"
           }
         >
-          <p>
-            Send us your ideas and lets collaborate on something cool together.
+          <p className={"body--1"}>
+            We’re curious to learn about your company and how we could help.
+            Fill out the form below or if you would prefer to email us hit us up
+            at <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
           </p>
         </div>
 
@@ -56,27 +77,34 @@ const ContactPage = () => {
         <div className={"col-span-4 md:order-2 md:col-start-1"}>
           <div className={"mb-7"}>
             <p className={"label--2"}>new business</p>
-            <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
+            <LinkCTA className={"body--3"} to="mailto:biz@canvascreative.co">
+              biz@canvascreative.co
+            </LinkCTA>
           </div>
           <div className={"mb-7"}>
             <p className={"label--2"}>careers</p>
-            <a href="mailto:careers@canvascreative.co">
+            <LinkCTA
+              className={"body--3"}
+              to="mailto:careers@canvascreative.co"
+            >
               careers@canvascreative.co
-            </a>
+            </LinkCTA>
           </div>
           <div className={"mb-14"}>
             <p className={"label--2"}>general</p>
-            <a href="mailto:info@canvascreative.co">info@canvascreative.co</a>
+            <LinkCTA className={"body--3"} to="mailto:info@canvascreative.co">
+              info@canvascreative.co
+            </LinkCTA>
           </div>
 
           <div className={"flex gap-4 md:absolute md:bottom-0 md:pb-8"}>
-            <LinkCTA target={"_blank"} to={INSTAGRAM_URL}>
+            <LinkCTA className={"body--3"} target={"_blank"} to={INSTAGRAM_URL}>
               Instagram
             </LinkCTA>
-            <LinkCTA target={"_blank"} to={LINKEDIN_URL}>
+            <LinkCTA className={"body--3"} target={"_blank"} to={LINKEDIN_URL}>
               LinkedIn
             </LinkCTA>
-            <LinkCTA target={"_blank"} to={TWITTER_URL}>
+            <LinkCTA className={"body--3"} target={"_blank"} to={TWITTER_URL}>
               Twitter
             </LinkCTA>
           </div>
