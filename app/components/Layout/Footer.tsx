@@ -56,13 +56,19 @@ function Footer() {
 
             <ul className={"body--3"}>
               <li className={"mb-5"}>
-                <LinkCTA to={INSTAGRAM_URL}>Instagram</LinkCTA>
+                <LinkCTA target={"_blank"} to={INSTAGRAM_URL}>
+                  Instagram
+                </LinkCTA>
               </li>
               <li className={"mb-5"}>
-                <LinkCTA to={LINKEDIN_URL}>LinkedIn</LinkCTA>
+                <LinkCTA target={"_blank"} to={LINKEDIN_URL}>
+                  LinkedIn
+                </LinkCTA>
               </li>
               <li className={"mb-5"}>
-                <LinkCTA to={TWITTER_URL}>Twitter</LinkCTA>
+                <LinkCTA target={"_blank"} to={TWITTER_URL}>
+                  Twitter
+                </LinkCTA>
               </li>
             </ul>
           </div>

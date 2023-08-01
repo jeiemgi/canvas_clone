@@ -70,9 +70,15 @@ const ContactPage = () => {
           </div>
 
           <div className={"flex gap-4 md:absolute md:bottom-0 md:pb-8"}>
-            <LinkCTA to={INSTAGRAM_URL}>Instagram</LinkCTA>
-            <LinkCTA to={LINKEDIN_URL}>LinkedIn</LinkCTA>
-            <LinkCTA to={TWITTER_URL}>Twitter</LinkCTA>
+            <LinkCTA target={"_blank"} to={INSTAGRAM_URL}>
+              Instagram
+            </LinkCTA>
+            <LinkCTA target={"_blank"} to={LINKEDIN_URL}>
+              LinkedIn
+            </LinkCTA>
+            <LinkCTA target={"_blank"} to={TWITTER_URL}>
+              Twitter
+            </LinkCTA>
           </div>
         </div>
       </div>
