@@ -1,10 +1,10 @@
-import { json, redirect } from "@remix-run/node";
-import { LinkCTA } from "~/components/CTA";
-import ContactForm from "~/slices/Contact/ContactForm";
-import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
+import { json } from "@remix-run/node";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
+import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
+import { LinkCTA } from "~/components/CTA";
+import ContactForm from "~/slices/Contact/ContactForm";
 import type { DataFunctionArgs } from "@remix-run/node";
 
 export const validator = withZod(
@@ -18,24 +18,21 @@ export const validator = withZod(
   })
 );
 
+const encode = (data: Record<string, string>) => {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+};
+
 export const action = async ({ request }: DataFunctionArgs) => {
   const data = await request.formData();
   const validation = await validator.validate(data);
   if (validation.error) return validationError(validation.error);
 
-  const body = new URLSearchParams({
-    ...validation.data,
-    ...{ "form-name": "contact" },
-  }).toString();
-
-  console.log(body);
-
-  await fetch(`${request.url}/form`, {
+  const response = await fetch(`${request.url}/form`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: body,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: encode({ "form-name": "contact", ...validation.data }),
   });
 
   // .then((response) => {
@@ -53,7 +50,7 @@ export const action = async ({ request }: DataFunctionArgs) => {
   //   });
   // });
 
-  return redirect("/contact");
+  return json({ response });
 };
 
 const ContactPage = () => {

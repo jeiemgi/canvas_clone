@@ -1,11 +1,19 @@
+import { useFetcher } from "@remix-run/react";
 import { Input, TextArea } from "~/components/Input";
 import { PrimaryCTAButton } from "~/components/CTA";
 import { ValidatedForm } from "remix-validated-form";
-import { useFetcher } from "@remix-run/react";
-import type { validator as ValidatorType } from "~/routes/_layout.contact";
+import type { Validator } from "remix-validated-form";
 
-function ContactForm({ validator }: { validator: typeof ValidatorType }) {
+type InputTypes = {
+  fullName: string;
+  email: string;
+  message: string;
+};
+
+function ContactForm({ validator }: { validator: Validator<InputTypes> }) {
   const fetcher = useFetcher();
+
+  console.log(fetcher.data);
 
   return (
     <div className={"h-full"}>
