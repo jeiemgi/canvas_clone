@@ -23,10 +23,13 @@ export const action = async ({ request }: DataFunctionArgs) => {
   const validation = await validator.validate(data);
   if (validation.error) return validationError(validation.error);
 
-  return await fetch(`${request.url}/form`, {
+  return await fetch(`${request.url}/form.html`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(validation.data).toString(),
+    body: new URLSearchParams({
+      ...validation.data,
+      ...{ "form-name": "contact" },
+    }).toString(),
   })
     .then((response) => {
       return json({
