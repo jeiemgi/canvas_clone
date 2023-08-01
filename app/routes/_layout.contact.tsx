@@ -5,7 +5,8 @@ import { validationError } from "remix-validated-form";
 import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
-import type { DataFunctionArgs, RequestInit } from "@remix-run/node";
+import type { DataFunctionArgs } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 
 export const validator = withZod(
   z.object({
@@ -18,6 +19,13 @@ export const validator = withZod(
   })
 );
 
+/**
+ * https://www.youtube.com/watch?v=mlM7L9fgRMc
+ * https://github.com/brittneypostma/netlify-forms-with-remix/tree/main
+ * https://docs.netlify.com/forms/setup/#work-with-javascript-rendered-forms
+ * https://www.netlify.com/blog/2017/07/20/how-to-integrate-netlifys-form-handling-in-a-react-app/
+ * @param request
+ */
 export const action = async ({ request }: DataFunctionArgs) => {
   const data = await request.formData();
   const validation = await validator.validate(data);
@@ -39,29 +47,15 @@ export const action = async ({ request }: DataFunctionArgs) => {
     body: urlencoded,
     redirect: "follow",
   })
-    .then((response) => response.text())
-    // .then((result) => console.log(result))
+    .then((response) => response.json())
     .catch((error) => error);
 
-  return json({ response });
-
-  // .then((response) => {
-  //   return json({
-  //     ok: true,
-  //     data: response,
-  //     message: "Form successfully submitted",
-  //   });
-  // })
-  // .catch((error) => {
-  //   return json({
-  //     ok: false,
-  //     data: error,
-  //     message: "There was an error submitting the form.",
-  //   });
-  // });
+  return json({ ok: true, response });
 };
 
 const ContactPage = () => {
+  const fetcher = useFetcher();
+
   return (
     <div
       className={
@@ -88,7 +82,7 @@ const ContactPage = () => {
         </div>
 
         <div className="col-span-4 mb-14 md:order-3 md:col-span-6 md:col-start-7 md:mb-0">
-          <ContactForm validator={validator} />
+          <ContactForm fetcher={fetcher} validator={validator} />
         </div>
 
         <div className={"col-span-4 md:order-2 md:col-start-1"}>
