@@ -7,6 +7,8 @@ import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
+import clsx from "clsx";
+import Transition from "~/components/Transition";
 
 export const validator = withZod(
   z.object({
@@ -74,11 +76,35 @@ const ContactPage = () => {
             "col-span-4 md:order-2 md:col-span-6 md:col-start-7 md:mb-20"
           }
         >
-          <p className={"body--1"}>
-            We’re curious to learn about your company and how we could help.
-            Fill out the form below or if you would prefer to email us hit us up
-            at <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
-          </p>
+          <div className={"relative overflow-hidden"}>
+            <div
+              className={clsx(
+                "absolute inset-0 transition delay-75 duration-300",
+                fetcher.data?.ok || false
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-[1rem] opacity-0"
+              )}
+            >
+              <p className={"body--1"}>
+                Your message has been sent, thank you! <br />
+                Someone from our team will be reaching out to you shortly.
+              </p>
+            </div>
+
+            <div
+              className={clsx(
+                "transition-transform duration-300",
+                !fetcher.data ? "translate-y-0" : "-translate-y-full"
+              )}
+            >
+              <p className={"body--1"}>
+                We’re curious to learn about your company and how we could help.
+                Fill out the form below or if you would prefer to email us hit
+                us up at{" "}
+                <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="col-span-4 mb-14 md:order-3 md:col-span-6 md:col-start-7 md:mb-0">
