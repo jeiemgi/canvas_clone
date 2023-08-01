@@ -16,14 +16,11 @@ function ContactForm({ validator }: { validator: typeof ValidatorType }) {
         </h1>
       ) : (
         <ValidatedForm
-          name="contact"
           method="POST"
-          data-netlify="true"
+          action={"/contact"}
           fetcher={fetcher}
           validator={validator}
-          action={"/contact"}
         >
-          <input type="hidden" name="form-name" value="contact" />
           <Input
             type="text"
             name={"fullName"}

@@ -9,7 +9,6 @@ import type { DataFunctionArgs } from "@remix-run/node";
 
 export const validator = withZod(
   z.object({
-    "form-name": z.string().min(1),
     message: z.string().min(1, { message: "This field is required" }),
     fullName: z.string().min(1, { message: "This field is required" }),
     email: z
