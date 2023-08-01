@@ -17,9 +17,9 @@ function ContactForm({ validator }: { validator: typeof ValidatorType }) {
         </h1>
       ) : (
         <ValidatedForm
-          method={"POST"}
-          name={"contact"}
-          data-netlify={"true"}
+          name="contact"
+          method="POST"
+          data-netlify="true"
           fetcher={fetcher}
           validator={validator}
           action={"/contact"}
