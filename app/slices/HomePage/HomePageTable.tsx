@@ -12,7 +12,7 @@ function HomePageTable({ data }: { data: HomepageDocumentDataBodyTableSlice }) {
         <div className="grid-container">
           <div
             className={
-              "col-span-4 mb-6 pb-0 pt-14 md:col-span-12 md:mb-0 md:border-b md:border-b-black/30 md:pb-5"
+              "col-span-4 mb-6 pb-0 pt-14 md:col-span-12 md:mb-0 md:border-b md:border-b-black/30 md:pb-5 md:pt-52"
             }
           >
             <h1 className={"display--2"}>{asText(data.primary.title)}</h1>

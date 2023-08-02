@@ -1,4 +1,6 @@
+import clsx from "clsx";
 import { json } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { withZod } from "@remix-validated-form/with-zod";
 import { validationError } from "remix-validated-form";
@@ -6,9 +8,6 @@ import { INSTAGRAM_URL, LINKEDIN_URL, TWITTER_URL } from "~/lib/constants";
 import { LinkCTA } from "~/components/CTA";
 import ContactForm from "~/slices/Contact/ContactForm";
 import type { DataFunctionArgs } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import clsx from "clsx";
-import Transition from "~/components/Transition";
 
 export const validator = withZod(
   z.object({

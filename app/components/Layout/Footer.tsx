@@ -38,10 +38,12 @@ function Footer() {
             </ul>
           </div>
 
-          <div className={"label--2 desktop-only mb-5"}>
+          <div className={"desktop-only mb-5"}>
             <ul>
               <li className={"mb-4"}>
-                <LinkCTA to={"#"}>PRIVACY POLICY</LinkCTA>
+                <LinkCTA to={"#"} className={"label--2"}>
+                  PRIVACY POLICY
+                </LinkCTA>
               </li>
               <li className={"mb-4"}>
                 <LinkCTA to={"#"}>TERMS & CONDITIONS</LinkCTA>
@@ -125,9 +127,9 @@ function Footer() {
         }
       >
         <div className={"col-span-2 border-l border-l-white/20 pl-2.5 md:pl-3"}>
-          <ul className={"label--2"}>
-            <li className={"mb-5"}>privacy policy</li>
-            <li className={"mb-5"}>terms & Conditions</li>
+          <ul>
+            <li className={"label--2 mb-5"}>privacy policy</li>
+            <li className={"label--2 mb-5"}>terms & Conditions</li>
           </ul>
         </div>
 
