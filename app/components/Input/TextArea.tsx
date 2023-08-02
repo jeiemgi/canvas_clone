@@ -1,19 +1,21 @@
 import clsx from "clsx";
 import { useRef } from "react";
-import { useField } from "remix-validated-form";
-import { Label, Wrapper, ErrorMessage } from "~/components/Input/InputHelpers";
+import { useControlField, useField } from "remix-validated-form";
+import { ErrorMessage, Label, Wrapper } from "~/components/Input/InputHelpers";
+import type { TextAreaProps } from "react-html-props";
 import type { FormInputProps } from "~/components/Input/InputHelpers";
-import type { InputProps } from "react-html-props";
 
-function Input({
+function TextArea({
   id,
   name,
   label,
   placeholder,
   containerClassName,
   ...props
-}: FormInputProps & InputProps) {
-  const ref = useRef<HTMLInputElement>(null);
+}: TextAreaProps & FormInputProps) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  const [value, setValue] = useControlField<string>(name);
   const { error, getInputProps } = useField(name, {
     validationBehavior: {
       initial: "onSubmit",
@@ -22,22 +24,27 @@ function Input({
     },
   });
 
+  // useAutosizeTextArea(ref.current, value);
+
   return (
     <Wrapper
       onClick={() => ref.current?.focus()}
       className={containerClassName}
     >
-      <input
+      <textarea
         ref={ref}
         id={name}
         name={name}
-        className={clsx(
-          "body--1 peer w-full bg-transparent outline-0 ring-0 transition-[padding]",
-          error ? "pb-8 text-red" : "pb-5 text-white"
-        )}
+        rows={2}
         placeholder={placeholder ? placeholder : " "}
+        className={clsx(
+          "body--1 peer min-h-[150px] w-full resize-none bg-transparent py-2 placeholder-white/30 outline-0 ring-0 transition-[height]",
+          error ? "text-red" : "text-white"
+        )}
         {...getInputProps({
           id: name,
+          value,
+          onChange: (e) => setValue(e.target.value),
           ...props,
         })}
       />
@@ -47,4 +54,4 @@ function Input({
   );
 }
 
-export default Input;
+export default TextArea;

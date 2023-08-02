@@ -16,7 +16,6 @@ import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
-import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 import Layout from "~/components/Layout";
@@ -58,7 +57,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
         <Links />
       </head>
       <body>
-        <NavThemeProvider>{children}</NavThemeProvider>
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -107,11 +106,9 @@ export default function App() {
 
   return (
     <Document>
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <Outlet />
-        </div>
-      </div>
+      <Layout>
+        <Outlet />
+      </Layout>
     </Document>
   );
 }
