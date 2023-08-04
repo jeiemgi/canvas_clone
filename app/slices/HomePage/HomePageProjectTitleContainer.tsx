@@ -22,7 +22,7 @@ function animateTextOnScroll(
   trigger: Element,
   isLast = false
 ) {
-  const distance = 500;
+  const distance = 300;
   const ease = "slow.inOut";
 
   const show = gsap.timeline({

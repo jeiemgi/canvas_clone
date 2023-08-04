@@ -16,7 +16,7 @@ function Layout({
 
   return (
     <NavThemeProvider>
-      {/*<Navigation />*/}
+      <Navigation />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           {children}

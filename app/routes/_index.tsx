@@ -46,9 +46,9 @@ export default function HomePage() {
 
   return (
     <main>
-      {/*<HomePageHero data={slices.homeHero} />*/}
+      <HomePageHero data={slices.homeHero} />
       <HomePageProjects data={slices.homeProjects} />
-      {/*{homepage.data.body.map((slice) => {
+      {homepage.data.body.map((slice) => {
         switch (slice.slice_type) {
           case "table":
             return <HomePageTable key={slice.id} data={slice} />;
@@ -61,7 +61,7 @@ export default function HomePage() {
           default:
             return null;
         }
-      })}*/}
+      })}
     </main>
   );
 }

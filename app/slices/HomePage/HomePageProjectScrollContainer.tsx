@@ -9,7 +9,7 @@ function HomePageProjectScrollContainer({
   data: HomePageProjectsData;
 }) {
   return (
-    <div className={"gsap-scroll--container pointer-events-none"}>
+    <div className={"gsap-scroll--container"}>
       {data.map((project, index) => (
         <Link
           key={`HomePageProjectItem-${index}`}
@@ -24,11 +24,16 @@ function HomePageProjectScrollContainer({
                 {asText(project.primary.description)}
               </p>
               {project.items.map(({ slide }, index) => (
-                <div key={`ProjectImage-${slide.url}-${index}`}>
+                <div
+                  // data-speed={1}
+                  data-lag={0.05 * index}
+                  className={"mb-5 overflow-hidden"}
+                  key={`ProjectImage-${slide.url}-${index}`}
+                >
                   <Image
                     field={slide}
-                    data-lag={0.04 * index}
-                    className={"mb-5 w-full object-contain"}
+                    // data-speed={0.95}
+                    className={"w-full object-contain"}
                   />
                 </div>
               ))}
