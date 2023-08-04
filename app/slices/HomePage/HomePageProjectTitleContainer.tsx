@@ -1,9 +1,76 @@
+import clsx from "clsx";
 import { gsap } from "gsap";
 import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import type { ReactNode } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+
+function splitText(nodes: NodeListOf<Element> | Array<Element>) {
+  return Array.from(nodes).map(
+    (item) =>
+      new SplitText(item, {
+        type: "lines,words",
+        linesClass: "overflow-hidden w-full",
+      })
+  );
+}
+
+function animateTextOnScroll(
+  splits: SplitText,
+  trigger: Element,
+  isLast = false
+) {
+  const distance = 500;
+  const ease = "slow.inOut";
+
+  const show = gsap.timeline({
+    scrollTrigger: {
+      trigger,
+      scrub: true,
+      start: `top ${distance}px`,
+      end: `+=${distance}px`,
+    },
+  });
+  show.to(splits.words, { y: "0%", ease });
+
+  if (isLast) return;
+  const hide = gsap.timeline({
+    scrollTrigger: {
+      trigger,
+      scrub: true,
+      start: `bottom ${distance}px`,
+      end: `+=${distance}px`,
+    },
+  });
+  hide.to(splits.words, { y: "-100%", ease });
+}
+
+function addAnimationOnScroll(selector: string) {
+  const scrollItems = document.querySelectorAll(".gsap-scroll--item");
+
+  const items = document.querySelectorAll(selector);
+  const splits = splitText(items);
+  splits.forEach((splits, index, arr) => {
+    if (index !== 0) gsap.set(splits.words, { y: "100%" });
+    animateTextOnScroll(splits, scrollItems[index], index === arr.length - 1);
+  });
+}
+
+function HomePageTitle({
+  children,
+  className = "",
+}: {
+  className: string;
+  children: ReactNode;
+}) {
+  return (
+    <h3 className={clsx(className, "heading--3 leading-none text-white")}>
+      {children}
+    </h3>
+  );
+}
 
 function HomePageTitleContainer({
   data,
@@ -26,106 +93,23 @@ function HomePageTitleContainer({
 
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(".gsap-title--container")[0];
-      const scrollContainer = self.selector(".gsap-scroll--container")[0];
       ScrollTrigger.create({
         trigger: container,
         pin: titleContainer,
         pinSpacing: false,
-        end: `+=${scrollContainer.scrollHeight - window.innerHeight} `,
-        toggleClass: "active",
-      });
-
-      //------------------------------
-      // Add scroll triggers for each title.
-      const scrollItems = self.selector(
-        ".gsap-scroll--item"
-      ) as HTMLDivElement[];
-      const capabilitiesItems = self.selector(
-        ".gsap-title--capabilities"
-      ) as HTMLDivElement[];
-      const titleItems = self.selector(".gsap-title--item") as HTMLDivElement[];
-      const indexItems = self.selector(".gsap-index--item") as HTMLDivElement[];
-      const fixedIndexItem = self.selector(
-        ".gsap-index--fixed"
-      ) as HTMLDivElement[];
-      const firstScrollItem = scrollItems[0];
-
-      const startTrigger = "top 50%";
-      gsap.set([fixedIndexItem, ...indexItems], { y: "100%" });
-      gsap.to(fixedIndexItem, {
-        y: "0%",
-        duration: 0.5,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: firstScrollItem,
-          start: startTrigger,
-          toggleActions: "play none none reverse",
+        end: () => {
+          const _scroll = document.querySelector(".gsap-scroll--container")!;
+          return `+=${_scroll.scrollHeight - window.innerHeight}`;
         },
+        toggleClass: "active",
+        invalidateOnRefresh: true,
       });
 
-      titleItems.forEach((title, index) => {
-        const scrollItem = scrollItems[index];
-        const indexItem = indexItems[index];
-        const capabilitiesItem = capabilitiesItems[index];
+      addAnimationOnScroll(".gsap-title-item");
+      addAnimationOnScroll(".gsap-index-item");
+      addAnimationOnScroll(".gsap-subtitle-item");
 
-        const splitTitle = new SplitText(title, {
-          type: "lines,words",
-          linesClass: "overflow-hidden",
-        });
-
-        const splitCapabilities = new SplitText(capabilitiesItem, {
-          type: "lines,words",
-          linesClass: "overflow-hidden",
-        });
-
-        const textToAnimate = [...splitTitle.words, ...splitCapabilities.words];
-
-        gsap.set(textToAnimate, { y: "100%" });
-
-        gsap.to(textToAnimate, {
-          y: "0%",
-          duration: 0.5,
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: scrollItem,
-            start: index === 0 ? startTrigger : "top top",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        gsap.to(textToAnimate, {
-          y: "-100%",
-          duration: 0.5,
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: scrollItem,
-            start: "bottom top",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        gsap.to(indexItem, {
-          y: "0%",
-          duration: 0.5,
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: scrollItem,
-            start: index === 0 ? startTrigger : "top top",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        gsap.to(indexItem, {
-          y: "-100%",
-          duration: 0.5,
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: scrollItem,
-            start: "bottom top",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
+      console.log("HomePageTitleContainer: initialized");
     }, container);
 
     return () => ctx.revert();
@@ -134,53 +118,49 @@ function HomePageTitleContainer({
   return (
     <div
       className={
-        "gsap-title--container desktop-only pointer-events-none absolute inset-0 h-screen w-full"
+        "gsap-title--container desktop-only absolute inset-0 h-screen w-full"
       }
     >
       {/* TITLE AND INDEX */}
-      <div
-        className={
-          "pointer-events-none absolute left-[30px] top-8 h-[50px] w-1/4"
-        }
-      >
+      <div className={"absolute left-[30px] top-[30px] h-[50px] w-[370px]"}>
         {data.map((project, index) => (
-          <h3
+          <div
             key={`HomePageProject-title-${index}`}
-            className={
-              "gsap-title--item heading--3 absolute inset-0 text-white"
-            }
+            className={"absolute left-0 top-0"}
           >
-            {asText(project.primary.title)} <br />
-            CASE STUDY
-          </h3>
+            <HomePageTitle className={"gsap-title-item"}>
+              {asText(project.primary.title)} <br />
+              CASE STUDY
+            </HomePageTitle>
+          </div>
         ))}
+      </div>
 
-        <h3
-          className={
-            "heading--3 pointer-events-none absolute bottom-0 right-0 overflow-hidden pl-6 text-white"
-          }
-        >
+      <div className={"absolute left-[355px] top-[55px] h-[25px]"}>
+        <div className={"mr-1 inline-block h-5 w-4"}>
           {data.map((item, index) => (
             <div
               key={`HomePageProject-index-${index}`}
-              className={"gsap-index--item absolute inset-0 h-[50px]"}
+              className={"absolute left-0 top-0"}
             >
-              {index + 1}
+              <HomePageTitle className={"gsap-index-item"}>
+                {index + 1}
+              </HomePageTitle>
             </div>
           ))}
-          <div className={"gsap-index--fixed inline-block"}>
-            / {data.length}
-          </div>
-        </h3>
+        </div>
+        <HomePageTitle className={"gsap-index-fixed inline-block"}>
+          / {data.length}
+        </HomePageTitle>
       </div>
 
       {/* CAPABILITIES */}
-      <div className={"absolute bottom-8 left-[30px] h-[25px] w-1/2"}>
+      <div className={"absolute bottom-[30px] left-[30px] h-[25px] w-[500px]"}>
         {data.map((project, index) => (
           <h3
             key={`HomePageProject-capabilities-${index}`}
             className={
-              "gsap-title--capabilities heading--3 absolute inset-0 text-white"
+              "gsap-subtitle-item heading--3 absolute inset-0 leading-none text-white"
             }
           >
             {asText(project.primary.capabilities)}

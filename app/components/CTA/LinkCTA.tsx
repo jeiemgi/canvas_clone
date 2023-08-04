@@ -12,7 +12,12 @@ interface Props {
 
 type LinkCTAProps = Props & LinkProps;
 
-export function LinkCTA({ dark = false, children, ...props }: LinkCTAProps) {
+export function LinkCTA({
+  dark = false,
+  className,
+  children,
+  ...props
+}: LinkCTAProps) {
   const { ref } = useTextAnimation<HTMLAnchorElement>();
 
   return (
@@ -20,7 +25,8 @@ export function LinkCTA({ dark = false, children, ...props }: LinkCTAProps) {
       ref={ref}
       {...props}
       className={clsx(
-        "body--3 inline-block",
+        className ? className : "body--3",
+        "inline-block",
         dark ? "text-black" : "text-white"
       )}
     >

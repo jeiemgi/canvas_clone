@@ -36,13 +36,21 @@ function HomePageBackgroundContainer({
         const easing = "power2.out";
 
         // Pin the background container for the whole scroll.
-        const scrollContainer = self.selector(".gsap-scroll--container")[0];
+        // const scrollContainer = self.selector(".gsap-scroll--container")[0];
         const bgContainer = self.selector(".gsap-bg--container");
         ScrollTrigger.create({
           trigger: container,
           pin: bgContainer,
           pinSpacing: false,
-          end: `+=${scrollContainer.scrollHeight - window.innerHeight}`,
+          end: () => {
+            const scrollContainer = document.querySelector(
+              ".gsap-scroll--container"
+            )!;
+
+            return `clamp(+=${
+              scrollContainer.scrollHeight - window.innerHeight
+            })`;
+          },
         });
 
         const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
@@ -67,6 +75,7 @@ function HomePageBackgroundContainer({
               start: "top 85%",
               end: "+=125%",
               scrub: true,
+              invalidateOnRefresh: true,
             },
           });
 
@@ -79,9 +88,12 @@ function HomePageBackgroundContainer({
               start: "top 85%",
               end: "+=125%",
               scrub: true,
+              invalidateOnRefresh: true,
             },
           });
         });
+
+        console.log("HomePageBackgroundContainer: initialized");
       });
     }, container);
 

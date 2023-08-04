@@ -46,7 +46,9 @@ function Footer() {
                 </LinkCTA>
               </li>
               <li className={"mb-4"}>
-                <LinkCTA to={"#"}>TERMS & CONDITIONS</LinkCTA>
+                <LinkCTA to={"#"} className={"label--2"}>
+                  TERMS & CONDITIONS
+                </LinkCTA>
               </li>
             </ul>
           </div>

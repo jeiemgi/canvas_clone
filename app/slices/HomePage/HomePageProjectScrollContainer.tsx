@@ -9,7 +9,7 @@ function HomePageProjectScrollContainer({
   data: HomePageProjectsData;
 }) {
   return (
-    <div className={"gsap-scroll--container"}>
+    <div className={"gsap-scroll--container pointer-events-none"}>
       {data.map((project, index) => (
         <Link
           key={`HomePageProjectItem-${index}`}
