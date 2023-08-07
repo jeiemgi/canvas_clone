@@ -100,7 +100,7 @@ export default function App() {
       effects: true, // looks for data-speed and data-lag attributes on elements
       smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
       normalizeScroll: true,
-      ease: "power4.out",
+      ease: "expo.out",
     });
   }, []);
 

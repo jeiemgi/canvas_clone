@@ -33,10 +33,9 @@ function HomePageBackgroundContainer({
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 
-        const easing = "power2.out";
+        const easing = "power1.inOut";
 
         // Pin the background container for the whole scroll.
-        // const scrollContainer = self.selector(".gsap-scroll--container")[0];
         const bgContainer = self.selector(".gsap-bg--container");
         ScrollTrigger.create({
           trigger: container,
@@ -53,17 +52,15 @@ function HomePageBackgroundContainer({
           },
         });
 
-        const bgItems = self.selector(".gsap-bg--item") as HTMLDivElement[];
-        const scrollItems = self.selector(
-          ".gsap-scroll--item"
-        ) as HTMLDivElement[];
+        const bgItems = document.querySelectorAll(".gsap-bg--item");
+        const scrollItems = document.querySelectorAll(".gsap-scroll--item");
 
         bgItems.forEach((bgItem, _index) => {
           // Animate each bg clip path on scroll
           const scrollItem = scrollItems[_index];
           const image = bgItem.querySelector(".gsap-bg--item-img");
 
-          gsap.set(image, { y: _index === 0 ? "0%" : "15%" });
+          gsap.set(image, { y: _index === 0 ? "0%" : "10%" });
           gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
 
           gsap.to(image, {
@@ -73,6 +70,19 @@ function HomePageBackgroundContainer({
             scrollTrigger: {
               trigger: scrollItem,
               start: "top 85%",
+              end: "+=125%",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          gsap.to(image, {
+            y: "-10%",
+            immediateRender: false,
+            ease: easing,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "bottom 85%",
               end: "+=125%",
               scrub: true,
               invalidateOnRefresh: true,
