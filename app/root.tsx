@@ -13,13 +13,12 @@ import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import Layout from "~/components/Layout";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
-import Layout from "~/components/Layout";
-import { useLayoutEffect } from "~/hooks";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
@@ -44,10 +43,10 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="keywords" content="Canvas, website" />
-        <meta
+        {/*<meta
           name="twitter:image"
           content="https://remix-jokes.lol/social.png"
-        />
+        />*/}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@canvascreative" />
         <meta name="twitter:site" content="@canvascreative" />
@@ -58,7 +57,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
+        {/*<ScrollRestoration />*/}
         <Scripts />
         <LiveReload />
       </body>
@@ -92,18 +91,6 @@ export function ErrorBoundary() {
 }
 
 export default function App() {
-  useLayoutEffect(() => {
-    ScrollTrigger.normalizeScroll(true);
-
-    ScrollSmoother.create({
-      smooth: 0.8, // how long (in seconds) it takes to "catch up" to the native scroll position
-      effects: true, // looks for data-speed and data-lag attributes on elements
-      smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
-      normalizeScroll: true,
-      ease: "expo.out",
-    });
-  }, []);
-
   return (
     <Document>
       <Layout>

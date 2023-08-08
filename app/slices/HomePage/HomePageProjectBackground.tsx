@@ -6,6 +6,7 @@ import { Image } from "~/components/Image";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import easings from "~/lib/easings";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -33,7 +34,7 @@ function HomePageBackgroundContainer({
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 
-        const easing = "power1.inOut";
+        const easing = easings.mask;
 
         // Pin the background container for the whole scroll.
         const bgContainer = self.selector(".gsap-bg--container");

@@ -74,7 +74,6 @@
         @apply text-black;
     }
 
-
     /* Special classname for the Text Blur */
     .display--2--vw {
         font-family: var(--fn-primary);

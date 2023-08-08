@@ -6,6 +6,7 @@ import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { ReactNode } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import easings from "~/lib/easings";
 
 function splitText(nodes: NodeListOf<Element> | Array<Element>) {
   return Array.from(nodes).map(
@@ -49,9 +50,9 @@ function animateTextOnScroll(
 
 function addAnimationOnScroll(selector: string) {
   const scrollItems = document.querySelectorAll(".gsap-scroll--item");
-
   const items = document.querySelectorAll(selector);
   const splits = splitText(items);
+
   splits.forEach((splits, index, arr) => {
     if (index !== 0) gsap.set(splits.words, { y: "100%" });
     animateTextOnScroll(splits, scrollItems[index], index === arr.length - 1);
