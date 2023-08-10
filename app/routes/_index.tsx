@@ -46,7 +46,7 @@ export default function HomePage() {
 
   return (
     <main>
-      {/*<HomePageHero data={slices.homeHero} />*/}
+      <HomePageHero data={slices.homeHero} />
       <HomePageProjects data={slices.homeProjects} />
       {homepage.data.body.map((slice) => {
         switch (slice.slice_type) {

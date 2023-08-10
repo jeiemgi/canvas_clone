@@ -17,10 +17,10 @@ function Layout({
   return (
     <NavThemeProvider>
       <Navigation />
-      <main>
+      <>
         {children}
         {isContact && footer ? <Footer /> : null}
-      </main>
+      </>
     </NavThemeProvider>
   );
 }
