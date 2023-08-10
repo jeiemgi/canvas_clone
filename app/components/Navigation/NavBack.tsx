@@ -12,6 +12,7 @@ function NavBack() {
     <>
       <NavListItem
         to={"/"}
+        preventScrollReset
         show={showBack}
         aria-label="Back Button"
         className={clsx("desktop-only transition-opacity")}

@@ -5,8 +5,8 @@ import {
   Scripts,
   LiveReload,
   ScrollRestoration,
-  useRouteError,
   isRouteErrorResponse,
+  useRouteError,
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
@@ -15,13 +15,15 @@ import { gsap } from "gsap";
 import SplitText from "gsap/dist/SplitText";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import CustomEase from "gsap/dist/CustomEase";
+import Flip from "gsap/dist/Flip";
 import Layout from "~/components/Layout";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 
 // NOTE: Register plugins here, so we register them only once.
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase, Flip);
 
 const otherCss = [
   { rel: "stylesheet", href: stylesheet },
@@ -57,7 +59,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
       </head>
       <body>
         {children}
-        {/*<ScrollRestoration />*/}
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>

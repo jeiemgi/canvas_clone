@@ -5,8 +5,8 @@ import { useLayoutEffect } from "~/hooks";
 import { ClearIcon } from "~/svg";
 import { Image } from "~/components/Image";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { mdScreen } from "~/lib/gsapUtils";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomepageDocumentDataBodyHomeReviewsSlice } from "types.generated";
 
 interface Props {

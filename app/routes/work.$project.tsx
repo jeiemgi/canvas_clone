@@ -67,7 +67,7 @@ function WorkProject() {
       <div
         className={clsx(
           "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8",
-          isScrolled ? "opacity-100" : "md:opacity-0"
+          isScrolled ? "opacity-100" : "pointer-events-none md:opacity-0"
         )}
       >
         <SecondaryCTA onClick={() => setSearchParams("projectDetails=true")}>

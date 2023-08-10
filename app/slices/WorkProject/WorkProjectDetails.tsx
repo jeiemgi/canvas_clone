@@ -1,21 +1,19 @@
 import React, { Fragment } from "react";
 import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
-import { Button } from "~/components/Button";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
+import { SecondaryCTA } from "~/components/CTA";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
-import useIsMobile from "~/hooks/useIsMobile";
-import { SecondaryCTA } from "~/components/CTA";
 
-function getKey(prefix: string, ...other: Array<string | number>) {
-  return `${prefix}-${other.join("-")}`;
+function getKey(prefix: string, ...keys: Array<string | number>) {
+  return `${prefix}-${keys.join("-")}`;
 }
 
-function Title({ text }: { text: string | KeyTextField }) {
+function TableTitle({ text }: { text: string | KeyTextField }) {
   return (
     <div className={"mb-8 pt-3.5"}>
       <h3 className={"label--2"}>{text}</h3>
@@ -54,9 +52,10 @@ function TableInfo({
   description: RichTextField;
 }) {
   if (!title || !description) return null;
+
   return (
     <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
-      <Title text={title} />
+      <TableTitle text={title} />
       <PrismicRichText
         field={description}
         components={{
@@ -74,8 +73,8 @@ function TableFull({
   columns: ProjectPageDocumentDataBody2TableSliceItem[][];
   rows: ProjectPageDocumentDataBody2TableSliceItem[][];
 }) {
-  const keyPre = "DetailsTableFull";
-  const keyPreMobile = "DetailsTableFull";
+  const keyPre = "TableFull";
+  const keyPreMobile = "TableFullMobile";
 
   return (
     <div>
@@ -94,18 +93,17 @@ function TableFull({
               {rowChunks.map((chunk, chunkIndex) => {
                 return (
                   <div
-                    key={getKey(keyPre, "chunk", chunkIndex)}
+                    key={getKey(keyPre, "rowChunk", chunkIndex)}
                     className={clsx(
                       "col-span-4 flex md:col-span-5 md:even:col-start-8"
                     )}
                   >
                     {chunk.map((chunkItem, chunkItemIndex) => {
                       const key = getKey(keyPre, "chunkItem", chunkItemIndex);
-
                       if (chunkItem?.isheader) {
                         return (
                           <div key={key} className={"w-1/2"}>
-                            <Title text={chunkItem.label} />
+                            <TableTitle text={chunkItem.label} />
                           </div>
                         );
                       } else {
@@ -139,9 +137,10 @@ function TableFull({
                 key={getKey(keyPreMobile, "column", colIndex)}
               >
                 {colItem.map((cellItem, cellItemIndex) => {
-                  const key = getKey(keyPreMobile, "cellItem", colIndex);
+                  const key = getKey(keyPreMobile, "cellItem", cellItemIndex);
                   return cellItem.isheader ? (
                     <div
+                      key={key}
                       className={
                         colIndex % 2 === 0
                           ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30" +
@@ -149,17 +148,18 @@ function TableFull({
                           : ""
                       }
                     >
-                      <Title key={key} text={cellItem.label}></Title>
+                      <TableTitle text={cellItem.label} />
                     </div>
                   ) : (
                     <div
+                      key={key}
                       className={
                         colIndex % 2 === 0
                           ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30"
                           : ""
                       }
                     >
-                      <TableCell key={key} item={cellItem} />
+                      <TableCell item={cellItem} />
                     </div>
                   );
                 })}
@@ -181,7 +181,7 @@ function TableWithInfo({
   description: RichTextField;
   rows: ProjectPageDocumentDataBody2TableSliceItem[][];
 }) {
-  const keyPre = "DetailsTable";
+  const keyPre = "TableWithInfo";
   const detailsTitle = asText(title);
 
   return (
@@ -205,7 +205,7 @@ function TableWithInfo({
 
                 return rowItem?.isheader ? (
                   <div key={rowItemKey} className={"w-1/2"}>
-                    <Title text={rowItem.label} />
+                    <TableTitle text={rowItem.label} />
                   </div>
                 ) : (
                   <div key={rowItemKey} className={"w-1/2"}>
@@ -223,40 +223,52 @@ function TableWithInfo({
 
 function Tables() {
   const { details } = useLoaderData<typeof loader>();
+
   return (
     <>
-      {details.tables.map(({ title, description, rows, columns }) => {
+      {details.tables.map(({ title, description, rows, columns }, index) => {
         const isFull = !asText(title);
 
         return (
           <>
             {isFull ? (
-              <TableFull columns={columns} rows={rows} />
+              <TableFull
+                rows={rows}
+                columns={columns}
+                key={`TableFull-${index}`}
+              />
             ) : (
               <TableWithInfo
                 rows={rows}
                 title={title}
                 description={description}
+                key={`TableWithInfo-${index}`}
               />
             )}
           </>
         );
       })}
-      {details.credits.map((item, index) => (
-        <div key={`CREDITS-${index}`} className="grid-container">
-          <div className={"label--2 col-span-1"}>CREDIT</div>
-          <div className={"label--2 md:col-span-2 md:col-start-8"}>
-            {item.type}
-          </div>
-          <div
-            className={
-              "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
-            }
-          >
-            {item.value}
-          </div>
-        </div>
-      ))}
+
+      {details.credits.length > 0
+        ? details.credits.map((item, index) => (
+            <div
+              key={`Table-credits-${index}-${details.credits}`}
+              className="grid-container"
+            >
+              <div className={"label--2 col-span-1"}>CREDIT</div>
+              <div className={"label--2 md:col-span-2 md:col-start-8"}>
+                {item.type}
+              </div>
+              <div
+                className={
+                  "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
+                }
+              >
+                {item.value}
+              </div>
+            </div>
+          ))
+        : null}
     </>
   );
 }

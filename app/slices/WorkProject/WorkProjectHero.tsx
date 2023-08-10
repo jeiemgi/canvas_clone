@@ -8,7 +8,9 @@ import type { RichTextField } from "@prismicio/types";
 
 export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
   return (
-    <div className={"col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24"}>
+    <div
+      className={"col-span-4 my-12 h-[7rem] md:col-span-12 md:mb-32 md:mt-24"}
+    >
       <h1
         className={"display--1"}
         dangerouslySetInnerHTML={{ __html: `${asText(title)}` }}
@@ -22,11 +24,13 @@ function WorkProjectHero() {
   const { hero } = useLoaderData<typeof loader>();
 
   return (
-    <div className={"relative overflow-hidden bg-black"}>
-      <Image
-        field={hero.background_image}
-        className={"absolute left-0 top-0 min-h-full w-full object-cover"}
-      />
+    <div id={"project-hero"} className={"relative overflow-hidden bg-black"}>
+      <div className={"hero-bg-container"}>
+        <Image
+          field={hero.background_image}
+          className={"absolute left-0 top-0 min-h-full w-full object-cover"}
+        />
+      </div>
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52 md:pt-headerDesk">
         <WorkProjectHeroTitle title={hero.title} />
         <div

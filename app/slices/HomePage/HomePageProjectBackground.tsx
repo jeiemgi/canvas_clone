@@ -19,16 +19,10 @@ function HomePageBackgroundContainer({
   container: HTMLElement | null;
 }) {
   useLayoutEffect(() => {
-    if (!container) {
-      console.error("HomePageBackgroundContainer: NO CONTAINER", container);
-      return;
-    }
+    if (!container) return;
 
     const ctx = gsap.context((self) => {
-      if (!self.selector) {
-        console.error("HomePageBackgroundContainer: NO SELECTOR", self);
-        return;
-      }
+      if (!self.selector) return;
 
       const mm = gsap.matchMedia();
       mm.add(mdScreen, () => {
@@ -54,7 +48,7 @@ function HomePageBackgroundContainer({
         });
 
         const bgItems = document.querySelectorAll(".gsap-bg--item");
-        const scrollItems = document.querySelectorAll(".gsap-scroll--item");
+        const scrollItems = document.querySelectorAll(".scroll-item");
 
         bgItems.forEach((bgItem, _index) => {
           // Animate each bg clip path on scroll
@@ -73,7 +67,6 @@ function HomePageBackgroundContainer({
               start: "top 85%",
               end: "+=125%",
               scrub: true,
-              invalidateOnRefresh: true,
             },
           });
 
@@ -84,9 +77,8 @@ function HomePageBackgroundContainer({
             scrollTrigger: {
               trigger: scrollItem,
               start: "bottom 85%",
-              end: "+=125%",
+              end: "+=100%",
               scrub: true,
-              invalidateOnRefresh: true,
             },
           });
 
@@ -97,14 +89,11 @@ function HomePageBackgroundContainer({
             scrollTrigger: {
               trigger: scrollItem,
               start: "top 85%",
-              end: "+=125%",
+              end: "+=100%",
               scrub: true,
-              invalidateOnRefresh: true,
             },
           });
         });
-
-        console.log("HomePageBackgroundContainer: initialized");
       });
     }, container);
 
