@@ -81,7 +81,7 @@ function WorkProjectHero() {
 
       setTimeout(() => {
         tl.play();
-      }, 500);
+      }, 50);
     });
 
     return () => ctx.revert();
