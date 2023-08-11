@@ -4,6 +4,7 @@ import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { ReactNode } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 
@@ -114,24 +115,7 @@ function HomePageTitleContainer({
         "home-projects-titles-container desktop-only absolute inset-0 h-screen w-full"
       }
     >
-      {/* THIS IS A MINIMAL CLONE OF THE  HERO TITLE*/}
-      <div
-        id={"hero-clone"}
-        className="grid-container absolute top-0 pt-header text-white md:pb-52 md:pt-headerDesk"
-      >
-        <div
-          id={"hero-clone-title"}
-          className={
-            "display--1 col-span-4 my-12 h-[7rem] md:col-span-12 md:mb-32 md:mt-24"
-          }
-        ></div>
-        <div
-          id={"hero-clone-subtitle"}
-          className={
-            "heading--3 relative col-span-4 mb-12 md:col-span-12 md:mb-2 md:pb-20"
-          }
-        ></div>
-      </div>
+      <HeroCloneMarkup />
 
       {/* TITLE AND INDEX */}
       <div className={"absolute left-[30px] top-[30px] h-[50px] w-[370px]"}>

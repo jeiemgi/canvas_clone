@@ -1,13 +1,16 @@
-import React, { Fragment } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef } from "react";
 import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
 import { SecondaryCTA } from "~/components/CTA";
+import { useLockedBody } from "usehooks-ts";
+import { Dialog, Transition } from "@headlessui/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
+import { gsap } from "gsap";
 
 function getKey(prefix: string, ...keys: Array<string | number>) {
   return `${prefix}-${keys.join("-")}`;
@@ -273,40 +276,81 @@ function Tables() {
   );
 }
 
-function WorkProjectDetails() {
+function WorkProjectDetails({
+  isOpen,
+  toggle,
+}: {
+  isOpen: boolean;
+  toggle: Function;
+}) {
+  const [, setLocked] = useLockedBody();
+
+  useEffect(() => {
+    setLocked(isOpen);
+  }, [isOpen, setLocked]);
+
   const { hero } = useLoaderData<typeof loader>();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const show = searchParams.get("projectDetails") === "true";
 
   return (
-    <div
-      className={clsx(
-        "fixed left-0 top-0 z-20 h-full w-full overflow-scroll bg-white pb-[10vh] pt-header  transition-opacity md:pb-[10vh] md:pt-headerDesk",
-        show ? "opacity-100" : "pointer-events-none opacity-0"
-      )}
-    >
-      <div className="grid-container relative">
-        <WorkProjectHeroTitle title={hero.title} />
-      </div>
-
-      <div
-        className={
-          "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
-        }
+    <Transition show={isOpen} as={Fragment}>
+      <Dialog
+        onClose={() => {
+          toggle();
+        }}
+        className={"relative z-20"}
       >
-        <SecondaryCTA dark onClick={() => setSearchParams()}>
-          CLOSE
-        </SecondaryCTA>
-      </div>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-500"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-out duration-500"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 h-full w-full bg-white"></div>
+        </Transition.Child>
 
-      <div className="grid-container">
-        <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
-          <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
-        </div>
-      </div>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-500"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-out duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className={
+              "fixed inset-0 h-full w-full overflow-scroll pb-[10vh] pt-header md:pb-[10vh] md:pt-headerDesk"
+            }
+          >
+            <div className="grid-container relative">
+              <WorkProjectHeroTitle title={hero.title} />
+            </div>
 
-      <Tables />
-    </div>
+            <div
+              className={
+                "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
+              }
+            >
+              <SecondaryCTA dark onClick={() => toggle()}>
+                CLOSE
+              </SecondaryCTA>
+            </div>
+
+            <div className="grid-container">
+              <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
+                <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
+              </div>
+            </div>
+            <div className={"modal-tables"}>
+              <Tables />
+            </div>
+          </div>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
   );
 }
 

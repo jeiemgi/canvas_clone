@@ -1,15 +1,13 @@
+import { gsap } from "gsap";
+import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useLocation } from "@remix-run/react";
+import TextCta from "~/components/CTA/TextCTA";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
-import TextCta from "~/components/CTA/TextCTA";
+import { useLayoutEffect } from "~/hooks";
 import type { loader } from "~/routes/work.$project";
 import type { RichTextField } from "@prismicio/types";
-import { Transition } from "react-transition-group";
-import { gsap } from "gsap";
-import { useRef, useState } from "react";
-import { useLayoutEffect } from "~/hooks";
-import easings from "~/lib/easings";
 
 export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
   return (
@@ -24,15 +22,19 @@ export function WorkProjectHeroTitle({ title }: { title: RichTextField }) {
   );
 }
 
-function WorkProjectHero() {
-  const [, setSearchParams] = useSearchParams();
+function WorkProjectHero({
+  toggleProjectDetails,
+}: {
+  toggleProjectDetails: Function;
+}) {
+  const location = useLocation();
   const { hero } = useLoaderData<typeof loader>();
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ paused: true });
-
-      const background = document.querySelector(".hero-bg-container");
+      const tl = gsap.timeline({
+        autoRemoveChildren: true,
+      });
 
       const tableItems = document.querySelectorAll(".hero-table-row > *");
       const tableLines = document.querySelectorAll(".hero-table-line");
@@ -78,10 +80,6 @@ function WorkProjectHero() {
         },
         0.2
       );
-
-      setTimeout(() => {
-        tl.play();
-      }, 50);
     });
 
     return () => ctx.revert();
@@ -97,7 +95,7 @@ function WorkProjectHero() {
       </div>
 
       <div className="grid-container relative pb-10 pt-header text-white md:pb-52 md:pt-headerDesk">
-        <WorkProjectHeroTitle title={hero.title} />
+        <WorkProjectHeroTitle key={location.pathname} title={hero.title} />
         <div
           className={
             "relative col-span-4 mb-12 md:col-span-12 md:mb-2 md:pb-20"
@@ -114,10 +112,7 @@ function WorkProjectHero() {
         <div className="desktop-only heading--3 md:col-span-4">
           <button
             className={"overflow-hidden"}
-            onClick={() => {
-              // setLock(true);
-              setSearchParams("projectDetails=true");
-            }}
+            onClick={() => toggleProjectDetails()}
           >
             <div className={"hero-table-row"}>
               <span className={"inline-block"}>( </span>
