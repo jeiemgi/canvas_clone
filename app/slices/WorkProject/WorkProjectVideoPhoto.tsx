@@ -10,7 +10,7 @@ interface Props {
 
 function WorkProjectVideoPhoto({ item }: Props) {
   return (
-    <div className={"relative"}>
+    <section className={"WorkProjectSlice relative"}>
       <Image
         loading="lazy"
         field={item.primary.image}
@@ -32,7 +32,7 @@ function WorkProjectVideoPhoto({ item }: Props) {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

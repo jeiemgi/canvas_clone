@@ -91,7 +91,9 @@ function WorkProject() {
         key={`hero-${location.pathname}`}
         toggleProjectDetails={toggleModalOpen}
       />
-      <WorkProjectSliceZone key={`slices-${location.pathname}`} />
+      <div id={"WorkProjectSlices"}>
+        <WorkProjectSliceZone key={`slices-${location.pathname}`} />
+      </div>
       <WorkProjectDetails
         isOpen={isOpen}
         toggle={toggleModalOpen}

@@ -1,13 +1,15 @@
-import { MouseEvent, useRef } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router";
 import { Image } from "~/components/Image";
 import { useLayoutEffect } from "~/hooks";
+import easings from "~/lib/easings";
+import imagesLoaded from "imagesloaded";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import HeroCloneMarkup from "~/components/HeroCloneMarkup";
+import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
-import easings from "~/lib/easings";
-import { useNavigate } from "react-router";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -87,11 +89,22 @@ function WorkProjectNextProject({ item }: Props) {
   useLayoutEffect(() => {
     const context = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: container.current,
         pin: true,
-        end: "+=100%",
+        start: "top top",
+        end: "clamp(+=100%)",
+        trigger: container.current,
         markers: true,
       });
+    });
+
+    const slices = document.querySelectorAll(
+      "#WorkProjectSlices > img, #WorkProjectSlices > * > img"
+    );
+    const imgLoaded = imagesLoaded(slices, (instance) => {
+      console.log(instance);
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 2000);
     });
 
     return () => context.revert();
@@ -105,7 +118,7 @@ function WorkProjectNextProject({ item }: Props) {
     >
       <div
         className={
-          "next-bg absolute left-0 top-0 flex h-full w-full items-end overflow-hidden bg-red"
+          "next-bg absolute left-0 top-0 flex h-full w-full items-end overflow-hidden"
         }
       >
         <Image
