@@ -18,7 +18,7 @@ function WorkProjectPictureColor({ item }: Props) {
         }}
       >
         <Image
-          loading="lazy"
+          loading="eager"
           field={item.primary.image}
           className={"w-full select-none"}
         />

@@ -93,18 +93,16 @@ function WorkProjectNextProject({ item }: Props) {
         start: "top top",
         end: "clamp(+=100%)",
         trigger: container.current,
-        markers: true,
       });
     });
 
     const slices = document.querySelectorAll(
       "#WorkProjectSlices > img, #WorkProjectSlices > * > img"
     );
-    const imgLoaded = imagesLoaded(slices, (instance) => {
-      console.log(instance);
+    imagesLoaded(slices, (instance) => {
       setTimeout(() => {
         ScrollTrigger.refresh();
-      }, 2000);
+      }, 1000);
     });
 
     return () => context.revert();
@@ -122,7 +120,7 @@ function WorkProjectNextProject({ item }: Props) {
         }
       >
         <Image
-          loading={"lazy"}
+          loading="eager"
           className={"min-h-screen w-full object-cover"}
           field={item.primary.background_image1}
         />

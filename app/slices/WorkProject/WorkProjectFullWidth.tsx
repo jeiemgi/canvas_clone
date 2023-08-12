@@ -21,7 +21,7 @@ function WorkProjectFullWidth({ item }: Props) {
 
   return (
     <Image
-      loading="lazy"
+      loading="eager"
       field={item.primary.background}
       className={"w-full select-none object-cover"}
     />

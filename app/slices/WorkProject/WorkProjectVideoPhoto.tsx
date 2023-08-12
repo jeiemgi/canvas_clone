@@ -12,7 +12,7 @@ function WorkProjectVideoPhoto({ item }: Props) {
   return (
     <section className={"WorkProjectSlice relative"}>
       <Image
-        loading="lazy"
+        loading="eager"
         field={item.primary.image}
         className={"desktop-only w-full"}
       />
