@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
+import { useLockedBody } from "usehooks-ts";
 import { useLoaderData, useLocation } from "@remix-run/react";
 import TextCta from "~/components/CTA/TextCTA";
 import { Video } from "~/components/Video";
@@ -28,6 +29,7 @@ function WorkProjectHero({
   toggleProjectDetails: Function;
 }) {
   const location = useLocation();
+  const [, setLocked] = useLockedBody(true);
   const { hero } = useLoaderData<typeof loader>();
 
   useLayoutEffect(() => {
@@ -40,6 +42,10 @@ function WorkProjectHero({
       const tableLines = document.querySelectorAll(".hero-table-line");
       const video = document.querySelector(".hero-video");
 
+      const duration = 0.6;
+      const ease = easings.mask;
+      const stagger = 0.02;
+
       tl.fromTo(
         tableLines,
         {
@@ -47,8 +53,8 @@ function WorkProjectHero({
         },
         {
           scaleX: 1,
-          duration: 0.6,
-          ease: easings.mask,
+          duration,
+          ease,
         }
       );
 
@@ -58,10 +64,10 @@ function WorkProjectHero({
           y: "200%",
         },
         {
+          ease,
+          duration,
           y: "0%",
-          duration: 0.6,
-          stagger: 0.02,
-          ease: easings.mask,
+          stagger,
         },
         0.2
       );
@@ -73,10 +79,13 @@ function WorkProjectHero({
           autoAlpha: 0,
         },
         {
+          ease,
           y: 0,
           autoAlpha: 1,
-          duration: 1,
-          ease: easings.mask,
+          duration,
+          onComplete: () => {
+            setLocked(false);
+          },
         },
         0.2
       );

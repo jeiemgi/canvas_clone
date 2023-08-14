@@ -6,14 +6,17 @@ import { asText } from "@prismicio/richtext";
 import { useNavigate } from "react-router";
 import type { KeyTextField } from "@prismicio/types";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import { useLockedBody } from "usehooks-ts";
 
 function HomePageProjectScrollContainer({
   data,
 }: {
   data: HomePageProjectsData;
 }) {
+  const [, setLocked] = useLockedBody(false);
   const navigate = useNavigate();
   const onClick = (target: EventTarget, index: number, slug: KeyTextField) => {
+    setLocked(true);
     const duration = 1;
     const ease = easings.mask;
 
