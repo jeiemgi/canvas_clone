@@ -45,7 +45,7 @@ export default function HomePage() {
   const { homepage, slices } = useLoaderData<typeof loader>();
 
   return (
-    <main>
+    <>
       <HomePageHero data={slices.homeHero} />
       <HomePageProjects data={slices.homeProjects} />
       {homepage.data.body.map((slice) => {
@@ -62,6 +62,6 @@ export default function HomePage() {
             return null;
         }
       })}
-    </main>
+    </>
   );
 }

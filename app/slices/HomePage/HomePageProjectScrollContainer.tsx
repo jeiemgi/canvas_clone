@@ -14,7 +14,7 @@ function HomePageProjectScrollContainer({
 }) {
   const navigate = useNavigate();
   const onClick = (target: EventTarget, index: number, slug: KeyTextField) => {
-    const duration = 1.5;
+    const duration = 1;
     const ease = easings.mask;
 
     const titleItem = document.querySelectorAll(".title-item")[index];
@@ -44,11 +44,11 @@ function HomePageProjectScrollContainer({
       0
     );
 
-    titleTl.to(name, { lineHeight: "105%", duration: 0.3 }, 0);
+    titleTl.to(name, { lineHeight: "105%", duration: 0.4 }, 0);
 
     titleTl.to(
       [label, counter],
-      { autoAlpha: 0, absolute: true, duration: 0.3, ease },
+      { autoAlpha: 0, absolute: true, duration: 0.4, ease },
       0
     );
 
@@ -92,7 +92,7 @@ function HomePageProjectScrollContainer({
     tl.to(
       content,
       {
-        duration: 0.3,
+        duration: 0.4,
         autoAlpha: 0,
       },
       0

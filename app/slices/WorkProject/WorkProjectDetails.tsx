@@ -11,6 +11,7 @@ import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
 import { gsap } from "gsap";
+import { ReactLenis } from "@studio-freight/react-lenis";
 
 function getKey(prefix: string, ...keys: Array<string | number>) {
   return `${prefix}-${keys.join("-")}`;
@@ -322,7 +323,7 @@ function WorkProjectDetails({
         >
           <div
             className={
-              "fixed inset-0 h-full w-full overflow-scroll pb-[10vh] pt-header md:pb-[10vh] md:pt-headerDesk"
+              "fixed inset-0 h-full w-full overflow-scroll overscroll-contain pb-[10vh] pt-header md:pb-[10vh] md:pt-headerDesk"
             }
           >
             <div className="grid-container relative">
