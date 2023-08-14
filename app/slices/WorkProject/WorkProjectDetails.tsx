@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useLayoutEffect, useRef } from "react";
+import { Fragment, useEffect } from "react";
 import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
 import { SecondaryCTA } from "~/components/CTA";
@@ -10,8 +10,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
-import { gsap } from "gsap";
-import { ReactLenis } from "@studio-freight/react-lenis";
 
 function getKey(prefix: string, ...keys: Array<string | number>) {
   return `${prefix}-${keys.join("-")}`;
@@ -322,6 +320,7 @@ function WorkProjectDetails({
           leaveTo="opacity-0"
         >
           <div
+            data-lenis-prevent={true}
             className={
               "fixed inset-0 h-full w-full overflow-scroll overscroll-contain pb-[10vh] pt-header md:pb-[10vh] md:pt-headerDesk"
             }

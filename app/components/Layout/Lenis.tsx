@@ -12,7 +12,6 @@ function LenisComponent({ children }: { children: ReactNode }) {
     }
 
     gsap.ticker.add(update);
-
     return () => {
       gsap.ticker.remove(update);
     };
