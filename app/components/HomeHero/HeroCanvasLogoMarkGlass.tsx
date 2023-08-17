@@ -12,7 +12,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-export function CanvasLogoMarkGlass() {
+export function HeroCanvasLogoMarkGlass() {
   const path = "/models/canvas_logotype.glb";
   const { nodes } = useGLTF(path) as GLTFResult;
 
@@ -75,4 +75,4 @@ export function CanvasLogoMarkGlass() {
   );
 }
 
-export default CanvasLogoMarkGlass;
+export default HeroCanvasLogoMarkGlass;
