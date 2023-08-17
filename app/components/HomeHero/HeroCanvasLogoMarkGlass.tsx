@@ -58,7 +58,7 @@ export function HeroCanvasLogoMarkGlass() {
   });
 
   return (
-    <group ref={ref} scale={0.01}>
+    <group ref={ref} scale={0.013}>
       <mesh
         scale={1}
         position={[0, 0, 0]}
