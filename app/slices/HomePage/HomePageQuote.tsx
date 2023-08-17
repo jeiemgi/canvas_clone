@@ -7,7 +7,7 @@ function HomePageQuote() {
   return (
     <section
       className={
-        "mx-auto max-w-[375px] overflow-hidden pb-16 pt-16 md:max-w-none md:pb-56 md:pt-64"
+        "texture-background mx-auto max-w-[375px] overflow-hidden pb-16 pt-16 md:max-w-none md:pb-56 md:pt-64"
       }
     >
       <div className="max-container">

@@ -13,7 +13,7 @@ import type {
   HomepageDocumentDataBodyHomepageHeroSlice,
   HomepageDocumentDataBodyHomepageProjectSlice,
 } from "types.generated";
-import { Suspense } from "react";
+import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
@@ -48,21 +48,22 @@ export default function HomePage() {
   return (
     <>
       <HomePageHero />
-      {/*<HomePageProjects data={slices.homeProjects} />*/}
-      {/*{homepage.data.body.map((slice) => {*/}
-      {/*  switch (slice.slice_type) {*/}
-      {/*    case "table":*/}
-      {/*      return <HomePageTable key={slice.id} data={slice} />;*/}
-      {/*    case "homepage_portfolio_slice":*/}
-      {/*      return <HomePagePortfolioMobile key={slice.id} data={slice} />;*/}
-      {/*    case "homepage_portfolio_desktop":*/}
-      {/*      return <HomePagePortfolioDesktop key={slice.id} data={slice} />;*/}
-      {/*    case "home_reviews":*/}
-      {/*      return <HomePageReviews key={slice.id} data={slice} />;*/}
-      {/*    default:*/}
-      {/*      return null;*/}
-      {/*  }*/}
-      {/*})}*/}
+      <HomePageQuote />
+      <HomePageProjects data={slices.homeProjects} />
+      {homepage.data.body.map((slice) => {
+        switch (slice.slice_type) {
+          case "table":
+            return <HomePageTable key={slice.id} data={slice} />;
+          case "homepage_portfolio_slice":
+            return <HomePagePortfolioMobile key={slice.id} data={slice} />;
+          case "homepage_portfolio_desktop":
+            return <HomePagePortfolioDesktop key={slice.id} data={slice} />;
+          case "home_reviews":
+            return <HomePageReviews key={slice.id} data={slice} />;
+          default:
+            return null;
+        }
+      })}
     </>
   );
 }
