@@ -136,7 +136,7 @@ function WorkProjectNextProject({ item }: Props) {
         <h3 className={"heading--3 next-title__text"}>{item.primary.title1}</h3>
       </div>
 
-      <div className="mobile-only--flex pointer-events-none absolute left-0 top-0 h-full w-full items-center justify-center">
+      <div className="mobile-only--flex absolute left-0 top-0 h-full w-full items-center justify-center">
         <h3 className="heading--3 text-white">{`( VIEW PROJECT )`}</h3>
       </div>
 

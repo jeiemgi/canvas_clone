@@ -3,9 +3,9 @@ import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
 import { useLockedBody } from "usehooks-ts";
 import { useLoaderData, useLocation } from "@remix-run/react";
-import TextCta from "~/components/CTA/TextCTA";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
+import TextCta from "~/components/CTA/TextCTA";
 import { useLayoutEffect } from "~/hooks";
 import type { loader } from "~/routes/work.$project";
 import type { RichTextField } from "@prismicio/types";
@@ -118,14 +118,14 @@ function WorkProjectHero({
           ></div>
         </div>
 
-        <div className="desktop-only heading--3 md:col-span-4">
+        <div className="desktop-only heading--3 md:col-span-5">
           <button
             className={"overflow-hidden"}
             onClick={() => toggleProjectDetails()}
           >
             <div className={"hero-table-row"}>
               <span className={"inline-block"}>( </span>
-              <TextCta>{asText(hero.cta)}</TextCta>
+              <TextCta className={"heading--3"}>{asText(hero.cta)}</TextCta>
               <span className={"inline-block"}> )</span>
             </div>
           </button>

@@ -18,10 +18,8 @@ function Layout({
   return (
     <NavThemeProvider>
       <Navigation />
-      <Lenis>
-        <main>{children}</main>
-        {isContact && footer ? <Footer /> : null}
-      </Lenis>
+      <main>{children}</main>
+      {isContact && footer ? <Footer /> : null}
     </NavThemeProvider>
   );
 }

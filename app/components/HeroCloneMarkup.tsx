@@ -5,7 +5,7 @@ function HeroCloneMarkup({
   subtitleId = "hero-clone-subtitle",
 }) {
   return (
-    <div className="grid-container absolute left-0 top-0 pt-header text-white md:pb-52 md:pt-headerDesk">
+    <div className="desktop-only grid-container absolute left-0 top-0 pt-header text-white md:pb-52 md:pt-headerDesk">
       <div
         id={titleId}
         className={

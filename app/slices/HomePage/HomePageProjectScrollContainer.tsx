@@ -4,9 +4,9 @@ import easings from "~/lib/easings";
 import { Image } from "~/components/Image";
 import { asText } from "@prismicio/richtext";
 import { useNavigate } from "react-router";
+import { useLockedBody } from "usehooks-ts";
 import type { KeyTextField } from "@prismicio/types";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
-import { useLockedBody } from "usehooks-ts";
 
 function HomePageProjectScrollContainer({
   data,
@@ -15,6 +15,7 @@ function HomePageProjectScrollContainer({
 }) {
   const [, setLocked] = useLockedBody(false);
   const navigate = useNavigate();
+
   const onClick = (target: EventTarget, index: number, slug: KeyTextField) => {
     setLocked(true);
     const duration = 1;
