@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { useAspect, useMask, useVideoTexture } from "@react-three/drei";
 
 function HeroVideoScene() {
@@ -9,9 +8,7 @@ function HeroVideoScene() {
   return (
     <mesh scale={size}>
       <planeGeometry />
-      <Suspense fallback={null}>
-        <meshBasicMaterial map={texture} toneMapped={false} {...stencil} />;
-      </Suspense>
+      <meshBasicMaterial map={texture} toneMapped={false} {...stencil} />
     </mesh>
   );
 }

@@ -18,6 +18,7 @@ type GLTFResult = GLTF & {
 
 const Banana = ({ z }) => {
   const ref = useRef<Mesh>(null);
+
   const { nodes, materials } = useGLTF(
     "/models/banana-v1-transformed.glb"
   ) as GLTFResult;
