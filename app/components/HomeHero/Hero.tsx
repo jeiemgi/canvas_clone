@@ -1,21 +1,26 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import HeroVideo from "~/components/HomeHero/HeroVideo";
+import loadable from "@loadable/component";
 import HeroCanvasLogoMarkGlass from "~/components/HomeHero/HeroCanvasLogoMarkGlass";
 
+const SuspenseLoader = loadable.lib(
+  // @ts-ignore
+  () => import("three/examples/jsm/loaders/LottieLoader.js")
+);
+
 function HomePageHero() {
-  const [isPressed, setIsPressed] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   return (
-    <Suspense fallback={null}>
-      <Canvas
-        onPointerDown={() => setIsPressed(true)}
-        onPointerUp={() => setIsPressed(false)}
-        camera={{ type: "OrthographicCamera", position: [0, 0, 10] }}
-      >
-        <HeroCanvasLogoMarkGlass isPressed={isPressed} />
-        <HeroVideo />
-      </Canvas>
-    </Suspense>
+    <SuspenseLoader fallback={null}>
+      {() => (
+        <Canvas
+          onClick={() => setIsClicked(!isClicked)}
+          camera={{ type: "OrthographicCamera", position: [0, 0, 10] }}
+        >
+          <HeroCanvasLogoMarkGlass isClicked={isClicked} />
+        </Canvas>
+      )}
+    </SuspenseLoader>
   );
 }
 

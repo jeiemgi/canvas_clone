@@ -1,10 +1,19 @@
 import * as THREE from "three";
-import { forwardRef, useRef } from "react";
+import { Leva } from "leva";
+import { forwardRef, useEffect, useRef } from "react";
 import { useControls } from "leva";
-import { useFrame, useThree } from "@react-three/fiber";
-import { Mask, MeshTransmissionMaterial, useGLTF } from "@react-three/drei";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import {
+  Mask,
+  MeshTransmissionMaterial,
+  useAspect,
+  useGLTF,
+  useMask,
+  useVideoTexture,
+} from "@react-three/drei";
+import { LottieLoader } from "three-stdlib";
+import type { CanvasTexture } from "three";
 import type { GLTF } from "three-stdlib";
-import { Group } from "three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -15,7 +24,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-type GroupProps = JSX.IntrinsicElements["group"];
+type GroupProps = JSX.IntrinsicElements["group"] & { isClicked: boolean };
 export const CanvasLogoMark = forwardRef<THREE.Group, GroupProps>(
   (props, ref) => {
     const { nodes, materials } = useGLTF(
@@ -43,29 +52,93 @@ export const CanvasLogoMark = forwardRef<THREE.Group, GroupProps>(
       color: "#ffffff",
     });
 
-    console.log(materials);
     return (
-      <group {...props} dispose={null} ref={ref}>
-        <mesh
-          geometry={nodes.Logo.geometry}
-          material={materials.material}
-          rotation={[0, 0, 0]}
-          scale={[0.02, 0.02, 0.01]}
-        >
-          <MeshTransmissionMaterial {...config} toneMapped={false} />
-        </mesh>
-        <meshStandardMaterial {...materials.material} />
-      </group>
+      <Mask id={1}>
+        <Leva hidden={true} />
+        <group {...props} dispose={null} ref={ref}>
+          <mesh
+            geometry={nodes.Logo.geometry}
+            material={materials.material}
+            rotation={[0, 0, 0]}
+            scale={[0.02, 0.02, 0.01]}
+          >
+            <MeshTransmissionMaterial {...config} toneMapped={false} />
+          </mesh>
+          <meshStandardMaterial {...materials.material} />
+        </group>
+      </Mask>
     );
   }
 );
 
 CanvasLogoMark.displayName = "CanvasLogoMark";
 
-export function HeroCanvasLogoMarkGlass({ isPressed }: { isPressed: boolean }) {
+function HeroVideoScene({ isClicked }: { isClicked: boolean }) {
+  const stencil = useMask(1);
+  const size = useAspect(1800, 1000);
+  const texture = useVideoTexture("/video/canvas-reel-preview.mp4");
+
+  return (
+    <mesh scale={size}>
+      <planeGeometry />
+      <meshBasicMaterial map={texture} toneMapped={false} {...stencil} />
+    </mesh>
+  );
+}
+
+function HeroVideoFull({ isClicked }: { isClicked: boolean }) {
+  const size = useAspect(1800, 1000);
+  const texture = useVideoTexture("/video/canvas-reel-full.mp4", {
+    start: false,
+    loop: false,
+    muted: true,
+  });
+
+  useEffect(() => {
+    if (isClicked) {
+    }
+  }, [isClicked]);
+
+  return (
+    <mesh scale={size}>
+      <planeGeometry />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
+  );
+}
+
+const LottieMask = () => {
+  const { viewport } = useThree();
+  const textureRef = useRef<CanvasTexture>(null);
+  const result = useLoader(LottieLoader, "/models/logo-mark-open.json");
+
+  useFrame(() => {
+    if (!textureRef.current) return;
+    textureRef.current.needsUpdate = true;
+  });
+
+  return (
+    <Mask id={1}>
+      <mesh>
+        <planeGeometry args={[viewport.width / 2, viewport.height / 2]} />
+        <meshBasicMaterial
+          alphaTest={0.3}
+          alphaMap={result}
+          color={"#000000"}
+          transparent={true}
+          opacity={1}
+        >
+          <canvasTexture ref={textureRef} attach="map" image={result.image} />
+        </meshBasicMaterial>
+      </mesh>
+    </Mask>
+  );
+};
+
+export function HeroCanvasLogoMarkGlass({ isClicked }: { isClicked: boolean }) {
   const { viewport } = useThree();
   const ref = useRef<THREE.Group>(null);
-  const maskRef = useRef<THREE.Mesh>(null);
+  // const maskRef = useRef<THREE.Mesh>(null);
 
   useFrame(({ mouse }) => {
     const moveLogo = () => {
@@ -89,34 +162,19 @@ export function HeroCanvasLogoMarkGlass({ isPressed }: { isPressed: boolean }) {
       );
     };
 
-    const animateMask = () => {
-      if (!maskRef.current) return;
-
-      if (isPressed) {
-        maskRef.current.geometry.userData.width += 1;
-        // maskRef.current.scale.x += 0.01;
-        // maskRef.current.scale.y += 0.01;
-      } else {
-        maskRef.current.scale.x = THREE.MathUtils.lerp(
-          maskRef.current.scale.x,
-          1,
-          0.1
-        );
-        maskRef.current.scale.y = THREE.MathUtils.lerp(
-          maskRef.current.scale.y,
-          1,
-          0.1
-        );
-      }
-    };
-    moveLogo();
-    animateMask();
+    if (!isClicked) moveLogo();
   });
 
   return (
-    <Mask depthWrite={true} ref={maskRef} id={1}>
-      <CanvasLogoMark ref={ref} />
-    </Mask>
+    <>
+      {/*<LottieMask />*/}
+      {isClicked ? (
+        <HeroVideoFull isClicked={isClicked} />
+      ) : (
+        <HeroVideoScene isClicked={isClicked} />
+      )}
+      {!isClicked ? <CanvasLogoMark isClicked={isClicked} ref={ref} /> : null}
+    </>
   );
 }
 
