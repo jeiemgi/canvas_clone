@@ -1,16 +1,15 @@
+import clsx from "clsx";
 import { json } from "@remix-run/node";
+import { useState } from "react";
+import useIsScrolled from "~/hooks/useIsScrolled";
+import { useLoaderData, useLocation } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
+import { SecondaryCTA } from "~/components/CTA";
 import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import type { LoaderArgs } from "@remix-run/node";
-import clsx from "clsx";
-import { SecondaryCTA } from "~/components/CTA";
-import useIsScrolled from "~/hooks/useIsScrolled";
-import { useLocation, useSearchParams } from "@remix-run/react";
-import { useLockedBody } from "usehooks-ts";
-import { createContext, useState } from "react";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -24,33 +23,13 @@ export const loader = async ({ params }: LoaderArgs) => {
     });
   }
 
-  const {
-    background_image,
-    capabilities,
-    cta,
-    links,
-    reel,
-    reel_cover,
-    roles,
-    title,
-  } = page.data;
-
   const details = {
     credits: page.data.credits,
     tables: normalizeProjectDetailsData(page.data.body2),
   };
 
   return json({
-    hero: {
-      background_image,
-      capabilities,
-      cta,
-      links,
-      reel,
-      reel_cover,
-      roles,
-      title,
-    },
+    hero: page.data,
     slices: page.data.body,
     details,
     page,
@@ -79,8 +58,8 @@ function WorkProjectDetailsButton({
 
 function WorkProject() {
   const location = useLocation();
-
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleModalOpen = () => {
     setIsOpen(!isOpen);
   };

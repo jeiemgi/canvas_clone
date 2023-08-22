@@ -1,10 +1,9 @@
-import { Suspense, useRef, useState } from "react";
-import { useControls } from "leva";
-import { Environment, Stats, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import type { Mesh } from "three";
 import type { GLTF } from "three-stdlib";
+import { Suspense, useRef, useState } from "react";
+import { Environment, Stats, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { DepthOfField, EffectComposer } from "@react-three/postprocessing";
 
 type GLTFResult = GLTF & {
@@ -16,7 +15,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-const Banana = ({ z }) => {
+const Banana = ({ z }: { z: number }) => {
   const ref = useRef<Mesh>(null);
 
   const { nodes, materials } = useGLTF(
@@ -62,7 +61,7 @@ function HomePageHero({
   speed = 1,
   count = 10,
   depth = 80,
-  easing = (x) => Math.sqrt(1 - Math.pow(x - 1, 2)),
+  easing = (x: number) => Math.sqrt(1 - Math.pow(x - 1, 2)),
 }) {
   return (
     <Suspense fallback={null}>

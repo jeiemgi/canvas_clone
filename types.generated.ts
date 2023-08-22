@@ -2,1336 +2,1324 @@
 
 import type * as prismic from "@prismicio/client";
 
-type Simplify<T> = {
-    [KeyType in keyof T]: T[KeyType];
-};
-/** Content for Contact Page documents */
-interface ContactPageDocumentData {
-    /**
-     * title field in *Contact Page*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: contact_page.title
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.TitleField;
-    /**
-     * description field in *Contact Page*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: contact_page.description
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
-    /**
-     * Slice zone field in *Contact Page*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: contact_page.body[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body: prismic.SliceZone<ContactPageDocumentDataBodySlice>;
-}
+type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
+
 /**
- * Item in Contact Page → Slice zone → `contact_form` → Items
- *
+ * Item content in *Contact Page → Slice zone → Contact Form → Items*
  */
 export interface ContactPageDocumentDataBodyContactFormSliceItem {
-    /**
-     * Label field in *Contact Page → Slice zone → `contact_form` → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: contact_page.body[].contact_form.items[].label
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    label: prismic.KeyTextField;
-    /**
-     * placeholder field in *Contact Page → Slice zone → `contact_form` → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: contact_page.body[].contact_form.items[].placeholder
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    placeholder: prismic.KeyTextField;
+	/**
+	 * Label field in *Contact Page → Slice zone → Contact Form → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.body[].contact_form.items.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * placeholder field in *Contact Page → Slice zone → Contact Form → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.body[].contact_form.items.placeholder
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	placeholder: prismic.KeyTextField;
 }
-export type ContactPageDocumentDataBodyContactFormSlice = prismic.Slice<"contact_form", Record<string, never>, Simplify<ContactPageDocumentDataBodyContactFormSliceItem>>;
+
 /**
  * Slice for *Contact Page → Slice zone*
- *
  */
-type ContactPageDocumentDataBodySlice = ContactPageDocumentDataBodyContactFormSlice;
+export type ContactPageDocumentDataBodyContactFormSlice = prismic.Slice<"contact_form", Record<string, never>, Simplify<ContactPageDocumentDataBodyContactFormSliceItem>>
+
+type ContactPageDocumentDataBodySlice = ContactPageDocumentDataBodyContactFormSlice
+
+/**
+ * Content for Contact Page documents
+ */
+interface ContactPageDocumentData {
+	/**
+	 * title field in *Contact Page*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.TitleField;
+	
+	/**
+	 * description field in *Contact Page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+	
+	/**
+	 * Slice zone field in *Contact Page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: contact_page.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<ContactPageDocumentDataBodySlice>;
+}
+
 /**
  * Contact Page document from Prismic
  *
  * - **API ID**: `contact_page`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type ContactPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ContactPageDocumentData>, "contact_page", Lang>;
-/** Content for Homepage documents */
-interface HomepageDocumentData {
-    /**
-     * Slice zone field in *Homepage*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body: prismic.SliceZone<HomepageDocumentDataBodySlice>;
-    /**
-     * Slice zone field in *Homepage*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body1[]
-     * - **Tab**: Meta
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body1: prismic.SliceZone<HomepageDocumentDataBody1Slice>;
-}
+
 /**
- * Primary content in Homepage → Slice zone → `homepage_project` → Primary
- *
+ * Primary content in *Homepage → Slice zone → Home Project → Primary*
  */
-interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
-    /**
-     * slug field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.slug
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    slug: prismic.KeyTextField;
-    /**
-     * Title field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.RichTextField;
-    /**
-     * Capabilities field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.capabilities
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    capabilities: prismic.RichTextField;
-    /**
-     * description field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
-    /**
-     * cta field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.cta
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    cta: prismic.RichTextField;
-    /**
-     * Background Image field in *Homepage → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.primary.background_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image: prismic.ImageField<never>;
+export interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
+	/**
+	 * slug field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.slug
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	slug: prismic.KeyTextField;
+	
+	/**
+	 * Title field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Capabilities field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.capabilities
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	capabilities: prismic.RichTextField;
+	
+	/**
+	 * description field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+	
+	/**
+	 * cta field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.cta
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	cta: prismic.RichTextField;
+	
+	/**
+	 * project_data field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.project_data
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	project_data: prismic.ContentRelationshipField<"project_page">;
+	
+	/**
+	 * Background Image field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.background_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background_image: prismic.ImageField<never>;
 }
+
 /**
- * Item in Homepage → Slice zone → `homepage_project` → Items
- *
+ * Item content in *Homepage → Slice zone → Home Project → Items*
  */
 export interface HomepageDocumentDataBodyHomepageProjectSliceItem {
-    /**
-     * Slide field in *Homepage → Slice zone → `homepage_project` → Items*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_project.items[].slide
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    slide: prismic.ImageField<never>;
+	/**
+	 * Slide field in *Homepage → Slice zone → Home Project → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.items.slide
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	slide: prismic.ImageField<never>;
 }
-export type HomepageDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepageProjectSliceItem>>;
+
 /**
- * Primary content in Homepage → Slice zone → `homepage_hero` → Primary
- *
+ * Slice for *Homepage → Slice zone*
  */
-interface HomepageDocumentDataBodyHomepageHeroSlicePrimary {
-    /**
-     * hero-footer-left-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-1"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-left-1": prismic.TitleField;
-    /**
-     * hero-footer-left-2 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-2"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-left-2": prismic.TitleField;
-    /**
-     * hero-footer-left-3 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-left-3"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-left-3": prismic.TitleField;
-    /**
-     * hero-footer-center-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-1"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-center-1": prismic.TitleField;
-    /**
-     * hero-footer-center-2 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-2"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-center-2": prismic.TitleField;
-    /**
-     * hero-footer-center-3 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-center-3"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-center-3": prismic.TitleField;
-    /**
-     * hero-footer-right-1 field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-right-1"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-right-1": prismic.TitleField;
-    /**
-     * hero-footer-right-mobile field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary."hero-footer-right-mobile"
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    "hero-footer-right-mobile": prismic.TitleField;
-    /**
-     * Hero texture Image field in *Homepage → Slice zone → `homepage_hero` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_hero.primary.hero_texture_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    hero_texture_image: prismic.ImageField<never>;
-}
-export type HomepageDocumentDataBodyHomepageHeroSlice = prismic.Slice<"homepage_hero", Simplify<HomepageDocumentDataBodyHomepageHeroSlicePrimary>, never>;
+export type HomepageDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepageProjectSliceItem>>
+
 /**
- * Primary content in Homepage → Slice zone → `table` → Primary
- *
+ * Primary content in *Homepage → Slice zone → Table → Primary*
  */
-interface HomepageDocumentDataBodyTableSlicePrimary {
-    /**
-     * Title field in *Homepage → Slice zone → `table` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].table.primary.title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.TitleField;
-    /**
-     * mobile field in *Homepage → Slice zone → `table` → Primary*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: true
-     * - **API ID Path**: homepage.body[].table.primary.mobile
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    mobile: prismic.BooleanField;
+export interface HomepageDocumentDataBodyTableSlicePrimary {
+	/**
+	 * Title field in *Homepage → Slice zone → Table → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].table.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.TitleField;
+	
+	/**
+	 * mobile field in *Homepage → Slice zone → Table → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: true
+	 * - **API ID Path**: homepage.body[].table.primary.mobile
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	mobile: prismic.BooleanField;
 }
+
 /**
- * Item in Homepage → Slice zone → `table` → Items
- *
+ * Item content in *Homepage → Slice zone → Table → Items*
  */
 export interface HomepageDocumentDataBodyTableSliceItem {
-    /**
-     * title field in *Homepage → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].table.items[].title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.TitleField;
-    /**
-     * number field in *Homepage → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].table.items[].number
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    number: prismic.TitleField;
-    /**
-     * Description field in *Homepage → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].table.items[].description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
-    /**
-     * rows field in *Homepage → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: Sepparated with commas e.g "Creative Direction, Research, Discovery"
-     * - **API ID Path**: homepage.body[].table.items[].rows
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    rows: prismic.RichTextField;
+	/**
+	 * title field in *Homepage → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].table.items.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.TitleField;
+	
+	/**
+	 * number field in *Homepage → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].table.items.number
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	number: prismic.TitleField;
+	
+	/**
+	 * Description field in *Homepage → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].table.items.description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+	
+	/**
+	 * rows field in *Homepage → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Sepparated with commas e.g "Creative Direction, Research, Discovery"
+	 * - **API ID Path**: homepage.body[].table.items.rows
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	rows: prismic.RichTextField;
 }
-export type HomepageDocumentDataBodyTableSlice = prismic.Slice<"table", Simplify<HomepageDocumentDataBodyTableSlicePrimary>, Simplify<HomepageDocumentDataBodyTableSliceItem>>;
+
 /**
- * Primary content in Homepage → Slice zone → `homepage_portfolio_slice` → Primary
- *
+ * Slice for *Homepage → Slice zone*
  */
-interface HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary {
-    /**
-     * TITLE field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.TitleField;
-    /**
-     * Description field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
-    /**
-     * tags field in *Homepage → Slice zone → `homepage_portfolio_slice` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.tags
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    tags: prismic.KeyTextField;
-}
+export type HomepageDocumentDataBodyTableSlice = prismic.Slice<"table", Simplify<HomepageDocumentDataBodyTableSlicePrimary>, Simplify<HomepageDocumentDataBodyTableSliceItem>>
+
 /**
- * Item in Homepage → Slice zone → `homepage_portfolio_slice` → Items
- *
+ * Primary content in *Homepage → Slice zone → Home Portfolio Mobile → Primary*
+ */
+export interface HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary {
+	/**
+	 * TITLE field in *Homepage → Slice zone → Home Portfolio Mobile → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.TitleField;
+	
+	/**
+	 * Description field in *Homepage → Slice zone → Home Portfolio Mobile → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+	
+	/**
+	 * tags field in *Homepage → Slice zone → Home Portfolio Mobile → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_slice.primary.tags
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	tags: prismic.KeyTextField;
+}
+
+/**
+ * Item content in *Homepage → Slice zone → Home Portfolio Mobile → Items*
  */
 export interface HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem {
-    /**
-     * images field in *Homepage → Slice zone → `homepage_portfolio_slice` → Items*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_slice.items[].images
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    images: prismic.ImageField<never>;
+	/**
+	 * images field in *Homepage → Slice zone → Home Portfolio Mobile → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_slice.items.images
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	images: prismic.ImageField<never>;
 }
-export type HomepageDocumentDataBodyHomepagePortfolioSliceSlice = prismic.Slice<"homepage_portfolio_slice", Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem>>;
+
 /**
- * Primary content in Homepage → Slice zone → `homepage_portfolio_desktop` → Primary
- *
+ * Slice for *Homepage → Slice zone*
  */
-interface HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary {
-    /**
-     * Available Tags field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: Separated with commas (e.g "A, B, C, D")
-     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.primary.available_tags
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    available_tags: prismic.KeyTextField;
-}
+export type HomepageDocumentDataBodyHomepagePortfolioSliceSlice = prismic.Slice<"homepage_portfolio_slice", Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem>>
+
 /**
- * Item in Homepage → Slice zone → `homepage_portfolio_desktop` → Items
- *
+ * Primary content in *Homepage → Slice zone → Home Portfolio Desktop → Primary*
+ */
+export interface HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary {
+	/**
+	 * Available Tags field in *Homepage → Slice zone → Home Portfolio Desktop → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Separated with commas (e.g "A, B, C, D")
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.primary.available_tags
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	available_tags: prismic.KeyTextField;
+}
+
+/**
+ * Item content in *Homepage → Slice zone → Home Portfolio Desktop → Items*
  */
 export interface HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem {
-    /**
-     * Image field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Items*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items[].image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismic.ImageField<never>;
-    /**
-     * tags field in *Homepage → Slice zone → `homepage_portfolio_desktop` → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items[].tags
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    tags: prismic.KeyTextField;
+	/**
+	 * Image field in *Homepage → Slice zone → Home Portfolio Desktop → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * tags field in *Homepage → Slice zone → Home Portfolio Desktop → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items.tags
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	tags: prismic.KeyTextField;
 }
-export type HomepageDocumentDataBodyHomepagePortfolioDesktopSlice = prismic.Slice<"homepage_portfolio_desktop", Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem>>;
+
 /**
- * Primary content in Homepage → Slice zone → `home_reviews` → Primary
- *
+ * Slice for *Homepage → Slice zone*
  */
-interface HomepageDocumentDataBodyHomeReviewsSlicePrimary {
-    /**
-     * Clear Text field in *Homepage → Slice zone → `home_reviews` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].home_reviews.primary.clear_text
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    clear_text: prismic.TitleField;
-    /**
-     * Background Image field in *Homepage → Slice zone → `home_reviews` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].home_reviews.primary.background_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image: prismic.ImageField<never>;
-}
+export type HomepageDocumentDataBodyHomepagePortfolioDesktopSlice = prismic.Slice<"homepage_portfolio_desktop", Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary>, Simplify<HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem>>
+
 /**
- * Item in Homepage → Slice zone → `home_reviews` → Items
- *
+ * Primary content in *Homepage → Slice zone → Home Reviews → Primary*
+ */
+export interface HomepageDocumentDataBodyHomeReviewsSlicePrimary {
+	/**
+	 * Clear Text field in *Homepage → Slice zone → Home Reviews → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].home_reviews.primary.clear_text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	clear_text: prismic.TitleField;
+	
+	/**
+	 * Background Image field in *Homepage → Slice zone → Home Reviews → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].home_reviews.primary.background_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background_image: prismic.ImageField<never>;
+}
+
+/**
+ * Item content in *Homepage → Slice zone → Home Reviews → Items*
  */
 export interface HomepageDocumentDataBodyHomeReviewsSliceItem {
-    /**
-     * Image field in *Homepage → Slice zone → `home_reviews` → Items*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body[].home_reviews.items[].image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismic.ImageField<never>;
+	/**
+	 * Image field in *Homepage → Slice zone → Home Reviews → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].home_reviews.items.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
 }
-export type HomepageDocumentDataBodyHomeReviewsSlice = prismic.Slice<"home_reviews", Simplify<HomepageDocumentDataBodyHomeReviewsSlicePrimary>, Simplify<HomepageDocumentDataBodyHomeReviewsSliceItem>>;
+
 /**
  * Slice for *Homepage → Slice zone*
- *
  */
-type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyHomepageHeroSlice | HomepageDocumentDataBodyTableSlice | HomepageDocumentDataBodyHomepagePortfolioSliceSlice | HomepageDocumentDataBodyHomepagePortfolioDesktopSlice | HomepageDocumentDataBodyHomeReviewsSlice;
+export type HomepageDocumentDataBodyHomeReviewsSlice = prismic.Slice<"home_reviews", Simplify<HomepageDocumentDataBodyHomeReviewsSlicePrimary>, Simplify<HomepageDocumentDataBodyHomeReviewsSliceItem>>
+
+type HomepageDocumentDataBodySlice = HomepageDocumentDataBodyHomepageProjectSlice | HomepageDocumentDataBodyTableSlice | HomepageDocumentDataBodyHomepagePortfolioSliceSlice | HomepageDocumentDataBodyHomepagePortfolioDesktopSlice | HomepageDocumentDataBodyHomeReviewsSlice
+
 /**
- * Primary content in Homepage → Slice zone → `seo` → Primary
- *
+ * Primary content in *Homepage → Slice zone → SEO → Primary*
  */
-interface HomepageDocumentDataBody1SeoSlicePrimary {
-    /**
-     * seo_page_title field in *Homepage → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Title that will be displayed in the browser's tab
-     * - **API ID Path**: homepage.body1[].seo.primary.seo_page_title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    seo_page_title: prismic.TitleField;
-    /**
-     * OpenGraph Title field in *Homepage → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Title that will be displayed in the social media card as a title
-     * - **API ID Path**: homepage.body1[].seo.primary.opengraph_title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    opengraph_title: prismic.TitleField;
-    /**
-     * OpenGraph Description field in *Homepage → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Text that will be displayed in the social media card as a description
-     * - **API ID Path**: homepage.body1[].seo.primary.opengraph_description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    opengraph_description: prismic.TitleField;
-    /**
-     * OpenGraph Image field in *Homepage → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage.body1[].seo.primary.opengraph_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    opengraph_image: prismic.ImageField<never>;
+export interface HomepageDocumentDataBody1SeoSlicePrimary {
+	/**
+	 * seo_page_title field in *Homepage → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Title that will be displayed in the browser's tab
+	 * - **API ID Path**: homepage.body1[].seo.primary.seo_page_title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	seo_page_title: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Title field in *Homepage → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Title that will be displayed in the social media card as a title
+	 * - **API ID Path**: homepage.body1[].seo.primary.opengraph_title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	opengraph_title: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Description field in *Homepage → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Text that will be displayed in the social media card as a description
+	 * - **API ID Path**: homepage.body1[].seo.primary.opengraph_description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	opengraph_description: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Image field in *Homepage → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body1[].seo.primary.opengraph_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	opengraph_image: prismic.ImageField<never>;
 }
-export type HomepageDocumentDataBody1SeoSlice = prismic.Slice<"seo", Simplify<HomepageDocumentDataBody1SeoSlicePrimary>, never>;
+
 /**
  * Slice for *Homepage → Slice zone*
- *
  */
-type HomepageDocumentDataBody1Slice = HomepageDocumentDataBody1SeoSlice;
+export type HomepageDocumentDataBody1SeoSlice = prismic.Slice<"seo", Simplify<HomepageDocumentDataBody1SeoSlicePrimary>, never>
+
+type HomepageDocumentDataBody1Slice = HomepageDocumentDataBody1SeoSlice
+
+/**
+ * Content for Homepage documents
+ */
+interface HomepageDocumentData {
+	/**
+	 * Slice zone field in *Homepage*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<HomepageDocumentDataBodySlice>;/**
+	 * Slice zone field in *Homepage*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body1[]
+	 * - **Tab**: Meta
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body1: prismic.SliceZone<HomepageDocumentDataBody1Slice>;
+}
+
 /**
  * Homepage document from Prismic
  *
  * - **API ID**: `homepage`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageDocumentData>, "homepage", Lang>;
-/** Content for Homepage Projects documents */
-interface HomepageProjectsDocumentData {
-    /**
-     * Slice zone field in *Homepage Projects*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body: prismic.SliceZone<HomepageProjectsDocumentDataBodySlice>;
-}
+
 /**
- * Primary content in Homepage Projects → Slice zone → `homepage_project` → Primary
- *
+ * Primary content in *Homepage Projects → Slice zone → Homepage Project → Primary*
  */
-interface HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary {
-    /**
-     * Title field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.RichTextField;
-    /**
-     * Capabilities field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.capabilities
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    capabilities: prismic.RichTextField;
-    /**
-     * description field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
-    /**
-     * cta field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.cta
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    cta: prismic.RichTextField;
-    /**
-     * Background Image field in *Homepage Projects → Slice zone → `homepage_project` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.primary.background_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image: prismic.ImageField<never>;
+export interface HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary {
+	/**
+	 * Title field in *Homepage Projects → Slice zone → Homepage Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Capabilities field in *Homepage Projects → Slice zone → Homepage Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.primary.capabilities
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	capabilities: prismic.RichTextField;
+	
+	/**
+	 * description field in *Homepage Projects → Slice zone → Homepage Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.primary.description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+	
+	/**
+	 * cta field in *Homepage Projects → Slice zone → Homepage Project → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.primary.cta
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	cta: prismic.RichTextField;
+	
+	/**
+	 * Background Image field in *Homepage Projects → Slice zone → Homepage Project → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.primary.background_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background_image: prismic.ImageField<never>;
 }
+
 /**
- * Item in Homepage Projects → Slice zone → `homepage_project` → Items
- *
+ * Item content in *Homepage Projects → Slice zone → Homepage Project → Items*
  */
 export interface HomepageProjectsDocumentDataBodyHomepageProjectSliceItem {
-    /**
-     * Slide field in *Homepage Projects → Slice zone → `homepage_project` → Items*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: homepage_projects.body[].homepage_project.items[].slide
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    slide: prismic.ImageField<never>;
+	/**
+	 * Slide field in *Homepage Projects → Slice zone → Homepage Project → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[].homepage_project.items.slide
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	slide: prismic.ImageField<never>;
 }
-export type HomepageProjectsDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSliceItem>>;
+
 /**
  * Slice for *Homepage Projects → Slice zone*
- *
  */
-type HomepageProjectsDocumentDataBodySlice = HomepageProjectsDocumentDataBodyHomepageProjectSlice;
+export type HomepageProjectsDocumentDataBodyHomepageProjectSlice = prismic.Slice<"homepage_project", Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary>, Simplify<HomepageProjectsDocumentDataBodyHomepageProjectSliceItem>>
+
+type HomepageProjectsDocumentDataBodySlice = HomepageProjectsDocumentDataBodyHomepageProjectSlice
+
+/**
+ * Content for Homepage Projects documents
+ */
+interface HomepageProjectsDocumentData {
+	/**
+	 * Slice zone field in *Homepage Projects*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage_projects.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<HomepageProjectsDocumentDataBodySlice>;
+}
+
 /**
  * Homepage Projects document from Prismic
  *
  * - **API ID**: `homepage_projects`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageProjectsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageProjectsDocumentData>, "homepage_projects", Lang>;
-/** Content for Navigation documents */
-interface NavigationDocumentData {
-    /**
-     * Slice zone field in *Navigation*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: navigation.body[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body: prismic.SliceZone<NavigationDocumentDataBodySlice>;
-}
+
 /**
- * Primary content in Navigation → Slice zone → `menu_item` → Primary
- *
+ * Primary content in *Navigation → Slice zone → Menu Item → Primary*
  */
-interface NavigationDocumentDataBodyMenuItemSlicePrimary {
-    /**
-     * title field in *Navigation → Slice zone → `menu_item` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: navigation.body[].menu_item.primary.title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title: prismic.KeyTextField;
-    /**
-     * link field in *Navigation → Slice zone → `menu_item` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: navigation.body[].menu_item.primary.link
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    link: prismic.KeyTextField;
+export interface NavigationDocumentDataBodyMenuItemSlicePrimary {
+	/**
+	 * title field in *Navigation → Slice zone → Menu Item → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.body[].menu_item.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * link field in *Navigation → Slice zone → Menu Item → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.body[].menu_item.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	link: prismic.KeyTextField;
 }
-export type NavigationDocumentDataBodyMenuItemSlice = prismic.Slice<"menu_item", Simplify<NavigationDocumentDataBodyMenuItemSlicePrimary>, never>;
+
 /**
  * Slice for *Navigation → Slice zone*
- *
  */
-type NavigationDocumentDataBodySlice = NavigationDocumentDataBodyMenuItemSlice;
+export type NavigationDocumentDataBodyMenuItemSlice = prismic.Slice<"menu_item", Simplify<NavigationDocumentDataBodyMenuItemSlicePrimary>, never>
+
+type NavigationDocumentDataBodySlice = NavigationDocumentDataBodyMenuItemSlice
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+	/**
+	 * Slice zone field in *Navigation*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<NavigationDocumentDataBodySlice>;
+}
+
 /**
  * Navigation document from Prismic
  *
  * - **API ID**: `navigation`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type NavigationDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<NavigationDocumentData>, "navigation", Lang>;
-/** Content for Project Page documents */
-interface ProjectPageDocumentData {
-    /**
-     * Background Image field in *Project Page*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.background_image
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image: prismic.ImageField<never>;
-    /**
-     * Title field in *Project Page*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.title
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismic.RichTextField;
-    /**
-     * Capabilities field in *Project Page*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.capabilities
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    capabilities: prismic.RichTextField;
-    /**
-     * cta field in *Project Page*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.cta
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    cta: prismic.RichTextField;
-    /**
-     * Roles field in *Project Page*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.roles[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    roles: prismic.GroupField<Simplify<ProjectPageDocumentDataRolesItem>>;
-    /**
-     * Links field in *Project Page*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.links[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    links: prismic.GroupField<Simplify<ProjectPageDocumentDataLinksItem>>;
-    /**
-     * reel field in *Project Page*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.reel
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    reel: prismic.LinkField;
-    /**
-     * reel_cover field in *Project Page*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.reel_cover
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    reel_cover: prismic.ImageField<never>;
-    /**
-     * Slice zone field in *Project Page*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[]
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body: prismic.SliceZone<ProjectPageDocumentDataBodySlice>;
-    /**
-     * Slice zone field in *Project Page*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body1[]
-     * - **Tab**: Meta
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body1: prismic.SliceZone<ProjectPageDocumentDataBody1Slice>;
-    /**
-     * Credits field in *Project Page*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.credits[]
-     * - **Tab**: Details
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    credits: prismic.GroupField<Simplify<ProjectPageDocumentDataCreditsItem>>;
-    /**
-     * Slice zone field in *Project Page*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body2[]
-     * - **Tab**: Details
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    body2: prismic.SliceZone<ProjectPageDocumentDataBody2Slice>;
-}
+
 /**
- * Item in Project Page → Roles
- *
+ * Item in *Project Page → Roles*
  */
 export interface ProjectPageDocumentDataRolesItem {
-    /**
-     * Role Item field in *Project Page → Roles*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.roles[].role_item
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    role_item: prismic.KeyTextField;
+	/**
+	 * Role Item field in *Project Page → Roles*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.roles[].role_item
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	role_item: prismic.KeyTextField;
 }
+
 /**
- * Item in Project Page → Links
- *
+ * Item in *Project Page → Links*
  */
 export interface ProjectPageDocumentDataLinksItem {
-    /**
-     * label field in *Project Page → Links*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.links[].label
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    label: prismic.KeyTextField;
-    /**
-     * Link Item field in *Project Page → Links*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.links[].link_item
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    link_item: prismic.LinkField;
+	/**
+	 * label field in *Project Page → Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.links[].label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * Link Item field in *Project Page → Links*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.links[].link_item
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link_item: prismic.LinkField;
 }
+
 /**
- * Primary content in Project Page → Slice zone → `project_full_width` → Primary
- *
+ * Primary content in *Project Page → Slice zone → Project Full Width → Primary*
  */
-interface ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary {
-    /**
-     * Background field in *Project Page → Slice zone → `project_full_width` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_full_width.primary.background
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background: prismic.ImageField<never>;
-    /**
-     * video field in *Project Page → Slice zone → `project_full_width` → Primary*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_full_width.primary.video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    video: prismic.LinkField;
+export interface ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary {
+	/**
+	 * Background field in *Project Page → Slice zone → Project Full Width → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_full_width.primary.background
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background: prismic.ImageField<never>;
+	
+	/**
+	 * video field in *Project Page → Slice zone → Project Full Width → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_full_width.primary.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkField;
 }
-export type ProjectPageDocumentDataBodyProjectFullWidthSlice = prismic.Slice<"project_full_width", Simplify<ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `project_2_column` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
-    /**
-     * Left Image / Video Cover field in *Project Page → Slice zone → `project_2_column` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_2_column.primary.left_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    left_image: prismic.ImageField<never>;
-    /**
-     * left_video field in *Project Page → Slice zone → `project_2_column` → Primary*
-     *
-     * - **Field Type**: Link to Media
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_2_column.primary.left_video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    left_video: prismic.LinkToMediaField;
-    /**
-     * Right Image / Video Cover field in *Project Page → Slice zone → `project_2_column` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_2_column.primary.right_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    right_image: prismic.ImageField<never>;
-    /**
-     * right_video field in *Project Page → Slice zone → `project_2_column` → Primary*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_2_column.primary.right_video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    right_video: prismic.LinkField;
-}
-export type ProjectPageDocumentDataBodyProject2ColumnSlice = prismic.Slice<"project_2_column", Simplify<ProjectPageDocumentDataBodyProject2ColumnSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `project_plate_-_videocolor` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary {
-    /**
-     * square field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.square
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    square: prismic.BooleanField;
-    /**
-     * Background Color field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
-     *
-     * - **Field Type**: Color
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.background_color
-     * - **Documentation**: https://prismic.io/docs/core-concepts/color
-     *
-     */
-    background_color: prismic.ColorField;
-    /**
-     * Cover field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.cover
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    cover: prismic.ImageField<never>;
-    /**
-     * video field in *Project Page → Slice zone → `project_plate_-_videocolor` → Primary*
-     *
-     * - **Field Type**: Link to Media
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    video: prismic.LinkToMediaField;
-}
-export type ProjectPageDocumentDataBodyProjectPlateVideocolorSlice = prismic.Slice<"project_plate_-_videocolor", Simplify<ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `project_plate_-_videophoto` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary {
-    /**
-     * square field in *Project Page → Slice zone → `project_plate_-_videophoto` → Primary*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.square
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    square: prismic.BooleanField;
-    /**
-     * video field in *Project Page → Slice zone → `project_plate_-_videophoto` → Primary*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    video: prismic.LinkField;
-    /**
-     * image field in *Project Page → Slice zone → `project_plate_-_videophoto` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismic.ImageField<never>;
-}
-export type ProjectPageDocumentDataBodyProjectPlateVideophotoSlice = prismic.Slice<"project_plate_-_videophoto", Simplify<ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `projectplate_-_videovideo` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary {
-    /**
-     * Video field in *Project Page → Slice zone → `projectplate_-_videovideo` → Primary*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].projectplate_-_videovideo.primary.video
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    video: prismic.LinkField;
-    /**
-     * Video Background field in *Project Page → Slice zone → `projectplate_-_videovideo` → Primary*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].projectplate_-_videovideo.primary.video_background
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    video_background: prismic.LinkField;
-}
-export type ProjectPageDocumentDataBodyProjectplateVideovideoSlice = prismic.Slice<"projectplate_-_videovideo", Simplify<ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `projectplate_-_picturecolor` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary {
-    /**
-     * Background Color field in *Project Page → Slice zone → `projectplate_-_picturecolor` → Primary*
-     *
-     * - **Field Type**: Color
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].projectplate_-_picturecolor.primary.background_color
-     * - **Documentation**: https://prismic.io/docs/core-concepts/color
-     *
-     */
-    background_color: prismic.ColorField;
-    /**
-     * image field in *Project Page → Slice zone → `projectplate_-_picturecolor` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].projectplate_-_picturecolor.primary.image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismic.ImageField<never>;
-}
-export type ProjectPageDocumentDataBodyProjectplatePicturecolorSlice = prismic.Slice<"projectplate_-_picturecolor", Simplify<ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary>, never>;
-/**
- * Primary content in Project Page → Slice zone → `project_next_banner` → Primary
- *
- */
-interface ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary {
-    /**
-     * slug field in *Project Page → Slice zone → `project_next_banner` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_next_banner.primary.slug
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    slug: prismic.KeyTextField;
-    /**
-     * Title field in *Project Page → Slice zone → `project_next_banner` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_next_banner.primary.title1
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title1: prismic.KeyTextField;
-    /**
-     * Capabilities field in *Project Page → Slice zone → `project_next_banner` → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_next_banner.primary.capabilities1
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    capabilities1: prismic.KeyTextField;
-    /**
-     * Background Image field in *Project Page → Slice zone → `project_next_banner` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body[].project_next_banner.primary.background_image1
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    background_image1: prismic.ImageField<never>;
-}
-export type ProjectPageDocumentDataBodyProjectNextBannerSlice = prismic.Slice<"project_next_banner", Simplify<ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary>, never>;
+
 /**
  * Slice for *Project Page → Slice zone*
- *
  */
-type ProjectPageDocumentDataBodySlice = ProjectPageDocumentDataBodyProjectFullWidthSlice | ProjectPageDocumentDataBodyProject2ColumnSlice | ProjectPageDocumentDataBodyProjectPlateVideocolorSlice | ProjectPageDocumentDataBodyProjectPlateVideophotoSlice | ProjectPageDocumentDataBodyProjectplateVideovideoSlice | ProjectPageDocumentDataBodyProjectplatePicturecolorSlice | ProjectPageDocumentDataBodyProjectNextBannerSlice;
+export type ProjectPageDocumentDataBodyProjectFullWidthSlice = prismic.Slice<"project_full_width", Simplify<ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary>, never>
+
 /**
- * Primary content in Project Page → Slice zone → `seo` → Primary
- *
+ * Primary content in *Project Page → Slice zone → Project 2 Column → Primary*
  */
-interface ProjectPageDocumentDataBody1SeoSlicePrimary {
-    /**
-     * seo_page_title field in *Project Page → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Title that will be displayed in the browser's tab
-     * - **API ID Path**: project_page.body1[].seo.primary.seo_page_title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    seo_page_title: prismic.TitleField;
-    /**
-     * OpenGraph Title field in *Project Page → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Title that will be displayed in the social media card as a title
-     * - **API ID Path**: project_page.body1[].seo.primary.opengraph_title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    opengraph_title: prismic.TitleField;
-    /**
-     * OpenGraph Description field in *Project Page → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: Text that will be displayed in the social media card as a description
-     * - **API ID Path**: project_page.body1[].seo.primary.opengraph_description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    opengraph_description: prismic.TitleField;
-    /**
-     * OpenGraph Image field in *Project Page → Slice zone → `seo` → Primary*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body1[].seo.primary.opengraph_image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    opengraph_image: prismic.ImageField<never>;
+export interface ProjectPageDocumentDataBodyProject2ColumnSlicePrimary {
+	/**
+	 * Left Image / Video Cover field in *Project Page → Slice zone → Project 2 Column → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_2_column.primary.left_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	left_image: prismic.ImageField<never>;
+	
+	/**
+	 * left_video field in *Project Page → Slice zone → Project 2 Column → Primary*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_2_column.primary.left_video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	left_video: prismic.LinkToMediaField;
+	
+	/**
+	 * Right Image / Video Cover field in *Project Page → Slice zone → Project 2 Column → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_2_column.primary.right_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	right_image: prismic.ImageField<never>;
+	
+	/**
+	 * right_video field in *Project Page → Slice zone → Project 2 Column → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_2_column.primary.right_video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	right_video: prismic.LinkField;
 }
-export type ProjectPageDocumentDataBody1SeoSlice = prismic.Slice<"seo", Simplify<ProjectPageDocumentDataBody1SeoSlicePrimary>, never>;
+
 /**
  * Slice for *Project Page → Slice zone*
- *
  */
-type ProjectPageDocumentDataBody1Slice = ProjectPageDocumentDataBody1SeoSlice;
+export type ProjectPageDocumentDataBodyProject2ColumnSlice = prismic.Slice<"project_2_column", Simplify<ProjectPageDocumentDataBodyProject2ColumnSlicePrimary>, never>
+
 /**
- * Item in Project Page → Credits
- *
+ * Primary content in *Project Page → Slice zone → Project Plate - VideoColor → Primary*
+ */
+export interface ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary {
+	/**
+	 * square field in *Project Page → Slice zone → Project Plate - VideoColor → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.square
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	square: prismic.BooleanField;
+	
+	/**
+	 * Background Color field in *Project Page → Slice zone → Project Plate - VideoColor → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * Cover field in *Project Page → Slice zone → Project Plate - VideoColor → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.cover
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	cover: prismic.ImageField<never>;
+	
+	/**
+	 * video field in *Project Page → Slice zone → Project Plate - VideoColor → Primary*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_plate_-_videocolor.primary.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkToMediaField;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBodyProjectPlateVideocolorSlice = prismic.Slice<"project_plate_-_videocolor", Simplify<ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary>, never>
+
+/**
+ * Primary content in *Project Page → Slice zone → Project Plate - VideoPhoto → Primary*
+ */
+export interface ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary {
+	/**
+	 * square field in *Project Page → Slice zone → Project Plate - VideoPhoto → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.square
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	square: prismic.BooleanField;
+	
+	/**
+	 * video field in *Project Page → Slice zone → Project Plate - VideoPhoto → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkField;
+	
+	/**
+	 * image field in *Project Page → Slice zone → Project Plate - VideoPhoto → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_plate_-_videophoto.primary.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBodyProjectPlateVideophotoSlice = prismic.Slice<"project_plate_-_videophoto", Simplify<ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary>, never>
+
+/**
+ * Primary content in *Project Page → Slice zone → ProjectPlate - VideoVideo → Primary*
+ */
+export interface ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary {
+	/**
+	 * Video field in *Project Page → Slice zone → ProjectPlate - VideoVideo → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].projectplate_-_videovideo.primary.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkField;
+	
+	/**
+	 * Video Background field in *Project Page → Slice zone → ProjectPlate - VideoVideo → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].projectplate_-_videovideo.primary.video_background
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video_background: prismic.LinkField;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBodyProjectplateVideovideoSlice = prismic.Slice<"projectplate_-_videovideo", Simplify<ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary>, never>
+
+/**
+ * Primary content in *Project Page → Slice zone → ProjectPlate - PictureColor → Primary*
+ */
+export interface ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary {
+	/**
+	 * Background Color field in *Project Page → Slice zone → ProjectPlate - PictureColor → Primary*
+	 *
+	 * - **Field Type**: Color
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].projectplate_-_picturecolor.primary.background_color
+	 * - **Documentation**: https://prismic.io/docs/field#color
+	 */
+	background_color: prismic.ColorField;
+	
+	/**
+	 * image field in *Project Page → Slice zone → ProjectPlate - PictureColor → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].projectplate_-_picturecolor.primary.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBodyProjectplatePicturecolorSlice = prismic.Slice<"projectplate_-_picturecolor", Simplify<ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary>, never>
+
+/**
+ * Primary content in *Project Page → Slice zone → Project Next Banner → Primary*
+ */
+export interface ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary {
+	/**
+	 * slug field in *Project Page → Slice zone → Project Next Banner → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_next_banner.primary.slug
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	slug: prismic.KeyTextField;
+	
+	/**
+	 * Title field in *Project Page → Slice zone → Project Next Banner → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_next_banner.primary.title1
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title1: prismic.KeyTextField;
+	
+	/**
+	 * Capabilities field in *Project Page → Slice zone → Project Next Banner → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_next_banner.primary.capabilities1
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	capabilities1: prismic.KeyTextField;
+	
+	/**
+	 * Background Image field in *Project Page → Slice zone → Project Next Banner → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_next_banner.primary.background_image1
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background_image1: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBodyProjectNextBannerSlice = prismic.Slice<"project_next_banner", Simplify<ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary>, never>
+
+type ProjectPageDocumentDataBodySlice = ProjectPageDocumentDataBodyProjectFullWidthSlice | ProjectPageDocumentDataBodyProject2ColumnSlice | ProjectPageDocumentDataBodyProjectPlateVideocolorSlice | ProjectPageDocumentDataBodyProjectPlateVideophotoSlice | ProjectPageDocumentDataBodyProjectplateVideovideoSlice | ProjectPageDocumentDataBodyProjectplatePicturecolorSlice | ProjectPageDocumentDataBodyProjectNextBannerSlice
+
+/**
+ * Primary content in *Project Page → Slice zone → SEO → Primary*
+ */
+export interface ProjectPageDocumentDataBody1SeoSlicePrimary {
+	/**
+	 * seo_page_title field in *Project Page → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Title that will be displayed in the browser's tab
+	 * - **API ID Path**: project_page.body1[].seo.primary.seo_page_title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	seo_page_title: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Title field in *Project Page → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Title that will be displayed in the social media card as a title
+	 * - **API ID Path**: project_page.body1[].seo.primary.opengraph_title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	opengraph_title: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Description field in *Project Page → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: Text that will be displayed in the social media card as a description
+	 * - **API ID Path**: project_page.body1[].seo.primary.opengraph_description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	opengraph_description: prismic.TitleField;
+	
+	/**
+	 * OpenGraph Image field in *Project Page → Slice zone → SEO → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body1[].seo.primary.opengraph_image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	opengraph_image: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project Page → Slice zone*
+ */
+export type ProjectPageDocumentDataBody1SeoSlice = prismic.Slice<"seo", Simplify<ProjectPageDocumentDataBody1SeoSlicePrimary>, never>
+
+type ProjectPageDocumentDataBody1Slice = ProjectPageDocumentDataBody1SeoSlice
+
+/**
+ * Item in *Project Page → Credits*
  */
 export interface ProjectPageDocumentDataCreditsItem {
-    /**
-     * type field in *Project Page → Credits*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.credits[].type
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    type: prismic.KeyTextField;
-    /**
-     * value field in *Project Page → Credits*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.credits[].value
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    value: prismic.KeyTextField;
+	/**
+	 * type field in *Project Page → Credits*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.credits[].type
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	type: prismic.KeyTextField;
+	
+	/**
+	 * value field in *Project Page → Credits*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.credits[].value
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	value: prismic.KeyTextField;
 }
+
 /**
- * Primary content in Project Page → Slice zone → `table` → Primary
- *
+ * Primary content in *Project Page → Slice zone → Table → Primary*
  */
-interface ProjectPageDocumentDataBody2TableSlicePrimary {
-    /**
-     * Title field in *Project Page → Slice zone → `table` → Primary*
-     *
-     * - **Field Type**: Title
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body2[].table.primary.title1
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title1: prismic.TitleField;
-    /**
-     * description field in *Project Page → Slice zone → `table` → Primary*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body2[].table.primary.description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismic.RichTextField;
+export interface ProjectPageDocumentDataBody2TableSlicePrimary {
+	/**
+	 * Title field in *Project Page → Slice zone → Table → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body2[].table.primary.title1
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title1: prismic.TitleField;
+	
+	/**
+	 * description field in *Project Page → Slice zone → Table → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body2[].table.primary.description
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
 }
+
 /**
- * Item in Project Page → Slice zone → `table` → Items
- *
+ * Item content in *Project Page → Slice zone → Table → Items*
  */
 export interface ProjectPageDocumentDataBody2TableSliceItem {
-    /**
-     * isHeader field in *Project Page → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: project_page.body2[].table.items[].isheader
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    isheader: prismic.BooleanField;
-    /**
-     * label field in *Project Page → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body2[].table.items[].label
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    label: prismic.KeyTextField;
-    /**
-     * link field in *Project Page → Slice zone → `table` → Items*
-     *
-     * - **Field Type**: Link
-     * - **Placeholder**: *None*
-     * - **API ID Path**: project_page.body2[].table.items[].link
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    link: prismic.LinkField;
+	/**
+	 * isHeader field in *Project Page → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: project_page.body2[].table.items.isheader
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	isheader: prismic.BooleanField;
+	
+	/**
+	 * label field in *Project Page → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body2[].table.items.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * link field in *Project Page → Slice zone → Table → Items*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body2[].table.items.link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
 }
-export type ProjectPageDocumentDataBody2TableSlice = prismic.Slice<"table", Simplify<ProjectPageDocumentDataBody2TableSlicePrimary>, Simplify<ProjectPageDocumentDataBody2TableSliceItem>>;
+
 /**
  * Slice for *Project Page → Slice zone*
- *
  */
-type ProjectPageDocumentDataBody2Slice = ProjectPageDocumentDataBody2TableSlice;
+export type ProjectPageDocumentDataBody2TableSlice = prismic.Slice<"table", Simplify<ProjectPageDocumentDataBody2TableSlicePrimary>, Simplify<ProjectPageDocumentDataBody2TableSliceItem>>
+
+type ProjectPageDocumentDataBody2Slice = ProjectPageDocumentDataBody2TableSlice
+
+/**
+ * Content for Project Page documents
+ */
+interface ProjectPageDocumentData {
+	/**
+	 * Background Image field in *Project Page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.background_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background_image: prismic.ImageField<never>;
+	
+	/**
+	 * Title field in *Project Page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Capabilities field in *Project Page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.capabilities
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	capabilities: prismic.RichTextField;
+	
+	/**
+	 * cta field in *Project Page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.cta
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	cta: prismic.RichTextField;
+	
+	/**
+	 * Roles field in *Project Page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.roles[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	roles: prismic.GroupField<Simplify<ProjectPageDocumentDataRolesItem>>;
+	
+	/**
+	 * Links field in *Project Page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.links[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	links: prismic.GroupField<Simplify<ProjectPageDocumentDataLinksItem>>;
+	
+	/**
+	 * reel field in *Project Page*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.reel
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	reel: prismic.LinkField;
+	
+	/**
+	 * reel_cover field in *Project Page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.reel_cover
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	reel_cover: prismic.ImageField<never>;
+	
+	/**
+	 * Slice zone field in *Project Page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<ProjectPageDocumentDataBodySlice>;/**
+	 * Slice zone field in *Project Page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body1[]
+	 * - **Tab**: Meta
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body1: prismic.SliceZone<ProjectPageDocumentDataBody1Slice>;/**
+	 * Credits field in *Project Page*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.credits[]
+	 * - **Tab**: Details
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	credits: prismic.GroupField<Simplify<ProjectPageDocumentDataCreditsItem>>;
+	
+	/**
+	 * Slice zone field in *Project Page*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body2[]
+	 * - **Tab**: Details
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body2: prismic.SliceZone<ProjectPageDocumentDataBody2Slice>;
+}
+
 /**
  * Project Page document from Prismic
  *
  * - **API ID**: `project_page`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
 export type ProjectPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectPageDocumentData>, "project_page", Lang>;
+
 export type AllDocumentTypes = ContactPageDocument | HomepageDocument | HomepageProjectsDocument | NavigationDocument | ProjectPageDocument;
+
 declare module "@prismicio/client" {
-    interface CreateClient {
-        (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
-    }
-    namespace Content {
-        export type { ContactPageDocumentData, ContactPageDocumentDataBodyContactFormSliceItem, ContactPageDocumentDataBodyContactFormSlice, ContactPageDocumentDataBodySlice, ContactPageDocument, HomepageDocumentData, HomepageDocumentDataBodyHomepageProjectSlicePrimary, HomepageDocumentDataBodyHomepageProjectSliceItem, HomepageDocumentDataBodyHomepageProjectSlice, HomepageDocumentDataBodyHomepageHeroSlicePrimary, HomepageDocumentDataBodyHomepageHeroSlice, HomepageDocumentDataBodyTableSlicePrimary, HomepageDocumentDataBodyTableSliceItem, HomepageDocumentDataBodyTableSlice, HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem, HomepageDocumentDataBodyHomepagePortfolioSliceSlice, HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary, HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem, HomepageDocumentDataBodyHomepagePortfolioDesktopSlice, HomepageDocumentDataBodyHomeReviewsSlicePrimary, HomepageDocumentDataBodyHomeReviewsSliceItem, HomepageDocumentDataBodyHomeReviewsSlice, HomepageDocumentDataBodySlice, HomepageDocumentDataBody1SeoSlicePrimary, HomepageDocumentDataBody1SeoSlice, HomepageDocumentDataBody1Slice, HomepageDocument, HomepageProjectsDocumentData, HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary, HomepageProjectsDocumentDataBodyHomepageProjectSliceItem, HomepageProjectsDocumentDataBodyHomepageProjectSlice, HomepageProjectsDocumentDataBodySlice, HomepageProjectsDocument, NavigationDocumentData, NavigationDocumentDataBodyMenuItemSlicePrimary, NavigationDocumentDataBodyMenuItemSlice, NavigationDocumentDataBodySlice, NavigationDocument, ProjectPageDocumentData, ProjectPageDocumentDataRolesItem, ProjectPageDocumentDataLinksItem, ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary, ProjectPageDocumentDataBodyProjectFullWidthSlice, ProjectPageDocumentDataBodyProject2ColumnSlicePrimary, ProjectPageDocumentDataBodyProject2ColumnSlice, ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideocolorSlice, ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary, ProjectPageDocumentDataBodyProjectPlateVideophotoSlice, ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary, ProjectPageDocumentDataBodyProjectplateVideovideoSlice, ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary, ProjectPageDocumentDataBodyProjectplatePicturecolorSlice, ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary, ProjectPageDocumentDataBodyProjectNextBannerSlice, ProjectPageDocumentDataBodySlice, ProjectPageDocumentDataBody1SeoSlicePrimary, ProjectPageDocumentDataBody1SeoSlice, ProjectPageDocumentDataBody1Slice, ProjectPageDocumentDataCreditsItem, ProjectPageDocumentDataBody2TableSlicePrimary, ProjectPageDocumentDataBody2TableSliceItem, ProjectPageDocumentDataBody2TableSlice, ProjectPageDocumentDataBody2Slice, ProjectPageDocument, AllDocumentTypes };
-    }
+	interface CreateClient {
+		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
+	}
+	
+	namespace Content {
+		export type {
+			ContactPageDocument,
+			ContactPageDocumentData,
+			ContactPageDocumentDataBodyContactFormSliceItem,
+			ContactPageDocumentDataBodySlice,
+			HomepageDocument,
+			HomepageDocumentData,
+			HomepageDocumentDataBodyHomepageProjectSlicePrimary,
+			HomepageDocumentDataBodyHomepageProjectSliceItem,
+			HomepageDocumentDataBodyTableSlicePrimary,
+			HomepageDocumentDataBodyTableSliceItem,
+			HomepageDocumentDataBodyHomepagePortfolioSliceSlicePrimary,
+			HomepageDocumentDataBodyHomepagePortfolioSliceSliceItem,
+			HomepageDocumentDataBodyHomepagePortfolioDesktopSlicePrimary,
+			HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem,
+			HomepageDocumentDataBodyHomeReviewsSlicePrimary,
+			HomepageDocumentDataBodyHomeReviewsSliceItem,
+			HomepageDocumentDataBodySlice,
+			HomepageDocumentDataBody1SeoSlicePrimary,
+			HomepageDocumentDataBody1Slice,
+			HomepageProjectsDocument,
+			HomepageProjectsDocumentData,
+			HomepageProjectsDocumentDataBodyHomepageProjectSlicePrimary,
+			HomepageProjectsDocumentDataBodyHomepageProjectSliceItem,
+			HomepageProjectsDocumentDataBodySlice,
+			NavigationDocument,
+			NavigationDocumentData,
+			NavigationDocumentDataBodyMenuItemSlicePrimary,
+			NavigationDocumentDataBodySlice,
+			ProjectPageDocument,
+			ProjectPageDocumentData,
+			ProjectPageDocumentDataBodyProjectFullWidthSlicePrimary,
+			ProjectPageDocumentDataBodyProject2ColumnSlicePrimary,
+			ProjectPageDocumentDataBodyProjectPlateVideocolorSlicePrimary,
+			ProjectPageDocumentDataBodyProjectPlateVideophotoSlicePrimary,
+			ProjectPageDocumentDataBodyProjectplateVideovideoSlicePrimary,
+			ProjectPageDocumentDataBodyProjectplatePicturecolorSlicePrimary,
+			ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary,
+			ProjectPageDocumentDataBodySlice,
+			ProjectPageDocumentDataBody1SeoSlicePrimary,
+			ProjectPageDocumentDataBody1Slice,
+			ProjectPageDocumentDataBody2TableSlicePrimary,
+			ProjectPageDocumentDataBody2TableSliceItem,
+			ProjectPageDocumentDataBody2Slice,
+			AllDocumentTypes
+		}
+	}
 }

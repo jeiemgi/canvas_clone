@@ -4,7 +4,6 @@ import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { ReactNode } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 
@@ -23,8 +22,9 @@ function animateTextOnScroll(
   trigger: Element,
   isLast = false
 ) {
-  const distance = 300;
+  const distance = 400;
   const ease = "slow.inOut";
+  const element = splits.words;
 
   const show = gsap.timeline({
     scrollTrigger: {
@@ -34,7 +34,7 @@ function animateTextOnScroll(
       end: `+=${distance}px`,
     },
   });
-  show.to(splits.words, { y: "0%", ease });
+  show.to(element, { y: "0%", ease });
 
   if (isLast) return;
   const hide = gsap.timeline({
@@ -45,51 +45,55 @@ function animateTextOnScroll(
       end: `+=${distance}px`,
     },
   });
-  hide.to(splits.words, { y: "-100%", ease });
+  hide.to(element, { y: "-100%", ease });
 }
 
-function addAnimationOnScroll(selector: string) {
-  const scrollItems = document.querySelectorAll(".scroll-item");
-  const items = document.querySelectorAll(selector);
-  const splits = splitText(items);
+function useAnimationOnScroll(selector: string) {
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const scrollItems = document.querySelectorAll(".scroll-item");
+      const items = document.querySelectorAll(selector);
+      const splits = splitText(items);
 
-  splits.forEach((splits, index, arr) => {
-    if (index !== 0) gsap.set(splits.words, { y: "100%" });
-    animateTextOnScroll(splits, scrollItems[index], index === arr.length - 1);
-  });
+      splits.forEach((splits, index, arr) => {
+        if (index !== 0) gsap.set(splits.words, { y: "100%" });
+        animateTextOnScroll(
+          splits,
+          scrollItems[index],
+          index === arr.length - 1
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, [selector]);
 }
 
-function HomePageTitle({
-  children,
-  className = "",
-}: {
-  className: string;
+interface HomePageTitleProps {
   children: ReactNode;
-}) {
+  className?: string;
+}
+
+const HomePageTitle = ({ children, className }: HomePageTitleProps) => {
   return (
     <h3 className={clsx(className, "heading--3 leading-none text-white")}>
       {children}
     </h3>
   );
-}
+};
 
-function HomePageTitleContainer({
-  data,
-  container,
-}: {
-  data: HomePageProjectsData;
-  container: HTMLElement | null;
-}) {
+function HomePageTitleContainer({ data }: { data: HomePageProjectsData }) {
   useLayoutEffect(() => {
+    const container = document.querySelector("#home-projects-container");
     if (!container) return;
 
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
-
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(
         ".home-projects-titles-container"
       )[0];
+
       ScrollTrigger.create({
         trigger: container,
         pin: titleContainer,
@@ -100,14 +104,14 @@ function HomePageTitleContainer({
         },
         toggleClass: "active",
       });
-
-      addAnimationOnScroll(".title-item");
-      addAnimationOnScroll(".gsap-index-item");
-      addAnimationOnScroll(".subtitle-item");
     }, container);
 
     return () => ctx.revert();
-  }, [container]);
+  }, []);
+
+  useAnimationOnScroll(".title-item");
+  useAnimationOnScroll(".subtitle-item");
+  useAnimationOnScroll(".gsap-index-item");
 
   return (
     <div
@@ -115,62 +119,51 @@ function HomePageTitleContainer({
         "home-projects-titles-container desktop-only absolute inset-0 h-screen w-full"
       }
     >
-      <HeroCloneMarkup />
-
-      {/* TITLE AND INDEX */}
-      <div className={"absolute left-[30px] top-[30px] h-[50px] w-[370px]"}>
-        {data.map((project, index) => (
-          <div
-            key={`HomePageProject-title-${index}`}
-            className={"absolute left-0 top-0"}
-          >
-            <HomePageTitle className={"title-item relative h-[3rem]"}>
-              <span className={"title-item__name"}>
-                {asText(project.primary.title)}
-              </span>{" "}
-              <br />
-              <span className={"title-item__label"}>CASE STUDY</span>
-            </HomePageTitle>
-          </div>
-        ))}
-      </div>
-
-      <div
-        className={
-          "title-item__index absolute left-[355px] top-[55px] h-[25px]"
-        }
-      >
-        <div className={"mr-1 inline-block h-5 w-4"}>
-          {data.map((item, index) => (
-            <div
-              key={`HomePageProject-index-${index}`}
-              className={"absolute left-0 top-0"}
-            >
-              <HomePageTitle className={"gsap-index-item"}>
-                {index + 1}
+      <div className={"absolute left-[30px] top-headerDesk"}>
+        <div className={"relative mb-1 h-[25px] w-[500px]"}>
+          {data.map((project, index) => (
+            <div key={`title-${index}`} className={"absolute left-0 top-0"}>
+              <HomePageTitle className={"title-item relative"}>
+                <span className={"title-item__text"}>
+                  {asText(project.primary.title)}
+                </span>
               </HomePageTitle>
             </div>
           ))}
         </div>
-        <HomePageTitle className={"gsap-index-fixed inline-block"}>
-          / {data.length}
-        </HomePageTitle>
-      </div>
 
-      {/* CAPABILITIES */}
-      <div className={"absolute bottom-[30px] left-[30px] h-[25px] w-[500px]"}>
-        {data.map((project, index) => (
-          <h3
-            key={`HomePageProject-capabilities-${index}`}
-            className={
-              "subtitle-item heading--3 absolute inset-0 leading-none text-white"
-            }
-          >
-            <span className={"subtitle-item__text"}>
-              {asText(project.primary.capabilities)}
-            </span>
-          </h3>
-        ))}
+        <div className={"relative mb-[30px] h-[25px] w-[500px]"}>
+          {data.map((project, index) => (
+            <div key={`subtitle-${index}`} className={"absolute left-0 top-0"}>
+              <HomePageTitle className={"subtitle-item"}>
+                <span className={"subtitle-item__text"}>
+                  {asText(project.primary.capabilities)}
+                </span>
+              </HomePageTitle>
+            </div>
+          ))}
+        </div>
+
+        <div className={"title-item__label"}>
+          <HomePageTitle className={"mr-10 inline-block"}>
+            CASE STUDY
+          </HomePageTitle>
+          <div className={"relative mr-1 inline-block h-5 w-4"}>
+            {data.map((item, index) => (
+              <div
+                key={`HomePageProject-index-${index}`}
+                className={"absolute left-0 top-0"}
+              >
+                <HomePageTitle className={"gsap-index-item"}>
+                  {index + 1}
+                </HomePageTitle>
+              </div>
+            ))}
+          </div>
+          <HomePageTitle className={"inline-block"}>
+            / {data.length}
+          </HomePageTitle>
+        </div>
       </div>
     </div>
   );

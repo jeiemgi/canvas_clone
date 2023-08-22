@@ -1,7 +1,7 @@
 import { defer } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
-import { findSliceByType, findAllSlicesByType } from "~/lib/prismicUtils";
+import { findAllSlicesByType } from "~/lib/prismicUtils";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
 import HomePagePortfolioDesktop from "~/slices/HomePage/HomePagePortfolioDesktop";
 import HomePagePortfolioMobile from "~/slices/HomePage/HomePagePortfolioMobile";
@@ -9,11 +9,9 @@ import HomePageProjects from "~/slices/HomePage/HomePageProjects";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import type { V2_MetaFunction } from "@remix-run/node";
-import type {
-  HomepageDocumentDataBodyHomepageHeroSlice,
-  HomepageDocumentDataBodyHomepageProjectSlice,
-} from "types.generated";
+import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
+import Footer from "~/components/Footer";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
@@ -21,12 +19,9 @@ export const meta: V2_MetaFunction = () => {
 
 export const loader = async () => {
   const client = createClient();
-  const homepage = await client.getSingle("homepage");
-
-  const homeHero = findSliceByType(
-    homepage,
-    "homepage_hero"
-  ) as HomepageDocumentDataBodyHomepageHeroSlice;
+  const homepage = await client.getSingle("homepage", {
+    fetchLinks: ["project_page.roles", "project_page.links"],
+  });
 
   const homeProjects = findAllSlicesByType(
     homepage,
@@ -36,7 +31,6 @@ export const loader = async () => {
   return defer({
     homepage,
     slices: {
-      homeHero,
       homeProjects,
     },
   });
@@ -64,6 +58,7 @@ export default function HomePage() {
             return null;
         }
       })}
+      <Footer />
     </>
   );
 }

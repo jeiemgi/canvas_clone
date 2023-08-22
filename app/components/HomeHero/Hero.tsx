@@ -10,9 +10,13 @@ const SuspenseLoader = loadable.lib(
 
 function HomePageHero() {
   const [isClicked, setIsClicked] = useState(false);
+
   return (
-    <SuspenseLoader fallback={null}>
-      {() => (
+    <SuspenseLoader
+      // @ts-ignore
+      fallback={null}
+    >
+      {({ LottieLoader }) => (
         <Canvas
           onClick={() => setIsClicked(!isClicked)}
           camera={{ type: "OrthographicCamera", position: [0, 0, 10] }}

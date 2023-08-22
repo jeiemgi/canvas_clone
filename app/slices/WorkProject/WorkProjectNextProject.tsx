@@ -1,12 +1,9 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { Image } from "~/components/Image";
-import { useLayoutEffect } from "~/hooks";
 import easings from "~/lib/easings";
-import imagesLoaded from "imagesloaded";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
@@ -86,27 +83,16 @@ function WorkProjectNextProject({ item }: Props) {
     );
   };
 
-  useLayoutEffect(() => {
-    const context = gsap.context(() => {
-      ScrollTrigger.create({
-        pin: true,
-        start: "top top",
-        end: "clamp(+=100%)",
-        trigger: container.current,
-      });
-    });
-
-    const slices = document.querySelectorAll(
-      "#WorkProjectSlices > img, #WorkProjectSlices > * > img"
-    );
-    imagesLoaded(slices, (instance) => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 1000);
-    });
-
-    return () => context.revert();
-  }, []);
+  // useLayoutEffect(() => {
+  //   const slicesImages = document.querySelectorAll(
+  //     "#WorkProjectSlices > img, #WorkProjectSlices > * > img"
+  //   );
+  //   imagesLoaded(slicesImages, (instance) => {
+  //     setTimeout(() => {
+  //       ScrollTrigger.refresh();
+  //     }, 1000);
+  //   });
+  // }, []);
 
   return (
     <div

@@ -11,14 +11,9 @@ import easings from "~/lib/easings";
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
 
-function HomePageBackgroundContainer({
-  data,
-  container,
-}: {
-  data: HomePageProjectsData;
-  container: HTMLElement | null;
-}) {
+function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
   useLayoutEffect(() => {
+    const container = document.querySelector("#home-projects-container");
     if (!container) return;
 
     const ctx = gsap.context((self) => {
@@ -50,13 +45,16 @@ function HomePageBackgroundContainer({
         const bgItems = document.querySelectorAll(".gsap-bg--item");
         const scrollItems = document.querySelectorAll(".scroll-item");
 
-        bgItems.forEach((bgItem, _index) => {
+        bgItems.forEach((bgItem, _index, arr) => {
+          const isFirst = _index === 0;
+          const isLast = _index === arr.length - 1;
+
           // Animate each bg clip path on scroll
           const scrollItem = scrollItems[_index];
           const image = bgItem.querySelector(".gsap-bg--item-img");
 
-          gsap.set(image, { y: _index === 0 ? "0%" : "10%" });
-          gsap.set(bgItem, { clipPath: _index === 0 ? openPath : closedPath });
+          gsap.set(image, { y: isFirst ? "0%" : "10%" });
+          gsap.set(bgItem, { clipPath: isFirst ? openPath : closedPath });
 
           gsap.to(image, {
             y: "0%",
@@ -65,22 +63,24 @@ function HomePageBackgroundContainer({
             scrollTrigger: {
               trigger: scrollItem,
               start: "top 85%",
-              end: "+=125%",
-              scrub: true,
-            },
-          });
-
-          gsap.to(image, {
-            y: "-10%",
-            immediateRender: false,
-            ease: easing,
-            scrollTrigger: {
-              trigger: scrollItem,
-              start: "bottom 85%",
               end: "+=100%",
               scrub: true,
             },
           });
+
+          if (!isLast) {
+            gsap.to(image, {
+              y: "-10%",
+              immediateRender: false,
+              ease: easing,
+              scrollTrigger: {
+                trigger: scrollItem,
+                start: "bottom 85%",
+                end: "+=100%",
+                scrub: true,
+              },
+            });
+          }
 
           gsap.to(bgItem, {
             clipPath: openPath,
@@ -98,7 +98,7 @@ function HomePageBackgroundContainer({
     }, container);
 
     return () => ctx.revert();
-  }, [container]);
+  }, []);
 
   return (
     <div
