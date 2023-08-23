@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import { gsap } from "gsap";
 import { json } from "@remix-run/node";
-import { useState } from "react";
-import useIsScrolled from "~/hooks/useIsScrolled";
-import { useLoaderData, useLocation } from "@remix-run/react";
+import { useRef, useState } from "react";
+import { useLocation } from "@remix-run/react";
+import { useLayoutEffect, useLazyLoadVideos } from "~/hooks";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
 import { SecondaryCTA } from "~/components/CTA";
@@ -10,6 +10,7 @@ import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import type { LoaderArgs } from "@remix-run/node";
+import easings from "~/lib/easings";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -41,13 +42,32 @@ function WorkProjectDetailsButton({
 }: {
   toggleProjectDetails: Function;
 }) {
-  const isScrolled = useIsScrolled();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(ref.current, {
+        y: "0%",
+        duration: 0.3,
+        ease: easings.mask,
+        scrollTrigger: {
+          start: "top 70%",
+          trigger: "#WorkProjectSlices",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div
-      className={clsx(
-        "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8",
-        isScrolled ? "opacity-100" : "pointer-events-none md:opacity-0"
-      )}
+      ref={ref}
+      id={"project-details-button"}
+      className={
+        "fixed bottom-5 flex w-full translate-y-[200%] justify-center transition-opacity md:bottom-5 md:left-8 md:block md:w-auto"
+      }
     >
       <SecondaryCTA onClick={() => toggleProjectDetails()}>
         SEE PROJECT DETAILS
@@ -57,6 +77,7 @@ function WorkProjectDetailsButton({
 }
 
 function WorkProject() {
+  useLazyLoadVideos();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 

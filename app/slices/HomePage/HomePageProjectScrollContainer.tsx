@@ -1,7 +1,6 @@
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import Flip from "gsap/dist/Flip";
-import easings from "~/lib/easings";
 import { Image } from "~/components/Image";
 import { useLenis } from "@studio-freight/react-lenis";
 import { useLayoutEffect } from "~/hooks";
@@ -11,42 +10,99 @@ import { useLockedBody } from "usehooks-ts";
 import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { KeyTextField } from "@prismicio/types";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
-import { useRef } from "react";
+import easings from "~/lib/easings";
 
-export const animateTable = (tl: GSAPTimeline, position: number) => {
-  const tableItems = document.querySelectorAll(".hero-table-row__item");
+type GSAPAnimationFunction = {
+  tl?: GSAPTimeline;
+  slug?: string;
+  position: number;
+  index?: number;
+  duration?: number;
+  ease?: string;
+  stagger?: number;
+};
+
+export const setupTable = () => {
   const tableLines = document.querySelectorAll(".hero-table-line");
+  const tableItems = document.querySelectorAll(".hero-table-row__item");
 
-  const duration = 0.6;
-  const ease = easings.mask;
-  const stagger = 0.02;
+  gsap.set(tableLines, { scaleX: 0 });
+  gsap.set(tableItems, { y: "200%" });
+};
+export const animateTable = ({
+  tl,
+  position,
+  duration,
+  ease,
+  stagger,
+}: GSAPAnimationFunction) => {
+  const tableLines = document.querySelectorAll(".hero-table-line");
+  const tableItems = document.querySelectorAll(".hero-table-row__item");
 
-  tl.fromTo(
+  tl?.to(
     tableLines,
     {
-      scaleX: 0,
-    },
-    {
-      scaleX: 1,
-      duration,
       ease,
+      duration,
+      scaleX: 1,
     },
     position
   );
 
-  tl.fromTo(
+  tl?.to(
     tableItems,
-    {
-      y: "200%",
-    },
     {
       ease,
       duration,
-      y: "0%",
       stagger,
+      y: "0%",
     },
-    position + 0.2
+    position
   );
+};
+
+const animateTitles = ({ index = 0, ease = "", duration = 0, slug = "" }) => {
+  const titleItem = document.querySelectorAll(".title-item")[index];
+  // prettier-ignore
+  const cloneHeroTitle = document.querySelector(`#hero-clone-title-${slug}`);
+  const titleState = Flip.getState(titleItem);
+  cloneHeroTitle?.appendChild(titleItem);
+  const _tl1 = Flip.from(titleState, { duration, ease });
+  const titleText = titleItem.querySelector(".title-item__text")!;
+
+  _tl1.to(
+    titleText,
+    {
+      ease,
+      duration: duration - 0.2,
+      fontSize: "6.875rem",
+      letterSpacing: "-0.1375rem",
+      transformOrigin: "top left",
+    },
+    0
+  );
+  _tl1.set(titleText, { lineHeight: "105%" });
+
+  const subtitleItem = document.querySelectorAll(".subtitle-item")[index];
+  // prettier-ignore
+  const cloneHeroSubtitle = document.querySelector(`#hero-clone-subtitle-${slug}`);
+  const subtitleState = Flip.getState(subtitleItem);
+  cloneHeroSubtitle?.appendChild(subtitleItem);
+  const _tl2 = Flip.from(subtitleState, { duration, ease });
+
+  const subtitleText = subtitleItem.querySelector(".subtitle-item__text")!;
+  _tl2.to(
+    subtitleText,
+    {
+      ease,
+      duration,
+      fontSize: "1.5rem",
+      letterSpacing: "-0.015rem",
+      transformOrigin: "top left",
+    },
+    0
+  );
+  _tl2.set(subtitleText, { lineHeight: "105%" }, 0);
 };
 
 function HomePageProjectScrollContainer({
@@ -57,7 +113,6 @@ function HomePageProjectScrollContainer({
   const lenis = useLenis();
   const navigate = useNavigate();
   const [, setLocked] = useLockedBody(false);
-  const tl = useRef(gsap.timeline({ paused: true }));
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -83,115 +138,77 @@ function HomePageProjectScrollContainer({
           end: "bottom center",
           toggleClass: "scroll-item--active",
         });
-
-        animateTable(tl.current, 0);
       });
+
+      setupTable();
     });
 
     return () => ctx.revert();
   }, []);
 
   const onClick = (target: EventTarget, index: number, slug: KeyTextField) => {
+    setLocked(true);
+
     lenis.scrollTo(`#HomePageProjectItem-${slug}`, {
       offset: window.innerHeight * 0.2,
     });
 
-    setLocked(true);
-    const duration = 1;
-    const ease = easings.mask;
     const tl = gsap.timeline({
-      autoRemoveChildren: true,
+      paused: true,
       onComplete: () => {
         navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 
-    animateTable(tl, 0);
-    const titleItem = document.querySelectorAll(".title-item")[index];
-    const name = titleItem.querySelector(".title-item__text")!;
-    const cloneHeroTitle = document.querySelector(`#hero-clone-title-${slug}`);
-    // Get the state
-    const titleState = Flip.getState(titleItem);
-    // Re-parent the container
-    cloneHeroTitle?.appendChild(titleItem);
-
-    const titleTl = Flip.from(titleState, { duration, ease });
-
-    titleTl.to(
-      name,
-      {
-        ease,
-        duration,
-        fontSize: "6.875rem",
-        letterSpacing: "-0.1375rem",
-        transformOrigin: "top left",
-        onComplete: () => {
-          gsap.set(name, { lineHeight: "105%" });
-        },
-      },
-      0
-    );
-    titleTl.to(name, { lineHeight: "105%", duration: 0.4 }, 0);
-
-    const label = document.querySelector(".title-item__label")!;
-    console.log(label);
-    titleTl.to(label, { autoAlpha: 0, absolute: true, duration: 0.4, ease }, 0);
-
-    const subtitleItem = document.querySelectorAll(".subtitle-item")[index];
-    const subtitleText = subtitleItem.querySelector(".subtitle-item__text")!;
-    const cloneHeroSubtitle = document.querySelector(
-      `#hero-clone-subtitle-${slug}`
-    );
-
-    const subtitleState = Flip.getState(subtitleItem);
-    cloneHeroSubtitle?.appendChild(subtitleItem);
-    const subtitleTl = Flip.from(subtitleState, {
-      duration,
-      ease,
-    });
-
-    subtitleTl.to(
-      subtitleText,
-      {
-        ease,
-        duration,
-        fontSize: "1.5rem",
-        letterSpacing: "-0.015rem",
-        transformOrigin: "top left",
-        onComplete: () => {
-          gsap.set(subtitleText, { lineHeight: "105%" });
-        },
-      },
-      0
-    );
+    const ease = easings.mask;
+    const stagger = 0.02;
+    const duration = 1;
+    const durationSm = 0.7;
+    const position = 0;
 
     const content = document.querySelectorAll(".scroll-item__content")[index];
     const background = document
-      .querySelectorAll(".gsap-bg--item")
+      .querySelectorAll(".hero-project-bg-container")
       [index].querySelector("img");
+    const label = document.querySelector(".title-item__label")!;
+    tl.to(label, { ease, duration: durationSm, y: "200%", autoAlpha: 0 }, 0);
 
+    // Animate content
     tl.to(
       content,
       {
-        duration: 0.4,
+        ease,
         autoAlpha: 0,
+        duration: durationSm,
       },
       0
     );
 
+    // Animate background
     tl.to(
       background,
       {
         ease,
-        duration,
+        duration: durationSm,
         y: background ? background?.scrollHeight - window.innerHeight : 0,
       },
       0
     );
+
+    animateTable({
+      tl,
+      ease,
+      stagger,
+      duration,
+      position,
+    });
+
+    animateTitles({ ease, duration, index, slug: slug || "" });
+    tl.play();
   };
 
   return (
-    <div className={"gsap-scroll--container"}>
+    <div id={"home-projects-container"}>
       {data.map((project, index) => (
         <div
           key={`HomePageProjectItem-${index}`}

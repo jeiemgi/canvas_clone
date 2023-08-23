@@ -99,7 +99,7 @@ function HomePageTitleContainer({ data }: { data: HomePageProjectsData }) {
         pin: titleContainer,
         pinSpacing: false,
         end: () => {
-          const _scroll = document.querySelector(".gsap-scroll--container")!;
+          const _scroll = document.querySelector("#home-projects-container")!;
           return `+=${_scroll.scrollHeight - window.innerHeight}`;
         },
         toggleClass: "active",
@@ -123,7 +123,7 @@ function HomePageTitleContainer({ data }: { data: HomePageProjectsData }) {
         <div className={"relative mb-1 h-[25px] w-[500px]"}>
           {data.map((project, index) => (
             <div key={`title-${index}`} className={"absolute left-0 top-0"}>
-              <HomePageTitle className={"title-item relative"}>
+              <HomePageTitle className={"title-item whitespace-nowrap"}>
                 <span className={"title-item__text"}>
                   {asText(project.primary.title)}
                 </span>
@@ -135,7 +135,7 @@ function HomePageTitleContainer({ data }: { data: HomePageProjectsData }) {
         <div className={"relative mb-[30px] h-[25px] w-[500px]"}>
           {data.map((project, index) => (
             <div key={`subtitle-${index}`} className={"absolute left-0 top-0"}>
-              <HomePageTitle className={"subtitle-item"}>
+              <HomePageTitle className={"subtitle-item whitespace-nowrap"}>
                 <span className={"subtitle-item__text"}>
                   {asText(project.primary.capabilities)}
                 </span>

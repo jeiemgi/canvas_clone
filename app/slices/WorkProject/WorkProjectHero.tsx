@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
-import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
 import { useLoaderData } from "@remix-run/react";
 import { useLayoutEffect } from "~/hooks";
@@ -9,9 +8,15 @@ import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
 import WorkProjectHeroTable from "~/slices/WorkProject/WorkProjectHeroTable";
 import type { MouseEventHandler } from "react";
-import type { RichTextField } from "@prismicio/types";
+import type {
+  FilledLinkToWebField,
+  ImageField,
+  RichTextField,
+} from "@prismicio/types";
 import type { ButtonProps } from "react-html-props";
 import type { loader } from "~/routes/work.$project";
+import { useLockedBody } from "usehooks-ts";
+import easings from "~/lib/easings";
 
 export function WorkProjectHeroTitle({ title }: { title?: RichTextField }) {
   return (
@@ -74,34 +79,55 @@ export function WorkProjectHeroLine({ className }: { className?: string }) {
   );
 }
 
+export function WorkProjectHeroVideo({
+  field,
+  poster,
+  className,
+}: {
+  field: FilledLinkToWebField;
+  poster: ImageField;
+  className?: string;
+}) {
+  return (
+    <div
+      className={
+        "hero-video col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3"
+      }
+    >
+      <Video
+        autoPlay
+        src={field.url}
+        className={className}
+        poster={poster.url ?? ""}
+      />
+    </div>
+  );
+}
+
 function WorkProjectHero({
   toggleProjectDetails,
 }: {
   toggleProjectDetails?: MouseEventHandler;
 }) {
-  // const location = useLocation();
+  const [, setLocked] = useLockedBody(true);
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         autoRemoveChildren: true,
+        onComplete: () => {
+          setLocked(false);
+        },
       });
 
-      const video = document.querySelector(".hero-video");
+      const video = document.querySelector(".hero-video>video");
 
-      tl.fromTo(
-        video,
-        {
-          y: "50%",
-          autoAlpha: 0,
-        },
-        {
-          ease: easings.mask,
-          y: 0,
-          autoAlpha: 1,
-          duration: 0.6,
-        },
-        0.2
-      );
+      tl.to(video, {
+        y: 0,
+        duration: 1,
+        autoAlpha: 1,
+        ease: easings.mask,
+      });
     });
 
     return () => ctx.revert();
@@ -111,7 +137,7 @@ function WorkProjectHero({
 
   return (
     <div id={"project-hero"} className={"relative overflow-hidden bg-black"}>
-      <div className={"hero-bg-container"}>
+      <div className={"hero-project-bg-container"}>
         <Image
           field={hero.background_image}
           className={"absolute left-0 top-0 min-h-full w-full object-cover"}
@@ -127,16 +153,12 @@ function WorkProjectHero({
       </div>
 
       <div className="grid-container relative pb-10 text-white md:pb-52">
-        <div
-          className={"hero-video col-span-4 mb-10 md:col-span-8 md:col-start-3"}
-        >
-          <Video
-            autoPlay
-            // @ts-ignore
-            src={hero.reel.url}
-            poster={hero.reel_cover.url ?? ""}
-          />
-        </div>
+        <WorkProjectHeroVideo
+          // @ts-ignore
+          field={hero.reel}
+          poster={hero.reel_cover}
+          className={"translate-y-1/2 opacity-0"}
+        />
       </div>
 
       {/*<div className="grid-container">

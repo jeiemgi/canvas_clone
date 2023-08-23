@@ -40,6 +40,7 @@ function Video({
       // }}
       ref={ref}
       src={src}
+      preload={"none"}
       {...props}
       {...extraProps}
       className={clsx(playable ?? "cursor-pointer", className)}
