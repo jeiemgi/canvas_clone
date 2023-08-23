@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
+import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
+import { useLockedBody } from "usehooks-ts";
 import { useLoaderData } from "@remix-run/react";
 import { useLayoutEffect } from "~/hooks";
 import { Video } from "~/components/Video";
@@ -15,8 +17,6 @@ import type {
 } from "@prismicio/types";
 import type { ButtonProps } from "react-html-props";
 import type { loader } from "~/routes/work.$project";
-import { useLockedBody } from "usehooks-ts";
-import easings from "~/lib/easings";
 
 export function WorkProjectHeroTitle({ title }: { title?: RichTextField }) {
   return (

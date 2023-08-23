@@ -8,10 +8,13 @@ export interface WorkProjectHeroTableProps {
 
 export default function WorkProjectHeroTable({
   data,
+  focusable = true,
 }: {
   data: WorkProjectHeroTableProps;
+  focusable?: boolean;
 }) {
   if (!data || !data.links) return null;
+
   return (
     <div className="hero-table relative col-span-4 mb-10 border-t border-white/30 md:col-span-5 md:col-start-8 md:mb-40 md:border-t-0">
       <div
@@ -61,6 +64,7 @@ export default function WorkProjectHeroTable({
                     rel="noreferrer"
                     target={"_blank"}
                     className={"body--3 relative"}
+                    tabIndex={!focusable ? -1 : 0}
                     // @ts-ignore
                     href={data.links[index]?.link_item?.url}
                   >
