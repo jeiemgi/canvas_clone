@@ -1267,7 +1267,122 @@ interface ProjectPageDocumentData {
  */
 export type ProjectPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectPageDocumentData>, "project_page", Lang>;
 
-export type AllDocumentTypes = ContactPageDocument | HomepageDocument | HomepageProjectsDocument | NavigationDocument | ProjectPageDocument;
+/**
+ * Primary content in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+ */
+export interface WorkmenuDocumentDataBodyWorkmenuitemSlicePrimary {
+	/**
+	 * link field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	link: prismic.KeyTextField;
+	
+	/**
+	 * name field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.primary.name
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * capabilities field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.primary.capabilities
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	capabilities: prismic.KeyTextField;
+	
+	/**
+	 * background field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.primary.background
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	background: prismic.ImageField<never>;
+}
+
+/**
+ * Item content in *WorkMenu → Slice zone → WorkMenuItem → Items*
+ */
+export interface WorkmenuDocumentDataBodyWorkmenuitemSliceItem {
+	/**
+	 * thumbnail field in *WorkMenu → Slice zone → WorkMenuItem → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.items.thumbnail
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	thumbnail: prismic.ImageField<never>;
+	
+	/**
+	 * thumbnail_video field in *WorkMenu → Slice zone → WorkMenuItem → Items*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.items.thumbnail_video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	thumbnail_video: prismic.LinkToMediaField;
+}
+
+/**
+ * Slice for *WorkMenu → Slice zone*
+ */
+export type WorkmenuDocumentDataBodyWorkmenuitemSlice = prismic.Slice<"workmenuitem", Simplify<WorkmenuDocumentDataBodyWorkmenuitemSlicePrimary>, Simplify<WorkmenuDocumentDataBodyWorkmenuitemSliceItem>>
+
+type WorkmenuDocumentDataBodySlice = WorkmenuDocumentDataBodyWorkmenuitemSlice
+
+/**
+ * Content for WorkMenu documents
+ */
+interface WorkmenuDocumentData {
+	/**
+	 * slug field in *WorkMenu*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.slug
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	slug: prismic.KeyTextField;
+	
+	/**
+	 * Slice zone field in *WorkMenu*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	body: prismic.SliceZone<WorkmenuDocumentDataBodySlice>;
+}
+
+/**
+ * WorkMenu document from Prismic
+ *
+ * - **API ID**: `workmenu`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WorkmenuDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<WorkmenuDocumentData>, "workmenu", Lang>;
+
+export type AllDocumentTypes = ContactPageDocument | HomepageDocument | HomepageProjectsDocument | NavigationDocument | ProjectPageDocument | WorkmenuDocument;
 
 declare module "@prismicio/client" {
 	interface CreateClient {
@@ -1319,6 +1434,11 @@ declare module "@prismicio/client" {
 			ProjectPageDocumentDataBody2TableSlicePrimary,
 			ProjectPageDocumentDataBody2TableSliceItem,
 			ProjectPageDocumentDataBody2Slice,
+			WorkmenuDocument,
+			WorkmenuDocumentData,
+			WorkmenuDocumentDataBodyWorkmenuitemSlicePrimary,
+			WorkmenuDocumentDataBodyWorkmenuitemSliceItem,
+			WorkmenuDocumentDataBodySlice,
 			AllDocumentTypes
 		}
 	}

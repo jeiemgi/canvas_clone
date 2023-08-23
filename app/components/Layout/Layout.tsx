@@ -1,20 +1,21 @@
 import Lenis from "~/components/Layout/Lenis";
 import Navigation from "~/components/Layout/Navigation";
 import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
-import type { ReactNode } from "react";
 import LayoutWorkMenu from "~/components/Layout/LayoutWorkMenu";
+import type { WorkmenuDocument } from "types.generated";
+import type { ReactNode } from "react";
 
 function Layout({
   children,
-  footer = true,
+  workMenu,
 }: {
   children: ReactNode;
-  footer?: boolean;
+  workMenu: WorkmenuDocument;
 }) {
   return (
     <NavThemeProvider>
       <Navigation />
-      <LayoutWorkMenu />
+      <LayoutWorkMenu data={workMenu} />
       <Lenis>
         <main>{children}</main>
       </Lenis>

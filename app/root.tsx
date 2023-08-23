@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useRouteError,
+  useLoaderData,
 } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
@@ -21,6 +22,9 @@ import Layout from "~/components/Layout";
 import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
+import { createClient } from "~/lib/prismicClient";
+import { defer } from "@remix-run/node";
+import { Suspense } from "react";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase, Flip);
@@ -36,6 +40,15 @@ export const links: LinksFunction = () => {
       ? [...[{ rel: "stylesheet", href: cssBundleHref }], ...otherCss]
       : otherCss),
   ];
+};
+
+export const loader = async () => {
+  const client = createClient();
+  const workMenu = await client.getSingle("workmenu");
+
+  return defer({
+    workMenu,
+  });
 };
 
 function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
@@ -74,7 +87,7 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error)) {
     return (
       <Document title={`${error.status} ${error.statusText}`}>
-        <Layout footer={false}>
+        <Layout>
           <ErrorBoundaryComponent error={error} />
         </Layout>
       </Document>
@@ -92,12 +105,30 @@ export function ErrorBoundary() {
   );
 }
 
-export default function App() {
+function Loading() {
   return (
     <Document>
       <Layout>
-        <Outlet />
+        <div className={"h-full w-full bg-black"}>
+          <h1 className={"label--2 text-white"}>Loading...</h1>
+        </div>
       </Layout>
     </Document>
+  );
+}
+
+export type RootLoader = typeof loader;
+
+export default function App() {
+  const { workMenu } = useLoaderData<RootLoader>();
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <Document>
+        <Layout workMenu={workMenu}>
+          <Outlet />
+        </Layout>
+      </Document>
+    </Suspense>
   );
 }

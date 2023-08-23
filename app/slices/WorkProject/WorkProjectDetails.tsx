@@ -9,6 +9,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
+import Modal from "~/components/Modal";
 
 function getKey(prefix: string, ...keys: Array<string | number>) {
   return `${prefix}-${keys.join("-")}`;
@@ -284,66 +285,29 @@ function WorkProjectDetails({
   const { hero } = useLoaderData<typeof loader>();
 
   return (
-    <Transition show={isOpen} as={Fragment}>
-      <Dialog
-        onClose={() => {
-          toggle();
-        }}
-        className={"relative z-20"}
-      >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-out duration-500"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 h-full w-full bg-white"></div>
-        </Transition.Child>
+    <Modal
+      showClose={true}
+      toggle={toggle}
+      isOpen={isOpen}
+      innerProps={{
+        // @ts-ignore
+        "data-lenis-prevent": true,
+        className: "overflow-scroll",
+      }}
+    >
+      <div className="grid-container relative">
+        <WorkProjectHeroTitle title={hero.title} />
+      </div>
 
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-out duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div
-            data-lenis-prevent={true}
-            className={
-              "fixed inset-0 h-full w-full overflow-scroll overscroll-contain pb-[10vh] pt-header md:pb-[10vh] md:pt-headerDesk"
-            }
-          >
-            <div className="grid-container relative">
-              <WorkProjectHeroTitle title={hero.title} />
-            </div>
-
-            <div
-              className={
-                "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
-              }
-            >
-              <SecondaryCTA dark onClick={() => toggle()}>
-                CLOSE
-              </SecondaryCTA>
-            </div>
-
-            <div className="grid-container">
-              <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
-                <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
-              </div>
-            </div>
-            <div className={"modal-tables"}>
-              <Tables />
-            </div>
-          </div>
-        </Transition.Child>
-      </Dialog>
-    </Transition>
+      <div className="grid-container">
+        <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
+          <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
+        </div>
+      </div>
+      <div className={"modal-tables"}>
+        <Tables />
+      </div>
+    </Modal>
   );
 }
 

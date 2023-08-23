@@ -19,6 +19,7 @@ export function PrimaryCTALink({
   ...props
 }: PrimaryCTALink) {
   const textStyle = size === "sm" ? "heading--3" : "heading--1";
+
   return (
     <Link
       className={clsx(

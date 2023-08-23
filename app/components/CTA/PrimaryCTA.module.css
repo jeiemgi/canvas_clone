@@ -94,6 +94,9 @@
 
     .inner {
         color: var(--main-color);
+        transition-property: color;
+        transition-duration: var(--duration);
+        transition-timing-function: var(--ease-hover-out);
     }
 
     .ctaButton:hover .inner {

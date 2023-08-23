@@ -1,6 +1,5 @@
 import { Transition } from "@headlessui/react";
 import type { ReactNode } from "react";
-import { b } from "vite-node/types-63205a44";
 
 interface Props {
   show: boolean;
