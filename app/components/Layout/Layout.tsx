@@ -1,4 +1,3 @@
-import { useLocation } from "@remix-run/react";
 import Lenis from "~/components/Layout/Lenis";
 import Navigation from "~/components/Layout/Navigation";
 import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
@@ -11,8 +10,6 @@ function Layout({
   children: ReactNode;
   footer?: boolean;
 }) {
-  const location = useLocation();
-
   return (
     <NavThemeProvider>
       <Navigation />

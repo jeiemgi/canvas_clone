@@ -17,19 +17,21 @@ function NavListItem({
   const { theme } = useNavTheme();
 
   return (
-    <Transition.FadeInOut show={show}>
-      <li
-        className={clsx(
-          "heading--3",
-          theme === "transparent" ? "text-white" : "text-black",
-          className
-        )}
-      >
-        <PrimaryCTALink dark {...props}>
-          {children}
-        </PrimaryCTALink>
-      </li>
-    </Transition.FadeInOut>
+    <li>
+      <Transition.FadeInOut show={show}>
+        <div
+          className={clsx(
+            "heading--3",
+            theme === "transparent" ? "text-white" : "text-black",
+            className
+          )}
+        >
+          <PrimaryCTALink dark {...props}>
+            {children}
+          </PrimaryCTALink>
+        </div>
+      </Transition.FadeInOut>
+    </li>
   );
 }
 

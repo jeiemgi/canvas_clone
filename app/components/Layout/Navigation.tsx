@@ -11,9 +11,9 @@ function Navigation() {
     <Nav>
       <NavList className={"desktop-only"}>
         <NavListItem to={"#"}>WORK</NavListItem>
-        <NavLogoMobile />
       </NavList>
 
+      <NavLogoMobile />
       <NavLogoDesktop />
       <NavList>
         <NavListItem to={"contact"} show={pathname !== "contact"}>

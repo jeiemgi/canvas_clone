@@ -9,6 +9,7 @@ export function NavLogoDesktop() {
   return (
     <Link
       to={"/"}
+      aria-label={"CANVAS"}
       className={"desktop-only absolute left-0 right-0 m-auto w-max"}
     >
       <CanvasLogo
@@ -31,6 +32,7 @@ export function NavLogoMobile() {
   return (
     <Link
       to={"/"}
+      aria-label={"CANVAS"}
       className={clsx(
         "mobile-only absolute left-0 transition-transform",
         isHome ? "translate-x-0" : "translate-x-10"

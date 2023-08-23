@@ -106,7 +106,7 @@ function WorkProjectNextProject({ item }: Props) {
         }
       >
         <Image
-          loading="eager"
+          loading="lazy"
           className={"min-h-screen w-full object-cover"}
           field={item.primary.background_image1}
         />

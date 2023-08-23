@@ -48,12 +48,11 @@ function WorkProjectDetailsButton({
     const ctx = gsap.context(() => {
       gsap.to(ref.current, {
         y: "0%",
-        duration: 0.3,
-        ease: easings.mask,
         scrollTrigger: {
-          start: "top 70%",
+          start: "top bottom",
+          end: "top 90%",
           trigger: "#WorkProjectSlices",
-          toggleActions: "play none none reverse",
+          scrub: true,
         },
       });
     });
