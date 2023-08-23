@@ -11,6 +11,8 @@ import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import type { LoaderArgs } from "@remix-run/node";
 import easings from "~/lib/easings";
+import { useLockedBody } from "usehooks-ts";
+import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -78,10 +80,12 @@ function WorkProjectDetailsButton({
 function WorkProject() {
   useLazyLoadVideos();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  const { showProjectDetails, toggleProjectDetails } = useNavTheme();
+  const [, setLocked] = useLockedBody(false);
 
   const toggleModalOpen = () => {
-    setIsOpen(!isOpen);
+    toggleProjectDetails(!showProjectDetails);
+    setLocked(showProjectDetails);
   };
 
   return (
@@ -94,8 +98,8 @@ function WorkProject() {
         <WorkProjectSliceZone key={`slices-${location.pathname}`} />
       </div>
       <WorkProjectDetails
-        isOpen={isOpen}
         toggle={toggleModalOpen}
+        isOpen={showProjectDetails}
         key={`details-${location.pathname}`}
       />
       <WorkProjectDetailsButton

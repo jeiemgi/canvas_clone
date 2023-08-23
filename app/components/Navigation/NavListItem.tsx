@@ -19,14 +19,8 @@ function NavListItem({
   return (
     <li>
       <Transition.FadeInOut show={show}>
-        <div
-          className={clsx(
-            "heading--3",
-            theme === "transparent" ? "text-white" : "text-black",
-            className
-          )}
-        >
-          <PrimaryCTALink dark {...props}>
+        <div className={clsx("heading--3", className)}>
+          <PrimaryCTALink dark={theme === "transparent"} {...props}>
             {children}
           </PrimaryCTALink>
         </div>

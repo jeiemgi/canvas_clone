@@ -6,21 +6,21 @@ import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import Transition from "~/components/Transition";
 
 function NavBack() {
-  const { theme, showBack } = useNavTheme();
+  const { theme } = useNavTheme();
 
   return (
     <>
       <NavListItem
         to={"/"}
         preventScrollReset
-        show={showBack}
+        show={false}
         aria-label="Back Button"
         className={clsx("desktop-only transition-opacity")}
       >
         BACK
       </NavListItem>
 
-      <Transition.FadeInOut show={showBack}>
+      <Transition.FadeInOut show={false}>
         <Link
           to={"/"}
           aria-label="Back Button"

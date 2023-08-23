@@ -1,11 +1,10 @@
-import { Fragment, useEffect } from "react";
 import clsx from "clsx";
+import { Fragment } from "react";
 import { asText } from "@prismicio/richtext";
 import { useLoaderData } from "@remix-run/react";
 import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
 import { SecondaryCTA } from "~/components/CTA";
-import { useLockedBody } from "usehooks-ts";
 import { Dialog, Transition } from "@headlessui/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
@@ -282,12 +281,6 @@ function WorkProjectDetails({
   isOpen: boolean;
   toggle: Function;
 }) {
-  const [, setLocked] = useLockedBody();
-
-  useEffect(() => {
-    setLocked(isOpen);
-  }, [isOpen, setLocked]);
-
   const { hero } = useLoaderData<typeof loader>();
 
   return (
