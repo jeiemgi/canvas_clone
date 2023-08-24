@@ -9,7 +9,8 @@ import {
   useRouteError,
   useLoaderData,
 } from "@remix-run/react";
-import stylesheet from "~/tailwind.css";
+import global from "~/styles/global.css";
+import tailwind from "~/styles/tailwind.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { gsap } from "gsap";
@@ -24,22 +25,20 @@ import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 import { createClient } from "~/lib/prismicClient";
 import { defer } from "@remix-run/node";
-import { Suspense } from "react";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase, Flip);
 
 const otherCss = [
-  { rel: "stylesheet", href: stylesheet },
+  { rel: "stylesheet", href: global },
+  { rel: "stylesheet", href: tailwind },
   { rel: "stylesheet", href: splideCss },
 ];
 
 export const links: LinksFunction = () => {
-  return [
-    ...(cssBundleHref
-      ? [...[{ rel: "stylesheet", href: cssBundleHref }], ...otherCss]
-      : otherCss),
-  ];
+  return cssBundleHref
+    ? [...otherCss, { rel: "stylesheet", href: cssBundleHref }]
+    : otherCss;
 };
 
 export const loader = async () => {

@@ -7,6 +7,7 @@ import Flip from "gsap/dist/Flip";
 import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
+import { useLayoutEffect } from "~/hooks";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -15,6 +16,10 @@ interface Props {
 function WorkProjectNextProject({ item }: Props) {
   const navigate = useNavigate();
   const container = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    gsap.set(".next-subtitle", { opacity: 0 });
+  }, []);
 
   const onClick = (e: MouseEvent<HTMLDivElement>) => {
     const duration = 1.5;
@@ -45,13 +50,14 @@ function WorkProjectNextProject({ item }: Props) {
     const cloneSubtitle = document.querySelector("#next-clone-subtitle");
     const subState = Flip.getState(subTitle);
     cloneSubtitle?.appendChild(subTitle);
-    const subtitleFlip = Flip.from(subState, { duration, ease });
+    const tlSub = Flip.from(subState, { duration, ease });
 
-    subtitleFlip.to(
+    tlSub.to(
       subTitle,
       {
         ease,
         duration,
+        opacity: 1,
         fontSize: "1.5rem",
         letterSpacing: "-0.015rem",
         transformOrigin: "top left",
@@ -117,19 +123,20 @@ function WorkProjectNextProject({ item }: Props) {
         subtitleId={"next-clone-subtitle"}
       />
 
-      <div className={"absolute top-0 h-max pl-4 pt-5 text-white md:p-8 "}>
-        <h3 className={"heading--3 next-title__info"}>NEXT PROJECT</h3>
-        <h3 className={"heading--3 next-title__text"}>{item.primary.title1}</h3>
+      <div
+        className={
+          "absolute flex h-full flex-col justify-center pl-4 pt-5 text-white md:p-8 "
+        }
+      >
+        <h3 className={"heading--3 next-title__info mb-5"}>NEXT PROJECT</h3>
+        <h3 className={"display--1 next-title__text"}>{item.primary.title1}</h3>
+        <h3 className="next-subtitle heading--3 text-white">
+          {item.primary.capabilities1}
+        </h3>
       </div>
 
       <div className="mobile-only--flex absolute left-0 top-0 h-full w-full items-center justify-center">
         <h3 className="heading--3 text-white">{`( VIEW PROJECT )`}</h3>
-      </div>
-
-      <div className={"absolute bottom-0 h-max pb-5 pl-4 md:p-8"}>
-        <h3 className="next-subtitle heading--3 text-white">
-          {item.primary.capabilities1}
-        </h3>
       </div>
     </div>
   );

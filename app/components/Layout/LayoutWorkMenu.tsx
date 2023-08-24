@@ -81,7 +81,9 @@ function LayoutWorkMenuItem({
       onMouseLeave={() => onMouseLeave(index)}
       className={"grid-container cursor-pointer"}
     >
-      <div className={`col-span-2 ${opacity} ${opacityTransition}`}>
+      <div
+        className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
+      >
         <h1 className={"label--2 col-span-1 text-white"}>{name}</h1>
         <span className={"label--2 mobile-only text-white"}>{`${
           index + 1
@@ -89,14 +91,16 @@ function LayoutWorkMenuItem({
       </div>
 
       <div
-        className={`desktop-only col-span-2 ${opacity} ${opacityTransition}`}
+        className={`desktop-only col-span-2 flex items-center ${opacity} ${opacityTransition}`}
       >
         <h2 className={"label--2 col-span-1 text-white"}>
           {`${index + 1}/${length}`}
         </h2>
       </div>
 
-      <div className={`col-span-2 ${opacity} ${opacityTransition}`}>
+      <div
+        className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
+      >
         <h3 className={"label--2  text-white"}>
           {capabilities?.split(", ").map((item, _idx) => (
             <span key={`LayoutWorkMenuItem-capabilities-${slug}-${_idx}`}>
@@ -120,7 +124,13 @@ function LayoutWorkMenuItem({
               key={`LayoutWorkMenuItemImage-${slug}-${_idx}`}
               className={"aspect-square overflow-hidden"}
             >
-              {"url" in item.video && item.video.url ? (
+              {hovered ? (
+                <Image
+                  loading={"eager"}
+                  field={item.image}
+                  className={"w-full"}
+                />
+              ) : "url" in item.video && item.video.url ? (
                 <Video
                   loop={true}
                   muted={true}
@@ -187,7 +197,9 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
       toggle={toggleWorkMenu}
       backdropClassName={"noise-background bg-pure-black"}
     >
-      <div className={"pointer-events-none absolute flex h-full w-full"}>
+      <div
+        className={"pointer-events-none absolute flex h-full w-full items-end"}
+      >
         {data.data.body.map((item, _idx) => (
           <Image
             className={clsx(
