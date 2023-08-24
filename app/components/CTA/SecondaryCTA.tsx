@@ -38,7 +38,7 @@ export function SecondaryCTA({
     }, ref);
 
     return () => ctx.revert();
-  }, [ref]);
+  }, []);
 
   return (
     <button

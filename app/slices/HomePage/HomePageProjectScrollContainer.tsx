@@ -13,6 +13,7 @@ import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import easings from "~/lib/easings";
 
 type GSAPAnimationFunction = {
+  scope?: Element | Document;
   tl?: GSAPTimeline;
   slug?: string;
   position: number;
@@ -22,23 +23,23 @@ type GSAPAnimationFunction = {
   stagger?: number;
 };
 
-export const setupTable = () => {
-  const tableLines = document.querySelectorAll(".hero-table-line");
-  const tableItems = document.querySelectorAll(".hero-table-row__item");
-
+export const setupTable = (scope: Element) => {
+  const tableLines = scope.querySelectorAll(".hero-table-line");
+  const tableItems = scope.querySelectorAll(".hero-table-row__item");
   gsap.set(tableLines, { scaleX: 0 });
   gsap.set(tableItems, { y: "200%" });
 };
+
 export const animateTable = ({
+  scope = document,
   tl,
   position,
   duration,
   ease,
   stagger,
 }: GSAPAnimationFunction) => {
-  const tableLines = document.querySelectorAll(".hero-table-line");
-  const tableItems = document.querySelectorAll(".hero-table-row__item");
-
+  const tableLines = scope.querySelectorAll(".hero-table-line");
+  const tableItems = scope.querySelectorAll(".hero-table-row__item");
   tl?.to(
     tableLines,
     {
@@ -61,10 +62,16 @@ export const animateTable = ({
   );
 };
 
-const animateTitles = ({ index = 0, ease = "", duration = 0, slug = "" }) => {
-  const titleItem = document.querySelectorAll(".title-item")[index];
+const animateTitles = ({
+  scope = document,
+  index = 0,
+  ease = "",
+  duration = 0,
+  slug = "",
+}) => {
+  const titleItem = scope.querySelectorAll(".title-item")[index];
   // prettier-ignore
-  const cloneHeroTitle = document.querySelector(`#hero-clone-title-${slug}`);
+  const cloneHeroTitle = scope.querySelector(`#home-menu-clone-title-${slug}`);
   const titleState = Flip.getState(titleItem);
   cloneHeroTitle?.appendChild(titleItem);
   const _tl1 = Flip.from(titleState, { duration, ease });
@@ -85,7 +92,7 @@ const animateTitles = ({ index = 0, ease = "", duration = 0, slug = "" }) => {
 
   const subtitleItem = document.querySelectorAll(".subtitle-item")[index];
   // prettier-ignore
-  const cloneHeroSubtitle = document.querySelector(`#hero-clone-subtitle-${slug}`);
+  const cloneHeroSubtitle = document.querySelector(`#home-menu-clone-subtitle-${slug}`);
   const subtitleState = Flip.getState(subtitleItem);
   cloneHeroSubtitle?.appendChild(subtitleItem);
   const _tl2 = Flip.from(subtitleState, { duration, ease });
@@ -118,7 +125,7 @@ function HomePageProjectScrollContainer({
     const ctx = gsap.context(() => {
       const items = gsap.utils.toArray<HTMLDivElement>(".scroll-item");
 
-      items.forEach((item, index) => {
+      items.forEach((item) => {
         const clone = item.querySelector(".hero-clone");
         const content = item.querySelector(".scroll-item__content");
 
@@ -138,9 +145,8 @@ function HomePageProjectScrollContainer({
           end: "bottom center",
           toggleClass: "scroll-item--active",
         });
+        setupTable(item);
       });
-
-      setupTable();
     });
 
     return () => ctx.revert();
@@ -166,14 +172,10 @@ function HomePageProjectScrollContainer({
     const durationSm = 0.7;
     const position = 0;
 
-    const content = document.querySelectorAll(".scroll-item__content")[index];
-    const background = document
-      .querySelectorAll(".hero-project-bg-container")
-      [index].querySelector("img");
     const label = document.querySelector(".title-item__label")!;
     tl.to(label, { ease, duration: durationSm, y: "200%", autoAlpha: 0 }, 0);
 
-    // Animate content
+    const content = document.querySelectorAll(".scroll-item__content")[index];
     tl.to(
       content,
       {
@@ -183,8 +185,9 @@ function HomePageProjectScrollContainer({
       },
       0
     );
-
-    // Animate background
+    const background = document
+      .querySelectorAll(".hero-project-bg-container")
+      [index].querySelector("img");
     tl.to(
       background,
       {
@@ -218,10 +221,10 @@ function HomePageProjectScrollContainer({
           }
         >
           <HeroCloneMarkup
-            titleId={`hero-clone-title-${project.primary.slug}`}
-            subtitleId={`hero-clone-subtitle-${project.primary.slug}`}
             // @ts-ignore
             tableData={project.primary.project_data?.data}
+            titleId={`home-menu-clone-title-${project.primary.slug}`}
+            subtitleId={`home-menu-clone-subtitle-${project.primary.slug}`}
           />
 
           <div className="desktop-only--grid grid-container">

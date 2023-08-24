@@ -1302,6 +1302,16 @@ export interface WorkmenuDocumentDataBodyWorkmenuitemSlicePrimary {
 	capabilities: prismic.KeyTextField;
 	
 	/**
+	 * project_page_data field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: workmenu.body[].workmenuitem.primary.project_page_data
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	project_page_data: prismic.ContentRelationshipField<"project_page">;
+	
+	/**
 	 * background field in *WorkMenu → Slice zone → WorkMenuItem → Primary*
 	 *
 	 * - **Field Type**: Image

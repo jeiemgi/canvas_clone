@@ -44,7 +44,9 @@ export const links: LinksFunction = () => {
 
 export const loader = async () => {
   const client = createClient();
-  const workMenu = await client.getSingle("workmenu");
+  const workMenu = await client.getSingle("workmenu", {
+    fetchLinks: ["project_page.roles", "project_page.links"],
+  });
 
   return defer({
     workMenu,
@@ -105,30 +107,16 @@ export function ErrorBoundary() {
   );
 }
 
-function Loading() {
-  return (
-    <Document>
-      <Layout>
-        <div className={"h-full w-full bg-black"}>
-          <h1 className={"label--2 text-white"}>Loading...</h1>
-        </div>
-      </Layout>
-    </Document>
-  );
-}
-
 export type RootLoader = typeof loader;
 
 export default function App() {
   const { workMenu } = useLoaderData<RootLoader>();
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Document>
-        <Layout workMenu={workMenu}>
-          <Outlet />
-        </Layout>
-      </Document>
-    </Suspense>
+    <Document>
+      <Layout workMenu={workMenu}>
+        <Outlet />
+      </Layout>
+    </Document>
   );
 }

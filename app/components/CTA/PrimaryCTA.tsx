@@ -7,6 +7,7 @@ import type { ButtonProps } from "react-html-props";
 interface Props {
   size?: "sm" | "lg";
   dark?: boolean;
+  active?: boolean;
 }
 
 type PrimaryCTALink = Props & LinkProps;
@@ -14,6 +15,7 @@ type PrimaryCTALink = Props & LinkProps;
 export function PrimaryCTALink({
   size = "sm",
   dark = false,
+  active = false,
   children,
   className,
   ...props
@@ -24,6 +26,7 @@ export function PrimaryCTALink({
     <Link
       className={clsx(
         styles.ctaButton,
+        active ? styles.active : "",
         dark ? styles.dark : "",
         size === "lg" ? styles.lg : "",
         className
@@ -44,6 +47,7 @@ type PrimaryCTAButton = Props & ButtonProps;
 export function PrimaryCTAButton({
   size = "sm",
   dark = false,
+  active = false,
   children,
   ...props
 }: PrimaryCTAButton) {
@@ -53,6 +57,7 @@ export function PrimaryCTAButton({
     <button
       className={clsx(
         styles.ctaButton,
+        active ? styles.active : "",
         dark ? styles.dark : "",
         size === "lg" ? styles.lg : ""
       )}

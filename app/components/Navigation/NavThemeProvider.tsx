@@ -38,7 +38,7 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   const isScrolled = useIsScrolled();
   const navigation = useNavigation();
 
-  const [showWorkMenu, setShowWorkMenu] = useState(true);
+  const [showWorkMenu, setShowWorkMenu] = useState(false);
   const [showProjectDetails, setShowProjectDetails] = useState(false);
 
   // Hook to listen for navigation state
@@ -52,13 +52,13 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   }, [navigation.state, showProjectDetails, showWorkMenu]);
 
   const toggleWorkMenu = useCallback(() => {
-    // Close other modal if open
+    // Close other modals if open
     if (showProjectDetails) setShowProjectDetails(false);
     setShowWorkMenu(!showWorkMenu);
   }, [showWorkMenu, showProjectDetails]);
 
   const toggleProjectDetails = useCallback(() => {
-    // Close other modal if open
+    // Close other modals if open
     if (showWorkMenu) setShowWorkMenu(false);
     setShowProjectDetails(!showProjectDetails);
   }, [showProjectDetails, showWorkMenu]);

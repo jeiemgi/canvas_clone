@@ -10,12 +10,12 @@ function Layout({
   workMenu,
 }: {
   children: ReactNode;
-  workMenu: WorkmenuDocument;
+  workMenu?: WorkmenuDocument;
 }) {
   return (
     <NavThemeProvider>
       <Navigation />
-      <LayoutWorkMenu data={workMenu} />
+      {workMenu ? <LayoutWorkMenu data={workMenu} /> : null}
       <Lenis>
         <main>{children}</main>
       </Lenis>

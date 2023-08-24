@@ -70,6 +70,8 @@
         transform-origin: right;
     }
 
+    .ctaButton.active::before,
+    .ctaButton.active::after,
     .ctaButton:hover::before,
     .ctaButton:hover::after {
         transform: scaleX(100%);
@@ -99,6 +101,7 @@
         transition-timing-function: var(--ease-hover-out);
     }
 
+    .ctaButton.active .inner,
     .ctaButton:hover .inner {
         color: var(--secondary-color);
     }
@@ -129,6 +132,8 @@
         transform: translateX(calc(100% + var(--border-width)));
     }
 
+    .ctaButton.active .inner::before,
+    .ctaButton.active .inner::after,
     .ctaButton:hover .inner::before,
     .ctaButton:hover .inner::after {
         width: calc(50% + 2rem);
@@ -144,12 +149,14 @@
         transition-timing-function: var(--ease-hover-out);
     }
 
+    .ctaButton.active .parenthesisL,
     .ctaButton:hover .parenthesisL {
         color: var(--main-color);
         transform: translateX(-110%);
         transition-timing-function: var(--ease-hover-in);
     }
 
+    .ctaButton.active .parenthesisR,
     .ctaButton:hover .parenthesisR {
         color: var(--main-color);
         transform: translateX(110%);

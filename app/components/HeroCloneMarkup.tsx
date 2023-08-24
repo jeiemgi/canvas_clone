@@ -39,8 +39,12 @@ function HeroCloneMarkup({
             "leading--3 relative col-span-4 mb-12 md:col-span-12 md:mb-2 md:pb-20"
           }
         />
-        <WorkProjectHeroLine />
-        <WorkProjectHeroCTA tabIndex={-1} field={"SEE PROJECT DETAILS"} />
+        <WorkProjectHeroLine className={"scale-x-0"} />
+        <WorkProjectHeroCTA
+          tabIndex={-1}
+          className={"opacity-0"}
+          field={"SEE PROJECT DETAILS"}
+        />
         <WorkProjectHeroTable focusable={false} data={tableData} />
       </div>
     </div>

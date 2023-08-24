@@ -8,13 +8,15 @@ import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 
 function Navigation() {
   let { pathname } = useLocation();
-  const { theme, toggleWorkMenu } = useNavTheme();
+  const { theme, showWorkMenu, showProjectDetails, toggleWorkMenu } =
+    useNavTheme();
 
   return (
     <Nav>
       <NavList className={"desktop-only"}>
         <NavListItem>
           <PrimaryCTAButton
+            active={showWorkMenu}
             onClick={() => toggleWorkMenu()}
             dark={theme === "transparent"}
           >
@@ -26,8 +28,12 @@ function Navigation() {
       <NavLogoMobile />
       <NavLogoDesktop />
       <NavList>
-        <NavListItem show={pathname !== "/contact"}>
-          <PrimaryCTALink to={"contact"} dark={theme === "transparent"}>
+        <NavListItem>
+          <PrimaryCTALink
+            to={"contact"}
+            active={pathname === "/contact"}
+            dark={theme === "transparent"}
+          >
             Contact
           </PrimaryCTALink>
         </NavListItem>
