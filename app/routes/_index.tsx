@@ -42,7 +42,9 @@ export default function HomePage() {
   return (
     <>
       <HomePageHero />
-      <HomePageQuote />
+      <div className={"texture-background"}>
+        <HomePageQuote />
+      </div>
       <HomePageProjects data={slices.homeProjects} />
       {homepage.data.body.map((slice) => {
         switch (slice.slice_type) {
