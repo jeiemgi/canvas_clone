@@ -64,8 +64,12 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   }, [showProjectDetails, showWorkMenu]);
 
   const theme: NavThemeProps["theme"] = useMemo(() => {
-    if (isMobile) return isScrolled ? "white" : "transparent";
-    else return showProjectDetails ? "white" : "transparent";
+    if (isMobile) {
+      console.log(isScrolled);
+      return isScrolled ? "white" : "transparent";
+    } else {
+      return showProjectDetails ? "white" : "transparent";
+    }
   }, [showProjectDetails, isScrolled, isMobile]);
 
   return (

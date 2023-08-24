@@ -14,6 +14,7 @@ import type {
   KeyTextField,
   LinkToMediaField,
 } from "@prismicio/types";
+import useIsMobile from "~/hooks/useIsMobile";
 
 interface LayoutWorkMenuItemProps {
   hovered: boolean;
@@ -45,13 +46,14 @@ function LayoutWorkMenuItem({
   onMouseEnter,
   onMouseLeave,
 }: LayoutWorkMenuItemProps) {
+  const isMobile = useIsMobile();
   const refs = useRef<Array<HTMLVideoElement>>([]);
   const setRefs = (node: HTMLVideoElement | null) => {
     if (node) refs.current = [...refs.current, node];
   };
 
   useEffect(() => {
-    if (hovered) {
+    if (hovered && !isMobile) {
       refs.current.forEach((video) => {
         const isPlaying =
           video.currentTime > 0 &&
@@ -69,7 +71,7 @@ function LayoutWorkMenuItem({
   }, [hovered]);
 
   const opacityTransition =
-    "transition-opacity duration-500 ease-out delay-200";
+    "transition-opacity duration-500 ease-out delay-100";
   const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
 
   return (
@@ -81,9 +83,14 @@ function LayoutWorkMenuItem({
     >
       <div className={`col-span-2 ${opacity} ${opacityTransition}`}>
         <h1 className={"label--2 col-span-1 text-white"}>{name}</h1>
+        <span className={"label--2 mobile-only text-white"}>{`${
+          index + 1
+        }/${length}`}</span>
       </div>
 
-      <div className={`col-span-2 ${opacity} ${opacityTransition}`}>
+      <div
+        className={`desktop-only col-span-2 ${opacity} ${opacityTransition}`}
+      >
         <h2 className={"label--2 col-span-1 text-white"}>
           {`${index + 1}/${length}`}
         </h2>
@@ -103,8 +110,8 @@ function LayoutWorkMenuItem({
       <div
         className={clsx(
           opacityTransition,
-          someIsHovered && !hovered ? "opacity-0" : "opacity-100 delay-500",
-          "pointer-events-none col-span-5 col-start-8 grid grid-cols-5 gap-[20px]"
+          someIsHovered && !hovered ? "opacity-0" : "opacity-100",
+          "pointer-events-none col-span-5 col-start-8 hidden gap-[20px] md:grid md:grid-cols-5"
         )}
       >
         {media.map((item, _idx) => {
@@ -184,8 +191,8 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
         {data.data.body.map((item, _idx) => (
           <Image
             className={clsx(
-              hoveredIndex === _idx ? "opacity-100" : "opacity-0 delay-200",
-              "absolute transition-opacity duration-500 ease-out"
+              hoveredIndex === _idx ? "opacity-100" : "opacity-0 delay-100",
+              "absolute h-full transition-opacity duration-500 ease-out"
             )}
             field={item.primary.background}
             key={`LayoutWorkMenuItem-background--${_idx}`}
@@ -193,7 +200,7 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
         ))}
       </div>
 
-      <div className="relative flex h-full w-full flex-col items-end justify-end md:pb-[30px] md:pt-headerDesk">
+      <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
         {data.data.body.map((item, _idx, arr) => {
           const media = item.items.map((_it) => ({
             image: _it.thumbnail,
@@ -203,7 +210,6 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
           const slug = item.primary.link || "";
           const shouldPlay = hoveredIndex === _idx;
           const someIsHovered = hoveredIndex !== null;
-          console.log(someIsHovered);
           // const tableData = item.primary.project_page_data;
           return (
             <div

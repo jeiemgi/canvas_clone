@@ -8,8 +8,7 @@ import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 
 function Navigation() {
   let { pathname } = useLocation();
-  const { theme, showWorkMenu, showProjectDetails, toggleWorkMenu } =
-    useNavTheme();
+  const { theme, showWorkMenu, toggleWorkMenu } = useNavTheme();
 
   return (
     <Nav>
@@ -23,11 +22,8 @@ function Navigation() {
             WORK
           </PrimaryCTAButton>
         </NavListItem>
-      </NavList>
-
-      <NavLogoMobile />
-      <NavLogoDesktop />
-      <NavList>
+        <NavLogoMobile />
+        <NavLogoDesktop />
         <NavListItem>
           <PrimaryCTALink
             to={"contact"}

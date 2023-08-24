@@ -5,15 +5,7 @@ import { SecondaryCTA } from "~/components/CTA";
 import type { ReactNode } from "react";
 import type { DivProps } from "react-html-props";
 
-function Modal({
-  backdropProps,
-  backdropClassName = "bg-white",
-  children,
-  innerProps,
-  isOpen,
-  showClose = false,
-  toggle,
-}: {
+interface ModalProps {
   innerProps?: DivProps;
   backdropProps?: DivProps;
   backdropClassName?: string;
@@ -22,7 +14,18 @@ function Modal({
   isOpen: boolean;
   showClose?: boolean;
   toggle: Function;
-}) {
+}
+
+function Modal({
+  backdropProps,
+  backdropClassName = "bg-white",
+  children,
+  innerProps,
+  isOpen,
+  showClose = false,
+  toggle,
+  ...props
+}: ModalProps) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
@@ -30,6 +33,7 @@ function Modal({
           toggle();
         }}
         className={"relative"}
+        {...props}
       >
         <Transition.Child
           as={Fragment}
