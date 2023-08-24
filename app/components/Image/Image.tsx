@@ -7,7 +7,7 @@ function Image({ ref, widths, ...props }: PrismicImageProps) {
     // @ts-ignore
     <PrismicImage
       fallbackAlt={""}
-      widths={[800, 1600, 1920, 2400, 3200]}
+      widths={[800, 1000, 1600, 1920, 2400]}
       imgixParams={{ auto: ["format"] }}
       {...props}
     />

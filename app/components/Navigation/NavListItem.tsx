@@ -1,9 +1,6 @@
 import clsx from "clsx";
-import { PrimaryCTALink } from "~/components/CTA";
-import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import type { LinkProps } from "@remix-run/react";
 import Transition from "~/components/Transition";
-import { DivProps } from "react-html-props";
+import type { DivProps } from "react-html-props";
 
 interface Props {
   show?: boolean;

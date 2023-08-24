@@ -35,7 +35,7 @@ export function PrimaryCTALink({
     >
       <div className={styles.inner}>
         <span className={clsx(textStyle, styles.parenthesisL)}>(</span>
-        <span className={clsx(textStyle, "px-2 pt-0.5")}>{children}</span>
+        <span className={clsx(textStyle, "px-2")}>{children}</span>
         <span className={clsx(textStyle, styles.parenthesisR)}>)</span>
       </div>
     </Link>
@@ -52,7 +52,6 @@ export function PrimaryCTAButton({
   ...props
 }: PrimaryCTAButton) {
   const textStyle = size === "sm" ? "heading--3" : "heading--1";
-
   return (
     <button
       className={clsx(

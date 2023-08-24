@@ -25,7 +25,7 @@ export default function WorkProjectHeroTable({
 
       <div className={"pb-8 pt-3"}>
         <div className={"hero-table-row flex w-full overflow-hidden"}>
-          <div className={"w-1/2"}>
+          <div className={"w-2/3"}>
             <div className={"relative overflow-hidden"}>
               <span className={"hero-table-row__item label--2 block"}>
                 Role
@@ -34,7 +34,7 @@ export default function WorkProjectHeroTable({
           </div>
 
           {data.links.length > 0 ? (
-            <div className={"w-1/2"}>
+            <div className={"w-1/3"}>
               <div className={"relative overflow-hidden"}>
                 <span className={"hero-table-row__item label--2 block"}>
                   Links
@@ -44,6 +44,7 @@ export default function WorkProjectHeroTable({
           ) : null}
         </div>
       </div>
+
       {data.roles.map((item, index) => {
         return (
           <div
@@ -51,19 +52,19 @@ export default function WorkProjectHeroTable({
             className={"relative flex overflow-hidden py-2.5"}
           >
             <div className={"hero-table-row flex w-full"}>
-              <div className={"w-1/2"}>
+              <div className={"w-2/3"}>
                 <div className={"relative overflow-hidden"}>
                   <span className={"body--3 hero-table-row__item block"}>
                     {item.role_item}
                   </span>
                 </div>
               </div>
-              <div className={"w-1/2"}>
+              <div className={"w-1/3"}>
                 {data.links[index] ? (
                   <a
                     rel="noreferrer"
                     target={"_blank"}
-                    className={"body--3 relative"}
+                    className={"body--3 relative inline-block w-max"}
                     tabIndex={!focusable ? -1 : 0}
                     // @ts-ignore
                     href={data.links[index]?.link_item?.url}

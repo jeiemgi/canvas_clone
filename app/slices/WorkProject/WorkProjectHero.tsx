@@ -53,13 +53,13 @@ export function WorkProjectHeroCTA({
 } & ButtonProps) {
   return (
     <div className="desktop-only md:col-span-5">
-      <button className={"heading--3 overflow-hidden"} {...props}>
-        <div className={"hero-table-row__item"}>
-          <span className={"inline-block"}>( </span>
+      <button className={"overflow-hidden"} {...props}>
+        <div className={"hero-table-row__item flex items-center"}>
+          <span className={"heading--3 mr-1 inline-block"}>( </span>
           <TextCta className={"heading--3"}>
             {typeof field === "string" ? field : field ? asText(field) : ""}
           </TextCta>
-          <span className={"inline-block"}> )</span>
+          <span className={"heading--3 ml-1 inline-block"}> )</span>
         </div>
       </button>
     </div>

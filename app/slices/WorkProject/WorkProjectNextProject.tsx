@@ -4,10 +4,10 @@ import { Image } from "~/components/Image";
 import easings from "~/lib/easings";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
+import { useLayoutEffect } from "~/hooks";
 import HeroCloneMarkup from "~/components/HeroCloneMarkup";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
-import { useLayoutEffect } from "~/hooks";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -89,22 +89,13 @@ function WorkProjectNextProject({ item }: Props) {
     );
   };
 
-  // useLayoutEffect(() => {
-  //   const slicesImages = document.querySelectorAll(
-  //     "#WorkProjectSlices > img, #WorkProjectSlices > * > img"
-  //   );
-  //   imagesLoaded(slicesImages, (instance) => {
-  //     setTimeout(() => {
-  //       ScrollTrigger.refresh();
-  //     }, 1000);
-  //   });
-  // }, []);
-
   return (
     <div
       ref={container}
       onClick={onClick}
-      className={"relative h-screen cursor-pointer overflow-hidden"}
+      className={
+        "WorkProjectNextProject relative h-screen cursor-pointer overflow-hidden"
+      }
     >
       <div
         className={

@@ -4,10 +4,11 @@ import { Video } from "~/components/Video";
 import type { ProjectPageDocumentDataBodyProjectPlateVideocolorSlice } from "types.generated";
 
 interface Props {
+  lazy: boolean;
   item: ProjectPageDocumentDataBodyProjectPlateVideocolorSlice;
 }
 
-function WorkProjectVideoColor({ item }: Props) {
+function WorkProjectVideoColor({ lazy, item }: Props) {
   const containerClassNames = item.primary.square
     ? "md:min-h-screen"
     : "md:aspect-video";
@@ -26,6 +27,7 @@ function WorkProjectVideoColor({ item }: Props) {
       <div className={contentClassNames}>
         <Video
           autoPlay
+          lazy={lazy}
           poster={item.primary.cover.url || ""}
           square={item.primary.square}
           // @ts-ignore

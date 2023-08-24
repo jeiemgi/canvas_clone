@@ -14,17 +14,20 @@ function WorkProjectSliceZone() {
   return (
     <>
       {slices.map((item, index) => {
+        const lazy = index > 1;
         switch (item.slice_type) {
           case "project_full_width":
             return (
               <WorkProjectFullWidth
                 item={item}
+                lazy={lazy}
                 key={`WorkProjectSlice-${index}`}
               />
             );
           case "project_2_column":
             return (
               <WorkProject2Column
+                lazy={lazy}
                 item={item}
                 key={`WorkProjectSlice-${index}`}
               />
@@ -33,6 +36,7 @@ function WorkProjectSliceZone() {
             return (
               <WorkProjectVideoColor
                 item={item}
+                lazy={lazy}
                 key={`WorkProjectSlice-${index}`}
               />
             );

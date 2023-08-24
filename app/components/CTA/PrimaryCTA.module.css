@@ -143,6 +143,7 @@
     }
 
     .parenthesisL, .parenthesisR {
+        line-height: 0;
         color: var(--main-color);
         transition-property: transform;
         transition-duration: var(--duration);

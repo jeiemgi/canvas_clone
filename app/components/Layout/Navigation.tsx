@@ -16,8 +16,8 @@ function Navigation() {
         <NavListItem>
           <PrimaryCTAButton
             active={showWorkMenu}
-            onClick={() => toggleWorkMenu()}
             dark={theme === "transparent"}
+            onClick={() => toggleWorkMenu()}
           >
             WORK
           </PrimaryCTAButton>

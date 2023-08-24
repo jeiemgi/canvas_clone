@@ -1,4 +1,7 @@
 :root {
+    -moz-osx-font-smoothing: grayscale; /*(For Firefox)*/
+    -webkit-font-smoothing: antialiased; /*(For Chrome and Safari)*/
+
     /* Colors */
     --mg-black: #23221E;
     --black: #1A171E;
@@ -42,6 +45,7 @@
 */
 @font-face {
     font-family: "Proto Grotesk";
+    font-weight: 300;
     src: url("/fonts/proto-grotesk/protogrotesk-light-webfont.woff") format("woff"),
     url("/fonts/proto-grotesk/protogrotesk-light-webfont.woff2") format("woff2");
 }
@@ -63,3 +67,4 @@
     url('/fonts/untitled-sans/UntitledSans-Regular.woff2') format('woff2'),
     url('/fonts/untitled-sans/UntitledSans-Regular.woff') format('woff');
 }
+

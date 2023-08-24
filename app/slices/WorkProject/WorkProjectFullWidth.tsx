@@ -4,6 +4,7 @@ import { Video } from "~/components/Video";
 import type { ProjectPageDocumentDataBodyProjectFullWidthSlice } from "types.generated";
 
 interface Props {
+  lazy: boolean;
   item: ProjectPageDocumentDataBodyProjectFullWidthSlice;
 }
 
@@ -21,7 +22,6 @@ function WorkProjectFullWidth({ item }: Props) {
 
   return (
     <Image
-      loading="lazy"
       field={item.primary.background}
       className={"w-full select-none object-cover"}
     />
