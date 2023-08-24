@@ -187,12 +187,12 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
       toggle={toggleWorkMenu}
       backdropClassName={"noise-background bg-pure-black"}
     >
-      <div className={"pointer-events-none absolute h-full w-full"}>
+      <div className={"pointer-events-none absolute flex h-full w-full"}>
         {data.data.body.map((item, _idx) => (
           <Image
             className={clsx(
               hoveredIndex === _idx ? "opacity-100" : "opacity-0 delay-100",
-              "absolute h-full transition-opacity duration-500 ease-out"
+              "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
             )}
             field={item.primary.background}
             key={`LayoutWorkMenuItem-background--${_idx}`}
