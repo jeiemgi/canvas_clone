@@ -9,7 +9,6 @@ import HomePageProjects from "~/slices/HomePage/HomePageProjects";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
 import type { V2_MetaFunction } from "@remix-run/node";
-import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import Footer from "~/components/Footer";
 
@@ -22,12 +21,7 @@ export const loader = async () => {
   const homepage = await client.getSingle("homepage", {
     fetchLinks: ["project_page.roles", "project_page.links"],
   });
-
-  const homeProjects = findAllSlicesByType(
-    homepage,
-    "homepage_project"
-  ) as HomepageDocumentDataBodyHomepageProjectSlice[];
-
+  const homeProjects = findAllSlicesByType(homepage, "homepage_project");
   return defer({
     homepage,
     slices: {

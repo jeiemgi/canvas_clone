@@ -90,6 +90,17 @@ export type ContactPageDocument<Lang extends string = string> = prismic.PrismicD
  */
 export interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
 	/**
+	 * enabled field in *Homepage → Slice zone → Home Project → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: homepage.body[].homepage_project.primary.enabled
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	enabled: prismic.BooleanField;
+	
+	/**
 	 * slug field in *Homepage → Slice zone → Home Project → Primary*
 	 *
 	 * - **Field Type**: Text
