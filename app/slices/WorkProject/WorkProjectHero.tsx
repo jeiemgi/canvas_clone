@@ -4,19 +4,11 @@ import { useLockedBody } from "usehooks-ts";
 import { useLoaderData } from "@remix-run/react";
 import { useLayoutEffect } from "~/hooks";
 import { Video } from "~/components/Video";
-import { Image } from "~/components/Image";
-import {
-  ProjectBackground,
-  ProjectContainer,
-  ProjectHeroCTA,
-  ProjectHeroLine,
-  ProjectHeroSubtitle,
-  ProjectHeroTitle,
-} from "~/components/ProjectHero/ProjectHero";
-import ProjectHeroTable from "~/components/ProjectHero/ProjectHeroTable";
+
 import type { MouseEventHandler } from "react";
 import type { ImageField, FilledLinkToWebField } from "@prismicio/types";
 import type { loader } from "~/routes/work.$project";
+import ProjectHero from "~/components/ProjectHero";
 
 export function WorkProjectHeroVideo({
   field,
@@ -76,38 +68,30 @@ function WorkProjectHero({
 
   return (
     <div className={"relative"}>
-      <ProjectBackground field={hero.background_image} />
-
-      <ProjectContainer className={"pt-header md:pt-headerDesk"}>
-        <ProjectHeroTitle field={hero.title} />
-        <ProjectHeroSubtitle field={hero.capabilities} />
-
-        <div className={"relative col-span-4 mb-3 md:col-span-12"}>
-          <ProjectHeroLine />
+      <ProjectHero
+        slug={"alive"}
+        image={hero.background_image}
+        titleField={hero.title}
+        subTitleField={hero.capabilities}
+        tableData={hero}
+        cta={toggleProjectDetails}
+      >
+        <div className="grid-container pb-10 md:pb-52">
+          <WorkProjectHeroVideo
+            // @ts-ignore
+            field={hero.reel}
+            poster={hero.reel_cover}
+            className={"translate-y-1/2 opacity-0"}
+          />
         </div>
-      </ProjectContainer>
-
-      <ProjectContainer>
-        <ProjectHeroCTA field={hero.cta} onClick={toggleProjectDetails} />
-        <ProjectHeroTable data={hero} />
-      </ProjectContainer>
-
-      <ProjectContainer className="pb-10 md:pb-52">
-        <WorkProjectHeroVideo
-          // @ts-ignore
-          field={hero.reel}
-          poster={hero.reel_cover}
-          className={"translate-y-1/2 opacity-0"}
-        />
-      </ProjectContainer>
-
-      {/*<div className="grid-container">
+        {/*<div className="grid-container">
         <div className="col-span-4 flex w-full justify-between md:hidden">
           <span className={"label--2 text-white"}>CREDIT</span>
           <span className={"label--2 text-white"}>PHOTOGRAPHY:</span>
           <span className={"label--2 text-white"}>JORDAN NELSON</span>
         </div>
       </div>*/}
+      </ProjectHero>
     </div>
   );
 }

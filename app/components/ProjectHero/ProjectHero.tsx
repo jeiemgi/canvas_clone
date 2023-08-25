@@ -1,12 +1,13 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
+import Flip from "gsap/dist/Flip";
 import easings from "~/lib/easings";
 import { asText } from "@prismicio/richtext";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
 import ProjectHeroTable from "~/components/ProjectHero/ProjectHeroTable";
-import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { ReactNode } from "react";
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { DivProps, ButtonProps } from "react-html-props";
 import type { ImageField, KeyTextField, RichTextField } from "@prismicio/types";
 
@@ -19,7 +20,8 @@ export const ProjectHeroTitle = ({ field, children, ...props }: TitleProps) => {
     <div
       {...props}
       className={clsx(
-        "display--1 relative col-span-4 my-12 text-white md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
+        "ProjectHeroTitle",
+        "display--1 leading--none relative col-span-4 my-12 text-white md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
         props.className
       )}
     >
@@ -46,7 +48,8 @@ export const ProjectHeroSubtitle = ({
     <div
       {...props}
       className={clsx(
-        "leading--3 relative col-span-4 mb-12 text-white md:col-span-12 md:mb-2 md:pb-20",
+        "ProjectHeroSubtitle",
+        "heading--3 relative col-span-4 mb-12 text-white md:col-span-12 md:mb-2 md:h-[1rem] md:pb-20",
         props.className
       )}
     >
@@ -70,8 +73,8 @@ export function ProjectHeroCTA({
   ...props
 }: ProjectHeroCTAProps & ButtonProps) {
   return (
-    <div className="desktop-only relative md:col-span-5">
-      <button className={"overflow-hidden"} {...props}>
+    <div className="desktop-only relative overflow-hidden md:col-span-5">
+      <button {...props} className={clsx("overflow-hidden", props.className)}>
         <div className={"hero-table-row__item flex items-center"}>
           <span className={"heading--3 mr-1 inline-block text-white"}>( </span>
           <TextCta className={"heading--3 text-white"}>
@@ -130,7 +133,7 @@ export function ProjectContainer({ className, ...props }: DivProps) {
   );
 }
 
-interface Props extends DivProps {
+interface ProjectHeroProps extends DivProps {
   slug: KeyTextField;
   cta?: Function;
   children?: ReactNode;
@@ -138,64 +141,65 @@ interface Props extends DivProps {
   isClone?: boolean;
   image?: ImageField;
   debug?: boolean;
+  titleField?: RichTextField;
+  subTitleField?: RichTextField;
 }
 
-interface GSAPAnimationFunction extends GSAPTweenVars {
+interface GSAPAnimationFunction extends GSAPTimelineVars {
   tl: GSAPTimeline;
   slug: string;
   scope: Element | Document;
+  title: Element;
+  subtitle: Element;
 }
 
-export const animateBanner = ({ tl, slug, scope }: GSAPAnimationFunction) => {
-  console.log("animateBanner");
-
-  const position = 0;
-  const stagger = 0.2;
-  const duration = 0.6;
-  const ease = easings.mask;
-
-  const titleID = "";
-  const titleItem = scope.querySelector(titleID);
-
-  if (titleItem) {
-    const cloneHeroTitle = scope.querySelector(
-      `#home-menu-clone-title-${slug}`
-    );
-    const titleState = Flip.getState(titleItem);
-    cloneHeroTitle?.appendChild(titleItem);
-
+export const animateBanner = ({
+  tl,
+  scope = document,
+  title,
+  subtitle,
+  position = 0.5,
+  stagger = 0.02,
+  duration = 0.6,
+  ease = easings.mask,
+}: GSAPAnimationFunction) => {
+  if (title) {
+    const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
+    const titleState = Flip.getState(title);
+    cloneHeroTitle?.appendChild(title);
     const titleTl = Flip.from(titleState, { duration, ease });
-    const titleText = titleItem.querySelector(".title-item__text")!;
+
+    // ANIMATE THE TEXT SIZES
+    const titleText = title.querySelector("span");
     titleTl.to(
       titleText,
       {
         ease,
-        duration: duration - 0.2,
+        duration,
         fontSize: "6.875rem",
         letterSpacing: "-0.1375rem",
         transformOrigin: "top left",
       },
       0
     );
-    titleTl.set(titleText, { lineHeight: "105%" });
+    // titleTl.to(titleText, { lineHeight: "105%", ease, duration }, 0);
+  } else {
+    console.error(`No TITLE found`, title);
+    return;
   }
 
-  const subtitleID = "";
-  const subtitleItem = document.querySelector(subtitleID);
-  if (subtitleItem) {
-    const cloneHeroSubtitle = document.querySelector(
-      `#home-menu-clone-subtitle-${slug}`
-    );
-    const subtitleState = Flip.getState(subtitleItem);
-    cloneHeroSubtitle?.appendChild(subtitleItem);
-    const subTl = Flip.from(subtitleState, { duration, ease });
+  if (subtitle) {
+    const cloneHeroSubtitle = document.querySelector(`.ProjectHeroSubtitle`);
+    const subtitleState = Flip.getState(subtitle);
+    cloneHeroSubtitle?.appendChild(subtitle);
 
-    const subtitleText = subtitleItem.querySelector(".subtitle-item__text")!;
+    const subTl = Flip.from(subtitleState, { duration, ease });
+    const subtitleText = subtitle.querySelector("span");
     subTl.to(
       subtitleText,
       {
         ease,
-        duration: duration - 0.2,
+        duration: duration,
         fontSize: "1.5rem",
         letterSpacing: "-0.015rem",
         transformOrigin: "top left",
@@ -203,28 +207,29 @@ export const animateBanner = ({ tl, slug, scope }: GSAPAnimationFunction) => {
       0
     );
     subTl.set(subtitleText, { lineHeight: "105%" }, 0);
+  } else {
+    console.error(`No SUB-TITLE found`, subtitle);
+    return;
   }
 
   // ANIMATE TABLE
   const tableLines = scope.querySelectorAll(".hero-table-line");
   const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  tl?.to(
+  tl.to(
     tableLines,
     {
-      ease,
-      duration,
       scaleX: 1,
     },
     position
   );
 
-  tl?.to(
+  tl.to(
     tableItems,
     {
+      y: "0%",
       ease,
       duration,
       stagger,
-      y: "0%",
     },
     position
   );
@@ -245,13 +250,15 @@ function ProjectHero({
   className,
   isClone = false,
   image,
-  debug = true,
+  debug = false,
+  titleField,
+  subTitleField,
   ...props
-}: Props) {
+}: ProjectHeroProps) {
   const extraProps = isClone ? { tabIndex: -1, "aria-hidden": true } : {};
 
   const baseClassName = "ProjectHero";
-  const cloneClassNameModifier = "__clone";
+  // const cloneClassNameModifier = "__clone";
 
   const baseClassNames = isClone
     ? "pointer-events-none absolute left-0 top-0 min-h-screen w-full"
@@ -259,20 +266,21 @@ function ProjectHero({
 
   const debugClassNames = debug ? "border inner border-white" : "";
 
-  const titleId = `${baseClassName}-title-${slug}${
-    isClone ? cloneClassNameModifier : ""
-  }`;
-
-  const subTitleId = `${baseClassName}-subtitle-${slug}${
-    isClone ? cloneClassNameModifier : ""
-  }`;
+  // const titleId = `${baseClassName}-title-${slug}${
+  //   isClone ? cloneClassNameModifier : ""
+  // }`;
+  //
+  // const subTitleId = `${baseClassName}-subtitle-${slug}${
+  //   isClone ? cloneClassNameModifier : ""
+  // }`;
 
   return (
     <div
       {...props}
       {...extraProps}
       className={clsx(
-        "ProjectHero",
+        baseClassName,
+        "h-screen",
         className,
         debugClassNames,
         baseClassNames
@@ -287,13 +295,15 @@ function ProjectHero({
           className={debugClassNames}
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}
-          id={titleId}
+          // id={titleId}
+          field={titleField}
         />
         <ProjectHeroSubtitle
           className={debugClassNames}
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}
-          id={subTitleId}
+          field={subTitleField}
+          // id={subTitleId}
         />
         <div className={"relative col-span-4 mb-3 md:col-span-12"}>
           <ProjectHeroLine />

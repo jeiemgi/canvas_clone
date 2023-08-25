@@ -15,6 +15,11 @@ import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
+import {
+  HOMEPAGE_PROJECT_SUBTITLE_ID,
+  HOMEPAGE_PROJECT_TITLE_ID,
+} from "~/slices/HomePage/HomePageProjectTitleContainer";
+import easings from "~/lib/easings";
 
 function HomePageProjectScrollContainer({
   data,
@@ -66,22 +71,32 @@ function HomePageProjectScrollContainer({
 
     const tl = gsap.timeline({
       onComplete: () => {
-        console.log("navigate");
-        // navigate(`/work/${slug}`, { preventScrollReset: false });
+        navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 
-    const ease = "linear";
     const duration = 1;
+    const ease = easings.mask;
 
     if (e.target instanceof Element) {
+      const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
+      const title = titles[index];
+
+      const subtitles = document.querySelectorAll(
+        `.${HOMEPAGE_PROJECT_SUBTITLE_ID}`
+      );
+      const subtitle = subtitles[index];
+
       animateBanner({
-        scope: e.target,
         tl,
         slug,
+        title,
+        subtitle,
+        scope: e.target,
       });
     }
 
+    /* ANIMATE OTHER ITEMS */
     const background = document
       .querySelectorAll(".hero-project-bg-container")
       [index].querySelector("img");
@@ -121,11 +136,11 @@ function HomePageProjectScrollContainer({
     <div id={"home-projects-container"}>
       {data.map((project, index) => (
         <div
-          className={"HomePageProjectScrollItem scroll-item relative"}
           key={`HomePageProjectScrollItem-${index}`}
-          onClick={(e) =>
-            onClick(e, { index, slug: project.primary.slug as string })
-          }
+          className={"HomePageProjectScrollItem relative"}
+          onClick={(e) => {
+            onClick(e, { index, slug: project.primary.slug as string });
+          }}
         >
           {"data" in project.primary.project_data ? (
             <ProjectHero
@@ -150,7 +165,7 @@ const HomePageProjectScrollItemContent = ({
   project: HomepageDocumentDataBodyHomepageProjectSlice;
 }) => {
   return (
-    <div className="grid-container HomePageProjectScrollItem__content relative pb-[20vh] pt-[50vh]">
+    <div className="grid-container HomePageProjectScrollItem__content pointer-events-none relative pb-[20vh] pt-[50vh]">
       <div className={"col-span-4 md:col-start-9"}>
         {/*ANCHOR ONLY TO scrollTo on click*/}
         <div id={`HomePageProjectScrollItem-${project.primary.slug}`} />
