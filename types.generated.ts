@@ -94,7 +94,7 @@ export interface HomepageDocumentDataBodyHomepageProjectSlicePrimary {
 	 *
 	 * - **Field Type**: Boolean
 	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
+	 * - **Default Value**: true
 	 * - **API ID Path**: homepage.body[].homepage_project.primary.enabled
 	 * - **Documentation**: https://prismic.io/docs/field#boolean
 	 */
@@ -970,6 +970,16 @@ export interface ProjectPageDocumentDataBodyProjectNextBannerSlicePrimary {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	capabilities1: prismic.KeyTextField;
+	
+	/**
+	 * next_project_data field in *Project Page → Slice zone → Project Next Banner → Primary*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.body[].project_next_banner.primary.next_project_data
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	next_project_data: prismic.ContentRelationshipField<"project_page">;
 	
 	/**
 	 * Background Image field in *Project Page → Slice zone → Project Next Banner → Primary*

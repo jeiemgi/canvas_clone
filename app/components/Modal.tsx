@@ -7,7 +7,6 @@ import type { DivProps } from "react-html-props";
 
 interface ModalProps {
   innerProps?: DivProps;
-  backdropProps?: DivProps;
   backdropClassName?: string;
   children: ReactNode;
   innerClassName?: string;
@@ -17,7 +16,6 @@ interface ModalProps {
 }
 
 function Modal({
-  backdropProps,
   backdropClassName = "bg-white",
   children,
   innerProps,
@@ -45,7 +43,6 @@ function Modal({
           leaveTo="opacity-0"
         >
           <div
-            {...backdropProps}
             className={clsx("fixed inset-0 h-full w-full", backdropClassName)}
           ></div>
         </Transition.Child>

@@ -3,9 +3,9 @@ import easings from "~/lib/easings";
 import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
 import { useLayoutEffect } from "~/hooks";
+import { Image } from "~/components/Image";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
-import { Image } from "~/components/Image";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -17,19 +17,20 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
 
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
-
       const mm = gsap.matchMedia();
-
       mm.add(mdScreen, () => {
         if (!self.selector) return;
-        const easing = easings.mask;
-        // Pin the background container for the whole scroll.
-        const bgContainer = self.selector(".gsap-bg--container");
 
+        // const easing = easings.mask;
+        const ease = "linear";
+
+        // Pin the background container for the whole scroll.
+        const bgContainer = self.selector("#HomePageBackground-container");
         ScrollTrigger.create({
-          trigger: container,
-          pin: bgContainer,
+          pin: true,
+          trigger: bgContainer,
           pinSpacing: false,
+          markers: true,
           end: () => {
             const scrollContainer = document.querySelector(
               "#home-projects-container"
@@ -44,18 +45,27 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
         bgItems.forEach((bgItem, _index, arr) => {
           const isFirst = _index === 0;
           const isLast = _index === arr.length - 1;
+          const scrollItem = scrollItems[_index];
 
           // Animate each bg clip path on scroll
-          const scrollItem = scrollItems[_index];
-          const image = bgItem.querySelector(".hero-project-bg-container>img");
-
-          gsap.set(image, { y: isFirst ? "0%" : "10%" });
           gsap.set(bgItem, { clipPath: isFirst ? openPath : closedPath });
+          gsap.to(bgItem, {
+            ease,
+            clipPath: openPath,
+            scrollTrigger: {
+              trigger: scrollItem,
+              start: "top 85%",
+              end: "+=100%",
+              scrub: true,
+            },
+          });
 
+          const image = bgItem.querySelector(".hero-project-bg-container>img");
+          gsap.set(image, { y: isFirst ? "0%" : "10%" });
           gsap.to(image, {
+            ease,
             y: "0%",
             immediateRender: false,
-            ease: easing,
             scrollTrigger: {
               trigger: scrollItem,
               start: "top 85%",
@@ -66,9 +76,9 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
 
           if (!isLast) {
             gsap.to(image, {
+              ease,
               y: "-10%",
               immediateRender: false,
-              ease: easing,
               scrollTrigger: {
                 trigger: scrollItem,
                 start: "bottom 85%",
@@ -77,18 +87,6 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
               },
             });
           }
-
-          gsap.to(bgItem, {
-            clipPath: openPath,
-            immediateRender: false,
-            ease: easing,
-            scrollTrigger: {
-              trigger: scrollItem,
-              start: "top 85%",
-              end: "+=100%",
-              scrub: true,
-            },
-          });
         });
       });
     }, container);
@@ -98,25 +96,26 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
 
   return (
     <div
-      id={"gsap-bg--container"}
+      id={"HomePageBackground-container"}
       className={
-        "gsap-bg--container pointer-events-none overflow-hidden md:absolute md:h-screen md:w-full"
+        "pointer-events-none overflow-hidden md:absolute md:left-0 md:top-0 md:h-screen md:w-full"
       }
     >
       {data.map((project, index) => (
         <div
-          key={`HomePageProject-bg-${project.id}`}
+          key={`HomePageBackground-item-${project.id}`}
           className={
-            "gsap-bg--item relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
+            "relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
           }
         >
-          <div className="hero-project-bg-container absolute flex h-full w-full items-end">
+          <div className="hero-project-bg-container absolute flex h-screen w-full items-end">
             <Image
               field={project.primary.background_image}
               className={"min-h-full min-w-full select-none object-cover"}
             />
           </div>
 
+          {/*MOBILE ONLY TITLES*/}
           <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
             <div className="grid-container h-fit w-full pt-5">
               <div className="col-span-3">

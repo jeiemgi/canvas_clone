@@ -1,15 +1,12 @@
 import clsx from "clsx";
-import { Fragment } from "react";
 import { asText } from "@prismicio/richtext";
 import { useLoaderData } from "@remix-run/react";
-import { WorkProjectHeroTitle } from "~/slices/WorkProject/WorkProjectHero";
 import { PrismicRichText } from "@prismicio/react";
-import { SecondaryCTA } from "~/components/CTA";
-import { Dialog, Transition } from "@headlessui/react";
 import type { loader } from "~/routes/work.$project";
 import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
 import Modal from "~/components/Modal";
+import { ProjectHeroTitle } from "~/components/ProjectHero/ProjectHero";
 
 function getKey(prefix: string, ...keys: Array<string | number>) {
   return `${prefix}-${keys.join("-")}`;
@@ -296,7 +293,7 @@ function WorkProjectDetails({
       }}
     >
       <div className="grid-container relative">
-        <WorkProjectHeroTitle title={hero.title} />
+        <ProjectHeroTitle field={hero.title} />
       </div>
 
       <div className="grid-container">

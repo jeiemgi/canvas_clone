@@ -1,116 +1,20 @@
 import { gsap } from "gsap";
+import easings from "~/lib/easings";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import Flip from "gsap/dist/Flip";
 import { Image } from "~/components/Image";
 import { useLenis } from "@studio-freight/react-lenis";
 import { useLayoutEffect } from "~/hooks";
 import { asText } from "@prismicio/richtext";
 import { useNavigate } from "react-router";
 import { useLockedBody } from "usehooks-ts";
-import HeroCloneMarkup from "~/components/HeroCloneMarkup";
-import type { KeyTextField } from "@prismicio/types";
+import {
+  animateBanner,
+  setupBannerAnimation,
+} from "~/components/ProjectHero/ProjectHero";
+import ProjectHero from "~/components/ProjectHero";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
-import easings from "~/lib/easings";
-
-type GSAPAnimationFunction = {
-  scope?: Element | Document;
-  tl?: GSAPTimeline;
-  slug?: string;
-  position: number;
-  index?: number;
-  duration?: number;
-  ease?: string;
-  stagger?: number;
-};
-
-export const setupTable = (scope: Element) => {
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  gsap.set(tableLines, { scaleX: 0 });
-  gsap.set(tableItems, { y: "200%" });
-};
-
-export const animateTable = ({
-  scope = document,
-  tl,
-  position,
-  duration,
-  ease,
-  stagger,
-}: GSAPAnimationFunction) => {
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  tl?.to(
-    tableLines,
-    {
-      ease,
-      duration,
-      scaleX: 1,
-    },
-    position
-  );
-
-  tl?.to(
-    tableItems,
-    {
-      ease,
-      duration,
-      stagger,
-      y: "0%",
-    },
-    position
-  );
-};
-
-const animateTitles = ({
-  scope = document,
-  index = 0,
-  ease = "",
-  duration = 0,
-  slug = "",
-}) => {
-  const titleItem = scope.querySelectorAll(".title-item")[index];
-  // prettier-ignore
-  const cloneHeroTitle = scope.querySelector(`#home-menu-clone-title-${slug}`);
-  const titleState = Flip.getState(titleItem);
-  cloneHeroTitle?.appendChild(titleItem);
-  const _tl1 = Flip.from(titleState, { duration, ease });
-  const titleText = titleItem.querySelector(".title-item__text")!;
-
-  _tl1.to(
-    titleText,
-    {
-      ease,
-      duration: duration - 0.2,
-      fontSize: "6.875rem",
-      letterSpacing: "-0.1375rem",
-      transformOrigin: "top left",
-    },
-    0
-  );
-  _tl1.set(titleText, { lineHeight: "105%" });
-
-  const subtitleItem = document.querySelectorAll(".subtitle-item")[index];
-  // prettier-ignore
-  const cloneHeroSubtitle = document.querySelector(`#home-menu-clone-subtitle-${slug}`);
-  const subtitleState = Flip.getState(subtitleItem);
-  cloneHeroSubtitle?.appendChild(subtitleItem);
-  const _tl2 = Flip.from(subtitleState, { duration, ease });
-
-  const subtitleText = subtitleItem.querySelector(".subtitle-item__text")!;
-  _tl2.to(
-    subtitleText,
-    {
-      ease,
-      duration,
-      fontSize: "1.5rem",
-      letterSpacing: "-0.015rem",
-      transformOrigin: "top left",
-    },
-    0
-  );
-  _tl2.set(subtitleText, { lineHeight: "105%" }, 0);
-};
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import { MouseEvent } from "react";
 
 function HomePageProjectScrollContainer({
   data,
@@ -126,33 +30,30 @@ function HomePageProjectScrollContainer({
       const items = gsap.utils.toArray<HTMLDivElement>(".scroll-item");
 
       items.forEach((item) => {
-        const clone = item.querySelector(".hero-clone");
+        const clone = item.querySelector(".ProjectHero");
         const content = item.querySelector(".scroll-item__content");
 
         if (clone && content) {
           const contentHeight = content.scrollHeight - window.innerHeight || 0;
+
           ScrollTrigger.create({
-            trigger: clone,
             pin: true,
+            trigger: clone,
             start: "top top",
             end: () => `+=${contentHeight}px`,
           });
         }
-
-        ScrollTrigger.create({
-          trigger: item,
-          start: "top center",
-          end: "bottom center",
-          toggleClass: "scroll-item--active",
-        });
-        setupTable(item);
+        setupBannerAnimation(item);
       });
     });
 
     return () => ctx.revert();
   }, []);
 
-  const onClick = (target: EventTarget, index: number, slug: KeyTextField) => {
+  const onClick = (
+    e: MouseEvent<HTMLDivElement>,
+    { index, slug = "" }: { index: number; slug: string }
+  ) => {
     setLocked(true);
 
     lenis.scrollTo(`#HomePageProjectItem-${slug}`, {
@@ -160,20 +61,43 @@ function HomePageProjectScrollContainer({
     });
 
     const tl = gsap.timeline({
-      paused: true,
       onComplete: () => {
-        navigate(`/work/${slug}`, { preventScrollReset: false });
+        console.log("navigate");
+        // navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 
-    const ease = easings.mask;
-    const stagger = 0.02;
+    const ease = "linear";
     const duration = 1;
-    const durationSm = 0.7;
-    const position = 0;
+
+    if (e.target instanceof Element) {
+      animateBanner({
+        scope: e.target,
+        tl,
+        slug,
+      });
+    }
+
+    const background = document
+      .querySelectorAll(".hero-project-bg-container")
+      [index].querySelector("img");
+
+    tl.to(
+      background,
+      {
+        ease,
+        duration: duration - 0.3,
+        y: background ? background?.scrollHeight - window.innerHeight : 0,
+      },
+      0
+    );
 
     const label = document.querySelector(".title-item__label")!;
-    tl.to(label, { ease, duration: durationSm, y: "200%", autoAlpha: 0 }, 0);
+    tl.to(
+      label,
+      { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
+      0
+    );
 
     const content = document.querySelectorAll(".scroll-item__content")[index];
     tl.to(
@@ -181,33 +105,10 @@ function HomePageProjectScrollContainer({
       {
         ease,
         autoAlpha: 0,
-        duration: durationSm,
+        duration: duration - 0.5,
       },
       0
     );
-    const background = document
-      .querySelectorAll(".hero-project-bg-container")
-      [index].querySelector("img");
-    tl.to(
-      background,
-      {
-        ease,
-        duration: durationSm,
-        y: background ? background?.scrollHeight - window.innerHeight : 0,
-      },
-      0
-    );
-
-    animateTable({
-      tl,
-      ease,
-      stagger,
-      duration,
-      position,
-    });
-
-    animateTitles({ ease, duration, index, slug: slug || "" });
-    tl.play();
   };
 
   return (
@@ -215,37 +116,39 @@ function HomePageProjectScrollContainer({
       {data.map((project, index) => (
         <div
           key={`HomePageProjectItem-${index}`}
-          onClick={(e) => onClick(e.target, index, project.primary.slug)}
-          className={
-            "scroll-item relative flex cursor-pointer flex-col justify-between"
+          onClick={() =>
+            onClick({ index, slug: project.primary.slug as string })
           }
+          className={"scroll-item relative"}
         >
-          <HeroCloneMarkup
-            // @ts-ignore
-            tableData={project.primary.project_data?.data}
-            titleId={`home-menu-clone-title-${project.primary.slug}`}
-            subtitleId={`home-menu-clone-subtitle-${project.primary.slug}`}
-          />
-
-          <div className="desktop-only--grid grid-container">
-            <div
-              className={
-                "scroll-item__content col-span-4 pb-[20vh] pt-[50vh] md:col-start-9"
+          {"data" in project.primary.project_data ? (
+            <ProjectHero
+              isClone={true}
+              slug={project.primary.slug}
+              tableData={
+                project.primary.project_data?.data as ProjectHeroTableProps
               }
-            >
+            />
+          ) : null}
+
+          <div className="grid-container scroll-item__content relative pb-[20vh] pt-[50vh]">
+            <div className={"col-span-4 md:col-start-9"}>
+              {/*ANCHOR ONLY TO scrollTo on click*/}
               <div id={`HomePageProjectItem-${project.primary.slug}`} />
+
               <p className={"body--2 mb-5 max-w-[500px] text-white"}>
                 {asText(project.primary.description)}
               </p>
               {project.items.map(({ slide }, index) => (
                 <div
-                  data-lag={0.05 * index}
-                  className={"mb-5 overflow-hidden"}
                   key={`ProjectImage-${slide.url}-${index}`}
+                  className={"mb-5 overflow-hidden"}
                 >
                   <Image
+                    loading={"eager"}
+                    width={"100vw"}
+                    height={"100vh"}
                     field={slide}
-                    data-speed={0.95}
                     className={"w-full object-contain"}
                   />
                 </div>

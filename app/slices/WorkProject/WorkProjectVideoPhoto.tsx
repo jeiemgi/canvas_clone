@@ -22,11 +22,14 @@ function WorkProjectVideoPhoto({ item }: Props) {
         )}
       >
         <div
-          className={item.primary.square ? "md:max-w-[50%]" : "md:max-w-[80%]"}
+          className={
+            item.primary.square
+              ? "md:aspect-square md:max-w-[50%]"
+              : "md:aspect-video md:max-w-[80%]"
+          }
         >
           <Video
             autoPlay
-            square={item.primary.square}
             // @ts-ignore
             src={item.primary.video.url}
           />

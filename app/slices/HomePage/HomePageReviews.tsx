@@ -16,21 +16,6 @@ interface Props {
 function HomePageReviews({ data }: Props) {
   const container = useRef(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context((self) => {
-      const mm = gsap.matchMedia();
-      mm.add(mdScreen, () => {
-        ScrollTrigger.create({
-          trigger: container.current,
-          end: "+=100%",
-          pin: true,
-        });
-      });
-    }, container);
-
-    return () => ctx.revert();
-  }, []);
-
   const onClearClick = () => {
     gsap.set(".review-image-desk", { opacity: 0 });
   };

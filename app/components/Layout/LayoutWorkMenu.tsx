@@ -1,20 +1,18 @@
 import clsx from "clsx";
-import { gsap } from "gsap";
-import easings from "~/lib/easings";
 import { useEffect, useRef, useState } from "react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { useNavigate } from "react-router";
 import Modal from "~/components/Modal";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
-import { animateTable } from "~/slices/HomePage/HomePageProjectScrollContainer";
+import useIsMobile from "~/hooks/useIsMobile";
+// import { animateBanner } from "~/slices/HomePage/HomePageProjectScrollContainer";
 import type { WorkmenuDocument } from "types.generated";
 import type {
   ImageField,
   KeyTextField,
   LinkToMediaField,
 } from "@prismicio/types";
-import useIsMobile from "~/hooks/useIsMobile";
 
 interface LayoutWorkMenuItemProps {
   hovered: boolean;
@@ -68,7 +66,7 @@ function LayoutWorkMenuItem({
         video.currentTime = 0;
       });
     }
-  }, [hovered]);
+  }, [hovered, isMobile]);
 
   const opacityTransition =
     "transition-opacity duration-500 ease-out delay-100";
@@ -164,23 +162,24 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const onItemClick = (slug: string, index: number) => {
-    // setClickedIndex(index);
-    const timeline = gsap.timeline({
-      onComplete: () => {
-        setHoveredIndex(null);
-        navigate(`/work/${slug}`, { preventScrollReset: false });
-      },
-    });
+    navigate(`/work/${slug}`, { preventScrollReset: false });
 
-    animateTable({
-      tl: timeline,
-      position: 0,
-      duration: 0.6,
-      ease: easings.mask,
-      index,
-      slug,
-      stagger: 0.02,
-    });
+    // setClickedIndex(index);
+    /*const timeline = gsap.timeline({
+              onComplete: () => {
+                setHoveredIndex(null);
+                navigate(`/work/${slug}`, { preventScrollReset: false });
+              },
+            });*/
+    /*animateBanner({
+              tl: timeline,
+              position: 0,
+              duration: 0.6,
+              ease: easings.mask,
+              index,
+              slug,
+              stagger: 0.02,
+            });*/
   };
 
   const onMouseEnter = (index: number) => {

@@ -2,7 +2,9 @@ import React from "react";
 import { PrismicImage } from "@prismicio/react";
 import type { PrismicImageProps } from "@prismicio/react";
 
-function Image({ ref, widths, ...props }: PrismicImageProps) {
+export type ImageProps = PrismicImageProps;
+
+export function Image({ ref, widths, ...props }: ImageProps) {
   return (
     // @ts-ignore
     <PrismicImage
@@ -13,5 +15,3 @@ function Image({ ref, widths, ...props }: PrismicImageProps) {
     />
   );
 }
-
-export default Image;

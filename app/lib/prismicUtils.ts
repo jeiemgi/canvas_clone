@@ -1,5 +1,7 @@
-import type { HomepageDocument } from "types.generated";
-import { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
+import type {
+  HomepageDocument,
+  HomepageDocumentDataBodyHomepageProjectSlice,
+} from "types.generated";
 
 export const findSliceByType = (
   { data }: HomepageDocument,

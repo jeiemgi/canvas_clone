@@ -18,7 +18,7 @@ function HomePageProjects({ data }: HomePageProjectsProps) {
     <section
       ref={containerRef}
       id={"home-projects-container"}
-      className={"relative"}
+      className={"bg-yellow relative"}
     >
       <HomePageBackgroundContainer data={data} />
       <HomePageTitleContainer data={data} />

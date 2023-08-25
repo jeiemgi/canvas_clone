@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 interface Props extends VideoProps {
   lazy?: boolean;
   playable?: boolean;
-  square?: boolean;
 }
 
 const Video = forwardRef<HTMLVideoElement, Props>(
@@ -14,7 +13,6 @@ const Video = forwardRef<HTMLVideoElement, Props>(
       autoPlay,
       className,
       playable = false,
-      square = false,
       poster,
       src,
       ...props

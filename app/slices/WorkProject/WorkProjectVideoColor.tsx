@@ -15,7 +15,7 @@ function WorkProjectVideoColor({ lazy, item }: Props) {
 
   const contentClassNames = item.primary.square
     ? "md:col-span-6 md:col-start-4"
-    : "md:col-span-8 md:col-start-3";
+    : "md:col-span-8 md:col-start-3 md:aspect-video bg-black";
 
   return (
     <div
@@ -29,7 +29,6 @@ function WorkProjectVideoColor({ lazy, item }: Props) {
           autoPlay
           lazy={lazy}
           poster={item.primary.cover.url || ""}
-          square={item.primary.square}
           // @ts-ignore
           src={item.primary.video.url}
         />

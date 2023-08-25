@@ -20,7 +20,6 @@ function WorkProject2Column({ item, lazy }: Props) {
       {leftIsVideo ? (
         <div className={"w-full bg-pure-black md:w-1/2"}>
           <Video
-            square
             autoPlay
             lazy={lazy}
             className={"h-full w-full object-cover"}
@@ -40,7 +39,6 @@ function WorkProject2Column({ item, lazy }: Props) {
       {rightIsVideo ? (
         <div className={"w-full bg-pure-black md:w-1/2"}>
           <Video
-            square
             autoPlay
             lazy={lazy}
             className={"h-full w-full object-cover"}
