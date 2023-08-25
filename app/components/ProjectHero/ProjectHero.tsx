@@ -263,7 +263,8 @@ function ProjectHero({
       )}
     >
       {image ? <ProjectBackground field={image} /> : null}
-      <div className="grid-container relative">
+
+      <div className="grid-container relative pt-header md:pt-headerDesk">
         <div className="absolute left-0 top-0 bg-black text-white">
           ProjectHero
         </div>

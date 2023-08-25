@@ -41,8 +41,6 @@ const HomePageProjectScrollItemContent = ({
           >
             <Image
               loading={"eager"}
-              width={"100vw"}
-              height={"100vh"}
               field={slide}
               className={"w-full object-contain"}
             />
@@ -96,9 +94,10 @@ function HomePageProjectScrollContainer({
     { index, slug = "" }: { index: number; slug: string }
   ) => {
     setLocked(true);
-    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
+
+    /*lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
       offset: window.innerHeight * 0.2,
-    });
+    });*/
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -151,7 +150,6 @@ function HomePageProjectScrollContainer({
       const subtitles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
       const subtitle = subtitles[index];
 
-      console.log(index);
       animateBanner(
         tl,
         {
@@ -180,7 +178,6 @@ function HomePageProjectScrollContainer({
         >
           {"data" in project.primary.project_data ? (
             <ProjectHero
-              debug
               isClone={true}
               tableData={
                 project.primary.project_data?.data as ProjectHeroTableProps

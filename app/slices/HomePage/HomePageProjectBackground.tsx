@@ -110,10 +110,10 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
             "relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
           }
         >
-          <div className="hero-project-bg-container absolute flex h-screen w-full items-end">
+          <div className="hero-project-bg-container absolute flex h-screen w-full items-end border border-white bg-red">
             <Image
               field={project.primary.background_image}
-              className={"min-h-full min-w-full select-none object-cover"}
+              className={"min-h-full w-full object-cover"}
             />
           </div>
 

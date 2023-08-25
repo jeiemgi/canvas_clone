@@ -44,32 +44,23 @@ function LayoutWorkMenuItem({
   onMouseEnter,
   onMouseLeave,
 }: LayoutWorkMenuItemProps) {
-  const isMobile = useIsMobile();
   const refs = useRef<Array<HTMLVideoElement>>([]);
   const setRefs = (node: HTMLVideoElement | null) => {
     if (node) refs.current = [...refs.current, node];
   };
 
   useEffect(() => {
-    if (hovered && !isMobile) {
-      refs.current.forEach((video) => {
-        const isPlaying =
-          video.currentTime > 0 &&
-          !video.paused &&
-          !video.ended &&
-          video.readyState > video.HAVE_CURRENT_DATA;
-        if (!isPlaying) video.play();
-      });
+    if (hovered) {
+      refs.current.forEach((video) => video.play());
     } else {
       refs.current.forEach((video) => {
         video.pause();
         video.currentTime = 0;
       });
     }
-  }, [hovered, isMobile]);
+  }, [hovered]);
 
-  const opacityTransition =
-    "transition-opacity duration-500 ease-out delay-100";
+  const opacityTransition = "transition-opacity duration-200";
   const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
 
   return (
@@ -82,10 +73,10 @@ function LayoutWorkMenuItem({
       <div
         className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
       >
-        <h1 className={"label--2 col-span-1 text-white"}>{name}</h1>
-        <span className={"label--2 mobile-only text-white"}>{`${
-          index + 1
-        }/${length}`}</span>
+        <h1 className={"label--2 text-white"}>{name}</h1>
+        <span className={"label--2 mobile-only text-white"}>
+          {`${index + 1}/${length}`}
+        </span>
       </div>
 
       <div
@@ -122,18 +113,12 @@ function LayoutWorkMenuItem({
               key={`LayoutWorkMenuItemImage-${slug}-${_idx}`}
               className={"aspect-square overflow-hidden"}
             >
-              {hovered ? (
-                <Image
-                  loading={"eager"}
-                  field={item.image}
-                  className={"w-full"}
-                />
-              ) : "url" in item.video && item.video.url ? (
+              {"url" in item.video && item.video.url ? (
                 <Video
+                  lazy={false}
                   loop={true}
                   muted={true}
                   playsInline={true}
-                  lazy={false}
                   // @ts-ignore
                   src={item.video.url}
                   poster={item.image.url || ""}
@@ -166,20 +151,20 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
 
     // setClickedIndex(index);
     /*const timeline = gsap.timeline({
-              onComplete: () => {
-                setHoveredIndex(null);
-                navigate(`/work/${slug}`, { preventScrollReset: false });
-              },
-            });*/
+                                              onComplete: () => {
+                                                setHoveredIndex(null);
+                                                navigate(`/work/${slug}`, { preventScrollReset: false });
+                                              },
+                                            });*/
     /*animateBanner({
-              tl: timeline,
-              position: 0,
-              duration: 0.6,
-              ease: easings.mask,
-              index,
-              slug,
-              stagger: 0.02,
-            });*/
+                                              tl: timeline,
+                                              position: 0,
+                                              duration: 0.6,
+                                              ease: easings.mask,
+                                              index,
+                                              slug,
+                                              stagger: 0.02,
+                                            });*/
   };
 
   const onMouseEnter = (index: number) => {
@@ -219,17 +204,18 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
           }));
 
           const slug = item.primary.link || "";
-          const shouldPlay = hoveredIndex === _idx;
+          const hovered = hoveredIndex === _idx;
           const someIsHovered = hoveredIndex !== null;
           // const tableData = item.primary.project_page_data;
+
           return (
             <div
               key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
               className={"LayoutWorkMenuItem mb-5 last:mb-0"}
             >
               <LayoutWorkMenuItem
+                hovered={hovered}
                 someIsHovered={someIsHovered}
-                hovered={shouldPlay}
                 media={media}
                 index={_idx}
                 length={arr.length}
