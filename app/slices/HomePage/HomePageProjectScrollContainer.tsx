@@ -1,5 +1,4 @@
 import { gsap } from "gsap";
-import easings from "~/lib/easings";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { Image } from "~/components/Image";
 import { useLenis } from "@studio-freight/react-lenis";
@@ -14,7 +13,8 @@ import {
 import ProjectHero from "~/components/ProjectHero";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
+import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
 
 function HomePageProjectScrollContainer({
   data,
@@ -27,11 +27,15 @@ function HomePageProjectScrollContainer({
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const items = gsap.utils.toArray<HTMLDivElement>(".scroll-item");
+      const items = gsap.utils.toArray<HTMLDivElement>(
+        ".HomePageProjectScrollItem"
+      );
 
       items.forEach((item) => {
         const clone = item.querySelector(".ProjectHero");
-        const content = item.querySelector(".scroll-item__content");
+        const content = item.querySelector(
+          ".HomePageProjectScrollItem__content"
+        );
 
         if (clone && content) {
           const contentHeight = content.scrollHeight - window.innerHeight || 0;
@@ -56,7 +60,7 @@ function HomePageProjectScrollContainer({
   ) => {
     setLocked(true);
 
-    lenis.scrollTo(`#HomePageProjectItem-${slug}`, {
+    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
       offset: window.innerHeight * 0.2,
     });
 
@@ -99,7 +103,9 @@ function HomePageProjectScrollContainer({
       0
     );
 
-    const content = document.querySelectorAll(".scroll-item__content")[index];
+    const content = document.querySelectorAll(
+      ".HomePageProjectScrollItem__content"
+    )[index];
     tl.to(
       content,
       {
@@ -115,11 +121,11 @@ function HomePageProjectScrollContainer({
     <div id={"home-projects-container"}>
       {data.map((project, index) => (
         <div
-          key={`HomePageProjectItem-${index}`}
-          onClick={() =>
-            onClick({ index, slug: project.primary.slug as string })
+          className={"HomePageProjectScrollItem scroll-item relative"}
+          key={`HomePageProjectScrollItem-${index}`}
+          onClick={(e) =>
+            onClick(e, { index, slug: project.primary.slug as string })
           }
-          className={"scroll-item relative"}
         >
           {"data" in project.primary.project_data ? (
             <ProjectHero
@@ -131,34 +137,42 @@ function HomePageProjectScrollContainer({
             />
           ) : null}
 
-          <div className="grid-container scroll-item__content relative pb-[20vh] pt-[50vh]">
-            <div className={"col-span-4 md:col-start-9"}>
-              {/*ANCHOR ONLY TO scrollTo on click*/}
-              <div id={`HomePageProjectItem-${project.primary.slug}`} />
-
-              <p className={"body--2 mb-5 max-w-[500px] text-white"}>
-                {asText(project.primary.description)}
-              </p>
-              {project.items.map(({ slide }, index) => (
-                <div
-                  key={`ProjectImage-${slide.url}-${index}`}
-                  className={"mb-5 overflow-hidden"}
-                >
-                  <Image
-                    loading={"eager"}
-                    width={"100vw"}
-                    height={"100vh"}
-                    field={slide}
-                    className={"w-full object-contain"}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <HomePageProjectScrollItemContent project={project} />
         </div>
       ))}
     </div>
   );
 }
 
+const HomePageProjectScrollItemContent = ({
+  project,
+}: {
+  project: HomepageDocumentDataBodyHomepageProjectSlice;
+}) => {
+  return (
+    <div className="grid-container HomePageProjectScrollItem__content relative pb-[20vh] pt-[50vh]">
+      <div className={"col-span-4 md:col-start-9"}>
+        {/*ANCHOR ONLY TO scrollTo on click*/}
+        <div id={`HomePageProjectScrollItem-${project.primary.slug}`} />
+        <p className={"body--2 mb-5 max-w-[500px] text-white"}>
+          {asText(project.primary.description)}
+        </p>
+        {project.items.map(({ slide }, index) => (
+          <div
+            key={`ProjectImage-${slide.url}-${index}`}
+            className={"mb-5 overflow-hidden"}
+          >
+            <Image
+              loading={"eager"}
+              width={"100vw"}
+              height={"100vh"}
+              field={slide}
+              className={"w-full object-contain"}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 export default HomePageProjectScrollContainer;

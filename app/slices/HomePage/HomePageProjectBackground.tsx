@@ -40,7 +40,9 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
         });
 
         const bgItems = document.querySelectorAll(".hero-project-bg-container");
-        const scrollItems = document.querySelectorAll(".scroll-item");
+        const scrollItems = document.querySelectorAll(
+          ".HomePageProjectScrollItem"
+        );
 
         bgItems.forEach((bgItem, _index, arr) => {
           const isFirst = _index === 0;

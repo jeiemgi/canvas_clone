@@ -51,7 +51,9 @@ function animateTextOnScroll(
 function useAnimationOnScroll(selector: string) {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const scrollItems = document.querySelectorAll(".scroll-item");
+      const scrollItems = document.querySelectorAll(
+        ".HomePageProjectScrollItem"
+      );
       const items = document.querySelectorAll(selector);
       const splits = splitText(items);
 
