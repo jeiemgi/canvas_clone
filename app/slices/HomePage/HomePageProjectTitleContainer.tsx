@@ -156,7 +156,7 @@ function HomePageProjectTitleContainer({
           ))}
         </div>
 
-        <div className={"title-item__label"}>
+        <div className={"HomePageProject__labels"}>
           <HomePageProjectTitle className={"mr-10 inline-block"}>
             CASE STUDY
           </HomePageProjectTitle>

@@ -127,14 +127,97 @@ export const ProjectHeroLine = ({ top = false, className = "" }) => {
   );
 };
 
-export function ProjectContainer({ className, ...props }: DivProps) {
-  return (
-    <div {...props} className={clsx(className, "grid-container relative")} />
+type GSAPAnimationFunction = (
+  tl: GSAPTimeline,
+  vars: GSAPTimelineVars,
+  elements: {
+    title: Element;
+    subtitle?: Element;
+    scope: Element | Document;
+  }
+) => void;
+
+export const animateBanner: GSAPAnimationFunction = (
+  tl,
+  { position, stagger, ease, duration, ...vars },
+  { title, subtitle, scope }
+) => {
+  // ANIMATE TABLE
+  const tableLines = scope.querySelectorAll(".hero-table-line");
+  const tableItems = scope.querySelectorAll(".hero-table-row__item");
+
+  tl.to(
+    tableLines,
+    {
+      scaleX: 1,
+      ...vars,
+    },
+    position
   );
-}
+  tl.to(
+    tableItems,
+    {
+      y: "0%",
+      ease,
+      duration,
+      stagger,
+      ...vars,
+    },
+    position
+  );
+
+  // ADD ANIMATION TO TEXT SIZES
+  const titleText = title.querySelector("span");
+  tl.to(
+    titleText,
+    {
+      ease,
+      duration,
+      fontSize: "6.875rem",
+      letterSpacing: "-0.1375rem",
+      transformOrigin: "top left",
+      ...vars,
+    },
+    position
+  );
+
+  if (subtitle) {
+    const subtitleText = subtitle.querySelector("span");
+    tl.to(
+      subtitleText,
+      {
+        ease,
+        duration,
+        fontSize: "1.5rem",
+        letterSpacing: "-0.015rem",
+        transformOrigin: "top left",
+        ...vars,
+      },
+      position
+    );
+  }
+
+  const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
+  const titleState = Flip.getState(title);
+  cloneHeroTitle?.appendChild(title);
+  Flip.from(titleState, { duration, ease, ...vars });
+
+  if (subtitle) {
+    const cloneHeroSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
+    const subtitleState = Flip.getState(subtitle);
+    cloneHeroSubtitle?.appendChild(subtitle);
+    Flip.from(subtitleState, { duration, ease, ...vars });
+  }
+};
+
+export const setupBannerAnimation = (scope: Element) => {
+  const tableLines = scope.querySelectorAll(".hero-table-line");
+  const tableItems = scope.querySelectorAll(".hero-table-row__item");
+  gsap.set(tableLines, { scaleX: 0 });
+  gsap.set(tableItems, { y: "200%" });
+};
 
 interface ProjectHeroProps extends DivProps {
-  slug: KeyTextField;
   cta?: Function;
   children?: ReactNode;
   tableData?: ProjectHeroTableProps;
@@ -145,107 +228,9 @@ interface ProjectHeroProps extends DivProps {
   subTitleField?: RichTextField;
 }
 
-interface GSAPAnimationFunction extends GSAPTimelineVars {
-  tl: GSAPTimeline;
-  slug: string;
-  scope: Element | Document;
-  title: Element;
-  subtitle: Element;
-}
-
-export const animateBanner = ({
-  tl,
-  scope = document,
-  title,
-  subtitle,
-  position = 0.5,
-  stagger = 0.02,
-  duration = 0.6,
-  ease = easings.mask,
-}: GSAPAnimationFunction) => {
-  if (title) {
-    const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
-    const titleState = Flip.getState(title);
-    cloneHeroTitle?.appendChild(title);
-    const titleTl = Flip.from(titleState, { duration, ease });
-
-    // ANIMATE THE TEXT SIZES
-    const titleText = title.querySelector("span");
-    titleTl.to(
-      titleText,
-      {
-        ease,
-        duration,
-        fontSize: "6.875rem",
-        letterSpacing: "-0.1375rem",
-        transformOrigin: "top left",
-      },
-      0
-    );
-    // titleTl.to(titleText, { lineHeight: "105%", ease, duration }, 0);
-  } else {
-    console.error(`No TITLE found`, title);
-    return;
-  }
-
-  if (subtitle) {
-    const cloneHeroSubtitle = document.querySelector(`.ProjectHeroSubtitle`);
-    const subtitleState = Flip.getState(subtitle);
-    cloneHeroSubtitle?.appendChild(subtitle);
-
-    const subTl = Flip.from(subtitleState, { duration, ease });
-    const subtitleText = subtitle.querySelector("span");
-    subTl.to(
-      subtitleText,
-      {
-        ease,
-        duration: duration,
-        fontSize: "1.5rem",
-        letterSpacing: "-0.015rem",
-        transformOrigin: "top left",
-      },
-      0
-    );
-    subTl.set(subtitleText, { lineHeight: "105%" }, 0);
-  } else {
-    console.error(`No SUB-TITLE found`, subtitle);
-    return;
-  }
-
-  // ANIMATE TABLE
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  tl.to(
-    tableLines,
-    {
-      scaleX: 1,
-    },
-    position
-  );
-
-  tl.to(
-    tableItems,
-    {
-      y: "0%",
-      ease,
-      duration,
-      stagger,
-    },
-    position
-  );
-};
-
-export const setupBannerAnimation = (scope: Element) => {
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  gsap.set(tableLines, { scaleX: 0 });
-  gsap.set(tableItems, { y: "200%" });
-};
-
 function ProjectHero({
   children,
   cta,
-  slug,
   tableData,
   className,
   isClone = false,
@@ -266,21 +251,12 @@ function ProjectHero({
 
   const debugClassNames = debug ? "border inner border-white" : "";
 
-  // const titleId = `${baseClassName}-title-${slug}${
-  //   isClone ? cloneClassNameModifier : ""
-  // }`;
-  //
-  // const subTitleId = `${baseClassName}-subtitle-${slug}${
-  //   isClone ? cloneClassNameModifier : ""
-  // }`;
-
   return (
     <div
       {...props}
       {...extraProps}
       className={clsx(
         baseClassName,
-        "h-screen",
         className,
         debugClassNames,
         baseClassNames
@@ -289,7 +265,7 @@ function ProjectHero({
       {image ? <ProjectBackground field={image} /> : null}
       <div className="grid-container relative">
         <div className="absolute left-0 top-0 bg-black text-white">
-          ProjectHero {slug}
+          ProjectHero
         </div>
         <ProjectHeroTitle
           className={debugClassNames}

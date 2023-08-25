@@ -1,4 +1,9 @@
 import { gsap } from "gsap";
+import {
+  HOMEPAGE_PROJECT_SUBTITLE_ID,
+  HOMEPAGE_PROJECT_TITLE_ID,
+} from "~/slices/HomePage/HomePageProjectTitleContainer";
+import easings from "~/lib/easings";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { Image } from "~/components/Image";
 import { useLenis } from "@studio-freight/react-lenis";
@@ -15,149 +20,6 @@ import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "../../../types.generated";
-import {
-  HOMEPAGE_PROJECT_SUBTITLE_ID,
-  HOMEPAGE_PROJECT_TITLE_ID,
-} from "~/slices/HomePage/HomePageProjectTitleContainer";
-import easings from "~/lib/easings";
-
-function HomePageProjectScrollContainer({
-  data,
-}: {
-  data: HomePageProjectsData;
-}) {
-  const lenis = useLenis();
-  const navigate = useNavigate();
-  const [, setLocked] = useLockedBody(false);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const items = gsap.utils.toArray<HTMLDivElement>(
-        ".HomePageProjectScrollItem"
-      );
-
-      items.forEach((item) => {
-        const clone = item.querySelector(".ProjectHero");
-        const content = item.querySelector(
-          ".HomePageProjectScrollItem__content"
-        );
-
-        if (clone && content) {
-          const contentHeight = content.scrollHeight - window.innerHeight || 0;
-
-          ScrollTrigger.create({
-            pin: true,
-            trigger: clone,
-            start: "top top",
-            end: () => `+=${contentHeight}px`,
-          });
-        }
-        setupBannerAnimation(item);
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const onClick = (
-    e: MouseEvent<HTMLDivElement>,
-    { index, slug = "" }: { index: number; slug: string }
-  ) => {
-    setLocked(true);
-
-    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
-      offset: window.innerHeight * 0.2,
-    });
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        navigate(`/work/${slug}`, { preventScrollReset: false });
-      },
-    });
-
-    const duration = 1;
-    const ease = easings.mask;
-
-    if (e.target instanceof Element) {
-      const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
-      const title = titles[index];
-
-      const subtitles = document.querySelectorAll(
-        `.${HOMEPAGE_PROJECT_SUBTITLE_ID}`
-      );
-      const subtitle = subtitles[index];
-
-      animateBanner({
-        tl,
-        slug,
-        title,
-        subtitle,
-        scope: e.target,
-      });
-    }
-
-    /* ANIMATE OTHER ITEMS */
-    const background = document
-      .querySelectorAll(".hero-project-bg-container")
-      [index].querySelector("img");
-
-    tl.to(
-      background,
-      {
-        ease,
-        duration: duration - 0.3,
-        y: background ? background?.scrollHeight - window.innerHeight : 0,
-      },
-      0
-    );
-
-    const label = document.querySelector(".title-item__label")!;
-    tl.to(
-      label,
-      { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
-      0
-    );
-
-    const content = document.querySelectorAll(
-      ".HomePageProjectScrollItem__content"
-    )[index];
-    tl.to(
-      content,
-      {
-        ease,
-        autoAlpha: 0,
-        duration: duration - 0.5,
-      },
-      0
-    );
-  };
-
-  return (
-    <div id={"home-projects-container"}>
-      {data.map((project, index) => (
-        <div
-          key={`HomePageProjectScrollItem-${index}`}
-          className={"HomePageProjectScrollItem relative"}
-          onClick={(e) => {
-            onClick(e, { index, slug: project.primary.slug as string });
-          }}
-        >
-          {"data" in project.primary.project_data ? (
-            <ProjectHero
-              isClone={true}
-              slug={project.primary.slug}
-              tableData={
-                project.primary.project_data?.data as ProjectHeroTableProps
-              }
-            />
-          ) : null}
-
-          <HomePageProjectScrollItemContent project={project} />
-        </div>
-      ))}
-    </div>
-  );
-}
 
 const HomePageProjectScrollItemContent = ({
   project,
@@ -191,3 +53,144 @@ const HomePageProjectScrollItemContent = ({
   );
 };
 export default HomePageProjectScrollContainer;
+
+function HomePageProjectScrollContainer({
+  data,
+}: {
+  data: HomePageProjectsData;
+}) {
+  const lenis = useLenis();
+  const navigate = useNavigate();
+  const [, setLocked] = useLockedBody(false);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const items = gsap.utils.toArray<HTMLDivElement>(
+        ".HomePageProjectScrollItem"
+      );
+
+      items.forEach((item) => {
+        const clone = item.querySelector(".ProjectHero");
+        const content = item.querySelector(
+          ".HomePageProjectScrollItem__content"
+        );
+        if (clone && content) {
+          const contentHeight = content.scrollHeight - window.innerHeight || 0;
+
+          ScrollTrigger.create({
+            pin: true,
+            trigger: clone,
+            start: "top top",
+            end: () => `+=${contentHeight}px`,
+          });
+        }
+        setupBannerAnimation(item);
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const onClick = (
+    e: MouseEvent<HTMLDivElement>,
+    { index, slug = "" }: { index: number; slug: string }
+  ) => {
+    setLocked(true);
+    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
+      offset: window.innerHeight * 0.2,
+    });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        navigate(`/work/${slug}`, { preventScrollReset: false });
+      },
+    });
+    const duration = 1;
+    const ease = easings.mask;
+
+    /* ANIMATE OTHER ITEMS */
+    const background = document
+      .querySelectorAll(".hero-project-bg-container")
+      [index].querySelector("img");
+
+    tl.to(
+      background,
+      {
+        ease,
+        duration: duration - 0.3,
+        y: background ? background?.scrollHeight - window.innerHeight : 0,
+      },
+      0
+    );
+
+    const label = document.querySelector(".HomePageProject__labels");
+    tl.to(
+      label,
+      { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
+      0
+    );
+
+    const content = document.querySelectorAll(
+      ".HomePageProjectScrollItem__content"
+    )[index];
+    tl.to(
+      content,
+      {
+        ease,
+        autoAlpha: 0,
+        duration: duration - 0.5,
+      },
+      0
+    );
+
+    if (e.target instanceof Element) {
+      // prettier-ignore
+      const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
+      const title = titles[index];
+      // prettier-ignore
+      const subtitles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
+      const subtitle = subtitles[index];
+
+      console.log(index);
+      animateBanner(
+        tl,
+        {
+          ease,
+          duration,
+          position: 0,
+        },
+        {
+          title,
+          subtitle,
+          scope: e.target,
+        }
+      );
+    }
+  };
+
+  return (
+    <div id={"home-projects-container"}>
+      {data.map((project, index) => (
+        <div
+          key={`HomePageProjectScrollItem-${index}`}
+          className={"HomePageProjectScrollItem relative"}
+          onClick={(e) => {
+            onClick(e, { index, slug: project.primary.slug as string });
+          }}
+        >
+          {"data" in project.primary.project_data ? (
+            <ProjectHero
+              debug
+              isClone={true}
+              tableData={
+                project.primary.project_data?.data as ProjectHeroTableProps
+              }
+            />
+          ) : null}
+
+          <HomePageProjectScrollItemContent project={project} />
+        </div>
+      ))}
+    </div>
+  );
+}
