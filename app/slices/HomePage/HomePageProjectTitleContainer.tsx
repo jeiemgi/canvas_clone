@@ -160,7 +160,7 @@ function HomePageProjectTitleContainer({
           <HomePageProjectTitle className={"mr-10 inline-block"}>
             CASE STUDY
           </HomePageProjectTitle>
-          <div className={"relative mr-1 inline-block h-5 w-4"}>
+          <div className={"relative mr-1 inline-block h-[21px] w-[18px]"}>
             {data.map((item, index) => (
               <div
                 key={`HomePageProject-index-${index}`}

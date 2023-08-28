@@ -39,7 +39,7 @@ export function TableCell({
   );
 }
 
-function Tables() {
+function WorkProjectDetailsTables() {
   const { details } = useLoaderData<typeof loader>();
 
   return (
@@ -118,7 +118,7 @@ function WorkProjectDetails({
         </div>
 
         <div className={"modal-tables"}>
-          <Tables />
+          <WorkProjectDetailsTables />
         </div>
       </div>
     </WorkProjectDetailsModal>
