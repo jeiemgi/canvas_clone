@@ -81,7 +81,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
   );
 }
 
-export function ErrorBoundary() {
+/*export function ErrorBoundary() {
   const error = useRouteError();
   console.error(error);
 
@@ -104,7 +104,7 @@ export function ErrorBoundary() {
       </div>
     </Document>
   );
-}
+}*/
 
 export type RootLoader = typeof loader;
 

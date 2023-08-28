@@ -63,7 +63,7 @@ function Modal({
             data-lenis-prevent={scroll}
           >
             {children}
-            {showClose ? <ModalClose toggle={toggle} /> : null}
+            {showClose ? <ModalCloseButton onClick={toggle} /> : null}
           </div>
         </Transition.Child>
       </Dialog>
@@ -71,14 +71,14 @@ function Modal({
   );
 }
 
-function ModalClose({ toggle }: { toggle: Function }) {
+export function ModalCloseButton({ onClick }: { onClick: Function }) {
   return (
     <div
       className={
         "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
       }
     >
-      <SecondaryCTA dark onClick={() => toggle()}>
+      <SecondaryCTA dark onClick={() => onClick()}>
         CLOSE
       </SecondaryCTA>
     </div>

@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { json } from "@remix-run/node";
-import imagesloaded from "imagesloaded";
+import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import useIsScrolled from "~/hooks/useIsScrolled";
-import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
 import { useLocation } from "@remix-run/react";
-import { useLayoutEffect, useLazyLoadVideos } from "~/hooks";
+import { useLayoutEffect } from "~/hooks";
 import { useLockedBody } from "usehooks-ts";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { useEffect, useRef } from "react";
@@ -16,6 +14,8 @@ import { SecondaryCTA } from "~/components/CTA";
 import WorkProjectHero from "~/slices/WorkProject/WorkProjectHero";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
+import imagesLoaded from "imagesloaded";
+import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
 import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -59,7 +59,6 @@ function WorkProjectDetailsButton({ onClick }: { onClick: Function }) {
         trigger: trigger,
         pin: ref.current,
         pinSpacing: false,
-        markers: true,
       });
     });
 
@@ -82,44 +81,34 @@ function WorkProjectDetailsButton({ onClick }: { onClick: Function }) {
 }
 
 function WorkProject() {
+  const location = useLocation();
+  const [, setLocked] = useLockedBody(false);
+  const { showProjectDetails, toggleProjectDetails } = useNavTheme();
+
   useEffect(() => {
     const images = document.querySelectorAll("img");
     const videos = document.querySelectorAll("video");
-
-    const onLoaded = () => {
-      ScrollTrigger.refresh();
-    };
-
-    imagesloaded(images, onLoaded);
+    const onLoaded = () => ScrollTrigger.refresh();
+    imagesLoaded(images, onLoaded);
     lazyLoadVideos(videos, onLoaded);
   }, []);
 
-  useLazyLoadVideos(() => {
-    ScrollTrigger.refresh();
-  });
-
-  const location = useLocation();
-  const { showProjectDetails, toggleProjectDetails } = useNavTheme();
-  const [, setLocked] = useLockedBody(false);
-
   const toggleModalOpen = () => {
-    toggleProjectDetails(!showProjectDetails);
     setLocked(showProjectDetails);
+    toggleProjectDetails(!showProjectDetails);
   };
 
   return (
-    <>
-      <div id={"WorkProjectPage"}>
-        <WorkProjectHero toggleProjectDetails={toggleModalOpen} />
-        <WorkProjectSliceZone />
-        <WorkProjectDetailsButton onClick={toggleModalOpen} />
-      </div>
+    <div id={"WorkProjectPage"}>
+      <WorkProjectHero toggleProjectDetails={toggleModalOpen} />
+      <WorkProjectSliceZone />
+      <WorkProjectDetailsButton onClick={toggleModalOpen} />
       <WorkProjectDetails
         key={`modal-${location.pathname}`}
         toggle={toggleProjectDetails}
         isOpen={showProjectDetails}
       />
-    </>
+    </div>
   );
 }
 

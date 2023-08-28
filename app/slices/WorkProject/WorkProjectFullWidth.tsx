@@ -9,12 +9,11 @@ interface Props {
 }
 
 function WorkProjectFullWidth({ item }: Props) {
-  if (item.primary.video.link_type === "Media") {
+  if ("url" in item.primary.video && item.primary.video.url) {
     return (
       <div className={"aspect-video select-none bg-red"}>
         <Video
           autoPlay
-          // @ts-ignore
           src={item.primary.video.url}
           poster={item.primary.background.url || ""}
         />

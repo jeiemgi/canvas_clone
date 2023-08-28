@@ -3,6 +3,10 @@ import type {
   ProjectPageDocumentDataBody2TableSliceItem,
 } from "types.generated";
 
+export function getKey(prefix: string, ...keys: Array<string | number>) {
+  return `${prefix}-${keys.join("-")}`;
+}
+
 export const createTableColumns = (
   items: ProjectPageDocumentDataBody2TableSliceItem[]
 ) => {

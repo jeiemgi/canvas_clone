@@ -30,7 +30,6 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
           pin: true,
           trigger: bgContainer,
           pinSpacing: false,
-          markers: true,
           end: () => {
             const scrollContainer = document.querySelector(
               "#home-projects-container"

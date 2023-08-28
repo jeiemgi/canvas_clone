@@ -1,25 +1,21 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
-import type { MouseEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import easings from "~/lib/easings";
+import ProjectHero, { animateBanner } from "~/components/ProjectHero";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { useNavigate } from "react-router";
-import Modal from "~/components/Modal";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
+import { Dialog, Transition } from "@headlessui/react";
 import type {
   WorkmenuDocument,
   WorkmenuDocumentDataBodyWorkmenuitemSlice,
 } from "types.generated";
-import ProjectHero, {
-  animateBanner,
-  setupBannerAnimation,
-} from "~/components/ProjectHero";
-import easings from "~/lib/easings";
-import { useLayoutEffect } from "~/hooks";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { ButtonProps } from "react-html-props";
-import { KeyTextField } from "@prismicio/types";
+import type { KeyTextField } from "@prismicio/types";
+import type { MouseEvent } from "react";
 
 interface LayoutWorkMenuItemProps extends ButtonProps {
   index: number;
@@ -37,6 +33,8 @@ function LayoutWorkMenuItem({
   item,
   ...props
 }: LayoutWorkMenuItemProps) {
+  const opacityTransition = "transition-opacity duration-200";
+  const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
   const refs = useRef<Array<HTMLVideoElement>>([]);
   const setRefs = (node: HTMLVideoElement | null) => {
     if (node) refs.current = [...refs.current, node];
@@ -57,9 +55,6 @@ function LayoutWorkMenuItem({
       });
     }
   }, [hovered]);
-
-  const opacityTransition = "transition-opacity duration-200";
-  const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
 
   return (
     <button
@@ -139,14 +134,14 @@ function LayoutWorkMenuItem({
 }
 
 function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
-  const navigate = useNavigate();
+  /// const navigate = useNavigate();
   const { showWorkMenu, toggleWorkMenu } = useNavTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  /*useLayoutEffect(() => {
-      const container = document.querySelector(".LayoutWorkMenu");
-      if (container) setupBannerAnimation(container);
-    }, []);*/
+  // useLayoutEffect(() => {
+  //   const container = document.querySelector(".LayoutWorkMenu");
+  //   if (container) setupBannerAnimation(container);
+  // }, []);
 
   const onItemClick = (
     e: MouseEvent<HTMLButtonElement>,
@@ -192,66 +187,100 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
   };
 
   return (
-    <Modal
-      isOpen={showWorkMenu}
-      toggle={toggleWorkMenu}
-      innerClassName={"LayoutWorkMenu"}
-      backdropClassName={"noise-background bg-pure-black"}
-    >
-      <div
-        className={"pointer-events-none absolute flex h-full w-full items-end"}
+    <Transition show={showWorkMenu} as={Fragment}>
+      <Dialog
+        onClose={() => {
+          toggleWorkMenu();
+        }}
+        className={"relative"}
       >
-        {data.data.body.map((item, _idx) => (
-          <Image
-            className={clsx(
-              hoveredIndex === _idx ? "opacity-100" : "opacity-0 delay-100",
-              "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
-            )}
-            field={item.primary.background}
-            key={`LayoutWorkMenuItem-background--${_idx}`}
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-500"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-out duration-500"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className={
+              "noise-background fixed inset-0 h-full w-full bg-pure-black"
+            }
           />
-        ))}
-      </div>
+        </Transition.Child>
 
-      {data.data.body.map((item, _idx) => {
-        if ("data" in item.primary.project_page_data) {
-          return (
-            <ProjectHero
-              isClone={true}
-              key={`LayoutWorkMenu-Hero-${_idx}`}
-              tableData={
-                item.primary.project_page_data.data as ProjectHeroTableProps
-              }
-            />
-          );
-        }
-      })}
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-500"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-out duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className={
+              "LayoutWorkMenu pointer-events-none absolute flex h-full w-full items-end"
+            }
+          >
+            {data.data.body.map((item, _idx) => {
+              const hovered = hoveredIndex === _idx;
 
-      <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
-        {data.data.body.map((item, _idx, arr) => {
-          const hovered = hoveredIndex === _idx;
-          const someIsHovered = hoveredIndex !== null;
+              return (
+                <Image
+                  className={clsx(
+                    hovered ? "opacity-100" : "opacity-0 delay-100",
+                    "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
+                  )}
+                  field={item.primary.background}
+                  key={`LayoutWorkMenuItem-background--${_idx}`}
+                />
+              );
+            })}
+          </div>
 
-          return (
-            <div
-              key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
-              className={"LayoutWorkMenuItem mb-5 last:mb-0"}
-            >
-              <LayoutWorkMenuItem
-                hovered={hovered}
-                someIsHovered={someIsHovered}
-                item={item}
-                index={_idx}
-                length={arr.length}
-                onMouseLeave={onMouseLeave}
-                onMouseEnter={() => onMouseEnter(_idx)}
-                onClick={(e) => onItemClick(e, item.primary.link)}
-              />
-            </div>
-          );
-        })}
-      </div>
-    </Modal>
+          {data.data.body.map((item, _idx) => {
+            if ("data" in item.primary.project_page_data) {
+              return (
+                <ProjectHero
+                  isClone={true}
+                  key={`LayoutWorkMenu-Hero-${_idx}`}
+                  tableData={
+                    item.primary.project_page_data.data as ProjectHeroTableProps
+                  }
+                />
+              );
+            }
+          })}
+
+          <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
+            {data.data.body.map((item, _idx, arr) => {
+              const hovered = hoveredIndex === _idx;
+              const someIsHovered = hoveredIndex !== null;
+
+              return (
+                <div
+                  key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
+                  className={"LayoutWorkMenuItem mb-5 last:mb-0"}
+                >
+                  <LayoutWorkMenuItem
+                    hovered={hovered}
+                    someIsHovered={someIsHovered}
+                    item={item}
+                    index={_idx}
+                    length={arr.length}
+                    onMouseLeave={onMouseLeave}
+                    onMouseEnter={() => onMouseEnter(_idx)}
+                    onClick={(e) => onItemClick(e, item.primary.link)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
   );
 }
 

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export const lazyLoadVideos = (
   videos: NodeListOf<HTMLVideoElement>,
   onItemLoad?: Function
@@ -34,11 +32,3 @@ export const lazyLoadVideos = (
     });
   }
 };
-const useVideoLazyLoad = (onItemLoad?: Function) => {
-  useEffect(() => {
-    const videos = document.querySelectorAll("video");
-    lazyLoadVideos(videos);
-  }, []);
-};
-
-export default useVideoLazyLoad;

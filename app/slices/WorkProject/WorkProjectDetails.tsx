@@ -1,18 +1,14 @@
-import clsx from "clsx";
 import { asText } from "@prismicio/richtext";
 import { useLoaderData } from "@remix-run/react";
-import { PrismicRichText } from "@prismicio/react";
-import type { loader } from "~/routes/work.$project";
-import type { KeyTextField, RichTextField } from "@prismicio/types";
-import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
-import Modal from "~/components/Modal";
 import { ProjectHeroTitle } from "~/components/ProjectHero/ProjectHero";
+import WorkProjectDetailsModal from "~/slices/WorkProject/WorkProjectDetailsModal";
+import WorkProjectDetailsModalTableInfo from "~/slices/WorkProject/WorkProjectDetailsModalTableInfo";
+import WorkProjectDetailsModalTableFull from "~/slices/WorkProject/WorkProjectDetailsModalTableFull";
+import type { loader } from "~/routes/work.$project";
+import type { KeyTextField } from "@prismicio/types";
+import type { ProjectPageDocumentDataBody2TableSliceItem } from "types.generated";
 
-function getKey(prefix: string, ...keys: Array<string | number>) {
-  return `${prefix}-${keys.join("-")}`;
-}
-
-function TableTitle({ text }: { text: string | KeyTextField }) {
+export function TableTitle({ text }: { text: string | KeyTextField }) {
   return (
     <div className={"mb-8 pt-3.5"}>
       <h3 className={"label--2"}>{text}</h3>
@@ -20,14 +16,14 @@ function TableTitle({ text }: { text: string | KeyTextField }) {
   );
 }
 
-function TableCell({
+export function TableCell({
   item,
 }: {
   item: ProjectPageDocumentDataBody2TableSliceItem;
 }) {
   return (
     <div className={"body--3 py-2"}>
-      {item?.link ? (
+      {item?.link && "url" in item.link && item.link.url ? (
         <a
           rel="noreferrer"
           target={"_blank"}
@@ -43,183 +39,6 @@ function TableCell({
   );
 }
 
-function TableInfo({
-  title,
-  description,
-}: {
-  title: string;
-  description: RichTextField;
-}) {
-  if (!title || !description) return null;
-
-  return (
-    <div className={"col-span-4 mb-8 md:col-span-5 md:mb-0"}>
-      <TableTitle text={title} />
-      <PrismicRichText
-        field={description}
-        components={{
-          paragraph: ({ children }) => <p className={"body--3"}>{children}</p>,
-        }}
-      />
-    </div>
-  );
-}
-
-function TableFull({
-  rows,
-  columns,
-}: {
-  columns: ProjectPageDocumentDataBody2TableSliceItem[][];
-  rows: ProjectPageDocumentDataBody2TableSliceItem[][];
-}) {
-  const keyPre = "TableFull";
-  const keyPreMobile = "TableFullMobile";
-
-  return (
-    <div>
-      <div className={"desktop-only"}>
-        {rows.map((row, rowIndex) => {
-          let rowChunks = [];
-          for (let i = 0; i < row.length; i += 2) {
-            rowChunks.push(row.slice(i, i + 2));
-          }
-
-          return (
-            <div
-              key={getKey(keyPre, "row", rowIndex)}
-              className={"grid-container border-b border-b-black/30"}
-            >
-              {rowChunks.map((chunk, chunkIndex) => {
-                return (
-                  <div
-                    key={getKey(keyPre, "rowChunk", chunkIndex)}
-                    className={clsx(
-                      "col-span-4 flex md:col-span-5 md:even:col-start-8"
-                    )}
-                  >
-                    {chunk.map((chunkItem, chunkItemIndex) => {
-                      const key = getKey(keyPre, "chunkItem", chunkItemIndex);
-                      if (chunkItem?.isheader) {
-                        return (
-                          <div key={key} className={"w-1/2"}>
-                            <TableTitle text={chunkItem.label} />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={key} className={"w-1/2"}>
-                            <TableCell item={chunkItem} />
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-
-      <div className={"mobile-only"}>
-        <div
-          className={
-            "max-container grid grid-cols-4 border-b border-b-black/30"
-          }
-        >
-          {columns?.map((colItem, colIndex) => {
-            return (
-              <div
-                className={clsx(
-                  "relative col-span-2 mb-24 border-b border-b-black/30"
-                )}
-                key={getKey(keyPreMobile, "column", colIndex)}
-              >
-                {colItem.map((cellItem, cellItemIndex) => {
-                  const key = getKey(keyPreMobile, "cellItem", cellItemIndex);
-                  return cellItem.isheader ? (
-                    <div
-                      key={key}
-                      className={
-                        colIndex % 2 === 0
-                          ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30" +
-                            "last:before:absolute last:before:bottom-0 last:before:h-[1px] last:before:w-[200%] last:before:bg-black/30"
-                          : ""
-                      }
-                    >
-                      <TableTitle text={cellItem.label} />
-                    </div>
-                  ) : (
-                    <div
-                      key={key}
-                      className={
-                        colIndex % 2 === 0
-                          ? "relative after:absolute after:top-0 after:h-[1px] after:w-[200%] after:bg-black/30"
-                          : ""
-                      }
-                    >
-                      <TableCell item={cellItem} />
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TableWithInfo({
-  title,
-  description,
-  rows,
-}: {
-  title: RichTextField;
-  description: RichTextField;
-  rows: ProjectPageDocumentDataBody2TableSliceItem[][];
-}) {
-  const keyPre = "TableWithInfo";
-  const detailsTitle = asText(title);
-
-  return (
-    <div className={"grid-container mb-20 md:mb-28"}>
-      <div className="col-span-4 border-t border-t-black/30 md:col-span-12 md:mb-3.5" />
-      <TableInfo title={detailsTitle} description={description} />
-
-      <div className={"col-span-4 md:col-span-5 md:col-start-8"}>
-        {rows.map((row, rowIndex) => {
-          const rowKey = getKey(keyPre, "row", detailsTitle, rowIndex);
-
-          return (
-            <div key={rowKey} className={"flex border-b border-b-black/30"}>
-              {row.map((rowItem, rowItemIndex) => {
-                const rowItemKey = getKey(
-                  keyPre,
-                  "rowItem",
-                  detailsTitle,
-                  rowItemIndex
-                );
-
-                return rowItem?.isheader ? (
-                  <div key={rowItemKey} className={"w-1/2"}>
-                    <TableTitle text={rowItem.label} />
-                  </div>
-                ) : (
-                  <div key={rowItemKey} className={"w-1/2"}>
-                    <TableCell item={rowItem} />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 function Tables() {
   const { details } = useLoaderData<typeof loader>();
 
@@ -227,17 +46,16 @@ function Tables() {
     <>
       {details.tables.map(({ title, description, rows, columns }, index) => {
         const isFull = !asText(title);
-
         return (
           <>
             {isFull ? (
-              <TableFull
+              <WorkProjectDetailsModalTableFull
                 rows={rows}
                 columns={columns}
                 key={`TableFull-${index}`}
               />
             ) : (
-              <TableWithInfo
+              <WorkProjectDetailsModalTableInfo
                 rows={rows}
                 title={title}
                 description={description}
@@ -249,24 +67,28 @@ function Tables() {
       })}
 
       {details.credits.length > 0
-        ? details.credits.map((item, index) => (
-            <div
-              key={`Table-credits-${index}-${details.credits}`}
-              className="grid-container"
-            >
-              <div className={"label--2 col-span-1"}>CREDIT</div>
-              <div className={"label--2 md:col-span-2 md:col-start-8"}>
-                {item.type}
-              </div>
-              <div
-                className={
-                  "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
-                }
-              >
-                {item.value}
-              </div>
-            </div>
-          ))
+        ? details.credits.map((item, index) => {
+            if (item.value)
+              return (
+                <div
+                  key={`Table-credits-${index}-${details.credits}`}
+                  className="grid-container"
+                >
+                  <div className={"label--2 col-span-1"}>CREDIT</div>
+                  <div className={"label--2 md:col-span-2 md:col-start-8"}>
+                    {item.type}
+                  </div>
+                  <div
+                    className={
+                      "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
+                    }
+                  >
+                    {item.value}
+                  </div>
+                </div>
+              );
+            return null;
+          })
         : null}
     </>
   );
@@ -280,28 +102,26 @@ function WorkProjectDetails({
   toggle: Function;
 }) {
   const { hero } = useLoaderData<typeof loader>();
-
   return (
-    <Modal
-      scroll
-      showClose
-      toggle={toggle}
-      isOpen={isOpen}
-      innerClassName={"pt-header md:pt-headerDesk pb-32"}
-    >
-      <div className="grid-container relative">
-        <ProjectHeroTitle className={"text-black"} field={hero.title} />
-      </div>
+    <WorkProjectDetailsModal onClose={toggle} isOpen={isOpen}>
+      <div
+        data-lenis-prevent={true}
+        className={"fixed inset-0 h-full w-full overflow-scroll pb-32"}
+      >
+        <div className="grid-container relative pt-header md:pt-headerDesk">
+          <ProjectHeroTitle className={"text-black"} field={hero.title} />
+        </div>
+        <div className="grid-container">
+          <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
+            <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
+          </div>
+        </div>
 
-      <div className="grid-container">
-        <div className="col-span-4 mb-10 md:col-span-12 md:mb-16">
-          <h3 className={"heading--3"}>{asText(hero.capabilities)}</h3>
+        <div className={"modal-tables"}>
+          <Tables />
         </div>
       </div>
-      <div className={"modal-tables"}>
-        <Tables />
-      </div>
-    </Modal>
+    </WorkProjectDetailsModal>
   );
 }
 
