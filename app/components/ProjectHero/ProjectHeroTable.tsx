@@ -17,9 +17,9 @@ function ProjectHeroItem({ children }: { children: ReactNode }) {
 
 export default function ProjectHeroTable({
   data,
-  focusable = true,
+  isClone = false,
 }: {
-  focusable?: boolean;
+  isClone?: boolean;
   data: ProjectHeroTableProps;
 }) {
   if (!data || !data.links) return null;
@@ -68,7 +68,7 @@ export default function ProjectHeroTable({
                     rel="noreferrer"
                     target={"_blank"}
                     className={"body--3 relative inline-block w-max"}
-                    tabIndex={!focusable ? -1 : 0}
+                    tabIndex={isClone ? -1 : 0}
                     // @ts-ignore
                     href={data.links[index]?.link_item?.url}
                   >

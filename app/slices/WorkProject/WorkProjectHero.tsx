@@ -69,12 +69,11 @@ function WorkProjectHero({
   return (
     <div className={"relative"}>
       <ProjectHero
-        slug={"alive"}
+        cta={toggleProjectDetails}
         image={hero.background_image}
-        titleField={hero.title}
         subTitleField={hero.capabilities}
         tableData={hero}
-        cta={toggleProjectDetails}
+        titleField={hero.title}
       >
         <div className="grid-container pb-10 md:pb-52">
           <WorkProjectHeroVideo

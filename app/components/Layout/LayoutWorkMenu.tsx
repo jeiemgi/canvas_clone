@@ -1,53 +1,51 @@
 import clsx from "clsx";
+import { gsap } from "gsap";
+import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { useNavigate } from "react-router";
 import Modal from "~/components/Modal";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
-import useIsMobile from "~/hooks/useIsMobile";
-// import { animateBanner } from "~/slices/HomePage/HomePageProjectScrollContainer";
-import type { WorkmenuDocument } from "types.generated";
 import type {
-  ImageField,
-  KeyTextField,
-  LinkToMediaField,
-} from "@prismicio/types";
+  WorkmenuDocument,
+  WorkmenuDocumentDataBodyWorkmenuitemSlice,
+} from "types.generated";
+import ProjectHero, {
+  animateBanner,
+  setupBannerAnimation,
+} from "~/components/ProjectHero";
+import easings from "~/lib/easings";
+import { useLayoutEffect } from "~/hooks";
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import type { ButtonProps } from "react-html-props";
+import { KeyTextField } from "@prismicio/types";
 
-interface LayoutWorkMenuItemProps {
-  hovered: boolean;
-  someIsHovered: boolean;
-  name: KeyTextField;
-  slug: KeyTextField;
-  capabilities: KeyTextField;
-  media: Array<{
-    image: ImageField;
-    video: LinkToMediaField;
-  }>;
+interface LayoutWorkMenuItemProps extends ButtonProps {
   index: number;
   length: number;
-  onItemClick: (index: number) => void;
-  onMouseEnter: (index: number) => void;
-  onMouseLeave: Function;
+  hovered: boolean;
+  someIsHovered: boolean;
+  item: WorkmenuDocumentDataBodyWorkmenuitemSlice;
 }
 
 function LayoutWorkMenuItem({
-  hovered,
-  someIsHovered,
-  name,
-  slug,
-  capabilities,
-  media,
   index,
   length,
-  onItemClick,
-  onMouseEnter,
-  onMouseLeave,
+  hovered,
+  someIsHovered,
+  item,
+  ...props
 }: LayoutWorkMenuItemProps) {
   const refs = useRef<Array<HTMLVideoElement>>([]);
   const setRefs = (node: HTMLVideoElement | null) => {
     if (node) refs.current = [...refs.current, node];
   };
+
+  const media = item.items.map((_it) => ({
+    image: _it.thumbnail,
+    video: _it.thumbnail_video,
+  }));
 
   useEffect(() => {
     if (hovered) {
@@ -64,16 +62,16 @@ function LayoutWorkMenuItem({
   const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
 
   return (
-    <div
-      onClick={() => onItemClick(index)}
-      onMouseEnter={() => onMouseEnter(index)}
-      onMouseLeave={() => onMouseLeave(index)}
-      className={"grid-container cursor-pointer"}
+    <button
+      {...props}
+      className={"LayoutWorkMenuItem grid-container cursor-pointer"}
     >
       <div
         className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
       >
-        <h1 className={"label--2 text-white"}>{name}</h1>
+        <h1 className={"LayoutWorkMenuItem__title label--2 text-white"}>
+          {item.primary.name}
+        </h1>
         <span className={"label--2 mobile-only text-white"}>
           {`${index + 1}/${length}`}
         </span>
@@ -91,9 +89,9 @@ function LayoutWorkMenuItem({
         className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
       >
         <h3 className={"label--2  text-white"}>
-          {capabilities?.split(", ").map((item, _idx) => (
-            <span key={`LayoutWorkMenuItem-capabilities-${slug}-${_idx}`}>
-              {item}
+          {item.primary.capabilities?.split(", ").map((_it, _idx) => (
+            <span key={`LayoutWorkMenuItem-capabilities-${_it}-${_idx}`}>
+              {_it}
               <br />
             </span>
           ))}
@@ -110,7 +108,7 @@ function LayoutWorkMenuItem({
         {media.map((item, _idx) => {
           return (
             <div
-              key={`LayoutWorkMenuItemImage-${slug}-${_idx}`}
+              key={`LayoutWorkMenuItemImage-${index}-${_idx}`}
               className={"aspect-square overflow-hidden"}
             >
               {"url" in item.video && item.video.url ? (
@@ -136,35 +134,53 @@ function LayoutWorkMenuItem({
           );
         })}
       </div>
-    </div>
+    </button>
   );
 }
 
 function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
   const navigate = useNavigate();
   const { showWorkMenu, toggleWorkMenu } = useNavTheme();
-  // const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const onItemClick = (slug: string, index: number) => {
-    navigate(`/work/${slug}`, { preventScrollReset: false });
+  /*useLayoutEffect(() => {
+      const container = document.querySelector(".LayoutWorkMenu");
+      if (container) setupBannerAnimation(container);
+    }, []);*/
 
-    // setClickedIndex(index);
-    /*const timeline = gsap.timeline({
-                                              onComplete: () => {
-                                                setHoveredIndex(null);
-                                                navigate(`/work/${slug}`, { preventScrollReset: false });
-                                              },
-                                            });*/
-    /*animateBanner({
-                                              tl: timeline,
-                                              position: 0,
-                                              duration: 0.6,
-                                              ease: easings.mask,
-                                              index,
-                                              slug,
-                                              stagger: 0.02,
-                                            });*/
+  const onItemClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    slug: string | KeyTextField
+  ) => {
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // toggleWorkMenu();
+        // setHoveredIndex(null);
+        // navigate(`/work/${slug}`, { preventScrollReset: false });
+      },
+    });
+
+    const ease = easings.mask;
+
+    if (e.target instanceof Element) {
+      const container = document.querySelector(".LayoutWorkMenu");
+      const title = e.target.querySelector(".LayoutWorkMenuItem__title");
+      if (title && container) {
+        animateBanner(
+          tl,
+          {
+            ease,
+            duration: 0.6,
+            position: 0,
+            stagger: 0.02,
+          },
+          {
+            title,
+            scope: container,
+          }
+        );
+      }
+    }
   };
 
   const onMouseEnter = (index: number) => {
@@ -179,6 +195,7 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
     <Modal
       isOpen={showWorkMenu}
       toggle={toggleWorkMenu}
+      innerClassName={"LayoutWorkMenu"}
       backdropClassName={"noise-background bg-pure-black"}
     >
       <div
@@ -196,17 +213,24 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
         ))}
       </div>
 
+      {data.data.body.map((item, _idx) => {
+        if ("data" in item.primary.project_page_data) {
+          return (
+            <ProjectHero
+              isClone={true}
+              key={`LayoutWorkMenu-Hero-${_idx}`}
+              tableData={
+                item.primary.project_page_data.data as ProjectHeroTableProps
+              }
+            />
+          );
+        }
+      })}
+
       <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
         {data.data.body.map((item, _idx, arr) => {
-          const media = item.items.map((_it) => ({
-            image: _it.thumbnail,
-            video: _it.thumbnail_video,
-          }));
-
-          const slug = item.primary.link || "";
           const hovered = hoveredIndex === _idx;
           const someIsHovered = hoveredIndex !== null;
-          // const tableData = item.primary.project_page_data;
 
           return (
             <div
@@ -216,15 +240,12 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
               <LayoutWorkMenuItem
                 hovered={hovered}
                 someIsHovered={someIsHovered}
-                media={media}
+                item={item}
                 index={_idx}
                 length={arr.length}
-                slug={slug}
-                name={item.primary.name}
-                capabilities={item.primary.capabilities}
-                onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                onItemClick={() => onItemClick(slug, _idx)}
+                onMouseEnter={() => onMouseEnter(_idx)}
+                onClick={(e) => onItemClick(e, item.primary.link)}
               />
             </div>
           );

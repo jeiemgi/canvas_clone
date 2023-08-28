@@ -108,22 +108,18 @@ function WorkProject() {
   };
 
   return (
-    <div id={"WorkProjectPage"}>
-      <WorkProjectHero
-        key={`hero-${location.pathname}`}
-        toggleProjectDetails={toggleModalOpen}
-      />
-      <WorkProjectSliceZone key={`slices-${location.pathname}`} />
+    <>
+      <div id={"WorkProjectPage"}>
+        <WorkProjectHero toggleProjectDetails={toggleModalOpen} />
+        <WorkProjectSliceZone />
+        <WorkProjectDetailsButton onClick={toggleModalOpen} />
+      </div>
       <WorkProjectDetails
-        toggle={toggleModalOpen}
+        key={`modal-${location.pathname}`}
+        toggle={toggleProjectDetails}
         isOpen={showProjectDetails}
-        key={`details-${location.pathname}`}
       />
-      <WorkProjectDetailsButton
-        onClick={toggleModalOpen}
-        key={`button-${location.pathname}`}
-      />
-    </div>
+    </>
   );
 }
 

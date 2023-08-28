@@ -3,12 +3,17 @@ import { gsap } from "gsap";
 import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { useLayoutEffect } from "~/hooks";
-import { animateBanner, setupBannerAnimation } from "~/components/ProjectHero";
+import {
+  animateBanner,
+  ProjectPrefetchLink,
+  setupBannerAnimation,
+} from "~/components/ProjectHero";
 import ProjectHero from "~/components/ProjectHero/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
 import { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import { Link } from "@remix-run/react";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -108,6 +113,7 @@ function WorkProjectNextProject({ item }: Props) {
         />
       ) : null}
       <WorkProjectNextContent title={item.primary.title1} />
+      <ProjectPrefetchLink slug={item.primary.slug} />
     </div>
   );
 }

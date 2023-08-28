@@ -283,17 +283,14 @@ function WorkProjectDetails({
 
   return (
     <Modal
-      showClose={true}
+      scroll
+      showClose
       toggle={toggle}
       isOpen={isOpen}
-      innerProps={{
-        // @ts-ignore
-        "data-lenis-prevent": true,
-        className: "overflow-scroll",
-      }}
+      innerClassName={"pt-header md:pt-headerDesk pb-32"}
     >
       <div className="grid-container relative">
-        <ProjectHeroTitle field={hero.title} />
+        <ProjectHeroTitle className={"text-black"} field={hero.title} />
       </div>
 
       <div className="grid-container">

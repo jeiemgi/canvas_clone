@@ -3,26 +3,25 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { SecondaryCTA } from "~/components/CTA";
 import type { ReactNode } from "react";
-import type { DivProps } from "react-html-props";
 
 interface ModalProps {
-  innerProps?: DivProps;
+  innerClassName?: string;
   backdropClassName?: string;
   children: ReactNode;
-  innerClassName?: string;
   isOpen: boolean;
   showClose?: boolean;
+  scroll?: boolean;
   toggle: Function;
 }
 
 function Modal({
-  backdropClassName = "bg-white",
+  scroll = false,
   children,
-  innerProps,
+  backdropClassName = "bg-white",
+  innerClassName,
   isOpen,
-  showClose = false,
   toggle,
-  ...props
+  showClose = false,
 }: ModalProps) {
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -31,7 +30,6 @@ function Modal({
           toggle();
         }}
         className={"relative"}
-        {...props}
       >
         <Transition.Child
           as={Fragment}
@@ -44,7 +42,7 @@ function Modal({
         >
           <div
             className={clsx("fixed inset-0 h-full w-full", backdropClassName)}
-          ></div>
+          />
         </Transition.Child>
 
         <Transition.Child
@@ -57,11 +55,12 @@ function Modal({
           leaveTo="opacity-0"
         >
           <div
-            {...innerProps}
             className={clsx(
               "fixed inset-0 h-full w-full",
-              innerProps?.className
+              scroll ? "overflow-scroll" : "",
+              innerClassName
             )}
+            data-lenis-prevent={scroll}
           >
             {children}
             {showClose ? <ModalClose toggle={toggle} /> : null}

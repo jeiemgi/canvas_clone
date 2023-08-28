@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
-import easings from "~/lib/easings";
+import { Link } from "@remix-run/react";
 import { asText } from "@prismicio/richtext";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
@@ -21,8 +21,8 @@ export const ProjectHeroTitle = ({ field, children, ...props }: TitleProps) => {
       {...props}
       className={clsx(
         "ProjectHeroTitle",
-        "display--1 leading--none relative col-span-4 my-12 text-white md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
-        props.className
+        "display--1 leading--none relative col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
+        props.className ? props.className : "text-white"
       )}
     >
       {field ? (
@@ -217,6 +217,16 @@ export const setupBannerAnimation = (scope: Element) => {
   gsap.set(tableItems, { y: "200%" });
 };
 
+export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {
+  return (
+    <div className={"absolute left-0 top-0 opacity-0"}>
+      <Link prefetch="viewport" to={`/work/${slug}`}>
+        Prefetch link
+      </Link>
+    </div>
+  );
+}
+
 interface ProjectHeroProps extends DivProps {
   cta?: Function;
   children?: ReactNode;
@@ -224,6 +234,7 @@ interface ProjectHeroProps extends DivProps {
   isClone?: boolean;
   image?: ImageField;
   debug?: boolean;
+  focusable?: boolean;
   titleField?: RichTextField;
   subTitleField?: RichTextField;
 }
@@ -236,19 +247,15 @@ function ProjectHero({
   isClone = false,
   image,
   debug = false,
+  focusable = false,
   titleField,
   subTitleField,
   ...props
 }: ProjectHeroProps) {
   const extraProps = isClone ? { tabIndex: -1, "aria-hidden": true } : {};
-
-  const baseClassName = "ProjectHero";
-  // const cloneClassNameModifier = "__clone";
-
   const baseClassNames = isClone
     ? "pointer-events-none absolute left-0 top-0 min-h-screen w-full"
     : "relative";
-
   const debugClassNames = debug ? "border inner border-white" : "";
 
   return (
@@ -256,7 +263,7 @@ function ProjectHero({
       {...props}
       {...extraProps}
       className={clsx(
-        baseClassName,
+        "ProjectHero",
         className,
         debugClassNames,
         baseClassNames
@@ -265,14 +272,15 @@ function ProjectHero({
       {image ? <ProjectBackground field={image} /> : null}
 
       <div className="grid-container relative pt-header md:pt-headerDesk">
-        <div className="absolute left-0 top-0 bg-black text-white">
-          ProjectHero
-        </div>
+        {debug ? (
+          <div className="opacity-0.25 absolute left-0 top-0 bg-black text-white">
+            ProjectHero
+          </div>
+        ) : null}
         <ProjectHeroTitle
           className={debugClassNames}
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}
-          // id={titleId}
           field={titleField}
         />
         <ProjectHeroSubtitle
@@ -280,13 +288,12 @@ function ProjectHero({
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}
           field={subTitleField}
-          // id={subTitleId}
         />
         <div className={"relative col-span-4 mb-3 md:col-span-12"}>
           <ProjectHeroLine />
         </div>
         <ProjectHeroCTA
-          tabIndex={-1}
+          tabIndex={isClone ? -1 : 0}
           className={debugClassNames}
           field={"SEE PROJECT DETAILS"}
           onClick={() => {
@@ -294,7 +301,7 @@ function ProjectHero({
           }}
         />
         {tableData ? (
-          <ProjectHeroTable focusable={false} data={tableData} />
+          <ProjectHeroTable isClone={isClone} data={tableData} />
         ) : null}
       </div>
       {children}
