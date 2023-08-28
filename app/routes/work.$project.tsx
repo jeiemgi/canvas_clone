@@ -47,27 +47,9 @@ export const loader = async ({ params }: LoaderArgs) => {
 
 function WorkProjectDetailsButton({ onClick }: { onClick: Function }) {
   const isScrolled = useIsScrolled(500);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const trigger = document.getElementById("WorkProjectPage");
-      ScrollTrigger.create({
-        start: "top top",
-        end: "top bottom",
-        endTrigger: ".WorkProjectNextProject",
-        trigger: trigger,
-        pin: ref.current,
-        pinSpacing: false,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div
-      ref={ref}
       className={clsx(
         isScrolled ? "opacity-100" : "opacity-0",
         "absolute bottom-5 flex w-full justify-center transition-opacity md:bottom-5 md:left-8 md:block md:w-auto"
@@ -100,13 +82,19 @@ function WorkProject() {
 
   return (
     <div id={"WorkProjectPage"}>
-      <WorkProjectHero toggleProjectDetails={toggleModalOpen} />
-      <WorkProjectSliceZone />
-      <WorkProjectDetailsButton onClick={toggleModalOpen} />
+      <WorkProjectHero
+        key={`work-hero-${location.pathname}`}
+        toggleProjectDetails={toggleModalOpen}
+      />
+      <WorkProjectSliceZone key={`work-slices-${location.pathname}`} />
       <WorkProjectDetails
-        key={`modal-${location.pathname}`}
+        key={`work-details-${location.pathname}`}
         toggle={toggleProjectDetails}
         isOpen={showProjectDetails}
+      />
+      <WorkProjectDetailsButton
+        onClick={toggleModalOpen}
+        key={`work-details-button-${location.pathname}`}
       />
     </div>
   );
