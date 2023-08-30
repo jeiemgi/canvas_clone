@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { gsap } from "gsap";
 import { useMemo, useRef, useState } from "react";
 import TextCta from "~/components/CTA/TextCTA";
 import { Image } from "~/components/Image";
@@ -34,36 +35,20 @@ interface Props {
   data: HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
 }
 
-function getCustomPosition(
-  e: MouseEvent<HTMLDivElement>,
-  width: number,
-  height: number
-) {
+function getCustomPosition(e: MouseEvent<HTMLDivElement>, width: number) {
   const yOffset = 28;
-  const threshold = window.innerWidth * 0.2;
-  const left = threshold;
-  const right = window.innerWidth - threshold;
-  if (e.clientX < left) {
-    return {
-      computed: "left",
-      x: e.clientX,
-      y: e.clientY + yOffset,
-    };
-  }
+  const right = window.innerWidth - width;
 
+  // left
+  if (e.clientX < width) {
+    return [e.clientX, e.clientY + yOffset] as const;
+  }
+  // right
   if (e.clientX > right) {
-    return {
-      computed: "right",
-      x: e.clientX - width,
-      y: e.clientY + yOffset,
-    };
+    return [e.clientX - width, e.clientY + yOffset] as const;
   }
-
-  return {
-    computed: "center",
-    x: e.clientX - width / 2,
-    y: e.clientY + yOffset,
-  };
+  // center
+  return [e.clientX - width / 2, e.clientY + yOffset] as const;
 }
 
 function HomePagePortfolioDesktop({ data }: Props) {
@@ -76,16 +61,18 @@ function HomePagePortfolioDesktop({ data }: Props) {
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [hoverImage, setHoverImage] = useState<string>("");
-  const [position, setPosition] = useState({ computed: "center", x: 0, y: 0 });
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (imageRef.current) {
-      const position = getCustomPosition(
-        e,
-        imageRef.current.clientWidth,
-        imageRef.current.clientHeight
-      );
-      setPosition(position);
+      const [x, y] = getCustomPosition(e, imageRef.current.clientWidth);
+      gsap.to(cursorRef.current, {
+        x,
+        y,
+        delay: 0.01,
+        duration: 0.4,
+        ease: "power3.out",
+      });
     }
   };
 
@@ -151,12 +138,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
         })}
       </div>
 
-      <div
-        className={"pointer-events-none fixed left-0 top-0"}
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px)`,
-        }}
-      >
+      <div ref={cursorRef} className={"pointer-events-none fixed left-0 top-0"}>
         <div
           className={clsx(
             "transition-all duration-100 ease-out",
