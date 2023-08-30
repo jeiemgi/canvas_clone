@@ -27,7 +27,7 @@ const HomePageProjectScrollItemContent = ({
   project: HomepageDocumentDataBodyHomepageProjectSlice;
 }) => {
   return (
-    <div className="grid-container HomePageProjectScrollItem__content pointer-events-none relative pb-[20vh] pt-[50vh]">
+    <div className="desktop-only--grid grid-container HomePageProjectScrollItem__content pointer-events-none relative pb-[20vh] pt-[50vh]">
       <div className={"col-span-4 md:col-start-9"}>
         {/*ANCHOR ONLY TO scrollTo on click*/}
         <div id={`HomePageProjectScrollItem-${project.primary.slug}`} />
@@ -50,7 +50,6 @@ const HomePageProjectScrollItemContent = ({
     </div>
   );
 };
-export default HomePageProjectScrollContainer;
 
 function HomePageProjectScrollContainer({
   data,
@@ -189,3 +188,5 @@ function HomePageProjectScrollContainer({
     </div>
   );
 }
+
+export default HomePageProjectScrollContainer;

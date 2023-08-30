@@ -7,10 +7,10 @@ function HomePageQuote() {
   return (
     <section
       className={
-        "texture-background mx-auto max-w-[375px] overflow-hidden pb-16 pt-16 md:max-w-none md:pb-56 md:pt-64"
+        "texture-background overflow-hidden pb-16 pt-16 md:max-w-none md:pb-56 md:pt-64"
       }
     >
-      <div className="max-container">
+      <div className="max-container mx-auto max-w-[375px] md:max-w-none">
         <TextBlur className={"mb-28 md:mb-56"}>
           <span className={innerGrid}>
             <span className={"md:col-span-12"}>CANVAS IS AN </span>

@@ -47,20 +47,20 @@ function WorkProjectNextContent({ title }: { title: KeyTextField }) {
 
 function WorkProjectNextProject({ item }: Props) {
   const navigate = useNavigate();
-  const container = useRef<HTMLButtonElement>(null);
+  const container = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (container.current) setupBannerAnimation(container.current);
   }, []);
 
-  const onClick = (e: MouseEvent<HTMLButtonElement>, slug: string) => {
+  const onClick = (e: MouseEvent<HTMLDivElement>, slug: string) => {
     const duration = 1;
     const ease = easings.mask;
 
     if (e.target instanceof Element) {
       const tl = gsap.timeline({
         onComplete: () => {
-          navigate(`/work/${item.primary.slug}`);
+          navigate(`/work/${slug}`);
         },
       });
 
@@ -94,9 +94,10 @@ function WorkProjectNextProject({ item }: Props) {
   };
 
   return (
-    <button
-      id={"WorkProjectNextProject"}
+    <div
       ref={container}
+      role={"button"}
+      id={"WorkProjectNextProject"}
       onClick={(e) => onClick(e, item.primary.slug as string)}
       className={
         "relative aspect-square w-full cursor-pointer overflow-hidden md:aspect-auto md:h-screen"
@@ -113,7 +114,7 @@ function WorkProjectNextProject({ item }: Props) {
       ) : null}
       <WorkProjectNextContent title={item.primary.title1} />
       <ProjectPrefetchLink slug={item.primary.slug} />
-    </button>
+    </div>
   );
 }
 

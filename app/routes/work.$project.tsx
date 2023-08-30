@@ -1,13 +1,10 @@
 import clsx from "clsx";
-import { gsap } from "gsap";
 import { json } from "@remix-run/node";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import useIsScrolled from "~/hooks/useIsScrolled";
 import { useLocation } from "@remix-run/react";
 import { useLayoutEffect } from "~/hooks";
 import { useLockedBody } from "usehooks-ts";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import { MouseEventHandler, useEffect, useRef } from "react";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
 import { SecondaryCTA } from "~/components/CTA";
@@ -16,6 +13,7 @@ import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import imagesLoaded from "imagesloaded";
 import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
+import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -71,7 +69,6 @@ function WorkProject() {
     const images = document.querySelectorAll("img");
     const videos = document.querySelectorAll("video");
     const onLoaded = () => ScrollTrigger.refresh();
-
     imagesLoaded(images, onLoaded);
     lazyLoadVideos(videos, onLoaded);
   }, []);

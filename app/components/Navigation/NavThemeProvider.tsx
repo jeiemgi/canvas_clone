@@ -43,9 +43,9 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
 
   // Hook to listen for navigation state
   useEffect(() => {
-    if (navigation.state === "loading" && showWorkMenu) {
-      setShowWorkMenu(false);
-    }
+    // if (navigation.state === "loading" && showWorkMenu) {
+    //   setShowWorkMenu(false);
+    // }
     if (navigation.state === "loading" && showProjectDetails) {
       setShowProjectDetails(false);
     }

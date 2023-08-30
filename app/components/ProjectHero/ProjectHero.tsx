@@ -10,6 +10,8 @@ import type { ReactNode } from "react";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { DivProps, ButtonProps } from "react-html-props";
 import type { ImageField, KeyTextField, RichTextField } from "@prismicio/types";
+import { useLayoutEffect } from "~/hooks";
+import { useRef } from "react";
 
 interface TitleProps extends DivProps {
   field?: RichTextField;
@@ -258,8 +260,17 @@ function ProjectHero({
     : "relative";
   const debugClassNames = debug ? "border inner border-white" : "";
 
+  const container = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (isClone && container.current) {
+      setupBannerAnimation(container.current);
+    }
+  }, [isClone]);
+
   return (
     <div
+      ref={container}
       {...props}
       {...extraProps}
       className={clsx(
