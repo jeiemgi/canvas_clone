@@ -7,6 +7,7 @@ import type { MouseEvent } from "react";
 import type { ImageField } from "@prismicio/types";
 import type { DivProps } from "react-html-props";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
+import { useLayoutEffect } from "~/hooks";
 
 const ALL_TAGS_ID = "all";
 
@@ -37,7 +38,6 @@ interface Props {
 
 function getCustomPosition(e: MouseEvent<HTMLDivElement>, width: number) {
   const yOffset = 28;
-
   // left
   if (e.clientX < width / 2) {
     return [e.clientX, e.clientY + yOffset] as const;
@@ -57,12 +57,20 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   const imageRef = useRef<HTMLImageElement>(null);
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
+  const [hasMovedMouse, setHasmovedMouse] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [hoverImage, setHoverImage] = useState<string>("");
   const cursorRef = useRef<HTMLDivElement>(null);
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!hasMovedMouse) {
+      gsap.set(cursorRef.current, {
+        x: e.clientX,
+        y: e.clientY,
+      });
+      setHasmovedMouse(true);
+    }
     if (imageRef.current) {
       const [x, y] = getCustomPosition(e, imageRef.current.clientWidth);
       gsap.to(cursorRef.current, {
@@ -120,11 +128,9 @@ function HomePagePortfolioDesktop({ data }: Props) {
       <div className={"relative grid grid-cols-17 gap-2 px-2"}>
         {data.items.map((item, index) => {
           let tags = item.tags?.split(", ") || [];
-
           const active = hoveredTag
             ? tags.includes(hoveredTag) || hoveredTag === ALL_TAGS_ID
             : tags.includes(selectedTag) || selectedTag === ALL_TAGS_ID;
-
           return (
             <HomePagePortFolioImage
               active={active}
@@ -144,7 +150,9 @@ function HomePagePortfolioDesktop({ data }: Props) {
         <div
           className={clsx(
             "transition-all duration-100 ease-out",
-            isHovered ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+            isHovered && hasMovedMouse
+              ? "translate-y-0 opacity-100"
+              : "translate-y-10 opacity-0"
           )}
         >
           <img
