@@ -83,7 +83,7 @@ function LayoutWorkMenuItem({
       <div
         className={`col-span-2 flex items-center ${opacity} ${opacityTransition}`}
       >
-        <h3 className={"label--2  text-white"}>
+        <h3 className={"label--2  text-left text-white"}>
           {item.primary.capabilities?.split(", ").map((_it, _idx) => (
             <span key={`LayoutWorkMenuItem-capabilities-${_it}-${_idx}`}>
               {_it}
@@ -219,64 +219,64 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div
-            className={
-              "LayoutWorkMenu pointer-events-none absolute flex h-full w-full items-end"
-            }
-          >
-            {data.data.body.map((item, _idx) => {
-              const hovered = hoveredIndex === _idx;
+          <div className={"fixed inset-0 h-full w-full"}>
+            <div
+              className={
+                "LayoutWorkMenu pointer-events-none absolute flex h-full w-full items-end"
+              }
+            >
+              {data.data.body.map((item, _idx) => {
+                const hovered = hoveredIndex === _idx;
 
-              return (
-                <Image
-                  className={clsx(
-                    hovered ? "opacity-100" : "opacity-0 delay-100",
-                    "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
-                  )}
-                  field={item.primary.background}
-                  key={`LayoutWorkMenuItem-background--${_idx}`}
-                />
-              );
-            })}
-          </div>
-
-          {data.data.body.map((item, _idx) => {
-            if ("data" in item.primary.project_page_data) {
-              return (
-                <ProjectHero
-                  isClone={true}
-                  key={`LayoutWorkMenu-Hero-${_idx}`}
-                  tableData={
-                    item.primary.project_page_data.data as ProjectHeroTableProps
-                  }
-                />
-              );
-            }
-          })}
-
-          <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
-            {data.data.body.map((item, _idx, arr) => {
-              const hovered = hoveredIndex === _idx;
-              const someIsHovered = hoveredIndex !== null;
-
-              return (
-                <div
-                  key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
-                  className={"LayoutWorkMenuItem mb-5 last:mb-0"}
-                >
-                  <LayoutWorkMenuItem
-                    hovered={hovered}
-                    someIsHovered={someIsHovered}
-                    item={item}
-                    index={_idx}
-                    length={arr.length}
-                    onMouseLeave={onMouseLeave}
-                    onMouseEnter={() => onMouseEnter(_idx)}
-                    onClick={(e) => onItemClick(e, item.primary.link)}
+                return (
+                  <Image
+                    className={clsx(
+                      hovered ? "opacity-100" : "opacity-0 delay-100",
+                      "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
+                    )}
+                    field={item.primary.background}
+                    key={`LayoutWorkMenuItem-background--${_idx}`}
                   />
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            {/*{data.data.body.map((item, _idx) => {
+              if ("data" in item.primary.project_page_data) {
+                return (
+                    <ProjectHero
+                        isClone={true}
+                        key={`LayoutWorkMenu-Hero-${_idx}`}
+                        tableData={
+                          item.primary.project_page_data.data as ProjectHeroTableProps
+                        }
+                    />
+                );
+              }
+            })}*/}
+            <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
+              {data.data.body.map((item, _idx, arr) => {
+                const hovered = hoveredIndex === _idx;
+                const someIsHovered = hoveredIndex !== null;
+
+                return (
+                  <div
+                    key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
+                    className={"LayoutWorkMenuItem mb-5 last:mb-0"}
+                  >
+                    <LayoutWorkMenuItem
+                      hovered={hovered}
+                      someIsHovered={someIsHovered}
+                      item={item}
+                      index={_idx}
+                      length={arr.length}
+                      onMouseLeave={onMouseLeave}
+                      onMouseEnter={() => onMouseEnter(_idx)}
+                      onClick={(e) => onItemClick(e, item.primary.link)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Transition.Child>
       </Dialog>

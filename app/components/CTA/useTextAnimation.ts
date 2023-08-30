@@ -20,10 +20,10 @@ const useTextAnimation = <T>() => {
       const mouseEnter = () => tl.play();
       const mouseLeave = () => tl.reverse();
 
-      // @ts-ignore
-      ref.current?.addEventListener("mouseenter", mouseEnter);
-      // @ts-ignore
-      ref.current?.addEventListener("mouseleave", mouseLeave);
+      if (ref.current instanceof Element) {
+        ref.current?.addEventListener("mouseenter", mouseEnter);
+        ref.current?.addEventListener("mouseleave", mouseLeave);
+      }
     }, ref);
 
     return () => ctx.revert();

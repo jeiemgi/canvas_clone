@@ -9,13 +9,13 @@ function Footer() {
     <footer
       className={clsx(
         "transition-transform",
-        "noise-background relative z-10 overflow-hidden bg-black text-white"
+        "noise-background relative overflow-hidden bg-black text-white"
       )}
     >
       <div className={"grid-container mb-10 md:mb-56 md:pt-11"}>
         <div className="col-span-4 py-20 md:order-last md:col-start-9 md:py-0">
           <h1 className={"heading--1 md:text-right"}>
-            <PrimaryCTALink to={"contact"} dark size={"lg"}>
+            <PrimaryCTALink to={"contact"} dark size={"lg"} className={"z-0"}>
               Let's Chat
             </PrimaryCTALink>
           </h1>

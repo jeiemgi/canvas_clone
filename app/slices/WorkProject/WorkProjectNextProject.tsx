@@ -12,8 +12,7 @@ import ProjectHero from "~/components/ProjectHero/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
-import { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import { Link } from "@remix-run/react";
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -29,14 +28,14 @@ function WorkProjectNextContent({ title }: { title: KeyTextField }) {
       <div className={"relative h-[10rem]"}>
         <h3
           className={
-            "heading--3 WorkProjectNextContentInfo absolute top-0 mb-5 w-full text-white"
+            "heading--3 WorkProjectNextContentInfo absolute top-0 mb-5 w-full text-left text-white"
           }
         >
           NEXT PROJECT
         </h3>
         <h1
           className={
-            "WorkProjectNextContentTitle display--1 absolute bottom-0 text-white"
+            "WorkProjectNextContentTitle display--1 absolute bottom-0 text-left text-white"
           }
         >
           <span>{title}</span>
@@ -48,13 +47,13 @@ function WorkProjectNextContent({ title }: { title: KeyTextField }) {
 
 function WorkProjectNextProject({ item }: Props) {
   const navigate = useNavigate();
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
     if (container.current) setupBannerAnimation(container.current);
   }, []);
 
-  const onClick = (e: MouseEvent<HTMLDivElement>, slug: string) => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>, slug: string) => {
     const duration = 1;
     const ease = easings.mask;
 
@@ -95,12 +94,12 @@ function WorkProjectNextProject({ item }: Props) {
   };
 
   return (
-    <div
-      role={"link"}
+    <button
+      id={"WorkProjectNextProject"}
       ref={container}
       onClick={(e) => onClick(e, item.primary.slug as string)}
       className={
-        "WorkProjectNextProject relative aspect-square cursor-pointer overflow-hidden md:aspect-auto md:h-screen"
+        "relative aspect-square w-full cursor-pointer overflow-hidden md:aspect-auto md:h-screen"
       }
     >
       {"data" in item.primary.next_project_data ? (
@@ -114,7 +113,7 @@ function WorkProjectNextProject({ item }: Props) {
       ) : null}
       <WorkProjectNextContent title={item.primary.title1} />
       <ProjectPrefetchLink slug={item.primary.slug} />
-    </div>
+    </button>
   );
 }
 

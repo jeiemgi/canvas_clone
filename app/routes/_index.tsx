@@ -34,11 +34,9 @@ export default function HomePage() {
   const { homepage, slices } = useLoaderData<typeof loader>();
 
   return (
-    <>
+    <main>
       <HomePageHero />
-      <div className={"texture-background"}>
-        <HomePageQuote />
-      </div>
+      <HomePageQuote />
       <HomePageProjects data={slices.homeProjects} />
       {homepage.data.body.map((slice) => {
         switch (slice.slice_type) {
@@ -55,6 +53,6 @@ export default function HomePage() {
         }
       })}
       <Footer />
-    </>
+    </main>
   );
 }

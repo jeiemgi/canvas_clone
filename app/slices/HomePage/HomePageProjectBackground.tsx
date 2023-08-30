@@ -1,5 +1,4 @@
 import { gsap } from "gsap";
-import easings from "~/lib/easings";
 import { mdScreen } from "~/lib/gsapUtils";
 import { asText } from "@prismicio/richtext";
 import { useLayoutEffect } from "~/hooks";
@@ -18,6 +17,7 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
       const mm = gsap.matchMedia();
+
       mm.add(mdScreen, () => {
         if (!self.selector) return;
 

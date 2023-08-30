@@ -1,7 +1,9 @@
 import Hero from "~/components/HomeHero/Hero";
 
 function HomePageHero() {
-  return <div className={"texture-background h-screen"}>{/*<Hero />*/}</div>;
+  return (
+    <section className={"texture-background h-screen"}>{/*<Hero />*/}</section>
+  );
 }
 
 export default HomePageHero;

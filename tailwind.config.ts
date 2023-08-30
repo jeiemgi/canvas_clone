@@ -21,6 +21,9 @@ export default {
         "2xl": "1536px",
         // => @media (min-width: 1536px) { ... }
       },
+      gridTemplateColumns: {
+        "17": "repeat(17, minmax(0, 1fr))",
+      },
       colors: {
         black: "#1A171E",
         "pure-black": "#000000",

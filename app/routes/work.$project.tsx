@@ -7,7 +7,7 @@ import { useLocation } from "@remix-run/react";
 import { useLayoutEffect } from "~/hooks";
 import { useLockedBody } from "usehooks-ts";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import { useEffect, useRef } from "react";
+import { MouseEventHandler, useEffect, useRef } from "react";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
 import { SecondaryCTA } from "~/components/CTA";
@@ -45,19 +45,19 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-function WorkProjectDetailsButton({ onClick }: { onClick: Function }) {
-  const isScrolled = useIsScrolled(500);
-
+function WorkProjectDetailsButton({
+  onClick,
+}: {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+}) {
   return (
     <div
+      id={"WorkProjectDetailsButton"}
       className={clsx(
-        isScrolled ? "opacity-100" : "opacity-0",
-        "absolute bottom-5 flex w-full justify-center transition-opacity md:bottom-5 md:left-8 md:block md:w-auto"
+        "fixed bottom-5 flex w-full justify-center md:bottom-5 md:left-8 md:block md:w-auto"
       )}
     >
-      <SecondaryCTA id={"project-details-button"} onClick={() => onClick()}>
-        SEE PROJECT DETAILS
-      </SecondaryCTA>
+      <SecondaryCTA onClick={onClick}>SEE PROJECT DETAILS</SecondaryCTA>
     </div>
   );
 }
@@ -67,10 +67,11 @@ function WorkProject() {
   const [, setLocked] = useLockedBody(false);
   const { showProjectDetails, toggleProjectDetails } = useNavTheme();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const images = document.querySelectorAll("img");
     const videos = document.querySelectorAll("video");
     const onLoaded = () => ScrollTrigger.refresh();
+
     imagesLoaded(images, onLoaded);
     lazyLoadVideos(videos, onLoaded);
   }, []);

@@ -11,21 +11,23 @@ interface Props {
 function WorkProjectFullWidth({ item }: Props) {
   if ("url" in item.primary.video && item.primary.video.url) {
     return (
-      <div className={"aspect-video select-none bg-red"}>
+      <section className={"aspect-video select-none bg-red"}>
         <Video
           autoPlay
           src={item.primary.video.url}
           poster={item.primary.background.url || ""}
         />
-      </div>
+      </section>
     );
   }
 
   return (
-    <Image
-      field={item.primary.background}
-      className={"w-full select-none object-cover"}
-    />
+    <section>
+      <Image
+        field={item.primary.background}
+        className={"w-full select-none object-cover"}
+      />
+    </section>
   );
 }
 

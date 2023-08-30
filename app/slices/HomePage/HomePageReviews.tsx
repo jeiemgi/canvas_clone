@@ -1,23 +1,79 @@
 import { gsap } from "gsap";
 import clsx from "clsx";
-import { useRef } from "react";
-import { useLayoutEffect } from "~/hooks";
+import { useCallback, useRef } from "react";
 import { ClearIcon } from "~/svg";
+import { useLayoutEffect } from "~/hooks";
 import { Image } from "~/components/Image";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-import { mdScreen } from "~/lib/gsapUtils";
-import ScrollTrigger from "gsap/dist/ScrollTrigger";
+// @ts-ignore
+import random from "canvas-sketch-util/random";
+import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomeReviewsSlice } from "types.generated";
 
 interface Props {
   data: HomepageDocumentDataBodyHomeReviewsSlice;
 }
 
+function getRandomCoordinates(width: number, height: number) {
+  return [random.rangeFloor(width), random.rangeFloor(height)] as const;
+}
+
 function HomePageReviews({ data }: Props) {
-  const container = useRef(null);
+  const container = useRef<HTMLDivElement>(null);
 
   const onClearClick = () => {
-    gsap.set(".review-image-desk", { opacity: 0 });
+    gsap.to(imagesRefs.current, {
+      opacity: 0,
+      scale: 0.95,
+      duration: 0.3,
+      ease: "back.out",
+      stagger: 0.05,
+    });
+  };
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context((self) => {
+      if (!self.selector) return;
+
+      imagesRefs.current.forEach((img, index) => {
+        if (!imagesContainer.current) return;
+        const [x, y] = getRandomCoordinates(
+          imagesContainer.current.clientWidth - img.clientWidth,
+          imagesContainer.current.clientHeight - img.clientHeight
+        );
+        gsap.set(img, { x, y });
+      });
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
+  const imagesContainer = useRef<HTMLDivElement>(null);
+  const imagesRefs = useRef<Array<HTMLDivElement>>([]);
+  const setImgRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) imagesRefs.current = [...imagesRefs.current, node];
+  }, []);
+
+  const onMouseOverImage = (e: MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.target, { opacity: 1, zIndex: 1, duration: 0.3 });
+
+    if (e.target instanceof Element)
+      gsap.to(e.target.querySelector("img"), {
+        scale: 1,
+        duration: 0.4,
+        ease: "back.out",
+      });
+  };
+  const onMouseLeaveImage = (e: MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.target, { zIndex: 0, duration: 0.3 });
+
+    if (e.target instanceof Element)
+      gsap.to(e.target.querySelector("img"), {
+        scale: 0.95,
+        delay: 0.2,
+        duration: 0.2,
+        ease: "back.out",
+      });
   };
 
   return (
@@ -29,24 +85,15 @@ function HomePageReviews({ data }: Props) {
     >
       <div
         className={clsx(
-          "mobile-only",
-          "reviews-image-bg pointer-events-none absolute left-0 top-0 h-full md:w-full"
+          "reviews-image-bg pointer-events-none absolute left-0 top-0 flex h-full w-full items-center"
         )}
       >
         <img
-          className={"h-full object-cover"}
+          className={"h-full w-full object-cover md:object-contain"}
           src={data.primary.background_image.url || ""}
           alt={data.primary.background_image.alt || ""}
         />
       </div>
-
-      <img
-        className={
-          "desktop-only pointer-events-none absolute h-full w-full object-contain"
-        }
-        src={data.primary.background_image.url || ""}
-        alt={data.primary.background_image.alt || ""}
-      />
 
       <div className={"absolute left-0 top-0 items-center pl-1.5 pt-8 md:p-8"}>
         <h3 className={"heading--3 mr-2 inline-block text-white"}>
@@ -71,14 +118,25 @@ function HomePageReviews({ data }: Props) {
         </Splide>
       </div>
 
-      <div
-        id={"desktop-reviews-container"}
-        className={clsx(
-          "desktop-only--flex absolute left-0 top-0 h-full w-full",
-          "md:items-center md:justify-center"
-        )}
-      >
-        <img src="/images/reviews-sample.png" alt="" />
+      <div className={"desktop-only absolute h-full w-full p-20"}>
+        <div ref={imagesContainer} className={"relative h-full w-full"}>
+          {data.items.map((field, index) => {
+            return (
+              <div
+                onMouseLeave={onMouseLeaveImage}
+                onMouseOver={onMouseOverImage}
+                ref={(node) => setImgRef(node)}
+                key={`HomePageReviews-${index}`}
+                className={"absolute w-[35%] opacity-0"}
+              >
+                <Image
+                  field={field.image}
+                  className={"pointer-events-none object-contain"}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div

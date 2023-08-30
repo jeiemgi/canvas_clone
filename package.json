@@ -38,6 +38,7 @@
     "@types/react-transition-group": "^4.4.6",
     "@types/three": "^0.155.0",
     "bodymovin": "^4.13.0",
+    "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.2.1",
     "cross-env": "^7.0.3",
     "domain-functions": "^1.8.0",

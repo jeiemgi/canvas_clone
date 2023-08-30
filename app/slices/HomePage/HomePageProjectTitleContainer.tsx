@@ -98,10 +98,8 @@ function HomePageProjectTitleContainer({
   useLayoutEffect(() => {
     const container = document.querySelector("#home-projects-container");
     if (!container) return;
-
     const ctx = gsap.context((self) => {
       if (!self.selector) return;
-
       // Pin the title container for the whole scroll.
       const titleContainer = self.selector(".HomePageProjectTitleContainer")[0];
       ScrollTrigger.create({
