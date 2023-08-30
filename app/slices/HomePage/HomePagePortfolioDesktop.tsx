@@ -37,14 +37,13 @@ interface Props {
 
 function getCustomPosition(e: MouseEvent<HTMLDivElement>, width: number) {
   const yOffset = 28;
-  const right = window.innerWidth - width;
 
   // left
-  if (e.clientX < width) {
+  if (e.clientX < width / 2) {
     return [e.clientX, e.clientY + yOffset] as const;
   }
   // right
-  if (e.clientX > right) {
+  if (e.clientX > window.innerWidth - width / 2) {
     return [e.clientX - width, e.clientY + yOffset] as const;
   }
   // center
@@ -138,7 +137,10 @@ function HomePagePortfolioDesktop({ data }: Props) {
         })}
       </div>
 
-      <div ref={cursorRef} className={"pointer-events-none fixed left-0 top-0"}>
+      <div
+        ref={cursorRef}
+        className={"pointer-events-none fixed left-0 top-0 z-10"}
+      >
         <div
           className={clsx(
             "transition-all duration-100 ease-out",
