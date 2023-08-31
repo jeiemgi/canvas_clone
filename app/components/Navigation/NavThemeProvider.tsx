@@ -15,18 +15,24 @@ export type NavThemeType = "transparent" | "white";
 
 export interface NavThemeProps {
   theme: NavThemeType;
+  showContact: boolean;
+  showWorkMenu: boolean;
   showProjectDetails: boolean;
   toggleProjectDetails: Function;
-  showWorkMenu: boolean;
   toggleWorkMenu: Function;
+  toggleContact: Function;
 }
 
 export const NavThemeContext = createContext<NavThemeProps>({
   theme: "transparent",
+  showContact: false,
   showProjectDetails: false,
   showWorkMenu: false,
+  toggleContact: () => {
+    console.log("toggleContact defaultAction");
+  },
   toggleWorkMenu: () => {
-    console.log("toggleProjectDetails defaultAction");
+    console.log("toggleWorkMenu defaultAction");
   },
   toggleProjectDetails: () => {
     console.log("toggleProjectDetails defaultAction");
@@ -38,14 +44,12 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   const isScrolled = useIsScrolled();
   const navigation = useNavigation();
 
+  const [showContact, setShowContact] = useState(false);
   const [showWorkMenu, setShowWorkMenu] = useState(false);
   const [showProjectDetails, setShowProjectDetails] = useState(false);
 
   // Hook to listen for navigation state
   useEffect(() => {
-    // if (navigation.state === "loading" && showWorkMenu) {
-    //   setShowWorkMenu(false);
-    // }
     if (navigation.state === "loading" && showProjectDetails) {
       setShowProjectDetails(false);
     }
@@ -54,14 +58,25 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
   const toggleWorkMenu = useCallback(() => {
     // Close other modals if open
     if (showProjectDetails) setShowProjectDetails(false);
+    if (showContact) setShowContact(false);
     setShowWorkMenu(!showWorkMenu);
-  }, [showWorkMenu, showProjectDetails]);
+  }, [showWorkMenu, showProjectDetails, showContact]);
 
   const toggleProjectDetails = useCallback(() => {
     // Close other modals if open
     if (showWorkMenu) setShowWorkMenu(false);
+    if (showContact) setShowContact(false);
     setShowProjectDetails(!showProjectDetails);
-  }, [showProjectDetails, showWorkMenu]);
+  }, [showProjectDetails, showWorkMenu, showContact]);
+
+  const toggleContact = useCallback(() => {
+    console.log("toggleContact", !showContact);
+    // Close other modals if open
+    if (showWorkMenu) setShowWorkMenu(false);
+    if (showProjectDetails) setShowProjectDetails(false);
+
+    setShowContact(!showContact);
+  }, [showContact, showProjectDetails, showWorkMenu]);
 
   const theme: NavThemeProps["theme"] = useMemo(() => {
     if (isMobile) {
@@ -75,6 +90,8 @@ export function NavThemeProvider({ children }: { children: ReactNode }) {
     <NavThemeContext.Provider
       value={{
         theme,
+        showContact,
+        toggleContact,
         showProjectDetails,
         toggleProjectDetails,
         showWorkMenu,

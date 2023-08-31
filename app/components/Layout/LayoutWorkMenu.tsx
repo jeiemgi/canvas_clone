@@ -1,10 +1,8 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
 import easings from "~/lib/easings";
-import ProjectHero, {
-  animateBanner,
-  setupBannerAnimation,
-} from "~/components/ProjectHero";
+import ProjectHero, { animateBanner } from "~/components/ProjectHero";
+import { useNavigate } from "react-router";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { Video } from "~/components/Video";
@@ -17,9 +15,7 @@ import type {
 import type { ButtonProps } from "react-html-props";
 import type { KeyTextField } from "@prismicio/types";
 import type { MouseEvent } from "react";
-import { useNavigate } from "react-router";
-import { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import { useLayoutEffect } from "~/hooks";
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 
 interface LayoutWorkMenuItemProps extends ButtonProps {
   index: number;

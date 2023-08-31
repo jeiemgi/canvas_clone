@@ -73,16 +73,16 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
       </head>
       <body>
         {children}
-        <ScrollRestoration
-          getKey={(location) => {
-            const paths = ["/"];
-            return paths.includes(location.pathname)
-              ? // home and notifications restore by pathname
-                location.pathname
-              : // everything else by location like the browser
-                location.key;
-          }}
-        />
+        {/*<ScrollRestoration*/}
+        {/*  getKey={(location) => {*/}
+        {/*    const paths = ["/"];*/}
+        {/*    return paths.includes(location.pathname)*/}
+        {/*      ? // home and notifications restore by pathname*/}
+        {/*        location.pathname*/}
+        {/*      : // everything else by location like the browser*/}
+        {/*        location.key;*/}
+        {/*  }}*/}
+        {/*/>*/}
         <Scripts />
         <LiveReload />
       </body>

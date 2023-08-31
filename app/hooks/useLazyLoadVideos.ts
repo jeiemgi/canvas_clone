@@ -23,7 +23,6 @@ export const lazyLoadVideos = (
       },
       {
         threshold: 0,
-        rootMargin: "1500px",
       }
     );
 

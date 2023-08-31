@@ -15,6 +15,7 @@ import imagesLoaded from "imagesloaded";
 import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
+import useIsScrolled from "~/hooks/useIsScrolled";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -48,14 +49,18 @@ function WorkProjectDetailsButton({
 }: {
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) {
+  const isScrolled = useIsScrolled(500);
   return (
     <div
       id={"WorkProjectDetailsButton"}
       className={clsx(
-        "fixed bottom-5 flex w-full justify-center md:bottom-5 md:left-8 md:block md:w-auto"
+        isScrolled ? "opacity-100" : "opacity-0",
+        "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-5 md:left-8 md:block md:w-auto"
       )}
     >
-      <SecondaryCTA onClick={onClick}>SEE PROJECT DETAILS</SecondaryCTA>
+      <SecondaryCTA className={"min-w-[195px]"} onClick={onClick} border>
+        SEE PROJECT DETAILS
+      </SecondaryCTA>
     </div>
   );
 }

@@ -14,9 +14,9 @@ function Layout({
 }) {
   return (
     <NavThemeProvider>
-      <Navigation />
       {workMenu ? <LayoutWorkMenu data={workMenu} /> : null}
       <Lenis>{children}</Lenis>
+      <Navigation />
     </NavThemeProvider>
   );
 }

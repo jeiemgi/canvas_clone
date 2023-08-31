@@ -44,7 +44,10 @@ export function SecondaryCTA({
     <button
       ref={ref}
       {...props}
-      className={"label--2 relative rounded-full px-[1.81rem] py-[1.16rem]"}
+      className={clsx(
+        "label--2 relative rounded-full px-[1.81rem] py-[1.16rem]",
+        props.className
+      )}
     >
       <div
         className={clsx(

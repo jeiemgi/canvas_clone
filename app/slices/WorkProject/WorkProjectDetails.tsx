@@ -65,31 +65,6 @@ function WorkProjectDetailsTables() {
           </>
         );
       })}
-
-      {details.credits.length > 0
-        ? details.credits.map((item, index) => {
-            if (item.value)
-              return (
-                <div
-                  key={`Table-credits-${index}-${details.credits}`}
-                  className="grid-container"
-                >
-                  <div className={"label--2 col-span-1"}>CREDIT</div>
-                  <div className={"label--2 md:col-span-2 md:col-start-8"}>
-                    {item.type}
-                  </div>
-                  <div
-                    className={
-                      "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
-                    }
-                  >
-                    {item.value}
-                  </div>
-                </div>
-              );
-            return null;
-          })
-        : null}
     </>
   );
 }
@@ -106,7 +81,7 @@ function WorkProjectDetails({
     <WorkProjectDetailsModal onClose={toggle} isOpen={isOpen}>
       <div
         data-lenis-prevent={true}
-        className={"fixed inset-0 h-full w-full overflow-scroll pb-32"}
+        className={"fixed inset-0 h-full w-full overflow-scroll"}
       >
         <div className="grid-container relative pt-header md:pt-headerDesk">
           <ProjectHeroTitle className={"text-black"} field={hero.title} />
@@ -117,8 +92,34 @@ function WorkProjectDetails({
           </div>
         </div>
 
-        <div className={"modal-tables"}>
+        <div className={"modal-tables mb-[100px] pb-32"}>
           <WorkProjectDetailsTables />
+        </div>
+
+        <div className={"mb-20 md:mb-10"}>
+          {hero.credits.length > 0
+            ? hero.credits.map((item, index) => {
+                if (item.value)
+                  return (
+                    <div
+                      key={`Table-credits-${index}`}
+                      className="grid-container"
+                    >
+                      <div className={"label--2 md:col-span-2 md:col-start-8"}>
+                        {item.type}
+                      </div>
+                      <div
+                        className={
+                          "label--2 col-span-2 col-start-3 text-right md:col-start-11 md:text-left"
+                        }
+                      >
+                        {item.value}
+                      </div>
+                    </div>
+                  );
+                return null;
+              })
+            : null}
         </div>
       </div>
     </WorkProjectDetailsModal>

@@ -62,7 +62,7 @@ function WorkProjectDetailsModalTableFull({
       <div className={"mobile-only"}>
         <div
           className={
-            "max-container grid grid-cols-4 border-b border-b-black/30"
+            "max-container grid grid-cols-4 md:border-b md:border-b-black/30"
           }
         >
           {columns?.map((colItem, colIndex) => {

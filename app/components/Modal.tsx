@@ -78,7 +78,7 @@ export function ModalCloseButton({ onClick }: { onClick: Function }) {
         "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
       }
     >
-      <SecondaryCTA dark onClick={() => onClick()}>
+      <SecondaryCTA className={"min-w-[195px]"} dark onClick={() => onClick()}>
         CLOSE
       </SecondaryCTA>
     </div>

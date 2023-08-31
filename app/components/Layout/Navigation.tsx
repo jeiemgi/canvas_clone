@@ -1,14 +1,15 @@
 import Nav from "~/components/Navigation/Nav";
 import NavList from "~/components/Navigation/NavList";
 import NavListItem from "~/components/Navigation/NavListItem";
+import { PrimaryCTAButton, PrimaryCTALink } from "~/components/CTA";
 import { NavLogoDesktop, NavLogoMobile } from "~/components/Navigation/NavLogo";
-import { useLocation } from "@remix-run/react";
-import { PrimaryCTALink, PrimaryCTAButton } from "~/components/CTA";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
+import { useLocation } from "@remix-run/react";
 
 function Navigation() {
   let { pathname } = useLocation();
-  const { theme, showWorkMenu, toggleWorkMenu } = useNavTheme();
+  const { theme, showWorkMenu, toggleWorkMenu, showContact, toggleContact } =
+    useNavTheme();
 
   return (
     <Nav>
@@ -38,4 +39,11 @@ function Navigation() {
   );
 }
 
+// <PrimaryCTAButton
+//     active={showContact}
+//     dark={theme === "transparent"}
+//     onClick={() => toggleContact()}
+// >
+//   Contact
+// </PrimaryCTAButton>
 export default Navigation;

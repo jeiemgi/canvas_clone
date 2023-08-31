@@ -93,12 +93,10 @@ function HomePageProjectScrollContainer({
     { index, slug = "" }: { index: number; slug: string }
   ) => {
     setLocked(true);
-    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`, {
-      offset: window.innerHeight * 0.2,
-    });
+    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`);
     const tl = gsap.timeline({
       onComplete: () => {
-        navigate(`/work/${slug}`, { preventScrollReset: true });
+        navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
     const duration = 1;
