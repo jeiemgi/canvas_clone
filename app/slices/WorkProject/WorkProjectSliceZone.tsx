@@ -10,11 +10,10 @@ import type { loader } from "~/routes/work.$project";
 
 function WorkProjectSliceZone() {
   const { slices } = useLoaderData<typeof loader>();
-
   return (
     <>
       {slices.map((item, index) => {
-        const lazy = index > 1;
+        const lazy = false;
         switch (item.slice_type) {
           case "project_full_width":
             return (

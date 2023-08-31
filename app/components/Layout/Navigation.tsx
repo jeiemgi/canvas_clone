@@ -8,8 +8,7 @@ import { useLocation } from "@remix-run/react";
 
 function Navigation() {
   let { pathname } = useLocation();
-  const { theme, showWorkMenu, toggleWorkMenu, showContact, toggleContact } =
-    useNavTheme();
+  const { theme, showWorkMenu, toggleWorkMenu } = useNavTheme();
 
   return (
     <Nav>
@@ -46,4 +45,5 @@ function Navigation() {
 // >
 //   Contact
 // </PrimaryCTAButton>
+
 export default Navigation;

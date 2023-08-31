@@ -1,6 +1,5 @@
-import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContainer";
-import HomePageBackgroundContainer from "~/slices/HomePage/HomePageProjectBackground";
 import HomePageProjectScrollContainer from "~/slices/HomePage/HomePageProjectScrollContainer";
+import HomePageProjectsMobile from "~/slices/HomePage/HomePageProjectsMobile";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 
 export type HomePageProjectsData =
@@ -12,10 +11,9 @@ interface HomePageProjectsProps {
 
 function HomePageProjects({ data }: HomePageProjectsProps) {
   return (
-    <section id={"home-projects-container"} className={"bg-yellow relative"}>
-      <HomePageBackgroundContainer data={data} />
-      <HomePageTitleContainer data={data} />
+    <section className={"relative"}>
       <HomePageProjectScrollContainer data={data} />
+      <HomePageProjectsMobile data={data} />
     </section>
   );
 }

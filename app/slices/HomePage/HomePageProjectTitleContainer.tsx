@@ -95,27 +95,6 @@ function HomePageProjectTitleContainer({
 }: {
   data: HomePageProjectsData;
 }) {
-  useLayoutEffect(() => {
-    const container = document.querySelector("#home-projects-container");
-    if (!container) return;
-    const ctx = gsap.context((self) => {
-      if (!self.selector) return;
-      // Pin the title container for the whole scroll.
-      const titleContainer = self.selector(".HomePageProjectTitleContainer")[0];
-      ScrollTrigger.create({
-        trigger: container,
-        pin: titleContainer,
-        pinSpacing: false,
-        end: () => {
-          const _scroll = document.querySelector("#home-projects-container")!;
-          return `+=${_scroll.scrollHeight - window.innerHeight}`;
-        },
-      });
-    }, container);
-
-    return () => ctx.revert();
-  }, []);
-
   useAnimationOnScroll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
   useAnimationOnScroll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
   useAnimationOnScroll(".HomePageProject-index");

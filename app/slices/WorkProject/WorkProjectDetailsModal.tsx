@@ -1,7 +1,7 @@
 import { Fragment } from "react";
-import { ModalCloseButton } from "~/components/Modal";
 import { Dialog, Transition } from "@headlessui/react";
 import type { ReactNode } from "react";
+import { SecondaryCTA } from "~/components/CTA";
 
 interface Props {
   isOpen: boolean;
@@ -38,11 +38,25 @@ function WorkProjectDetailsModal({ isOpen, onClose, children }: Props) {
         >
           <Dialog.Panel>
             {children}
-            <ModalCloseButton onClick={onClose} />
+            <CloseButton onClick={onClose} />
           </Dialog.Panel>
         </Transition.Child>
       </Dialog>
     </Transition>
+  );
+}
+
+export function CloseButton({ onClick }: { onClick: Function }) {
+  return (
+    <div
+      className={
+        "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-0 md:left-0 md:block md:w-auto md:pb-5 md:pl-8"
+      }
+    >
+      <SecondaryCTA className={"min-w-[195px]"} dark onClick={() => onClick()}>
+        CLOSE
+      </SecondaryCTA>
+    </div>
   );
 }
 

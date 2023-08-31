@@ -1,35 +1,32 @@
 import { gsap } from "gsap";
-import { mdScreen } from "~/lib/gsapUtils";
-import { asText } from "@prismicio/richtext";
-import { useLayoutEffect } from "~/hooks";
 import { Image } from "~/components/Image";
+import { useLayoutEffect } from "~/hooks";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import ProjectHero, { setupBannerAnimation } from "~/components/ProjectHero";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import { useRef } from "react";
+import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContainer";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
 
 function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
+  const container = useRef<HTMLDivElement>(null);
+
   useLayoutEffect(() => {
-    const container = document.querySelector("#home-projects-container");
-    if (!container) return;
-
     const ctx = gsap.context((self) => {
-      if (!self.selector) return;
-      const mm = gsap.matchMedia();
+      // const easing = easings.mask;
+      const ease = "linear";
 
-      mm.add(mdScreen, () => {
-        if (!self.selector) return;
-
-        // const easing = easings.mask;
-        const ease = "linear";
-
+      const pinBackgroundContainer = () => {
         // Pin the background container for the whole scroll.
-        const bgContainer = self.selector("#HomePageBackground-container");
+        const bgContainer = document.querySelector(
+          "#HomePageBackground-container"
+        );
         ScrollTrigger.create({
           pin: true,
           trigger: bgContainer,
-          pinSpacing: false,
           end: () => {
             const scrollContainer = document.querySelector(
               "#home-projects-container"
@@ -37,7 +34,8 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
             return `+=${scrollContainer.scrollHeight - window.innerHeight}`;
           },
         });
-
+      };
+      const animateClippingMasks = () => {
         const bgItems = document.querySelectorAll(".hero-project-bg-container");
         const scrollItems = document.querySelectorAll(
           ".HomePageProjectScrollItem"
@@ -57,7 +55,7 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
               trigger: scrollItem,
               start: "top 85%",
               end: "+=100%",
-              scrub: true,
+              scrub: 0.3,
             },
           });
 
@@ -89,71 +87,49 @@ function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
             });
           }
         });
-      });
+      };
+
+      // pinHeroes();
+      pinBackgroundContainer();
+      animateClippingMasks();
     }, container);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div
-      id={"HomePageBackground-container"}
-      className={
-        "pointer-events-none overflow-hidden md:absolute md:left-0 md:top-0 md:h-screen md:w-full"
-      }
-    >
-      {data.map((project, index) => (
-        <div
-          key={`HomePageBackground-item-${project.id}`}
-          className={
-            "relative h-screen w-full overflow-hidden text-white md:absolute md:left-0 md:top-0"
-          }
-        >
-          <div className="hero-project-bg-container absolute flex h-screen w-full items-end border border-white bg-red">
-            <Image
-              field={project.primary.background_image}
-              className={"min-h-full w-full object-cover"}
-            />
+    <>
+      <div
+        ref={container}
+        id={"HomePageBackground-container"}
+        className={"absolute left-0 top-0 h-screen w-full overflow-hidden"}
+      >
+        {data.map((project) => (
+          <div
+            key={`HomePageBackground-Item-${project.id}`}
+            className={"HomePageBackground-Item absolute h-full w-full"}
+          >
+            <div className="hero-project-bg-container absolute flex h-full w-full items-end">
+              <Image
+                field={project.primary.background_image}
+                className={"min-h-screen w-full object-cover"}
+              />
+            </div>
+
+            {"data" in project.primary.project_data ? (
+              <ProjectHero
+                absolute={false}
+                isClone={true}
+                tableData={
+                  project.primary.project_data?.data as ProjectHeroTableProps
+                }
+              />
+            ) : null}
           </div>
-
-          {/*MOBILE ONLY TITLES*/}
-          <div className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28">
-            <div className="grid-container h-fit w-full pt-5">
-              <div className="col-span-3">
-                <h3 className={"heading--3"}>
-                  {asText(project.primary.title)}
-                  <br />
-                  CASE STUDY
-                </h3>
-              </div>
-
-              <div className="col-span-1 col-start-4">
-                <h3 className={"heading--3 text-right"}>
-                  {`${index + 1} / ${data.length}`}
-                </h3>
-              </div>
-            </div>
-
-            <div className={"flex grow items-center justify-center"}>
-              <h3 className={"heading--3 text-center"}>
-                {`( ${asText(project.primary.cta)} )`}
-              </h3>
-            </div>
-
-            <div className="grid-container mobile-only--grid h-fit grow-0">
-              <div className="col-span-4">
-                <h3 className={"heading--3 mb-12"}>
-                  {asText(project.primary.capabilities)}
-                </h3>
-                <p className={"body--2"}>
-                  {asText(project.primary.description)}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+        <HomePageTitleContainer data={data} />
+      </div>
+    </>
   );
 }
 

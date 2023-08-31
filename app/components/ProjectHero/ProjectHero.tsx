@@ -1,17 +1,23 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
+import { useRef } from "react";
+import { useLayoutEffect } from "~/hooks";
 import { Link } from "@remix-run/react";
 import { asText } from "@prismicio/richtext";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
+import { Video } from "~/components/Video";
 import ProjectHeroTable from "~/components/ProjectHero/ProjectHeroTable";
 import type { ReactNode } from "react";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import type { DivProps, ButtonProps } from "react-html-props";
-import type { ImageField, KeyTextField, RichTextField } from "@prismicio/types";
-import { useLayoutEffect } from "~/hooks";
-import { useRef } from "react";
+import type {
+  FilledLinkToWebField,
+  ImageField,
+  KeyTextField,
+  RichTextField,
+} from "@prismicio/types";
 
 interface TitleProps extends DivProps {
   field?: RichTextField;
@@ -92,26 +98,15 @@ export function ProjectHeroCTA({
 interface ProjectBackgroundProps {
   field: ImageField;
   className?: string;
-  containerProps?: DivProps;
 }
 
-export function ProjectBackground({
-  field,
-  containerProps,
-  ...props
-}: ProjectBackgroundProps) {
+export function ProjectBackground({ field, ...props }: ProjectBackgroundProps) {
   return (
-    <div
-      {...containerProps}
-      className={clsx("hero-project-bg-container", containerProps?.className)}
-    >
+    <div className={"absolute flex h-full w-full items-start overflow-hidden"}>
       <Image
         {...props}
         field={field}
-        className={clsx(
-          props?.className,
-          "absolute left-0 top-0 min-h-full w-full object-cover"
-        )}
+        className={clsx(props?.className, "min-h-screen w-full object-cover")}
       />
     </div>
   );
@@ -135,18 +130,25 @@ type GSAPAnimationFunction = (
   elements: {
     title: Element;
     subtitle?: Element;
+    background?: Element;
     scope: Element | Document;
+    itemsScope?: Element;
   }
 ) => void;
 
 export const animateBanner: GSAPAnimationFunction = (
   tl,
   { position, stagger, ease, duration, ...vars },
-  { title, subtitle, scope }
+  { title, subtitle, scope, itemsScope }
 ) => {
   // ANIMATE TABLE
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
+  const tableLines = itemsScope
+    ? itemsScope.querySelectorAll(".hero-table-line")
+    : scope.querySelectorAll(".hero-table-line");
+
+  const tableItems = itemsScope
+    ? itemsScope.querySelectorAll(".hero-table-row__item")
+    : scope.querySelectorAll(".hero-table-row__item");
 
   tl.to(
     tableLines,
@@ -167,7 +169,6 @@ export const animateBanner: GSAPAnimationFunction = (
     },
     position
   );
-
   // ADD ANIMATION TO TEXT SIZES
   const titleText = title.querySelector("span");
   tl.to(
@@ -200,15 +201,24 @@ export const animateBanner: GSAPAnimationFunction = (
   }
 
   const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
-  const titleState = Flip.getState(title);
-  cloneHeroTitle?.appendChild(title);
-  Flip.from(titleState, { duration, ease, ...vars });
+  if (cloneHeroTitle) {
+    console.log(cloneHeroTitle);
+    const titleState = Flip.getState(title);
+    cloneHeroTitle.appendChild(title);
+    Flip.from(titleState, { duration, ease, ...vars });
+  } else {
+    console.warn("NO CLONE TITLE DETECTED IN SCOPE");
+  }
 
   if (subtitle) {
     const cloneHeroSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
-    const subtitleState = Flip.getState(subtitle);
-    cloneHeroSubtitle?.appendChild(subtitle);
-    Flip.from(subtitleState, { duration, ease, ...vars });
+    if (cloneHeroSubtitle) {
+      const subtitleState = Flip.getState(subtitle);
+      cloneHeroSubtitle?.appendChild(subtitle);
+      Flip.from(subtitleState, { duration, ease, ...vars });
+    } else {
+      console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
+    }
   }
 };
 
@@ -229,12 +239,62 @@ export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {
   );
 }
 
-interface ProjectHeroProps extends DivProps {
+export function ProjectHeroVideo({
+  field,
+  poster,
+  className,
+}: {
+  field: FilledLinkToWebField;
+  poster: ImageField;
+  className?: string;
+}) {
+  // const [, setLocked] = useLockedBody(true);
+  //
+  // useLayoutEffect(() => {
+  //   const ctx = gsap.context(() => {
+  //     const tl = gsap.timeline({
+  //       autoRemoveChildren: true,
+  //       onComplete: () => {
+  //         setLocked(false);
+  //       },
+  //     });
+  //
+  //     const video = document.querySelector(".hero-video>video");
+  //
+  //     tl.to(video, {
+  //       y: 0,
+  //       duration: 1,
+  //       autoAlpha: 1,
+  //       ease: easings.mask,
+  //     });
+  //   });
+  //
+  //   return () => ctx.revert();
+  // }, []);
+
+  return (
+    <div
+      className={clsx(
+        "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3 md:aspect-video",
+        className
+      )}
+    >
+      <Video autoPlay src={field.url} poster={poster.url ?? ""} />
+    </div>
+  );
+}
+
+export interface ProjectHeroProps extends DivProps {
   cta?: Function;
   children?: ReactNode;
   tableData?: ProjectHeroTableProps;
   isClone?: boolean;
   image?: ImageField;
+  video?: {
+    poster: ImageField;
+    field: FilledLinkToWebField;
+  };
+  absolute?: boolean;
   debug?: boolean;
   focusable?: boolean;
   titleField?: RichTextField;
@@ -242,25 +302,29 @@ interface ProjectHeroProps extends DivProps {
 }
 
 function ProjectHero({
+  absolute = false,
   children,
   cta,
   tableData,
   className,
   isClone = false,
   image,
+  video,
   debug = false,
   focusable = false,
   titleField,
   subTitleField,
   ...props
 }: ProjectHeroProps) {
+  const container = useRef<HTMLDivElement>(null);
+
   const extraProps = isClone ? { tabIndex: -1, "aria-hidden": true } : {};
-  const baseClassNames = isClone
-    ? "pointer-events-none absolute left-0 top-0 min-h-screen w-full"
-    : "relative";
+  const baseClassNames = isClone ? "pointer-events-none" : "";
   const debugClassNames = debug ? "border inner border-white" : "";
 
-  const container = useRef<HTMLDivElement>(null);
+  const positionClassNames = absolute
+    ? "absolute min-h-screen w-full left-0 top-0"
+    : "relative";
 
   useLayoutEffect(() => {
     if (isClone && container.current) {
@@ -270,21 +334,27 @@ function ProjectHero({
 
   return (
     <div
-      ref={container}
       {...props}
       {...extraProps}
+      ref={container}
       className={clsx(
         "ProjectHero",
         className,
-        debugClassNames,
-        baseClassNames
+        baseClassNames,
+        positionClassNames,
+        debugClassNames
       )}
     >
       {image ? <ProjectBackground field={image} /> : null}
 
-      <div className="grid-container relative pt-header md:pt-headerDesk">
+      <div
+        className={clsx(
+          "grid-container relative pt-header md:pt-headerDesk",
+          debugClassNames
+        )}
+      >
         {debug ? (
-          <div className="opacity-0.25 absolute left-0 top-0 bg-black text-white">
+          <div className="absolute left-0 top-0 bg-black text-white">
             ProjectHero
           </div>
         ) : null}
@@ -311,11 +381,29 @@ function ProjectHero({
             if (cta) cta();
           }}
         />
+
         {tableData ? (
           <ProjectHeroTable isClone={isClone} data={tableData} />
         ) : null}
+
+        {video && !isClone ? (
+          <ProjectHeroVideo className={debugClassNames} {...video} />
+        ) : (
+          <div
+            className={clsx(
+              "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3",
+              debugClassNames
+            )}
+          ></div>
+        )}
       </div>
-      {children}
+      {/*<div className="grid-container">
+          <div className="col-span-4 flex w-full justify-between md:hidden">
+            <span className={"label--2 text-white"}>CREDIT</span>
+            <span className={"label--2 text-white"}>PHOTOGRAPHY:</span>
+            <span className={"label--2 text-white"}>JORDAN NELSON</span>
+          </div>
+        </div>*/}
     </div>
   );
 }
