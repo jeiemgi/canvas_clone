@@ -21,9 +21,15 @@ import type {
 
 interface TitleProps extends DivProps {
   field?: RichTextField;
+  animateTitles?: boolean;
 }
 
-export const ProjectHeroTitle = ({ field, children, ...props }: TitleProps) => {
+export const ProjectHeroTitle = ({
+  field,
+  children,
+  animateTitles,
+  ...props
+}: TitleProps) => {
   return (
     <div
       {...props}
@@ -35,11 +41,13 @@ export const ProjectHeroTitle = ({ field, children, ...props }: TitleProps) => {
     >
       {field ? (
         <h1
-          className={"display--1"}
+          className={"display--1 overflow-hidden"}
           dangerouslySetInnerHTML={{
             __html: field ? `${asText(field)}` : "",
           }}
         />
+      ) : animateTitles ? (
+        <span className={"hero-table-row__item block"}>{children}</span>
       ) : (
         children
       )}
@@ -50,6 +58,7 @@ export const ProjectHeroTitle = ({ field, children, ...props }: TitleProps) => {
 export const ProjectHeroSubtitle = ({
   children,
   field,
+  animateTitles,
   ...props
 }: TitleProps) => {
   return (
@@ -62,7 +71,17 @@ export const ProjectHeroSubtitle = ({
       )}
     >
       {field ? (
-        <h3 className={"heading--3"}>{field ? asText(field) : ""}</h3>
+        <h3 className={"heading--3 overflow-hidden"}>
+          {animateTitles ? (
+            <span className={"hero-table-row__item block"}>
+              {field ? asText(field) : ""}
+            </span>
+          ) : field ? (
+            asText(field)
+          ) : (
+            ""
+          )}
+        </h3>
       ) : (
         children
       )}
@@ -294,6 +313,7 @@ export interface ProjectHeroProps extends DivProps {
     poster: ImageField;
     field: FilledLinkToWebField;
   };
+  animateTitles?: boolean;
   absolute?: boolean;
   debug?: boolean;
   focusable?: boolean;
@@ -302,6 +322,7 @@ export interface ProjectHeroProps extends DivProps {
 }
 
 function ProjectHero({
+  animateTitles = false,
   absolute = false,
   children,
   cta,
@@ -359,12 +380,14 @@ function ProjectHero({
           </div>
         ) : null}
         <ProjectHeroTitle
+          animateTitles={animateTitles}
           className={debugClassNames}
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}
           field={titleField}
         />
         <ProjectHeroSubtitle
+          animateTitles={animateTitles}
           className={debugClassNames}
           aria-hidden={isClone}
           tabIndex={isClone ? -1 : 0}

@@ -107,6 +107,8 @@ function WorkProjectNextProject({ item }: Props) {
         <ProjectHero
           isClone={true}
           image={item.primary.background_image1}
+          animateTitles={true}
+          subTitleField={item.primary.next_project_data.data.capabilities}
           tableData={
             item.primary.next_project_data.data as ProjectHeroTableProps
           }

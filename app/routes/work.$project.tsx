@@ -20,7 +20,11 @@ export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
   const client = createClient();
   const page = await client.getByUID("project_page", params.project, {
-    fetchLinks: ["project_page.roles", "project_page.links"],
+    fetchLinks: [
+      "project_page.roles",
+      "project_page.links",
+      "project_page.capabilities",
+    ],
   });
 
   if (!page || !page.data) {
@@ -83,6 +87,7 @@ function WorkProject() {
   return (
     <div id={"WorkProjectPage"}>
       <ProjectHero
+        key={`work-hero-${location.pathname}`}
         cta={toggleProjectDetails}
         image={hero.background_image}
         subTitleField={hero.capabilities}
