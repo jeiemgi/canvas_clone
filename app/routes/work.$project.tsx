@@ -10,7 +10,7 @@ import { SecondaryCTA } from "~/components/CTA";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
-import useIsScrolled from "~/hooks/useIsScrolled";
+import useIsScrolled, { useIsScrolledInArea } from "~/hooks/useIsScrolled";
 import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
@@ -52,12 +52,13 @@ function WorkProjectDetailsButton({
 }: {
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) {
-  const isScrolled = useIsScrolled(500);
+  const isInArea = useIsScrolledInArea(500, 100);
+
   return (
     <div
       id={"WorkProjectDetailsButton"}
       className={clsx(
-        isScrolled ? "opacity-100" : "opacity-0",
+        isInArea ? "opacity-100" : "opacity-0",
         "fixed bottom-5 flex w-full justify-center transition-opacity md:bottom-5 md:left-8 md:block md:w-auto"
       )}
     >

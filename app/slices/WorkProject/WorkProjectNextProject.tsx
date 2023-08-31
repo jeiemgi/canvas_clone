@@ -11,7 +11,7 @@ import {
 import ProjectHero from "~/components/ProjectHero/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
-import type { KeyTextField } from "@prismicio/types";
+import type { KeyTextField, RichTextField } from "@prismicio/types";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 
 interface Props {
@@ -103,17 +103,15 @@ function WorkProjectNextProject({ item }: Props) {
         "relative aspect-square w-full cursor-pointer overflow-hidden md:aspect-auto md:h-screen"
       }
     >
-      {"data" in item.primary.next_project_data ? (
-        <ProjectHero
-          isClone={true}
-          image={item.primary.background_image1}
-          animateTitles={true}
-          subTitleField={item.primary.next_project_data.data.capabilities}
-          tableData={
-            item.primary.next_project_data.data as ProjectHeroTableProps
-          }
-        />
-      ) : null}
+      <ProjectHero
+        isClone={true}
+        image={item.primary.background_image1}
+        animateTitles={true}
+        //@ts-ignore
+        subTitleField={item.primary.next_project_data.data.capabilities}
+        //@ts-ignore
+        tableData={item.primary.next_project_data.data}
+      />
       <WorkProjectNextContent title={item.primary.title1} />
       <ProjectPrefetchLink slug={item.primary.slug} />
     </div>
