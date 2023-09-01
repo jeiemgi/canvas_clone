@@ -10,7 +10,7 @@ import { SecondaryCTA } from "~/components/CTA";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
 import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
-import useIsScrolled, { useIsScrolledInArea } from "~/hooks/useIsScrolled";
+import { useIsScrolledInArea } from "~/hooks/useIsScrolled";
 import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
@@ -88,6 +88,7 @@ function WorkProject() {
   return (
     <div id={"WorkProjectPage"}>
       <ProjectHero
+        animateVideo={true}
         key={`work-hero-${location.pathname}`}
         cta={toggleProjectDetails}
         image={hero.background_image}

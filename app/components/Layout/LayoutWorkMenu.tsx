@@ -272,6 +272,7 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
                 if ("data" in item.primary.project_page_data) {
                   return (
                     <ProjectHero
+                      absolute
                       isClone={true}
                       key={`LayoutWorkMenu-Hero-${_idx}`}
                       tableData={

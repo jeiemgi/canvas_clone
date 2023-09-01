@@ -18,6 +18,8 @@ import type {
   KeyTextField,
   RichTextField,
 } from "@prismicio/types";
+import { useLockedBody } from "usehooks-ts";
+import easings from "~/lib/easings";
 
 interface TitleProps extends DivProps {
   field?: RichTextField;
@@ -259,41 +261,44 @@ export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {
 }
 
 export function ProjectHeroVideo({
+  animate = true,
   field,
   poster,
   className,
 }: {
+  animate?: boolean;
   field: FilledLinkToWebField;
   poster: ImageField;
   className?: string;
 }) {
-  // const [, setLocked] = useLockedBody(true);
-  //
-  // useLayoutEffect(() => {
-  //   const ctx = gsap.context(() => {
-  //     const tl = gsap.timeline({
-  //       autoRemoveChildren: true,
-  //       onComplete: () => {
-  //         setLocked(false);
-  //       },
-  //     });
-  //
-  //     const video = document.querySelector(".hero-video>video");
-  //
-  //     tl.to(video, {
-  //       y: 0,
-  //       duration: 1,
-  //       autoAlpha: 1,
-  //       ease: easings.mask,
-  //     });
-  //   });
-  //
-  //   return () => ctx.revert();
-  // }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  const [, setLocked] = useLockedBody(true);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        autoRemoveChildren: true,
+        onComplete: () => {
+          setLocked(false);
+        },
+      });
+
+      tl.to(ref.current, {
+        y: 0,
+        duration: 1,
+        autoAlpha: 1,
+        ease: easings.mask,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div
+      ref={ref}
       className={clsx(
+        animate ? "translate-y-1/2 opacity-0" : "",
         "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3 md:aspect-video",
         className
       )}
@@ -304,37 +309,39 @@ export function ProjectHeroVideo({
 }
 
 export interface ProjectHeroProps extends DivProps {
-  cta?: Function;
+  absolute?: boolean;
+  animateTitles?: boolean;
+  animateVideo?: boolean;
   children?: ReactNode;
-  tableData?: ProjectHeroTableProps;
-  isClone?: boolean;
+  cta?: Function;
+  debug?: boolean;
+  focusable?: boolean;
   image?: ImageField;
+  isClone?: boolean;
+  subTitleField?: RichTextField;
+  tableData?: ProjectHeroTableProps;
+  titleField?: RichTextField;
   video?: {
     poster: ImageField;
     field: FilledLinkToWebField;
   };
-  animateTitles?: boolean;
-  absolute?: boolean;
-  debug?: boolean;
-  focusable?: boolean;
-  titleField?: RichTextField;
-  subTitleField?: RichTextField;
 }
 
 function ProjectHero({
-  animateTitles = false,
+  animateVideo = false,
   absolute = false,
+  animateTitles = false,
   children,
-  cta,
-  tableData,
   className,
-  isClone = false,
-  image,
-  video,
+  cta,
   debug = false,
   focusable = false,
-  titleField,
+  image,
+  isClone = false,
   subTitleField,
+  tableData,
+  titleField,
+  video,
   ...props
 }: ProjectHeroProps) {
   const container = useRef<HTMLDivElement>(null);
@@ -410,7 +417,11 @@ function ProjectHero({
         ) : null}
 
         {video && !isClone ? (
-          <ProjectHeroVideo className={debugClassNames} {...video} />
+          <ProjectHeroVideo
+            animate={animateVideo}
+            className={debugClassNames}
+            {...video}
+          />
         ) : (
           <div
             className={clsx(
