@@ -49,20 +49,20 @@ function HomePageProjectScrollContainer({
 }: {
   data: HomePageProjectsData;
 }) {
-  const lenis = useLenis();
+  // const lenis = useLenis();
   const navigate = useNavigate();
 
   const onClick = (
     e: MouseEvent<HTMLDivElement>,
     { index, slug = "" }: { index: number; slug: string }
   ) => {
-    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`);
+    // lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`);
 
     const duration = 1;
     const ease = easings.mask;
     const tl = gsap.timeline({
       onComplete: () => {
-        navigate(`/work/${slug}`, { preventScrollReset: false });
+        navigate(`/work/${slug}`);
       },
     });
 
@@ -113,7 +113,6 @@ function HomePageProjectScrollContainer({
         index
       ];
 
-      console.log(itemsScope);
       animateBanner(tl, vars, {
         title,
         subtitle,

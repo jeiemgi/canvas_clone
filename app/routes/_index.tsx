@@ -1,5 +1,5 @@
 import { defer } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { createClient } from "~/lib/prismicClient";
 import { findAllSlicesByType } from "~/lib/prismicUtils";
 import HomePageHero from "~/slices/HomePage/HomePageHero";
@@ -8,11 +8,11 @@ import HomePagePortfolioMobile from "~/slices/HomePage/HomePagePortfolioMobile";
 import HomePageProjects from "~/slices/HomePage/HomePageProjects";
 import HomePageTable from "~/slices/HomePage/HomePageTable";
 import HomePageReviews from "~/slices/HomePage/HomePageReviews";
-import type { V2_MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import HomePageQuote from "~/slices/HomePage/HomePageQuote";
 import Footer from "~/components/Footer";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: "Canvas Studio Website V4" }];
 };
 

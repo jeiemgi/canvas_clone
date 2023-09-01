@@ -5,8 +5,6 @@ import {
   Scripts,
   LiveReload,
   ScrollRestoration,
-  isRouteErrorResponse,
-  useRouteError,
   useLoaderData,
 } from "@remix-run/react";
 import global from "~/styles/global.css";
@@ -20,11 +18,12 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import CustomEase from "gsap/dist/CustomEase";
 import Flip from "gsap/dist/Flip";
 import Layout from "~/components/Layout";
-import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import type { LinksFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 import { createClient } from "~/lib/prismicClient";
 import { defer } from "@remix-run/node";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase, Flip);
@@ -53,6 +52,16 @@ export const loader = async () => {
 };
 
 function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [pathname]);
+
   return (
     <html lang="en">
       <head>
@@ -61,7 +70,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
         <meta name="keywords" content="Canvas, website" />
         {/*<meta
           name="twitter:image"
-          content="https://remix-jokes.lol/social.png"
+          content=""
         />*/}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@canvascreative" />
@@ -73,7 +82,11 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
+        <ScrollRestoration
+          getKey={() => {
+            return null;
+          }}
+        />
         <Scripts />
         <LiveReload />
       </body>

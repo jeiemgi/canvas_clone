@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { json } from "@remix-run/node";
 import { useLoaderData, useLocation } from "@remix-run/react";
-import { useLayoutEffect } from "~/hooks";
 import { useLockedBody } from "usehooks-ts";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { createClient } from "~/lib/prismicClient";
@@ -15,6 +14,7 @@ import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
 import type { FilledLinkToWebField } from "@prismicio/types";
+import { useLayoutEffect } from "react";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -75,10 +75,10 @@ function WorkProject() {
   const { showProjectDetails, toggleProjectDetails } = useNavTheme();
   const { hero } = useLoaderData<typeof loader>();
 
-  useLayoutEffect(() => {
-    const videos = document.querySelectorAll("video");
-    lazyLoadVideos(videos);
-  }, []);
+  /*useLayoutEffect(() => {
+      const videos = document.querySelectorAll("video");
+      lazyLoadVideos(videos);
+    }, []);*/
 
   const toggleModalOpen = () => {
     setLocked(showProjectDetails);
