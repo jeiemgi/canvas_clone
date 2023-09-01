@@ -118,12 +118,23 @@ export function ProjectHeroCTA({
 
 interface ProjectBackgroundProps {
   field: ImageField;
+  isClone: boolean;
   className?: string;
 }
 
-export function ProjectBackground({ field, ...props }: ProjectBackgroundProps) {
+export function ProjectBackground({
+  field,
+  isClone,
+  ...props
+}: ProjectBackgroundProps) {
   return (
-    <div className={"absolute flex h-full w-full items-start overflow-hidden"}>
+    <div
+      className={clsx(
+        "ProjectHeroBackground",
+        "absolute flex h-full w-full overflow-hidden",
+        isClone ? "items-end" : "items-start"
+      )}
+    >
       <Image
         {...props}
         field={field}
@@ -373,7 +384,7 @@ function ProjectHero({
         debugClassNames
       )}
     >
-      {image ? <ProjectBackground field={image} /> : null}
+      {image ? <ProjectBackground isClone={isClone} field={image} /> : null}
 
       <div
         className={clsx(

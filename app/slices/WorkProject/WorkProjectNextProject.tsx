@@ -11,8 +11,8 @@ import {
 import ProjectHero from "~/components/ProjectHero/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
-import type { KeyTextField, RichTextField } from "@prismicio/types";
-import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import type { KeyTextField } from "@prismicio/types";
+import { Image } from "~/components/Image";
 
 interface Props {
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
@@ -64,6 +64,17 @@ function WorkProjectNextProject({ item }: Props) {
         },
       });
 
+      const background = e.target.querySelector(".background>img");
+      tl.to(
+        background,
+        {
+          ease,
+          duration: duration - 0.3,
+          y: background ? background?.scrollHeight - window.innerHeight : 0,
+        },
+        0
+      );
+
       const other = e.target.querySelectorAll(".WorkProjectNextContentInfo");
       tl.to(
         other,
@@ -103,9 +114,18 @@ function WorkProjectNextProject({ item }: Props) {
         "relative aspect-square w-full cursor-pointer overflow-hidden md:aspect-auto md:h-screen"
       }
     >
+      <div
+        className={
+          "background pointer-events-none absolute flex h-full w-full items-end"
+        }
+      >
+        <Image
+          className={"w-full object-cover"}
+          field={item.primary.background_image1}
+        />
+      </div>
       <ProjectHero
         isClone={true}
-        image={item.primary.background_image1}
         animateTitles={true}
         //@ts-ignore
         subTitleField={item.primary.next_project_data.data.capabilities}
