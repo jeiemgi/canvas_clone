@@ -218,6 +218,31 @@ var import_react3 = require("react"), useScrollPosition = () => {
 // app/hooks/useIsomorphicLayoutEffect.ts
 var import_react4 = require("react"), useIsomorphicLayoutEffect = typeof window < "u" ? import_react4.useLayoutEffect : import_react4.useEffect, useIsomorphicLayoutEffect_default = useIsomorphicLayoutEffect;
 
+// app/hooks/useLazyLoadVideos.ts
+var lazyLoadVideos = (videos, onItemLoad) => {
+  if ("IntersectionObserver" in window) {
+    let lazyVideoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((video) => {
+          if (video.isIntersecting) {
+            for (let source in video.target.children) {
+              let videoSource = video.target.children[source];
+              videoSource.tagName === "SOURCE" && (videoSource.src = videoSource.dataset.src);
+            }
+            video.target.load(), lazyVideoObserver.unobserve(video.target), onItemLoad && onItemLoad();
+          }
+        });
+      },
+      {
+        threshold: 0
+      }
+    );
+    videos.forEach(function(lazyVideo) {
+      lazyVideoObserver.observe(lazyVideo);
+    });
+  }
+};
+
 // app/hooks/useIsScrolled.ts
 var import_react5 = require("react");
 function useIsScrolled(threshold = 0) {
@@ -2794,19 +2819,20 @@ var import_jsx_dev_runtime30 = require("react/jsx-dev-runtime");
 function WorkProjectSliceZone() {
   let { slices } = (0, import_react25.useLoaderData)();
   return /* @__PURE__ */ (0, import_jsx_dev_runtime30.jsxDEV)(import_jsx_dev_runtime30.Fragment, { children: slices.map((item, index) => {
+    let lazy = index > 1;
     switch (item.slice_type) {
       case "project_full_width":
         return /* @__PURE__ */ (0, import_jsx_dev_runtime30.jsxDEV)(
           WorkProjectFullWidth_default,
           {
             item,
-            lazy: !1
+            lazy
           },
           `WorkProjectSlice-${index}`,
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 20,
+            lineNumber: 21,
             columnNumber: 15
           },
           this
@@ -2815,14 +2841,14 @@ function WorkProjectSliceZone() {
         return /* @__PURE__ */ (0, import_jsx_dev_runtime30.jsxDEV)(
           WorkProject2Column_default,
           {
-            lazy: !1,
+            lazy,
             item
           },
           `WorkProjectSlice-${index}`,
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 28,
+            lineNumber: 29,
             columnNumber: 15
           },
           this
@@ -2832,13 +2858,13 @@ function WorkProjectSliceZone() {
           WorkProjectVideoColor_default,
           {
             item,
-            lazy: !1
+            lazy
           },
           `WorkProjectSlice-${index}`,
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 36,
+            lineNumber: 37,
             columnNumber: 15
           },
           this
@@ -2853,7 +2879,7 @@ function WorkProjectSliceZone() {
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 44,
+            lineNumber: 45,
             columnNumber: 15
           },
           this
@@ -2868,7 +2894,7 @@ function WorkProjectSliceZone() {
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 51,
+            lineNumber: 52,
             columnNumber: 15
           },
           this
@@ -2883,7 +2909,7 @@ function WorkProjectSliceZone() {
           !1,
           {
             fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-            lineNumber: 58,
+            lineNumber: 59,
             columnNumber: 15
           },
           this
@@ -2894,7 +2920,7 @@ function WorkProjectSliceZone() {
           item.slice_type
         ] }, void 0, !0, {
           fileName: "app/slices/WorkProject/WorkProjectSliceZone.tsx",
-          lineNumber: 64,
+          lineNumber: 65,
           columnNumber: 20
         }, this);
     }
@@ -3442,7 +3468,7 @@ function WorkProjectDetails({
 var WorkProjectDetails_default = WorkProjectDetails;
 
 // app/routes/work.$project.tsx
-var import_jsx_dev_runtime35 = require("react/jsx-dev-runtime"), loader2 = async ({ params }) => {
+var import_react31 = require("react"), import_jsx_dev_runtime35 = require("react/jsx-dev-runtime"), loader2 = async ({ params }) => {
   if (!params.project)
     throw new Response("Not Found", { status: 404 });
   let page = await createClient2().getByUID("project_page", params.project, {
@@ -3497,7 +3523,12 @@ function WorkProjectDetailsButton({
   );
 }
 function WorkProject() {
-  let location = (0, import_react30.useLocation)(), [, setLocked] = (0, import_usehooks_ts3.useLockedBody)(!1), { showProjectDetails, toggleProjectDetails } = useNavTheme(), { hero } = (0, import_react30.useLoaderData)(), toggleModalOpen = () => {
+  let location = (0, import_react30.useLocation)(), [, setLocked] = (0, import_usehooks_ts3.useLockedBody)(!1), { showProjectDetails, toggleProjectDetails } = useNavTheme(), { hero } = (0, import_react30.useLoaderData)();
+  (0, import_react31.useLayoutEffect)(() => {
+    let videos = document.querySelectorAll("video");
+    console.log(videos), lazyLoadVideos(videos);
+  }, [location.pathname]);
+  let toggleModalOpen = () => {
     setLocked(showProjectDetails), toggleProjectDetails(!showProjectDetails);
   };
   return /* @__PURE__ */ (0, import_jsx_dev_runtime35.jsxDEV)("div", { id: "WorkProjectPage", children: [
@@ -3519,14 +3550,14 @@ function WorkProject() {
       !1,
       {
         fileName: "app/routes/work.$project.tsx",
-        lineNumber: 90,
+        lineNumber: 92,
         columnNumber: 7
       },
       this
     ),
     /* @__PURE__ */ (0, import_jsx_dev_runtime35.jsxDEV)(WorkProjectSliceZone_default, {}, `work-slices-${location.pathname}`, !1, {
       fileName: "app/routes/work.$project.tsx",
-      lineNumber: 103,
+      lineNumber: 105,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ (0, import_jsx_dev_runtime35.jsxDEV)(
@@ -3539,7 +3570,7 @@ function WorkProject() {
       !1,
       {
         fileName: "app/routes/work.$project.tsx",
-        lineNumber: 104,
+        lineNumber: 106,
         columnNumber: 7
       },
       this
@@ -3553,14 +3584,14 @@ function WorkProject() {
       !1,
       {
         fileName: "app/routes/work.$project.tsx",
-        lineNumber: 109,
+        lineNumber: 111,
         columnNumber: 7
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/routes/work.$project.tsx",
-    lineNumber: 89,
+    lineNumber: 91,
     columnNumber: 5
   }, this);
 }
@@ -3704,13 +3735,13 @@ var import_zod = require("zod"), import_node4 = require("@remix-run/node"), impo
 
 // app/slices/Contact/ContactPage.tsx
 var import_clsx19 = __toESM(require("clsx"));
-var import_react33 = require("@remix-run/react");
+var import_react34 = require("@remix-run/react");
 
 // app/slices/Contact/ContactForm.tsx
 var import_clsx18 = __toESM(require("clsx")), import_remix_validated_form3 = require("remix-validated-form");
 
 // app/components/Input/Input.tsx
-var import_clsx16 = __toESM(require("clsx")), import_react31 = require("react"), import_remix_validated_form = require("remix-validated-form");
+var import_clsx16 = __toESM(require("clsx")), import_react32 = require("react"), import_remix_validated_form = require("remix-validated-form");
 
 // app/components/Input/InputHelpers.tsx
 var import_clsx15 = __toESM(require("clsx"));
@@ -3775,7 +3806,7 @@ function Input({
   containerClassName,
   ...props
 }) {
-  let ref = (0, import_react31.useRef)(null), { error, getInputProps } = (0, import_remix_validated_form.useField)(name, {
+  let ref = (0, import_react32.useRef)(null), { error, getInputProps } = (0, import_remix_validated_form.useField)(name, {
     validationBehavior: {
       initial: "onSubmit",
       whenTouched: "onSubmit",
@@ -3841,7 +3872,7 @@ function Input({
 var Input_default = Input;
 
 // app/components/Input/TextArea.tsx
-var import_clsx17 = __toESM(require("clsx")), import_react32 = require("react"), import_remix_validated_form2 = require("remix-validated-form");
+var import_clsx17 = __toESM(require("clsx")), import_react33 = require("react"), import_remix_validated_form2 = require("remix-validated-form");
 var import_jsx_dev_runtime39 = require("react/jsx-dev-runtime");
 function TextArea({
   id,
@@ -3851,7 +3882,7 @@ function TextArea({
   containerClassName,
   ...props
 }) {
-  let ref = (0, import_react32.useRef)(null), [value, setValue] = (0, import_remix_validated_form2.useControlField)(name), { error, getInputProps } = (0, import_remix_validated_form2.useField)(name, {
+  let ref = (0, import_react33.useRef)(null), [value, setValue] = (0, import_remix_validated_form2.useControlField)(name), { error, getInputProps } = (0, import_remix_validated_form2.useField)(name, {
     validationBehavior: {
       initial: "onSubmit",
       whenTouched: "onSubmit",
@@ -4075,7 +4106,7 @@ var ContactForm_default = ContactForm;
 // app/slices/Contact/ContactPage.tsx
 var import_jsx_dev_runtime41 = require("react/jsx-dev-runtime"), ContactPage = () => {
   var _a;
-  let fetcher = (0, import_react33.useFetcher)();
+  let fetcher = (0, import_react34.useFetcher)();
   return /* @__PURE__ */ (0, import_jsx_dev_runtime41.jsxDEV)(
     "div",
     {
@@ -4322,7 +4353,7 @@ __export(index_exports, {
   loader: () => loader3,
   meta: () => meta
 });
-var import_node5 = require("@remix-run/node"), import_react39 = require("@remix-run/react");
+var import_node5 = require("@remix-run/node"), import_react40 = require("@remix-run/react");
 
 // app/lib/prismicUtils.ts
 var findAllSlicesByType = ({ data }, sliceType) => data.body.concat().filter(({ slice_type }) => slice_type === sliceType).filter((i) => i.primary.enabled);
@@ -4339,7 +4370,7 @@ function HomePageHero() {
 var HomePageHero_default = HomePageHero;
 
 // app/slices/HomePage/HomePagePortfolioDesktop.tsx
-var import_clsx20 = __toESM(require("clsx")), import_gsap8 = require("gsap"), import_react34 = require("react");
+var import_clsx20 = __toESM(require("clsx")), import_gsap8 = require("gsap"), import_react35 = require("react");
 var import_jsx_dev_runtime44 = require("react/jsx-dev-runtime"), ALL_TAGS_ID = "all";
 function HomePagePortFolioImage({ active, image, ...props }) {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime44.jsxDEV)(
@@ -4370,10 +4401,10 @@ function getCustomPosition(e, width) {
   return e.clientX < width / 2 ? [e.clientX, e.clientY + 28] : e.clientX > window.innerWidth - width / 2 ? [e.clientX - width, e.clientY + 28] : [e.clientX - width / 2, e.clientY + 28];
 }
 function HomePagePortfolioDesktop({ data }) {
-  let availableTags = (0, import_react34.useMemo)(() => {
+  let availableTags = (0, import_react35.useMemo)(() => {
     var _a;
     return [ALL_TAGS_ID, ...((_a = data.primary.available_tags) == null ? void 0 : _a.split(", ")) || []];
-  }, [data.primary.available_tags]), imageRef = (0, import_react34.useRef)(null), [selectedTag, setSelectedTag] = (0, import_react34.useState)(ALL_TAGS_ID), [hasMovedMouse, setHasmovedMouse] = (0, import_react34.useState)(!1), [isHovered, setIsHovered] = (0, import_react34.useState)(!1), [hoveredTag, setHoveredTag] = (0, import_react34.useState)(null), [hoverImage, setHoverImage] = (0, import_react34.useState)(""), cursorRef = (0, import_react34.useRef)(null), onMouseMove = (e) => {
+  }, [data.primary.available_tags]), imageRef = (0, import_react35.useRef)(null), [selectedTag, setSelectedTag] = (0, import_react35.useState)(ALL_TAGS_ID), [hasMovedMouse, setHasmovedMouse] = (0, import_react35.useState)(!1), [isHovered, setIsHovered] = (0, import_react35.useState)(!1), [hoveredTag, setHoveredTag] = (0, import_react35.useState)(null), [hoverImage, setHoverImage] = (0, import_react35.useState)(""), cursorRef = (0, import_react35.useRef)(null), onMouseMove = (e) => {
     if (hasMovedMouse || (import_gsap8.gsap.set(cursorRef.current, {
       x: e.clientX,
       y: e.clientY
@@ -4822,10 +4853,10 @@ var import_react_lenis2 = require("@studio-freight/react-lenis"), import_richtex
 // app/slices/HomePage/HomePageProjectBackground.tsx
 var import_gsap10 = require("gsap");
 var import_ScrollTrigger2 = __toESM(require("gsap/dist/ScrollTrigger"));
-var import_react35 = require("react");
+var import_react36 = require("react");
 var import_jsx_dev_runtime47 = require("react/jsx-dev-runtime"), openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)", closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
 function HomePageBackgroundContainer({ data }) {
-  let container = (0, import_react35.useRef)(null);
+  let container = (0, import_react36.useRef)(null);
   return useIsomorphicLayoutEffect_default(() => {
     let ctx = import_gsap10.gsap.context((self) => {
       let ease = "linear", pinBackgroundContainer = () => {
@@ -5211,10 +5242,10 @@ function HomePageProjects({ data }) {
 var HomePageProjects_default = HomePageProjects;
 
 // app/slices/HomePage/HomePageTable.tsx
-var import_richtext9 = require("@prismicio/richtext"), import_react37 = require("@prismicio/react");
+var import_richtext9 = require("@prismicio/richtext"), import_react38 = require("@prismicio/react");
 
 // app/slices/HomePage/HomePageTableColumn.tsx
-var import_clsx22 = __toESM(require("clsx")), import_richtext8 = require("@prismicio/richtext"), import_react36 = require("@prismicio/react"), import_jsx_dev_runtime51 = require("react/jsx-dev-runtime");
+var import_clsx22 = __toESM(require("clsx")), import_richtext8 = require("@prismicio/richtext"), import_react37 = require("@prismicio/react"), import_jsx_dev_runtime51 = require("react/jsx-dev-runtime");
 function HomePageTableColumn({ item }) {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime51.jsxDEV)(
     "div",
@@ -5233,7 +5264,7 @@ function HomePageTableColumn({ item }) {
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime51.jsxDEV)(
-            import_react36.PrismicRichText,
+            import_react37.PrismicRichText,
             {
               field: item.description,
               components: {
@@ -5368,7 +5399,7 @@ function HomePageTable({ data }) {
         {
           className: "col-span-4 md:col-span-3",
           children: /* @__PURE__ */ (0, import_jsx_dev_runtime52.jsxDEV)(
-            import_react37.PrismicRichText,
+            import_react38.PrismicRichText,
             {
               field: description,
               components: {
@@ -5435,13 +5466,13 @@ function HomePageTable({ data }) {
 var HomePageTable_default = HomePageTable;
 
 // app/slices/HomePage/HomePageReviews.tsx
-var import_gsap12 = require("gsap"), import_clsx23 = __toESM(require("clsx")), import_react38 = require("react");
+var import_gsap12 = require("gsap"), import_clsx23 = __toESM(require("clsx")), import_react39 = require("react");
 var import_react_splide2 = require("@splidejs/react-splide"), import_random = __toESM(require("canvas-sketch-util/random")), import_jsx_dev_runtime53 = require("react/jsx-dev-runtime");
 function getRandomCoordinates(width, height) {
   return [import_random.default.rangeFloor(width), import_random.default.rangeFloor(height)];
 }
 function HomePageReviews({ data }) {
-  let container = (0, import_react38.useRef)(null), onClearClick = () => {
+  let container = (0, import_react39.useRef)(null), onClearClick = () => {
     import_gsap12.gsap.to(imagesRefs.current, {
       opacity: 0,
       scale: 0.95,
@@ -5464,7 +5495,7 @@ function HomePageReviews({ data }) {
     }, container);
     return () => ctx.revert();
   }, []);
-  let imagesContainer = (0, import_react38.useRef)(null), imagesRefs = (0, import_react38.useRef)([]), setImgRef = (0, import_react38.useCallback)((node) => {
+  let imagesContainer = (0, import_react39.useRef)(null), imagesRefs = (0, import_react39.useRef)([]), setImgRef = (0, import_react39.useCallback)((node) => {
     node && (imagesRefs.current = [...imagesRefs.current, node]);
   }, []), onMouseOverImage = (e) => {
     import_gsap12.gsap.to(e.target, { opacity: 1, zIndex: 1, duration: 0.3 }), e.target instanceof Element && import_gsap12.gsap.to(e.target.querySelector("img"), {
@@ -6195,7 +6226,7 @@ var import_jsx_dev_runtime57 = require("react/jsx-dev-runtime"), meta = () => [{
   });
 };
 function HomePage() {
-  let { homepage, slices } = (0, import_react39.useLoaderData)();
+  let { homepage, slices } = (0, import_react40.useLoaderData)();
   return /* @__PURE__ */ (0, import_jsx_dev_runtime57.jsxDEV)("main", { children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime57.jsxDEV)(HomePageHero_default, {}, void 0, !1, {
       fileName: "app/routes/_index.tsx",
@@ -6255,7 +6286,7 @@ function HomePage() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-PNU2OUWW.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-MW5KC5SE.js", "/build/_shared/chunk-JYYPEVM4.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MLVRZ5FS.js", imports: ["/build/_shared/chunk-XZPY2LQK.js", "/build/_shared/chunk-JTWYEMME.js", "/build/_shared/chunk-B7IYI5WI.js", "/build/_shared/chunk-CQ3356UF.js", "/build/_shared/chunk-PFPO6VHB.js", "/build/_shared/chunk-I6XCKTY3.js", "/build/_shared/chunk-HJMAMVVT.js", "/build/_shared/chunk-NMZL6IDN.js", "/build/_shared/chunk-4JBIEAIN.js", "/build/_shared/chunk-IGU45RBP.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-B4NRJOOC.js", imports: ["/build/_shared/chunk-QNCVYWQY.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/contact": { id: "routes/contact", parentId: "root", path: "contact", index: void 0, caseSensitive: void 0, module: "/build/routes/contact-PFKFQEVV.js", imports: ["/build/_shared/chunk-QNCVYWQY.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/styleguide": { id: "routes/styleguide", parentId: "root", path: "styleguide", index: void 0, caseSensitive: void 0, module: "/build/routes/styleguide-ENOXWWTL.js", imports: ["/build/_shared/chunk-JJKHSQL5.js", "/build/_shared/chunk-QNCVYWQY.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/work.$project": { id: "routes/work.$project", parentId: "root", path: "work/:project", index: void 0, caseSensitive: void 0, module: "/build/routes/work.$project-EVLTL3KP.js", imports: ["/build/_shared/chunk-JJKHSQL5.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, version: "c2d5ed3a", hmr: { runtime: "/build/_shared/chunk-JYYPEVM4.js", timestamp: 1693598300526 }, url: "/build/manifest-C2D5ED3A.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-PNU2OUWW.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-MW5KC5SE.js", "/build/_shared/chunk-JYYPEVM4.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-JZANECYG.js", imports: ["/build/_shared/chunk-3WYZPYDH.js", "/build/_shared/chunk-JTWYEMME.js", "/build/_shared/chunk-B7IYI5WI.js", "/build/_shared/chunk-VD5PFWP5.js", "/build/_shared/chunk-E7OHYIFZ.js", "/build/_shared/chunk-I6XCKTY3.js", "/build/_shared/chunk-HJMAMVVT.js", "/build/_shared/chunk-NMZL6IDN.js", "/build/_shared/chunk-MO2UR7YY.js", "/build/_shared/chunk-72AWEJMF.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-XSSDUGBU.js", imports: ["/build/_shared/chunk-IHWFBIAM.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/contact": { id: "routes/contact", parentId: "root", path: "contact", index: void 0, caseSensitive: void 0, module: "/build/routes/contact-VOAIYJVR.js", imports: ["/build/_shared/chunk-IHWFBIAM.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/styleguide": { id: "routes/styleguide", parentId: "root", path: "styleguide", index: void 0, caseSensitive: void 0, module: "/build/routes/styleguide-5HV2BQKN.js", imports: ["/build/_shared/chunk-WXXVV6LH.js", "/build/_shared/chunk-IHWFBIAM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/work.$project": { id: "routes/work.$project", parentId: "root", path: "work/:project", index: void 0, caseSensitive: void 0, module: "/build/routes/work.$project-I6FKDUKL.js", imports: ["/build/_shared/chunk-WXXVV6LH.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, version: "939aaafe", hmr: { runtime: "/build/_shared/chunk-JYYPEVM4.js", timestamp: 1693600418713 }, url: "/build/manifest-939AAAFE.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", future = { v2_dev: !0, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

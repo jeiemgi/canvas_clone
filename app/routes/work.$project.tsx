@@ -75,10 +75,12 @@ function WorkProject() {
   const { showProjectDetails, toggleProjectDetails } = useNavTheme();
   const { hero } = useLoaderData<typeof loader>();
 
-  /*useLayoutEffect(() => {
-      const videos = document.querySelectorAll("video");
-      lazyLoadVideos(videos);
-    }, []);*/
+  useLayoutEffect(() => {
+    const videos = document.querySelectorAll("video");
+    console.log(videos);
+
+    lazyLoadVideos(videos);
+  }, [location.pathname]);
 
   const toggleModalOpen = () => {
     setLocked(showProjectDetails);

@@ -13,7 +13,6 @@ module.exports = {
   ...baseConfig,
   tailwind: true,
   ignoredRouteFiles: ["**/.*"],
-  serverModuleFormat: "esm",
   // See https://remix.run/docs/en/main/file-conventions/route-files-v2
   future: {
     v2_dev: true,

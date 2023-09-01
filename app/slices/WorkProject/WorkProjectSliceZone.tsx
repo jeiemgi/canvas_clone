@@ -13,7 +13,8 @@ function WorkProjectSliceZone() {
   return (
     <>
       {slices.map((item, index) => {
-        const lazy = false;
+        const lazy = index > 1;
+
         switch (item.slice_type) {
           case "project_full_width":
             return (
