@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import { json } from "@remix-run/node";
-import { useLayoutEffect } from "react";
+import { useState } from "react";
+import { useLockedBody } from "usehooks-ts";
+import { useIsScrolledInArea } from "~/hooks/useIsScrolled";
 import { useLoaderData, useLocation } from "@remix-run/react";
-import { useLockedBody, useToggle } from "usehooks-ts";
+import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
 import { SecondaryCTA } from "~/components/CTA";
 import WorkProjectSliceZone from "~/slices/WorkProject/WorkProjectSliceZone";
 import WorkProjectDetails from "~/slices/WorkProject/WorkProjectDetails";
-import { lazyLoadVideos } from "~/hooks/useLazyLoadVideos";
-import { useIsScrolledInArea } from "~/hooks/useIsScrolled";
 import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
@@ -70,26 +70,34 @@ function WorkProjectDetailsButton({
 
 function WorkProject() {
   const location = useLocation();
+  const { setTheme } = useNavTheme();
   const [, setLocked] = useLockedBody(true);
-  const [showDetails, toggleShowDetails] = useToggle();
+  const [showDetails, setShowDetails] = useState(false);
   const { hero } = useLoaderData<typeof loader>();
 
   /*useLayoutEffect(() => {
-    const videos = document.querySelectorAll("video");
-    lazyLoadVideos(videos);
-  }, [location.pathname]);*/
+                            const videos = document.querySelectorAll("video");
+                            lazyLoadVideos(videos);
+                          }, [location.pathname]);*/
 
-  const toggleModalOpen = () => {
-    setLocked(showDetails);
-    toggleShowDetails();
+  const openDetailsModal = () => {
+    setLocked(true);
+    setTheme("hidden");
+    setShowDetails(true);
+  };
+
+  const closeDetailsModal = () => {
+    setLocked(false);
+    setTheme("transparent");
+    setShowDetails(false);
   };
 
   return (
     <div id={"WorkProjectPage"}>
       <ProjectHero
         animateVideo={true}
+        cta={() => openDetailsModal()}
         key={`work-hero-${location.pathname}`}
-        cta={toggleModalOpen}
         image={hero.background_image}
         subTitleField={hero.capabilities}
         tableData={hero}
@@ -102,11 +110,11 @@ function WorkProject() {
       <WorkProjectSliceZone key={`work-slices-${location.pathname}`} />
       <WorkProjectDetails
         isOpen={showDetails}
-        toggle={toggleShowDetails}
+        onClose={closeDetailsModal}
         key={`work-details-${location.pathname}`}
       />
       <WorkProjectDetailsButton
-        onClick={toggleModalOpen}
+        onClick={openDetailsModal}
         key={`work-details-button-${location.pathname}`}
       />
     </div>

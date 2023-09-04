@@ -1,17 +1,7 @@
-import useIsMobile from "~/hooks/useIsMobile";
-import useIsScrolled from "~/hooks/useIsScrolled";
-import { useNavigation } from "@remix-run/react";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-export type NavThemeType = "transparent" | "white";
+export type NavThemeType = "transparent" | "white" | "hidden";
 
 export interface NavThemeProps {
   theme: NavThemeType;

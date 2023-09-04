@@ -42,7 +42,7 @@ function Navigation({
   return (
     <Nav>
       <ul>
-        <li>
+        <NavListItem hidden={theme === "hidden"}>
           <PrimaryCTAButton
             active={modalOpen === "work"}
             dark={theme === "transparent"}
@@ -50,14 +50,14 @@ function Navigation({
           >
             WORK
           </PrimaryCTAButton>
-        </li>
+        </NavListItem>
       </ul>
 
       <NavLogoMobile onClick={onLogoClick} />
       <NavLogoDesktop onClick={onLogoClick} />
 
-      <ul>
-        <li>
+      <NavList>
+        <NavListItem hidden={theme === "hidden"}>
           <PrimaryCTAButton
             dark={theme === "transparent"}
             active={modalOpen === "contact"}
@@ -65,8 +65,8 @@ function Navigation({
           >
             Contact
           </PrimaryCTAButton>
-        </li>
-      </ul>
+        </NavListItem>
+      </NavList>
     </Nav>
   );
 }

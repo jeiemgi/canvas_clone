@@ -71,14 +71,14 @@ function WorkProjectDetailsTables() {
 
 function WorkProjectDetails({
   isOpen,
-  toggle,
+  onClose,
 }: {
   isOpen: boolean;
-  toggle: Function;
+  onClose: Function;
 }) {
   const { hero } = useLoaderData<typeof loader>();
   return (
-    <WorkProjectDetailsModal onClose={toggle} isOpen={isOpen}>
+    <WorkProjectDetailsModal onClose={onClose} isOpen={isOpen}>
       <div
         data-lenis-prevent={true}
         className={"fixed inset-0 h-full w-full overflow-scroll"}
