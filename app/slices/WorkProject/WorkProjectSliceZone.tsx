@@ -8,12 +8,16 @@ import WorkProjectPictureColor from "~/slices/WorkProject/WorkProjectPictureColo
 import WorkProjectNextProject from "~/slices/WorkProject/WorkProjectNextProject";
 import type { loader } from "~/routes/work.$project";
 
+function getKey(type: string, index: number) {
+  return `WorkProject--${type}-${index}`;
+}
+
 function WorkProjectSliceZone() {
   const { slices } = useLoaderData<typeof loader>();
   return (
     <>
       {slices.map((item, index) => {
-        const lazy = true;
+        const lazy = false;
 
         switch (item.slice_type) {
           case "project_full_width":
@@ -21,7 +25,7 @@ function WorkProjectSliceZone() {
               <WorkProjectFullWidth
                 item={item}
                 lazy={lazy}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           case "project_2_column":
@@ -29,7 +33,7 @@ function WorkProjectSliceZone() {
               <WorkProject2Column
                 lazy={lazy}
                 item={item}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           case "project_plate_-_videocolor":
@@ -37,7 +41,7 @@ function WorkProjectSliceZone() {
               <WorkProjectVideoColor
                 item={item}
                 lazy={lazy}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           case "project_plate_-_videophoto":
@@ -45,7 +49,7 @@ function WorkProjectSliceZone() {
               <WorkProjectVideoPhoto
                 lazy={lazy}
                 item={item}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           case "projectplate_-_picturecolor":
@@ -53,7 +57,7 @@ function WorkProjectSliceZone() {
               <WorkProjectPictureColor
                 lazy={lazy}
                 item={item}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           case "project_next_banner":
@@ -61,11 +65,17 @@ function WorkProjectSliceZone() {
               <WorkProjectNextProject
                 lazy={lazy}
                 item={item}
-                key={`WorkProjectSlice-${index}`}
+                key={getKey(item.slice_type, index)}
               />
             );
           default:
-            return <span>Unknown Slice Type {item.slice_type}</span>;
+            return (
+              <div key={getKey(item.slice_type, index)} className={"bg-red"}>
+                <h2 className={"heading--2"}>
+                  Unknown Slice Type {item.slice_type}
+                </h2>
+              </div>
+            );
         }
       })}
     </>

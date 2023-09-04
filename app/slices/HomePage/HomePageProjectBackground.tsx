@@ -1,23 +1,41 @@
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 import { Image } from "~/components/Image";
 import { useLayoutEffect } from "~/hooks";
+import ProjectHero from "~/components/ProjectHero";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import ProjectHero, { setupBannerAnimation } from "~/components/ProjectHero";
+import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContainer";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import { useRef } from "react";
-import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContainer";
+import easings from "~/lib/easings";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
 
-function HomePageBackgroundContainer({ data }: { data: HomePageProjectsData }) {
+function HomePageBackgroundContainer({
+  data,
+  clickedIndex,
+}: {
+  data: HomePageProjectsData;
+  clickedIndex: number | null;
+}) {
   const container = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof clickedIndex === "number") {
+      const bgItem = document.querySelectorAll(".hero-project-bg-container")[
+        clickedIndex
+      ];
+      gsap.to(bgItem, {
+        ease: easings.mask,
+        clipPath: openPath,
+      });
+    }
+  }, [clickedIndex]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
-      // const easing = easings.mask;
-      const ease = "linear";
+      const ease = easings.mask;
 
       const pinBackgroundContainer = () => {
         // Pin the background container for the whole scroll.

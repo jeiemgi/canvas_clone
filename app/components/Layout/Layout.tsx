@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Lenis from "~/components/Layout/Lenis";
 import Navigation from "~/components/Layout/Navigation";
 import NavThemeProvider from "~/components/Navigation/NavThemeProvider";
 import LayoutContact from "~/components/Layout/LayoutContact";
@@ -35,7 +34,7 @@ function Layout({
           onClose={() => setModalOpen(null)}
         />
       ) : null}
-      <Lenis>{children}</Lenis>
+      {children}
     </NavThemeProvider>
   );
 }

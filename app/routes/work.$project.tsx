@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { json } from "@remix-run/node";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLockedBody } from "usehooks-ts";
 import { useIsScrolledInArea } from "~/hooks/useIsScrolled";
 import { useLoaderData, useLocation } from "@remix-run/react";
@@ -14,6 +14,7 @@ import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
 import type { FilledLinkToWebField } from "@prismicio/types";
+import { useLayoutEffect } from "~/hooks";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -71,33 +72,33 @@ function WorkProjectDetailsButton({
 function WorkProject() {
   const location = useLocation();
   const { setTheme } = useNavTheme();
-  const [, setLocked] = useLockedBody(true);
+  const [, setLockedBody] = useLockedBody(false);
   const [showDetails, setShowDetails] = useState(false);
   const { hero } = useLoaderData<typeof loader>();
 
-  /*useLayoutEffect(() => {
-                            const videos = document.querySelectorAll("video");
-                            lazyLoadVideos(videos);
-                          }, [location.pathname]);*/
-
   const openDetailsModal = () => {
-    setLocked(true);
     setTheme("hidden");
+    setLockedBody(true);
     setShowDetails(true);
   };
 
   const closeDetailsModal = () => {
-    setLocked(false);
     setTheme("transparent");
+    setLockedBody(false);
     setShowDetails(false);
   };
 
+  useEffect(() => {
+    if (window.scrollY > 0) {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+  }, []);
+
   return (
-    <div id={"WorkProjectPage"}>
+    <div key={`WorkProjectPage-${location.pathname}`}>
       <ProjectHero
         animateVideo={true}
         cta={() => openDetailsModal()}
-        key={`work-hero-${location.pathname}`}
         image={hero.background_image}
         subTitleField={hero.capabilities}
         tableData={hero}
@@ -107,16 +108,9 @@ function WorkProject() {
           field: hero.reel as FilledLinkToWebField,
         }}
       />
-      <WorkProjectSliceZone key={`work-slices-${location.pathname}`} />
-      <WorkProjectDetails
-        isOpen={showDetails}
-        onClose={closeDetailsModal}
-        key={`work-details-${location.pathname}`}
-      />
-      <WorkProjectDetailsButton
-        onClick={openDetailsModal}
-        key={`work-details-button-${location.pathname}`}
-      />
+      <WorkProjectSliceZone />
+      <WorkProjectDetails isOpen={showDetails} onClose={closeDetailsModal} />
+      <WorkProjectDetailsButton onClick={openDetailsModal} />
     </div>
   );
 }

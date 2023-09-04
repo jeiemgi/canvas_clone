@@ -5,7 +5,6 @@ import {
 } from "~/slices/HomePage/HomePageProjectTitleContainer";
 import easings from "~/lib/easings";
 import { Image } from "~/components/Image";
-import { useLenis } from "@studio-freight/react-lenis";
 import { asText } from "@prismicio/richtext";
 import { useNavigate } from "react-router";
 import { animateBanner } from "~/components/ProjectHero/ProjectHero";
@@ -13,6 +12,7 @@ import HomePageBackgroundContainer from "~/slices/HomePage/HomePageProjectBackgr
 import type { MouseEvent } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
+import { useState } from "react";
 
 const HomePageProjectScrollItemContent = ({
   project,
@@ -49,20 +49,23 @@ function HomePageProjectScrollContainer({
 }: {
   data: HomePageProjectsData;
 }) {
-  const lenis = useLenis();
   const navigate = useNavigate();
 
   const onClick = (
     e: MouseEvent<HTMLDivElement>,
     { index, slug = "" }: { index: number; slug: string }
   ) => {
-    lenis.scrollTo(`#HomePageProjectScrollItem-${slug}`);
+    setClickedIndex(index);
+    /*const topContentTarget = document.getElementById(
+                              `HomePageProjectScrollItem-${slug}`
+                            );*/
 
     const duration = 1;
     const ease = easings.mask;
     const tl = gsap.timeline({
       onComplete: () => {
         navigate(`/work/${slug}`);
+        // navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 
@@ -101,7 +104,7 @@ function HomePageProjectScrollContainer({
     );
 
     if (e.target instanceof Element) {
-      const vars = { ease, duration, position: 0 };
+      const vars = { ease, duration, position: 0.5 };
       // prettier-ignore
       const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
       const title = titles[index];
@@ -122,9 +125,11 @@ function HomePageProjectScrollContainer({
     }
   };
 
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+
   return (
     <div id={"home-projects-container"}>
-      <HomePageBackgroundContainer data={data} />
+      <HomePageBackgroundContainer clickedIndex={clickedIndex} data={data} />
 
       {data.map((project, index) => (
         <div
