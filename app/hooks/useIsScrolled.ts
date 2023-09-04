@@ -1,9 +1,19 @@
-import { useScrollPosition } from "~/hooks/index";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 function useIsScrolled(threshold = 0) {
-  const scrollY = useScrollPosition();
-  return scrollY > threshold;
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setIsScrolled(window.scrollY > threshold);
+    };
+
+    window.addEventListener("scroll", update);
+    update();
+    return () => window.removeEventListener("scroll", update);
+  }, [threshold]);
+
+  return isScrolled;
 }
 
 export const useIsScrolledInArea = (start: number, end: number) => {

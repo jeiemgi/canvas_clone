@@ -1,14 +1,18 @@
 import clsx from "clsx";
 import { CanvasLogo } from "~/svg";
-import { Link } from "@remix-run/react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
+import type { MouseEventHandler } from "react";
 
-export function NavLogoDesktop() {
+export function NavLogoDesktop({
+  onClick,
+}: {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+}) {
   const { theme } = useNavTheme();
 
   return (
-    <Link
-      to={"/"}
+    <button
+      onClick={onClick}
       aria-label={"CANVAS"}
       className={"desktop-only absolute left-0 right-0 m-auto w-max"}
     >
@@ -20,15 +24,19 @@ export function NavLogoDesktop() {
           theme === "transparent" ? "fill-white" : "fill-black"
         )}
       />
-    </Link>
+    </button>
   );
 }
 
-export function NavLogoMobile() {
+export function NavLogoMobile({
+  onClick,
+}: {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+}) {
   const { theme } = useNavTheme();
 
   return (
-    <Link to={"/"} aria-label={"CANVAS"} className={"mobile-only"}>
+    <button onClick={onClick} aria-label={"CANVAS"} className={"mobile-only"}>
       <CanvasLogo
         width={78}
         height={13}
@@ -37,6 +45,6 @@ export function NavLogoMobile() {
           theme === "transparent" ? "fill-white" : "fill-black"
         )}
       />
-    </Link>
+    </button>
   );
 }

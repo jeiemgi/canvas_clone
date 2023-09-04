@@ -7,37 +7,34 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import { defer } from "@remix-run/node";
+import { createClient } from "~/lib/prismicClient";
 import global from "~/styles/global.css";
 import tailwind from "~/styles/tailwind.css";
+import components from "~/styles/components/index.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { cssBundleHref } from "@remix-run/css-bundle";
+import Layout from "~/components/Layout";
 import { gsap } from "gsap";
+import Flip from "gsap/dist/Flip";
 import SplitText from "gsap/dist/SplitText";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import CustomEase from "gsap/dist/CustomEase";
-import Flip from "gsap/dist/Flip";
-import Layout from "~/components/Layout";
-import type { LinksFunction } from "@remix-run/node";
+
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
-import { createClient } from "~/lib/prismicClient";
-import { defer } from "@remix-run/node";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
 // NOTE: Register plugins here, so we register them only once.
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase, Flip);
-
-const otherCss = [
-  { rel: "stylesheet", href: global },
-  { rel: "stylesheet", href: tailwind },
-  { rel: "stylesheet", href: splideCss },
-];
+gsap.registerPlugin(Flip, ScrollTrigger, ScrollSmoother, SplitText);
 
 export const links: LinksFunction = () => {
-  return cssBundleHref
-    ? [...otherCss, { rel: "stylesheet", href: cssBundleHref }]
-    : otherCss;
+  return [
+    ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+    { rel: "stylesheet", href: global },
+    { rel: "stylesheet", href: tailwind },
+    { rel: "stylesheet", href: splideCss },
+    { rel: "stylesheet", href: components },
+  ];
 };
 
 export const loader = async () => {
@@ -51,42 +48,24 @@ export const loader = async () => {
   });
 };
 
+export const meta: V2_MetaFunction = () => [
+  {
+    charset: "utf-8",
+    title: "Canvas | Design Studio and Creative Agency",
+    viewport: "width=device-width,initial-scale=1",
+  },
+];
+
 function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    document.documentElement.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant",
-    });
-  }, [pathname]);
-
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="keywords" content="Canvas, website" />
-        {/*<meta
-          name="twitter:image"
-          content=""
-        />*/}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@canvascreative" />
-        <meta name="twitter:site" content="@canvascreative" />
-        <meta name="twitter:title" content="Canvas Studio" />
         <Meta />
-        {title ? <title>{title}</title> : null}
         <Links />
       </head>
       <body>
         {children}
-        <ScrollRestoration
-          getKey={() => {
-            return null;
-          }}
-        />
+        <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
@@ -126,7 +105,7 @@ export default function App() {
 
   return (
     <Document>
-      <Layout workMenu={workMenu}>
+      <Layout workMenuData={workMenu}>
         <Outlet />
       </Layout>
     </Document>

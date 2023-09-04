@@ -16,6 +16,7 @@ import type { ButtonProps } from "react-html-props";
 import type { KeyTextField } from "@prismicio/types";
 import type { MouseEvent } from "react";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
+import { useToggle } from "usehooks-ts";
 
 interface LayoutWorkMenuItemProps extends ButtonProps {
   index: number;
@@ -134,9 +135,16 @@ function LayoutWorkMenuItem({
   );
 }
 
-function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
+function LayoutWorkMenu({
+  show,
+  onClose,
+  data,
+}: {
+  show: boolean;
+  onClose: () => void;
+  data: WorkmenuDocument;
+}) {
   const navigate = useNavigate();
-  const { showWorkMenu, toggleWorkMenu } = useNavTheme();
   const [locked, setLocked] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -152,7 +160,7 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
         navigate(`/work/${slug}`, { preventScrollReset: false });
 
         setTimeout(() => {
-          toggleWorkMenu();
+          onClose();
           setLocked(false);
         }, 200);
       },
@@ -211,13 +219,8 @@ function LayoutWorkMenu({ data }: { data: WorkmenuDocument }) {
   };
 
   return (
-    <Transition show={showWorkMenu} as={Fragment}>
-      <Dialog
-        onClose={() => {
-          toggleWorkMenu();
-        }}
-        className={"relative"}
-      >
+    <Transition show={show} as={Fragment}>
+      <Dialog onClose={onClose} className={"relative"}>
         <Transition.Child
           unmount={false}
           as={Fragment}

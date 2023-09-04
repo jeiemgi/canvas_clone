@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import HomePageTitleContainer, {
+import {
   HOMEPAGE_PROJECT_SUBTITLE_ID,
   HOMEPAGE_PROJECT_TITLE_ID,
 } from "~/slices/HomePage/HomePageProjectTitleContainer";

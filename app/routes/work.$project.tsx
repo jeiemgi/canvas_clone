@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { json } from "@remix-run/node";
+import { useLayoutEffect } from "react";
 import { useLoaderData, useLocation } from "@remix-run/react";
-import { useLockedBody } from "usehooks-ts";
-import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
+import { useLockedBody, useToggle } from "usehooks-ts";
 import { createClient } from "~/lib/prismicClient";
 import { normalizeProjectDetailsData } from "~/lib/projectDetails";
 import { SecondaryCTA } from "~/components/CTA";
@@ -14,7 +14,6 @@ import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
 import type { FilledLinkToWebField } from "@prismicio/types";
-import { useLayoutEffect } from "react";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -71,20 +70,18 @@ function WorkProjectDetailsButton({
 
 function WorkProject() {
   const location = useLocation();
-  const [, setLocked] = useLockedBody(false);
-  const { showProjectDetails, toggleProjectDetails } = useNavTheme();
+  const [, setLocked] = useLockedBody(true);
+  const [showDetails, toggleShowDetails] = useToggle();
   const { hero } = useLoaderData<typeof loader>();
 
-  useLayoutEffect(() => {
+  /*useLayoutEffect(() => {
     const videos = document.querySelectorAll("video");
-    console.log(videos);
-
     lazyLoadVideos(videos);
-  }, [location.pathname]);
+  }, [location.pathname]);*/
 
   const toggleModalOpen = () => {
-    setLocked(showProjectDetails);
-    toggleProjectDetails(!showProjectDetails);
+    setLocked(showDetails);
+    toggleShowDetails();
   };
 
   return (
@@ -92,7 +89,7 @@ function WorkProject() {
       <ProjectHero
         animateVideo={true}
         key={`work-hero-${location.pathname}`}
-        cta={toggleProjectDetails}
+        cta={toggleModalOpen}
         image={hero.background_image}
         subTitleField={hero.capabilities}
         tableData={hero}
@@ -104,9 +101,9 @@ function WorkProject() {
       />
       <WorkProjectSliceZone key={`work-slices-${location.pathname}`} />
       <WorkProjectDetails
+        isOpen={showDetails}
+        toggle={toggleShowDetails}
         key={`work-details-${location.pathname}`}
-        toggle={toggleProjectDetails}
-        isOpen={showProjectDetails}
       />
       <WorkProjectDetailsButton
         onClick={toggleModalOpen}

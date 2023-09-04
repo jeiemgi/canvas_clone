@@ -5,15 +5,16 @@ import { Image } from "~/components/Image";
 import type { ProjectPageDocumentDataBodyProjectPlateVideophotoSlice } from "types.generated";
 
 interface Props {
+  lazy: boolean;
   item: ProjectPageDocumentDataBodyProjectPlateVideophotoSlice;
 }
 
-function WorkProjectVideoPhoto({ item }: Props) {
+function WorkProjectVideoPhoto({ item, lazy }: Props) {
   return (
     <section className={"WorkProjectSlice relative"}>
       <Image
-        loading="lazy"
         field={item.primary.image}
+        loading={lazy ? "eager" : "lazy"}
         className={"desktop-only w-full"}
       />
       <div
@@ -30,6 +31,7 @@ function WorkProjectVideoPhoto({ item }: Props) {
         >
           <Video
             autoPlay
+            lazy={lazy}
             // @ts-ignore
             src={item.primary.video.url}
           />

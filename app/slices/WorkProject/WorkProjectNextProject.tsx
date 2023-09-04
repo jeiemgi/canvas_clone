@@ -8,13 +8,14 @@ import {
   ProjectPrefetchLink,
   setupBannerAnimation,
 } from "~/components/ProjectHero";
+import { Image } from "~/components/Image";
 import ProjectHero from "~/components/ProjectHero/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
-import { Image } from "~/components/Image";
 
 interface Props {
+  lazy: boolean;
   item: ProjectPageDocumentDataBodyProjectNextBannerSlice;
 }
 
@@ -45,7 +46,7 @@ function WorkProjectNextContent({ title }: { title: KeyTextField }) {
   );
 }
 
-function WorkProjectNextProject({ item }: Props) {
+function WorkProjectNextProject({ item, lazy }: Props) {
   const navigate = useNavigate();
   const container = useRef<HTMLDivElement>(null);
 
@@ -120,6 +121,7 @@ function WorkProjectNextProject({ item }: Props) {
         }
       >
         <Image
+          loading={lazy ? "eager" : "lazy"}
           className={"w-full object-cover"}
           field={item.primary.background_image1}
         />

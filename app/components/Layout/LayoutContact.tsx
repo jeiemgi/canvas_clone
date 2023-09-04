@@ -1,14 +1,17 @@
 import React, { Fragment } from "react";
 import ContactPage from "~/slices/Contact/ContactPage";
-import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import { Dialog, Transition } from "@headlessui/react";
-import clsx from "clsx";
 
-function LayoutContact() {
-  const { toggleContact, showContact } = useNavTheme();
+function LayoutContact({
+  show,
+  onClose,
+}: {
+  show: boolean;
+  onClose: (show: boolean) => void;
+}) {
   return (
-    <Transition show={showContact} as={Fragment}>
-      <Dialog onClose={() => toggleContact} className={"relative"}>
+    <Transition show={show} as={Fragment}>
+      <Dialog onClose={onClose} className={"relative"}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-500"
@@ -38,7 +41,7 @@ function LayoutContact() {
             data-lenis-prevent={true}
             className={"fixed inset-0 h-full w-full overflow-scroll"}
           >
-            <div className="display--1">HELLO!</div>
+            <ContactPage />
           </div>
         </Transition.Child>
       </Dialog>

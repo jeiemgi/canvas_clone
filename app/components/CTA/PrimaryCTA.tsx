@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { Link } from "@remix-run/react";
-import styles from "./PrimaryCTA.module.css";
 import type { LinkProps } from "@remix-run/react";
 import type { ButtonProps } from "react-html-props";
 
@@ -24,19 +23,21 @@ export function PrimaryCTALink({
 
   return (
     <Link
-      className={clsx(
-        styles.ctaButton,
-        active ? styles.active : "",
-        dark ? styles.dark : "",
-        size === "lg" ? styles.lg : "",
-        className
-      )}
+      className={clsx("PrimaryCTAButton", {
+        "PrimaryCTAButton--active": active,
+        "PrimaryCTAButton--dark": dark,
+        "PrimaryCTAButton--lg": size === "lg",
+      })}
       {...props}
     >
-      <div className={styles.inner}>
-        <span className={clsx(textStyle, styles.parenthesisL)}>(</span>
+      <div className={"PrimaryCTAButton__inner"}>
+        <span className={clsx(textStyle, "PrimaryCTAButton__parenthesisL")}>
+          (
+        </span>
         <span className={clsx(textStyle, "px-2")}>{children}</span>
-        <span className={clsx(textStyle, styles.parenthesisR)}>)</span>
+        <span className={clsx(textStyle, "PrimaryCTAButton__parenthesisR")}>
+          )
+        </span>
       </div>
     </Link>
   );
@@ -52,20 +53,20 @@ export function PrimaryCTAButton({
   ...props
 }: PrimaryCTAButton) {
   const textStyle = size === "sm" ? "heading--3" : "heading--1";
+
   return (
     <button
-      className={clsx(
-        styles.ctaButton,
-        active ? styles.active : "",
-        dark ? styles.dark : "",
-        size === "lg" ? styles.lg : ""
-      )}
+      className={clsx("PrimaryCTAButton", {
+        "PrimaryCTAButton--active": active,
+        "PrimaryCTAButton--dark": dark,
+        "PrimaryCTAButton--lg": size === "lg",
+      })}
       {...props}
     >
-      <div className={styles.inner}>
-        <span className={clsx(textStyle, styles.parenthesisL)}>(</span>
+      <div className={clsx("PrimaryCTAButton__inner", textStyle)}>
+        <span className={"PrimaryCTAButton__parenthesisL"}>(</span>
         <span className={clsx(textStyle, "px-2")}>{children}</span>
-        <span className={clsx(textStyle, styles.parenthesisR)}>)</span>
+        <span className={"PrimaryCTAButton__parenthesisR"}>)</span>
       </div>
     </button>
   );

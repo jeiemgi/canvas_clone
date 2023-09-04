@@ -234,7 +234,6 @@ export const animateBanner: GSAPAnimationFunction = (
 
   const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
   if (cloneHeroTitle) {
-    console.log(cloneHeroTitle);
     const titleState = Flip.getState(title);
     cloneHeroTitle.appendChild(title);
     Flip.from(titleState, { duration, ease, ...vars });
@@ -356,7 +355,6 @@ function ProjectHero({
   ...props
 }: ProjectHeroProps) {
   const container = useRef<HTMLDivElement>(null);
-
   const extraProps = isClone ? { tabIndex: -1, "aria-hidden": true } : {};
   const baseClassNames = isClone ? "pointer-events-none" : "";
   const debugClassNames = debug ? "border inner border-white" : "";

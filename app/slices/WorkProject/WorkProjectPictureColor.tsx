@@ -3,10 +3,11 @@ import type { ProjectPageDocumentDataBodyProjectplatePicturecolorSlice } from "t
 import { Image } from "~/components/Image";
 
 interface Props {
+  lazy: boolean;
   item: ProjectPageDocumentDataBodyProjectplatePicturecolorSlice;
 }
 
-function WorkProjectPictureColor({ item }: Props) {
+function WorkProjectPictureColor({ item, lazy }: Props) {
   return (
     <div className={"md:grid-container"}>
       <div
@@ -18,7 +19,7 @@ function WorkProjectPictureColor({ item }: Props) {
         }}
       >
         <Image
-          loading="lazy"
+          loading={lazy ? "eager" : "lazy"}
           field={item.primary.image}
           className={"w-full select-none"}
         />

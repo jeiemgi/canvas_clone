@@ -31,3 +31,5 @@ export const lazyLoadVideos = (
     });
   }
 };
+
+export default lazyLoadVideos;
