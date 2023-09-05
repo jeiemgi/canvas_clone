@@ -74,40 +74,38 @@ function HomePageProjectTitleContainer({
   data: HomePageProjectsData;
 }) {
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      function addAnimationOnScroll() {
-        const selectors = [
-          `.${HOMEPAGE_PROJECT_TITLE_ID}`,
-          `.${HOMEPAGE_PROJECT_SUBTITLE_ID}`,
-          ".HomePageProject-index",
-        ];
+    function addAnimationOnScroll() {
+      const selectors = [
+        `.${HOMEPAGE_PROJECT_TITLE_ID}`,
+        `.${HOMEPAGE_PROJECT_SUBTITLE_ID}`,
+        ".HomePageProject-index",
+      ];
 
-        selectors.forEach((selector: string) => {
-          const scrollItems = document.querySelectorAll(
-            ".HomePageProjectScrollItem"
+      selectors.forEach((selector: string) => {
+        const scrollItems = document.querySelectorAll(
+          ".HomePageProjectScrollItem"
+        );
+        const items = document.querySelectorAll(selector);
+        const splits = splitText(items);
+
+        splits.forEach((splits, index, arr) => {
+          if (index !== 0) gsap.set(splits.words, { y: "100%" });
+          animateTextOnScroll(
+            splits,
+            scrollItems[index],
+            index === arr.length - 1
           );
-          const items = document.querySelectorAll(selector);
-          const splits = splitText(items);
-
-          splits.forEach((splits, index, arr) => {
-            if (index !== 0) gsap.set(splits.words, { y: "100%" });
-            animateTextOnScroll(
-              splits,
-              scrollItems[index],
-              index === arr.length - 1
-            );
-          });
         });
-      }
-
-      const mm = gsap.matchMedia();
-
-      mm.add(mdScreen, () => {
-        addAnimationOnScroll();
       });
+    }
+
+    const mm = gsap.matchMedia();
+
+    mm.add(mdScreen, () => {
+      addAnimationOnScroll();
     });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
 
   return (

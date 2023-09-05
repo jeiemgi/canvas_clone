@@ -13,6 +13,7 @@ import type { MouseEvent } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
 import { useState } from "react";
+import HomePageProjectCursor from "~/slices/HomePage/HomePageProjectCursor";
 
 const HomePageProjectScrollItemContent = ({
   project,
@@ -56,9 +57,6 @@ function HomePageProjectScrollContainer({
     { index, slug = "" }: { index: number; slug: string }
   ) => {
     setClickedIndex(index);
-    /*const topContentTarget = document.getElementById(
-                              `HomePageProjectScrollItem-${slug}`
-                            );*/
 
     const duration = 1;
     const ease = easings.mask;
@@ -71,7 +69,7 @@ function HomePageProjectScrollContainer({
 
     /* ANIMATE OTHER ITEMS */
     const background = document
-      .querySelectorAll(".hero-project-bg-container")
+      .querySelectorAll(".HomePageBackground-Image")
       [index].querySelector("img");
     tl.to(
       background,
@@ -128,9 +126,11 @@ function HomePageProjectScrollContainer({
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   return (
-    <div id={"home-projects-container"} className={"hidden md:block"}>
+    <div
+      id={HOME_PAGE_PROJECTS_CONTAINER_ID}
+      className={"relative hidden md:block"}
+    >
       <HomePageBackgroundContainer clickedIndex={clickedIndex} data={data} />
-
       {data.map((project, index) => (
         <div
           key={`HomePageProjectScrollItem-${index}`}
@@ -142,8 +142,10 @@ function HomePageProjectScrollContainer({
           <HomePageProjectScrollItemContent project={project} />
         </div>
       ))}
+      <HomePageProjectCursor containerId={HOME_PAGE_PROJECTS_CONTAINER_ID} />
     </div>
   );
 }
 
+const HOME_PAGE_PROJECTS_CONTAINER_ID = "home-projects-container";
 export default HomePageProjectScrollContainer;

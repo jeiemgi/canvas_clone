@@ -1,21 +1,25 @@
 import clsx from "clsx";
-import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import type { NavProps } from "react-html-props";
+import type { ReactNode } from "react";
 import type { NavThemeType } from "~/components/Navigation/NavThemeProvider";
 
 function getBackground(theme: NavThemeType) {
   switch (theme) {
     case "white":
-      return "transition-colors duration-100 bg-white delay-500";
+      return "transition-colors bg-white";
     case "transparent":
-      return "bg-gradient delay-0";
+      return "transition-colors bg-gradient";
     case "hidden":
       return "";
   }
 }
 
-function Nav({ children }: NavProps) {
-  const { theme } = useNavTheme();
+function Nav({
+  children,
+  theme,
+}: {
+  children: ReactNode;
+  theme: NavThemeType;
+}) {
   const background = getBackground(theme);
 
   return (

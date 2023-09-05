@@ -7,7 +7,6 @@ function useIsScrolled(threshold = 0) {
     const update = () => {
       setIsScrolled(window.scrollY > threshold);
     };
-
     window.addEventListener("scroll", update);
     update();
     return () => window.removeEventListener("scroll", update);

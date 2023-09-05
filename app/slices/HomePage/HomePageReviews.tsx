@@ -9,6 +9,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import random from "canvas-sketch-util/random";
 import type { MouseEvent } from "react";
 import type { HomepageDocumentDataBodyHomeReviewsSlice } from "types.generated";
+import { mdScreen } from "~/lib/gsapUtils";
 
 interface Props {
   data: HomepageDocumentDataBodyHomeReviewsSlice;

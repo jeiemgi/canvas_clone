@@ -19,17 +19,26 @@ function Navigation({
   setModalOpen: (modal: LayoutModalName) => void;
 }) {
   const navigate = useNavigate();
-
-  const isScrolled = useIsScrolled();
-  const { width: windowWidth } = useWindowSize();
   const { theme, setTheme } = useNavTheme();
 
   useEffect(() => {
-    const isMobile = windowWidth < MOBILE_BREAKPOINT && windowWidth > 0;
-    if (isMobile && isScrolled) {
-      setTheme("white");
-    }
-  }, [windowWidth, isScrolled, setTheme]);
+    const listener = () => {
+      // prettier-ignore
+      const isMobile = window.innerWidth < MOBILE_BREAKPOINT && window.innerWidth > 0;
+      const isScrolled = window.scrollY > 0;
+      if (isMobile && isScrolled) setTheme("white");
+      else setTheme("transparent");
+    };
+
+    window.addEventListener("resize", listener);
+    window.addEventListener("scroll", listener);
+    listener();
+
+    return () => {
+      window.removeEventListener("resize", listener);
+      window.removeEventListener("scroll", listener);
+    };
+  }, [setTheme]);
 
   const onLogoClick = () => {
     if (modalOpen) {
@@ -40,7 +49,7 @@ function Navigation({
   };
 
   return (
-    <Nav>
+    <Nav theme={theme}>
       <ul>
         <NavListItem hidden={theme === "hidden"}>
           <PrimaryCTAButton

@@ -138,7 +138,7 @@ export function ProjectBackground({
       <Image
         {...props}
         field={field}
-        className={clsx(props?.className, "min-h-screen w-full object-cover")}
+        className={clsx(props?.className, "min-h-full w-full object-cover")}
       />
     </div>
   );
@@ -173,84 +173,99 @@ export const animateBanner: GSAPAnimationFunction = (
   { position, stagger, ease, duration, ...vars },
   { title, subtitle, scope, itemsScope }
 ) => {
-  // ANIMATE TABLE
-  const tableLines = itemsScope
-    ? itemsScope.querySelectorAll(".hero-table-line")
-    : scope.querySelectorAll(".hero-table-line");
+  function animateTable() {
+    // ANIMATE TABLE
+    const tableLines = itemsScope
+      ? itemsScope.querySelectorAll(".hero-table-line")
+      : scope.querySelectorAll(".hero-table-line");
 
-  const tableItems = itemsScope
-    ? itemsScope.querySelectorAll(".hero-table-row__item")
-    : scope.querySelectorAll(".hero-table-row__item");
+    const tableItems = itemsScope
+      ? itemsScope.querySelectorAll(".hero-table-row__item")
+      : scope.querySelectorAll(".hero-table-row__item");
 
-  tl.to(
-    tableLines,
-    {
-      scaleX: 1,
-      ...vars,
-    },
-    position
-  );
-  tl.to(
-    tableItems,
-    {
-      y: "0%",
-      ease,
-      duration,
-      stagger,
-      ...vars,
-    },
-    position
-  );
-  // ADD ANIMATION TO TEXT SIZES
-  const titleText = title.querySelector("span");
-  tl.to(
-    titleText,
-    {
-      ease,
-      duration,
-      fontSize: "6.875rem",
-      letterSpacing: "-0.1375rem",
-      transformOrigin: "top left",
-      ...vars,
-    },
-    position
-  );
-
-  if (subtitle) {
-    const subtitleText = subtitle.querySelector("span");
     tl.to(
-      subtitleText,
+      tableLines,
       {
+        scaleX: 1,
+        ...vars,
+      },
+      position
+    );
+    tl.to(
+      tableItems,
+      {
+        y: "0%",
         ease,
         duration,
-        fontSize: "1.5rem",
-        letterSpacing: "-0.015rem",
-        transformOrigin: "top left",
+        stagger,
         ...vars,
       },
       position
     );
   }
 
-  const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
-  if (cloneHeroTitle) {
-    const titleState = Flip.getState(title);
-    cloneHeroTitle.appendChild(title);
-    Flip.from(titleState, { duration, ease, ...vars });
-  } else {
-    console.warn("NO CLONE TITLE DETECTED IN SCOPE");
-  }
+  function animateTitleStyles() {
+    // ADD ANIMATION TO TEXT SIZES
+    const titleText = title.querySelector("span");
+    tl.to(
+      titleText,
+      {
+        ease,
+        duration,
+        fontSize: "6.875rem",
+        letterSpacing: "-0.1375rem",
+        transformOrigin: "top left",
+        ...vars,
+      },
+      position
+    );
 
-  if (subtitle) {
-    const cloneHeroSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
-    if (cloneHeroSubtitle) {
-      const subtitleState = Flip.getState(subtitle);
-      cloneHeroSubtitle?.appendChild(subtitle);
-      Flip.from(subtitleState, { duration, ease, ...vars });
-    } else {
-      console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
+    if (subtitle) {
+      const subtitleText = subtitle.querySelector("span");
+      tl.to(
+        subtitleText,
+        {
+          ease,
+          duration,
+          fontSize: "1.5rem",
+          letterSpacing: "-0.015rem",
+          transformOrigin: "top left",
+          ...vars,
+        },
+        position
+      );
     }
   }
+
+  function swap() {
+    try {
+      const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
+      if (cloneHeroTitle) {
+        const titleState = Flip.getState(title);
+        cloneHeroTitle.replaceChildren(title);
+        Flip.from(titleState, { duration, ease, ...vars });
+      } else {
+        console.warn("NO CLONE TITLE DETECTED IN SCOPE");
+      }
+
+      if (subtitle) {
+        const cloneHeroSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
+        if (cloneHeroSubtitle) {
+          const subtitleState = Flip.getState(subtitle);
+          cloneHeroSubtitle?.replaceChildren(subtitle);
+          Flip.from(subtitleState, { duration, ease, ...vars });
+        } else {
+          console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  animateTable();
+  animateTitleStyles();
+  swap();
 };
 
 export const setupBannerAnimation = (scope: Element) => {
