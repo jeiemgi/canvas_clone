@@ -59,10 +59,10 @@ function HomePageProjectScrollContainer({
     setClickedIndex(index);
 
     const duration = 1;
-    const ease = easings.mask;
+    const ease = "expo.out";
     const tl = gsap.timeline({
       onComplete: () => {
-        navigate(`/work/${slug}`);
+        // navigate(`/work/${slug}`);
         // navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
@@ -101,14 +101,17 @@ function HomePageProjectScrollContainer({
       0
     );
 
-    if (e.target instanceof Element) {
-      const vars = { ease, duration, position: 0.5 };
+    if (e.target instanceof HTMLElement) {
+      const vars = { ease, duration, position: 0.3 };
       // prettier-ignore
       const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
-      const title = titles[index];
+      const title = titles[index] as HTMLElement;
+
+      console.log(titles, title);
       // prettier-ignore
       const subtitles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
-      const subtitle = subtitles[index];
+      const subtitle = subtitles[index] as HTMLElement;
+
       const scope = document.querySelector("#home-projects-container")!;
       const itemsScope = document.querySelectorAll(".HomePageBackground-Item")[
         index
@@ -131,6 +134,7 @@ function HomePageProjectScrollContainer({
       className={"relative hidden md:block"}
     >
       <HomePageBackgroundContainer clickedIndex={clickedIndex} data={data} />
+
       {data.map((project, index) => (
         <div
           key={`HomePageProjectScrollItem-${index}`}

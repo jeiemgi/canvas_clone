@@ -37,7 +37,7 @@ export const ProjectHeroTitle = ({
       {...props}
       className={clsx(
         "ProjectHeroTitle",
-        "display--1 leading--none relative col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
+        "relative col-span-4 my-12 md:col-span-12 md:mb-32 md:mt-24 md:h-[7rem]",
         props.className ? props.className : "text-white"
       )}
     >
@@ -160,9 +160,9 @@ type GSAPAnimationFunction = (
   tl: GSAPTimeline,
   vars: GSAPTimelineVars,
   elements: {
-    title: Element;
-    subtitle?: Element;
-    background?: Element;
+    title: HTMLElement;
+    subtitle?: HTMLElement;
+    background?: HTMLElement;
     scope: Element | Document;
     itemsScope?: Element;
   }
@@ -170,7 +170,7 @@ type GSAPAnimationFunction = (
 
 export const animateBanner: GSAPAnimationFunction = (
   tl,
-  { position, stagger, ease, duration, ...vars },
+  { position, stagger, ...vars },
   { title, subtitle, scope, itemsScope }
 ) => {
   function animateTable() {
@@ -183,20 +183,11 @@ export const animateBanner: GSAPAnimationFunction = (
       ? itemsScope.querySelectorAll(".hero-table-row__item")
       : scope.querySelectorAll(".hero-table-row__item");
 
-    tl.to(
-      tableLines,
-      {
-        scaleX: 1,
-        ...vars,
-      },
-      position
-    );
+    tl.to(tableLines, { scaleX: 1, ...vars }, position);
     tl.to(
       tableItems,
       {
         y: "0%",
-        ease,
-        duration,
         stagger,
         ...vars,
       },
@@ -204,68 +195,37 @@ export const animateBanner: GSAPAnimationFunction = (
     );
   }
 
-  function animateTitleStyles() {
-    // ADD ANIMATION TO TEXT SIZES
-    const titleText = title.querySelector("span");
-    tl.to(
-      titleText,
-      {
-        ease,
-        duration,
-        fontSize: "6.875rem",
-        letterSpacing: "-0.1375rem",
-        transformOrigin: "top left",
+  function animateTitles() {
+    const cloneTitle = scope.querySelector(".ProjectHeroTitle");
+    if (cloneTitle) {
+      const state = Flip.getState(title);
+      cloneTitle?.replaceChildren(title);
+      const transition = Flip.from(state, {
+        onComplete: () => {
+          title.style.cssText = "";
+        },
         ...vars,
-      },
-      position
-    );
+      });
+      transition.to(title, { scale: 1, ...vars }, 0);
+    } else {
+      console.warn("NO CLONE TITLE DETECTED IN SCOPE");
+    }
 
     if (subtitle) {
-      const subtitleText = subtitle.querySelector("span");
-      tl.to(
-        subtitleText,
-        {
-          ease,
-          duration,
-          fontSize: "1.5rem",
-          letterSpacing: "-0.015rem",
-          transformOrigin: "top left",
-          ...vars,
-        },
-        position
-      );
-    }
-  }
-
-  function swap() {
-    try {
-      const cloneHeroTitle = scope.querySelector(".ProjectHeroTitle");
-      if (cloneHeroTitle) {
-        const titleState = Flip.getState(title);
-        cloneHeroTitle.replaceChildren(title);
-        Flip.from(titleState, { duration, ease, ...vars });
+      const cloneSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
+      if (cloneSubtitle) {
+        const subtitleState = Flip.getState(subtitle);
+        cloneSubtitle?.replaceChildren(subtitle);
+        Flip.from(subtitleState, { ...vars });
       } else {
-        console.warn("NO CLONE TITLE DETECTED IN SCOPE");
+        console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
       }
-
-      if (subtitle) {
-        const cloneHeroSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
-        if (cloneHeroSubtitle) {
-          const subtitleState = Flip.getState(subtitle);
-          cloneHeroSubtitle?.replaceChildren(subtitle);
-          Flip.from(subtitleState, { duration, ease, ...vars });
-        } else {
-          console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
-        }
-      }
-    } catch (e) {
-      console.log(e);
     }
   }
 
+  // animateTitleStyles();
   animateTable();
-  animateTitleStyles();
-  swap();
+  animateTitles();
 };
 
 export const setupBannerAnimation = (scope: Element) => {

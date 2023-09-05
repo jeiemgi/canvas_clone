@@ -135,8 +135,8 @@ function HomePageBackgroundContainer({
             </div>
 
             <ProjectHero
-              absolute={false}
               isClone={true}
+              absolute={false}
               // @ts-ignore
               tableData={project.primary.project_data?.data}
             />
