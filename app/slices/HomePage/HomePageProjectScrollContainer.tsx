@@ -58,72 +58,80 @@ function HomePageProjectScrollContainer({
   ) => {
     setClickedIndex(index);
 
-    const duration = 1;
-    const ease = "expo.out";
+    const duration = 1.5;
+    const ease = "power4.inOut";
     const tl = gsap.timeline({
       onComplete: () => {
-        // navigate(`/work/${slug}`);
+        navigate(`/work/${slug}`);
         // navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 
     /* ANIMATE OTHER ITEMS */
-    const background = document
-      .querySelectorAll(".HomePageBackground-Image")
-      [index].querySelector("img");
-    tl.to(
-      background,
-      {
-        ease,
-        duration: duration - 0.3,
-        y: background ? background?.scrollHeight - window.innerHeight : 0,
-      },
-      0
-    );
+    function animateBackground() {
+      const background = document
+        .querySelectorAll(".HomePageBackground-Image")
+        [index].querySelector("img");
+      tl.to(
+        background,
+        {
+          ease,
+          duration: duration - 0.3,
+          y: background ? background?.scrollHeight - window.innerHeight : 0,
+        },
+        0
+      );
+    }
 
-    const label = document.querySelector(".HomePageProject__labels");
-    tl.to(
-      label,
-      { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
-      0
-    );
+    function animateContent() {
+      const label = document.querySelector(".HomePageProject__labels");
+      tl.to(
+        label,
+        { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
+        0
+      );
 
-    const content = document.querySelectorAll(
-      ".HomePageProjectScrollItem__content"
-    )[index];
-    tl.to(
-      content,
-      {
-        ease,
-        autoAlpha: 0,
-        duration: duration - 0.5,
-      },
-      0
-    );
+      const content = document.querySelectorAll(
+        ".HomePageProjectScrollItem__content"
+      )[index];
+      tl.to(
+        content,
+        {
+          ease,
+          autoAlpha: 0,
+          duration: duration - 0.5,
+        },
+        0
+      );
+    }
 
-    if (e.target instanceof HTMLElement) {
-      const vars = { ease, duration, position: 0.3 };
+    function animateTitles() {
+      if (!(e.target instanceof HTMLElement)) return;
+      const vars = { ease, duration, position: 0 };
       // prettier-ignore
       const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
       const title = titles[index] as HTMLElement;
-
-      console.log(titles, title);
       // prettier-ignore
       const subtitles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
       const subtitle = subtitles[index] as HTMLElement;
 
-      const scope = document.querySelector("#home-projects-container")!;
-      const itemsScope = document.querySelectorAll(".HomePageBackground-Item")[
-        index
-      ];
+      //prettier-ignore
+      const scope = document.querySelectorAll(".HomePageBackground-Item")[index];
+      //prettier-ignore
+      const itemsScope = document.querySelectorAll(".HomePageBackground-Item")[index];
 
-      animateBanner(tl, vars, {
-        title,
-        subtitle,
-        scope,
-        itemsScope,
-      });
+      if (scope && itemsScope)
+        animateBanner(tl, vars, {
+          title,
+          subtitle,
+          scope,
+          itemsScope,
+        });
     }
+
+    animateBackground();
+    animateContent();
+    animateTitles();
   };
 
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);

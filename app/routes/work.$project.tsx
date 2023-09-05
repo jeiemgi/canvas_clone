@@ -14,7 +14,6 @@ import ProjectHero from "~/components/ProjectHero";
 import type { MouseEventHandler } from "react";
 import type { LoaderArgs } from "@remix-run/node";
 import type { FilledLinkToWebField } from "@prismicio/types";
-import { useLayoutEffect } from "~/hooks";
 
 export const loader = async ({ params }: LoaderArgs) => {
   if (!params.project) throw new Response("Not Found", { status: 404 });
@@ -97,6 +96,7 @@ function WorkProject() {
   return (
     <div key={`WorkProjectPage-${location.pathname}`}>
       <ProjectHero
+        key={`WorkProjectHero-${location.pathname}`}
         animateVideo={true}
         cta={() => openDetailsModal()}
         image={hero.background_image}
@@ -108,9 +108,16 @@ function WorkProject() {
           field: hero.reel as FilledLinkToWebField,
         }}
       />
-      <WorkProjectSliceZone />
-      <WorkProjectDetails isOpen={showDetails} onClose={closeDetailsModal} />
-      <WorkProjectDetailsButton onClick={openDetailsModal} />
+      <WorkProjectSliceZone key={`WorkProjectSlices-${location.pathname}`} />
+      <WorkProjectDetails
+        key={`WorkProjectDetails-${location.pathname}`}
+        isOpen={showDetails}
+        onClose={closeDetailsModal}
+      />
+      <WorkProjectDetailsButton
+        key={`WorkProjectButton-${location.pathname}`}
+        onClick={openDetailsModal}
+      />
     </div>
   );
 }
