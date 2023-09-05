@@ -9,7 +9,7 @@ interface Props extends VideoProps {
 const Video = forwardRef<HTMLVideoElement, Props>(
   (
     {
-      lazy = true,
+      lazy = false,
       autoPlay,
       className,
       playable = false,
