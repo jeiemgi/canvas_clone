@@ -57,9 +57,7 @@ function HomePageProjectCursor({ containerId }: { containerId: string }) {
     <div
       ref={container}
       onMouseMove={onMouseMove}
-      className={
-        "desktop-only absolute left-0 top-0 h-screen w-full cursor-pointer"
-      }
+      className={"desktop-only absolute left-0 top-0 cursor-pointer"}
     >
       <div ref={cursor} className={"pointer-events-none absolute"}>
         <h3
