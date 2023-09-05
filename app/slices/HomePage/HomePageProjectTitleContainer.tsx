@@ -6,6 +6,7 @@ import SplitText from "gsap/dist/SplitText";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import type { ReactNode } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import { mdScreen } from "~/lib/gsapUtils";
 
 function splitText(nodes: NodeListOf<Element> | Array<Element>) {
   return Array.from(nodes).map(
@@ -48,29 +49,6 @@ function animateTextOnScroll(
   hide.to(element, { y: "-100%", ease });
 }
 
-function useAnimationOnScroll(selector: string) {
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const scrollItems = document.querySelectorAll(
-        ".HomePageProjectScrollItem"
-      );
-      const items = document.querySelectorAll(selector);
-      const splits = splitText(items);
-
-      splits.forEach((splits, index, arr) => {
-        if (index !== 0) gsap.set(splits.words, { y: "100%" });
-        animateTextOnScroll(
-          splits,
-          scrollItems[index],
-          index === arr.length - 1
-        );
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-}
-
 interface HomePageProjectTitleProps {
   children: ReactNode;
   className?: string;
@@ -95,9 +73,42 @@ function HomePageProjectTitleContainer({
 }: {
   data: HomePageProjectsData;
 }) {
-  useAnimationOnScroll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
-  useAnimationOnScroll(`.${HOMEPAGE_PROJECT_SUBTITLE_ID}`);
-  useAnimationOnScroll(".HomePageProject-index");
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      function addAnimationOnScroll() {
+        const selectors = [
+          `.${HOMEPAGE_PROJECT_TITLE_ID}`,
+          `.${HOMEPAGE_PROJECT_SUBTITLE_ID}`,
+          ".HomePageProject-index",
+        ];
+
+        selectors.forEach((selector: string) => {
+          const scrollItems = document.querySelectorAll(
+            ".HomePageProjectScrollItem"
+          );
+          const items = document.querySelectorAll(selector);
+          const splits = splitText(items);
+
+          splits.forEach((splits, index, arr) => {
+            if (index !== 0) gsap.set(splits.words, { y: "100%" });
+            animateTextOnScroll(
+              splits,
+              scrollItems[index],
+              index === arr.length - 1
+            );
+          });
+        });
+      }
+
+      const mm = gsap.matchMedia();
+
+      mm.add(mdScreen, () => {
+        addAnimationOnScroll();
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div

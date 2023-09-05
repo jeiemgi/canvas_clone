@@ -8,6 +8,8 @@ import HomePageTitleContainer from "~/slices/HomePage/HomePageProjectTitleContai
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 import easings from "~/lib/easings";
+import { MOBILE_BREAKPOINT } from "~/lib/constants";
+import { mdScreen } from "~/lib/gsapUtils";
 
 const openPath = "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)";
 const closedPath = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
@@ -37,6 +39,7 @@ function HomePageBackgroundContainer({
     const ctx = gsap.context((self) => {
       const ease = easings.mask;
 
+      const mm = gsap.matchMedia();
       const pinBackgroundContainer = () => {
         // Pin the background container for the whole scroll.
         const bgContainer = document.querySelector(
@@ -108,8 +111,10 @@ function HomePageBackgroundContainer({
       };
 
       // pinHeroes();
-      pinBackgroundContainer();
-      animateClippingMasks();
+      mm.add(mdScreen, () => {
+        pinBackgroundContainer();
+        animateClippingMasks();
+      });
     }, container);
 
     return () => ctx.revert();

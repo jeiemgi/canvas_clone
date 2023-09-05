@@ -1,6 +1,7 @@
 import React from "react";
 import { asText } from "@prismicio/richtext";
 import { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
+import { Image } from "~/components/Image";
 
 interface Props {
   data: HomePageProjectsData;
@@ -8,14 +9,21 @@ interface Props {
 
 function HomePageProjectsMobile({ data }: Props) {
   return (
-    <section>
+    <section className={"mobile-only"}>
       {/*MOBILE ONLY TITLES*/}
       {data.map((project, index) => (
         <div
           key={`HomePageBackground-mobileItem-${project.id}`}
-          className="mobile-only--flex pt-headerHeightMobile absolute h-full flex-col pb-28"
+          className="pt-headerHeightMobile relative flex h-screen flex-col pb-28 text-white"
         >
-          <div className="grid-container h-fit w-full pt-5">
+          <div className={"absolute inset-0 flex h-full w-full items-end"}>
+            <Image
+              field={project.primary.background_image}
+              className={"h-full w-full object-cover"}
+            />
+          </div>
+
+          <div className="grid-container relative h-fit w-full pt-5">
             <div className="col-span-3">
               <h3 className={"heading--3"}>
                 {asText(project.primary.title)}
@@ -31,13 +39,13 @@ function HomePageProjectsMobile({ data }: Props) {
             </div>
           </div>
 
-          <div className={"flex grow items-center justify-center"}>
+          <div className={"relative flex grow items-center justify-center"}>
             <h3 className={"heading--3 text-center"}>
               {`( ${asText(project.primary.cta)} )`}
             </h3>
           </div>
 
-          <div className="grid-container mobile-only--grid h-fit grow-0">
+          <div className="grid-container relative h-fit grow-0">
             <div className="col-span-4">
               <h3 className={"heading--3 mb-12"}>
                 {asText(project.primary.capabilities)}

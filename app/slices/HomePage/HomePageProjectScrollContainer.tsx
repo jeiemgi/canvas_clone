@@ -20,7 +20,7 @@ const HomePageProjectScrollItemContent = ({
   project: HomepageDocumentDataBodyHomepageProjectSlice;
 }) => {
   return (
-    <div className="HomePageProjectScrollItem__content desktop-only--grid grid-container pointer-events-none relative pb-[20vh] pt-[50vh]">
+    <div className="HomePageProjectScrollItem__content grid-container pointer-events-none relative pb-[20vh] pt-[50vh]">
       <div className={"col-span-4 md:col-start-9"}>
         {/*ANCHOR ONLY TO scrollTo on click*/}
         <div id={`HomePageProjectScrollItem-${project.primary.slug}`} />
@@ -128,7 +128,7 @@ function HomePageProjectScrollContainer({
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   return (
-    <div id={"home-projects-container"}>
+    <div id={"home-projects-container"} className={"hidden md:block"}>
       <HomePageBackgroundContainer clickedIndex={clickedIndex} data={data} />
 
       {data.map((project, index) => (
