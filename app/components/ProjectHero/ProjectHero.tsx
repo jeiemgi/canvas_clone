@@ -199,11 +199,12 @@ export const animateBanner: GSAPAnimationFunction = (
     const cloneTitle = scope.querySelector(".ProjectHeroTitle");
     if (cloneTitle) {
       const state = Flip.getState(title);
-      title.style.cssText = "";
       cloneTitle?.replaceChildren(title);
-      title.style.cssText = "";
       const transition = Flip.from(state, {
         ...vars,
+        onComplete: () => {
+          title.style.cssText = "";
+        },
       });
       transition.to(title, { scale: 1, ...vars }, position);
 
