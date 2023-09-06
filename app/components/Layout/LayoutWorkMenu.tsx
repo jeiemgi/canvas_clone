@@ -1,150 +1,15 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
-import easings from "~/lib/easings";
-import ProjectHero, { animateBanner } from "~/components/ProjectHero";
 import { useNavigate } from "react-router";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
-import { Video } from "~/components/Video";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Image } from "~/components/Image";
-import { Dialog, Transition } from "@headlessui/react";
-import type {
-  WorkmenuDocument,
-  WorkmenuDocumentDataBodyWorkmenuitemSlice,
-} from "types.generated";
-import type { ButtonProps } from "react-html-props";
+import ProjectHero, { animateBanner } from "~/components/ProjectHero";
+import LayoutWorkMenuItem from "~/components/Layout/LayoutWorkMenuItem";
+import type { WorkmenuDocument } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
 import type { MouseEvent } from "react";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import { useToggle } from "usehooks-ts";
-
-interface LayoutWorkMenuItemProps extends ButtonProps {
-  index: number;
-  length: number;
-  hovered: boolean;
-  someIsHovered: boolean;
-  item: WorkmenuDocumentDataBodyWorkmenuitemSlice;
-}
-
-function LayoutWorkMenuItem({
-  index,
-  length,
-  hovered,
-  someIsHovered,
-  item,
-  ...props
-}: LayoutWorkMenuItemProps) {
-  const refs = useRef<Array<HTMLVideoElement>>([]);
-  const opacity = someIsHovered && !hovered ? "opacity-50" : "opacity-100";
-  const opacityTransition = "transition-opacity duration-200";
-
-  const setRefs = useCallback((node: HTMLVideoElement | null) => {
-    if (node) refs.current = [...refs.current, node];
-  }, []);
-
-  const media = item.items.map((_it) => ({
-    image: _it.thumbnail,
-    video: _it.thumbnail_video,
-  }));
-
-  useEffect(() => {
-    if (hovered) {
-      refs.current.forEach((video) => video.play());
-    } else {
-      refs.current.forEach((video) => {
-        video.pause();
-        video.currentTime = 0;
-      });
-    }
-  }, [hovered]);
-
-  return (
-    <button
-      {...props}
-      className={"LayoutWorkMenuItem grid-container cursor-pointer"}
-    >
-      <div
-        className={`col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
-      >
-        <div
-          style={{
-            width: 500,
-            height: 12.59,
-            willChange: "transform",
-            transform: "scale(0.10909)",
-            transformOrigin: "top left",
-          }}
-          className={"LayoutWorkMenuItem__title"}
-        >
-          <h1 className={"display--1 whitespace-nowrap text-white"}>
-            {item.primary.name}
-          </h1>
-        </div>
-        <span className={"label--2 mobile-only text-white"}>
-          {`${index + 1}/${length}`}
-        </span>
-      </div>
-
-      <div
-        className={`desktop-only col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
-      >
-        <h2 className={"label--2 col-span-1 text-white"}>
-          {`${index + 1}/${length}`}
-        </h2>
-      </div>
-
-      <div
-        className={`col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
-      >
-        <h3 className={"label--2  text-left text-white"}>
-          {item.primary.capabilities?.split(", ").map((_it, _idx) => (
-            <span key={`LayoutWorkMenuItem-capabilities-${_it}-${_idx}`}>
-              {_it}
-              <br />
-            </span>
-          ))}
-        </h3>
-      </div>
-
-      <div
-        className={clsx(
-          opacityTransition,
-          someIsHovered && !hovered ? "opacity-0" : "opacity-100",
-          "pointer-events-none col-span-5 col-start-8 hidden gap-[20px] md:grid md:grid-cols-5"
-        )}
-      >
-        {media.map((item, _idx) => {
-          return (
-            <div
-              key={`LayoutWorkMenuItemImage-${index}-${_idx}`}
-              className={"aspect-square overflow-hidden"}
-            >
-              {"url" in item.video && item.video.url ? (
-                <Video
-                  lazy={false}
-                  loop={true}
-                  muted={true}
-                  playsInline={true}
-                  // @ts-ignore
-                  src={item.video.url}
-                  poster={item.image.url || ""}
-                  className={"w-full"}
-                  ref={(node) => setRefs(node)}
-                />
-              ) : (
-                <Image
-                  loading={"eager"}
-                  field={item.image}
-                  className={"w-full"}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </button>
-  );
-}
+import easings from "~/lib/easings";
 
 function LayoutWorkMenu({
   show,
@@ -158,6 +23,48 @@ function LayoutWorkMenu({
   const navigate = useNavigate();
   const [locked, setLocked] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const itemsRefs = useRef<HTMLButtonElement[]>([]);
+  const timelineOpen = useRef(
+    gsap.timeline({
+      defaults: {
+        ease: "none",
+      },
+      paused: true,
+    })
+  );
+
+  useEffect(() => {
+    timelineOpen.current.to(
+      [backdropRef.current, containerRef.current],
+      {
+        height: "100%",
+        duration: 0.8,
+        ease: easings.two,
+      },
+      0
+    );
+
+    timelineOpen.current.to(
+      itemsRefs.current,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.03,
+        ease: easings.two,
+      },
+      0.2
+    );
+  }, []);
+
+  useEffect(() => {
+    const timescale = 1;
+    const tl = timelineOpen.current;
+    if (show) tl.timeScale(timescale).play();
+    else if (!locked) tl.timeScale(timescale).reverse();
+  }, [show, locked]);
 
   const onItemClick = (
     e: MouseEvent<HTMLButtonElement>,
@@ -244,22 +151,23 @@ function LayoutWorkMenu({
     if (!locked) setHoveredIndex(null);
   };
 
+  const setItemRef = useCallback((node: HTMLButtonElement | null) => {
+    if (node) itemsRefs.current.push(node);
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       className={clsx(
-        "fixed left-0 top-0 h-full w-full",
-        show
-          ? "pointer-events-auto opacity-100 transition-opacity"
-          : locked
-          ? "pointer-events-none opacity-0 transition-opacity"
-          : "pointer-events-none opacity-0"
+        "fixed left-0 top-0 h-0 w-full overflow-hidden",
+        show ? "pointer-events-auto" : "pointer-events-none"
       )}
     >
       <div
-        className={clsx(
-          locked ? "" : "noise-background bg-pure-black",
-          "fixed inset-0 h-full w-full"
-        )}
+        ref={backdropRef}
+        className={
+          "noise-background fixed inset-0 h-0 w-full origin-top bg-pure-black"
+        }
       />
       <div className={"fixed inset-0 h-full w-full"}>
         {data.data.body.map((item, _idx) => {
@@ -310,6 +218,7 @@ function LayoutWorkMenu({
                 className={"mb-5 last:mb-0"}
               >
                 <LayoutWorkMenuItem
+                  ref={setItemRef}
                   hovered={hovered}
                   someIsHovered={someIsHovered}
                   item={item}

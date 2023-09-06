@@ -9,6 +9,9 @@ interface Props {
   cursorLabel: string;
 }
 
+const X_OFFSET = 15;
+const Y_OFFSET = 5;
+
 function HomePageProjectCursor({
   cursorLabel,
   show = true,
@@ -20,7 +23,10 @@ function HomePageProjectCursor({
   const cursorRef = useRef<HTMLDivElement>(null);
 
   const mouseEnter = (e: MouseEvent<HTMLDivElement>) => {
-    gsap.set(cursorRef.current, { x: e.clientX, y: e.clientY });
+    gsap.set(cursorRef.current, {
+      x: e.clientX + X_OFFSET,
+      y: e.clientY + Y_OFFSET,
+    });
     setIsInside(true);
   };
 
@@ -32,9 +38,9 @@ function HomePageProjectCursor({
     gsap.killTweensOf(cursorRef.current);
     gsap.to(cursorRef.current, {
       ease: "power1.out",
-      duration: 0.5,
-      x: e.clientX,
-      y: e.clientY + 28,
+      duration: 0.2,
+      x: e.clientX + X_OFFSET,
+      y: e.clientY + Y_OFFSET,
     });
   };
 
