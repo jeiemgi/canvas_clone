@@ -3,7 +3,6 @@ import {
   HOMEPAGE_PROJECT_SUBTITLE_ID,
   HOMEPAGE_PROJECT_TITLE_ID,
 } from "~/slices/HomePage/HomePageProjectTitleContainer";
-import easings from "~/lib/easings";
 import { Image } from "~/components/Image";
 import { asText } from "@prismicio/richtext";
 import { useNavigate } from "react-router";

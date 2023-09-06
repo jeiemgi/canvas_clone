@@ -66,19 +66,20 @@ function LayoutWorkMenuItem({
       <div
         className={`col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
       >
-        <h1
+        <div
           style={{
+            width: 500,
             height: 12.59,
             willChange: "transform",
             transform: "scale(0.10909)",
             transformOrigin: "top left",
           }}
-          className={
-            "LayoutWorkMenuItem__title display--1 whitespace-nowrap text-white"
-          }
+          className={"LayoutWorkMenuItem__title"}
         >
-          <span>{item.primary.name}</span>
-        </h1>
+          <h1 className={"display--1 whitespace-nowrap text-white"}>
+            {item.primary.name}
+          </h1>
+        </div>
         <span className={"label--2 mobile-only text-white"}>
           {`${index + 1}/${length}`}
         </span>
@@ -163,17 +164,21 @@ function LayoutWorkMenu({
     slug: string | KeyTextField,
     index: number
   ) => {
+    const revert = () => {
+      tl.reverse();
+      flip?.reverse();
+      setHoveredIndex(null);
+      setLocked(false);
+    };
+
     let flip: GSAPTimeline | undefined;
     setLocked(true);
     navigate(`/work/${slug}`);
 
     const tl = gsap.timeline({
       onComplete: () => {
-        tl.reverse();
-        flip?.reverse();
-        setHoveredIndex(null);
-        setLocked(false);
         onClose();
+        revert();
       },
     });
 
@@ -183,7 +188,7 @@ function LayoutWorkMenu({
     function animateOtherItems() {
       // prettier-ignore
       const allItems = gsap.utils.toArray(".LayoutWorkMenuItem");
-      tl.to(allItems, { opacity: 0, duration: 0.3 });
+      tl.to(allItems, { opacity: 0, duration: 0.3 }, 0);
     }
 
     function animateBackground() {
@@ -216,7 +221,7 @@ function LayoutWorkMenu({
           {
             ease,
             duration,
-            position: 0.5,
+            position: 0.2,
           },
           {
             title,
@@ -226,8 +231,8 @@ function LayoutWorkMenu({
       }
     }
 
-    animateBackground();
     animateOtherItems();
+    animateBackground();
     animateTitles();
   };
 
