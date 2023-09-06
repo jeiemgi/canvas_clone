@@ -195,30 +195,33 @@ export const animateBanner: GSAPAnimationFunction = (
     );
   }
 
-  function animateTitles() {
+  function animateTitle() {
     const cloneTitle = scope.querySelector(".ProjectHeroTitle");
     if (cloneTitle) {
       const state = Flip.getState(title);
-      cloneTitle?.replaceChildren(title);
+      cloneTitle?.appendChild(title);
       const transition = Flip.from(state, {
+        absolute: true,
         ...vars,
+        delay: position,
         onComplete: () => {
           title.style.cssText = "";
         },
       });
       transition.to(title, { scale: 1, ...vars }, position);
-
       return transition;
     } else {
       console.warn("NO CLONE TITLE DETECTED IN SCOPE");
     }
+  }
 
+  function animateSubTitle() {
     if (subtitle) {
       const cloneSubtitle = scope.querySelector(`.ProjectHeroSubtitle`);
       if (cloneSubtitle) {
         const subtitleState = Flip.getState(subtitle);
         cloneSubtitle?.replaceChildren(subtitle);
-        Flip.from(subtitleState, { ...vars });
+        Flip.from(subtitleState, { delay: position, ...vars });
       } else {
         console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
       }
@@ -226,7 +229,8 @@ export const animateBanner: GSAPAnimationFunction = (
   }
 
   animateTable();
-  return animateTitles();
+  animateSubTitle();
+  return animateTitle();
 };
 
 export const setupBannerAnimation = (scope: Element) => {

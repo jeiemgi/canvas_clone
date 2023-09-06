@@ -69,8 +69,8 @@ function WorkProjectDetailsButton({
 }
 
 function WorkProject() {
-  const location = useLocation();
   const { setTheme } = useNavTheme();
+  const location = useLocation();
   const [, setLockedBody] = useLockedBody(false);
   const [showDetails, setShowDetails] = useState(false);
   const { hero } = useLoaderData<typeof loader>();

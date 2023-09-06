@@ -1,18 +1,19 @@
 import { gsap } from "gsap";
+import { asText } from "@prismicio/richtext";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useLockedBody } from "usehooks-ts";
+import { animateBanner } from "~/components/ProjectHero/ProjectHero";
+import { Image } from "~/components/Image";
+import HomePageBackgroundContainer from "~/slices/HomePage/HomePageProjectBackground";
+import HomePageProjectCursor from "~/slices/HomePage/HomePageProjectCursor";
 import {
   HOMEPAGE_PROJECT_SUBTITLE_ID,
   HOMEPAGE_PROJECT_TITLE_ID,
 } from "~/slices/HomePage/HomePageProjectTitleContainer";
-import { Image } from "~/components/Image";
-import { asText } from "@prismicio/richtext";
-import { useNavigate } from "react-router";
-import { animateBanner } from "~/components/ProjectHero/ProjectHero";
-import HomePageBackgroundContainer from "~/slices/HomePage/HomePageProjectBackground";
 import type { MouseEvent } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
-import { useState } from "react";
-import HomePageProjectCursor from "~/slices/HomePage/HomePageProjectCursor";
 
 const HomePageProjectScrollItemContent = ({
   project,
@@ -49,23 +50,26 @@ function HomePageProjectScrollContainer({
 }: {
   data: HomePageProjectsData;
 }) {
+  const [, setLocked] = useLockedBody(false);
   const navigate = useNavigate();
 
   const onClick = (
     e: MouseEvent<HTMLDivElement>,
     { index, slug = "" }: { index: number; slug: string }
   ) => {
+    setLocked(true);
     setClickedIndex(index);
 
-    const duration = 0.9;
+    const duration = 1;
     const ease = "power2.inOut";
+
     const tl = gsap.timeline({
+      paused: true,
       onComplete: () => {
         navigate(`/work/${slug}`);
       },
     });
 
-    /* ANIMATE OTHER ITEMS */
     function animateBackground() {
       const background = document
         .querySelectorAll(".HomePageBackground-Image")
@@ -74,7 +78,7 @@ function HomePageProjectScrollContainer({
         background,
         {
           ease,
-          duration: duration - 0.3,
+          duration,
           y: background ? background?.scrollHeight - window.innerHeight : 0,
         },
         0
@@ -83,11 +87,7 @@ function HomePageProjectScrollContainer({
 
     function animateContent() {
       const label = document.querySelector(".HomePageProject__labels");
-      tl.to(
-        label,
-        { ease, duration: duration - 0.5, y: "100%", autoAlpha: 0 },
-        0
-      );
+      tl.to(label, { ease, duration: 0.3, autoAlpha: 0 }, 0);
 
       const content = document.querySelectorAll(
         ".HomePageProjectScrollItem__content"
@@ -97,7 +97,7 @@ function HomePageProjectScrollContainer({
         {
           ease,
           autoAlpha: 0,
-          duration: duration - 0.5,
+          duration: 0.3,
         },
         0
       );
@@ -119,7 +119,7 @@ function HomePageProjectScrollContainer({
       const itemsScope = document.querySelectorAll(".HomePageBackground-Item")[index];
 
       if (scope && itemsScope)
-        animateBanner(tl, vars, {
+        return animateBanner(tl, vars, {
           title,
           subtitle,
           scope,
@@ -130,14 +130,17 @@ function HomePageProjectScrollContainer({
     animateBackground();
     animateContent();
     animateTitles();
+
+    tl.play();
   };
 
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   return (
-    <div
+    <HomePageProjectCursor
+      cursorLabel={"VIEW PROJECT"}
       id={HOME_PAGE_PROJECTS_CONTAINER_ID}
-      className={"relative hidden md:block"}
+      className={"relative hidden cursor-pointer md:block"}
     >
       <HomePageBackgroundContainer clickedIndex={clickedIndex} data={data} />
 
@@ -152,8 +155,7 @@ function HomePageProjectScrollContainer({
           <HomePageProjectScrollItemContent project={project} />
         </div>
       ))}
-      <HomePageProjectCursor containerId={HOME_PAGE_PROJECTS_CONTAINER_ID} />
-    </div>
+    </HomePageProjectCursor>
   );
 }
 
