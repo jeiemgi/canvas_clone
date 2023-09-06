@@ -56,7 +56,7 @@ function WorkProjectNextProject({ item, lazy }: Props) {
 
   const onClick = (e: MouseEvent<HTMLDivElement>, slug: string) => {
     const duration = 1;
-    const ease = easings.mask;
+    const ease = "power2.inOut";
 
     if (e.target instanceof Element) {
       const tl = gsap.timeline({
@@ -87,7 +87,9 @@ function WorkProjectNextProject({ item, lazy }: Props) {
         0
       );
 
-      const title = e.target.querySelector(".WorkProjectNextContentTitle");
+      const title = e.target.querySelector(
+        ".WorkProjectNextContentTitle"
+      ) as HTMLElement;
       if (title) {
         animateBanner(
           tl,
