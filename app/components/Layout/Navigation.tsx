@@ -55,7 +55,11 @@ function Navigation({
           <PrimaryCTAButton
             active={modalOpen === "work"}
             dark={theme === "transparent"}
-            onClick={() => setModalOpen("work")}
+            onClick={() => {
+              console.log("click");
+              if (modalOpen === "work") setModalOpen(null);
+              else setModalOpen("work");
+            }}
           >
             WORK
           </PrimaryCTAButton>

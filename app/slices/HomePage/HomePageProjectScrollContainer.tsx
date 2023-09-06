@@ -58,12 +58,11 @@ function HomePageProjectScrollContainer({
   ) => {
     setClickedIndex(index);
 
-    const duration = 1.5;
-    const ease = "power4.inOut";
+    const duration = 0.9;
+    const ease = "power2.inOut";
     const tl = gsap.timeline({
       onComplete: () => {
         navigate(`/work/${slug}`);
-        // navigate(`/work/${slug}`, { preventScrollReset: false });
       },
     });
 

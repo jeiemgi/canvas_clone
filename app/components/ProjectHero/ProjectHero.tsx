@@ -166,7 +166,7 @@ type GSAPAnimationFunction = (
     scope: Element | Document;
     itemsScope?: Element;
   }
-) => void;
+) => GSAPTimeline | undefined;
 
 export const animateBanner: GSAPAnimationFunction = (
   tl,
@@ -199,14 +199,15 @@ export const animateBanner: GSAPAnimationFunction = (
     const cloneTitle = scope.querySelector(".ProjectHeroTitle");
     if (cloneTitle) {
       const state = Flip.getState(title);
+      title.style.cssText = "";
       cloneTitle?.replaceChildren(title);
+      title.style.cssText = "";
       const transition = Flip.from(state, {
-        onComplete: () => {
-          title.style.cssText = "";
-        },
         ...vars,
       });
-      transition.to(title, { scale: 1, ...vars }, 0);
+      transition.to(title, { scale: 1, ...vars }, position);
+
+      return transition;
     } else {
       console.warn("NO CLONE TITLE DETECTED IN SCOPE");
     }
@@ -223,9 +224,8 @@ export const animateBanner: GSAPAnimationFunction = (
     }
   }
 
-  // animateTitleStyles();
   animateTable();
-  animateTitles();
+  return animateTitles();
 };
 
 export const setupBannerAnimation = (scope: Element) => {

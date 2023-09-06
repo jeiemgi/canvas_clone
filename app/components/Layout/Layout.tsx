@@ -19,14 +19,11 @@ function Layout({
 
   return (
     <NavThemeProvider>
-      <Navigation
-        modalOpen={modalOpen}
-        setModalOpen={(modal) => setModalOpen(modal)}
-      />
       <LayoutContact
         show={modalOpen === "contact"}
         onClose={() => setModalOpen(null)}
       />
+      {children}
       {workMenuData ? (
         <LayoutWorkMenu
           data={workMenuData}
@@ -34,7 +31,10 @@ function Layout({
           onClose={() => setModalOpen(null)}
         />
       ) : null}
-      {children}
+      <Navigation
+        modalOpen={modalOpen}
+        setModalOpen={(modal) => setModalOpen(modal)}
+      />
     </NavThemeProvider>
   );
 }

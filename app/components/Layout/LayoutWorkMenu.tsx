@@ -66,7 +66,17 @@ function LayoutWorkMenuItem({
       <div
         className={`col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
       >
-        <h1 className={"LayoutWorkMenuItem__title label--2 text-white"}>
+        <h1
+          style={{
+            height: 12.59,
+            willChange: "transform",
+            transform: "scale(0.10909)",
+            transformOrigin: "top left",
+          }}
+          className={
+            "LayoutWorkMenuItem__title display--1 whitespace-nowrap text-white"
+          }
+        >
           <span>{item.primary.name}</span>
         </h1>
         <span className={"label--2 mobile-only text-white"}>
@@ -153,61 +163,72 @@ function LayoutWorkMenu({
     slug: string | KeyTextField,
     index: number
   ) => {
+    let flip: GSAPTimeline | undefined;
     setLocked(true);
+    navigate(`/work/${slug}`);
 
     const tl = gsap.timeline({
       onComplete: () => {
-        navigate(`/work/${slug}`, { preventScrollReset: false });
-
-        setTimeout(() => {
-          onClose();
-          setLocked(false);
-        }, 200);
+        tl.reverse();
+        flip?.reverse();
+        setHoveredIndex(null);
+        setLocked(false);
+        onClose();
       },
     });
 
     const duration = 1;
-    const ease = easings.mask;
+    const ease = "power4.inOut";
 
-    tl.to(".LayoutWorkMenuItem", {
-      opacity: 0,
-      duration: 0.5,
-    });
+    function animateOtherItems() {
+      // prettier-ignore
+      const allItems = gsap.utils.toArray(".LayoutWorkMenuItem");
+      tl.to(allItems, { opacity: 0, duration: 0.3 });
+    }
 
-    if (e.target instanceof Element) {
-      const container = document.querySelector(".LayoutWorkMenu-Hero")
-        ?.children[index];
-      const title = e.target.querySelector(".LayoutWorkMenuItem__title");
+    function animateBackground() {
       const background = document
         .querySelectorAll(".LayoutWorkMenu-Background")
         [index].querySelector("img");
 
-      if (title && container && background) {
+      if (background) {
         tl.to(
           background,
           {
             ease,
-            duration: duration - 0.3,
+            duration: duration,
             y: background ? background?.scrollHeight - window.innerHeight : 0,
           },
           0
         );
+      }
+    }
 
-        animateBanner(
+    function animateTitles() {
+      if (e.target instanceof Element) {
+        // prettier-ignore
+        const hero = document.querySelectorAll(".LayoutWorkMenu-Hero")[index];
+        // prettier-ignore
+        const title = document.querySelectorAll(".LayoutWorkMenuItem__title")[index] as HTMLElement;
+
+        flip = animateBanner(
           tl,
           {
             ease,
             duration,
-            position: 0.2,
-            stagger: 0.02,
+            position: 0.5,
           },
           {
             title,
-            scope: container,
+            scope: hero,
           }
         );
       }
     }
+
+    animateBackground();
+    animateOtherItems();
+    animateTitles();
   };
 
   const onMouseEnter = (index: number) => {
@@ -219,102 +240,86 @@ function LayoutWorkMenu({
   };
 
   return (
-    <Transition show={show} as={Fragment}>
-      <Dialog onClose={onClose} className={"relative"}>
-        <Transition.Child
-          unmount={false}
-          as={Fragment}
-          enter="ease-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-out duration-500"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div
-            className={clsx(
-              locked ? "" : "noise-background bg-pure-black",
-              "fixed inset-0 h-full w-full"
-            )}
-          />
-        </Transition.Child>
+    <div
+      className={clsx(
+        "fixed left-0 top-0 h-full w-full",
+        show
+          ? "pointer-events-auto opacity-100 transition-opacity"
+          : locked
+          ? "pointer-events-none opacity-0 transition-opacity"
+          : "pointer-events-none opacity-0"
+      )}
+    >
+      <div
+        className={clsx(
+          locked ? "" : "noise-background bg-pure-black",
+          "fixed inset-0 h-full w-full"
+        )}
+      />
+      <div className={"fixed inset-0 h-full w-full"}>
+        {data.data.body.map((item, _idx) => {
+          const hovered = hoveredIndex === _idx;
 
-        <Transition.Child
-          unmount={false}
-          as={Fragment}
-          enter="ease-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-out duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className={"fixed inset-0 h-full w-full"}>
-            {data.data.body.map((item, _idx) => {
-              const hovered = hoveredIndex === _idx;
-
+          return (
+            <div
+              key={`LayoutWorkMenuItem-background--${_idx}`}
+              className={
+                "LayoutWorkMenu-Background pointer-events-none absolute flex h-full w-full items-end"
+              }
+            >
+              <Image
+                className={clsx(
+                  hovered ? "opacity-100" : "opacity-0 delay-100",
+                  "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
+                )}
+                field={item.primary.background}
+              />
+            </div>
+          );
+        })}
+        <div className={"LayoutWorkMenu-HeroContainer"}>
+          {data.data.body.map((item, _idx) => {
+            if ("data" in item.primary.project_page_data) {
               return (
-                <div
-                  key={`LayoutWorkMenuItem-background--${_idx}`}
-                  className={
-                    "LayoutWorkMenu-Background pointer-events-none absolute flex h-full w-full items-end"
+                <ProjectHero
+                  absolute
+                  isClone={true}
+                  className={"LayoutWorkMenu-Hero"}
+                  key={`LayoutWorkMenu-Hero-${_idx}`}
+                  tableData={
+                    item.primary.project_page_data.data as ProjectHeroTableProps
                   }
-                >
-                  <Image
-                    className={clsx(
-                      hovered ? "opacity-100" : "opacity-0 delay-100",
-                      "absolute w-full items-start object-cover transition-opacity duration-500 ease-out"
-                    )}
-                    field={item.primary.background}
-                  />
-                </div>
+                />
               );
-            })}
-            <div className={"LayoutWorkMenu-Hero"}>
-              {data.data.body.map((item, _idx) => {
-                if ("data" in item.primary.project_page_data) {
-                  return (
-                    <ProjectHero
-                      absolute
-                      isClone={true}
-                      key={`LayoutWorkMenu-Hero-${_idx}`}
-                      tableData={
-                        item.primary.project_page_data
-                          .data as ProjectHeroTableProps
-                      }
-                    />
-                  );
-                }
-              })}
-            </div>
-            <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
-              {data.data.body.map((item, _idx, arr) => {
-                const hovered = hoveredIndex === _idx;
-                const someIsHovered = hoveredIndex !== null;
+            }
+          })}
+        </div>
+        <div className="relative h-full w-full flex-col justify-end pt-40 md:flex md:items-end md:pb-[30px] md:pt-headerDesk">
+          {data.data.body.map((item, _idx, arr) => {
+            const hovered = hoveredIndex === _idx;
+            const someIsHovered = hoveredIndex !== null;
 
-                return (
-                  <div
-                    key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
-                    className={"LayoutWorkMenuItem mb-5 last:mb-0"}
-                  >
-                    <LayoutWorkMenuItem
-                      hovered={hovered}
-                      someIsHovered={someIsHovered}
-                      item={item}
-                      index={_idx}
-                      length={arr.length}
-                      onMouseLeave={onMouseLeave}
-                      onMouseEnter={() => onMouseEnter(_idx)}
-                      onClick={(e) => onItemClick(e, item.primary.link, _idx)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Transition.Child>
-      </Dialog>
-    </Transition>
+            return (
+              <div
+                key={`LayoutWorkMenuItem-${item.primary.link}-${_idx}`}
+                className={"mb-5 last:mb-0"}
+              >
+                <LayoutWorkMenuItem
+                  hovered={hovered}
+                  someIsHovered={someIsHovered}
+                  item={item}
+                  index={_idx}
+                  length={arr.length}
+                  onMouseLeave={onMouseLeave}
+                  onMouseEnter={() => onMouseEnter(_idx)}
+                  onClick={(e) => onItemClick(e, item.primary.link, _idx)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 }
 
