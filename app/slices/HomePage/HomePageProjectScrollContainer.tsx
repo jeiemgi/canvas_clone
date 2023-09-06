@@ -52,11 +52,14 @@ function HomePageProjectScrollContainer({
 }) {
   const [, setLocked] = useLockedBody(false);
   const navigate = useNavigate();
+  const [showCursor, setShowCursor] = useState(true);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   const onClick = (
     e: MouseEvent<HTMLDivElement>,
     { index, slug = "" }: { index: number; slug: string }
   ) => {
+    setShowCursor(false);
     setLocked(true);
     setClickedIndex(index);
 
@@ -134,10 +137,9 @@ function HomePageProjectScrollContainer({
     tl.play();
   };
 
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-
   return (
     <HomePageProjectCursor
+      show={showCursor}
       cursorLabel={"VIEW PROJECT"}
       id={HOME_PAGE_PROJECTS_CONTAINER_ID}
       className={"relative hidden cursor-pointer md:block"}

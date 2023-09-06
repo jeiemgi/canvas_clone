@@ -5,25 +5,27 @@ import type { DivProps } from "react-html-props";
 import type { MouseEvent } from "react";
 
 interface Props {
+  show: boolean;
   cursorLabel: string;
 }
 
 function HomePageProjectCursor({
-  children,
   cursorLabel,
+  show = true,
+  children,
   ...props
 }: Props & DivProps) {
-  const [show, setShow] = useState(false);
+  const [isInside, setIsInside] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   const mouseEnter = (e: MouseEvent<HTMLDivElement>) => {
     gsap.set(cursorRef.current, { x: e.clientX, y: e.clientY });
-    setShow(true);
+    setIsInside(true);
   };
 
   const mouseLeave = () => {
-    setShow(false);
+    setIsInside(false);
   };
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -49,7 +51,9 @@ function HomePageProjectCursor({
         <h3
           className={clsx(
             "label--2 text-white transition-opacity",
-            show ? "opacity-100 duration-300" : "opacity-0 duration-100"
+            show && isInside
+              ? "opacity-100 duration-300"
+              : "opacity-0 duration-100"
           )}
         >
           <span className={"mr-2"}>(</span>
