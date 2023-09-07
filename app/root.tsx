@@ -30,6 +30,11 @@ gsap.registerPlugin(Flip, ScrollTrigger, ScrollSmoother, SplitText);
 export const links: LinksFunction = () => {
   return [
     ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+    {
+      rel: "icon",
+      href: "/favicon.png",
+      type: "image/png",
+    },
     { rel: "stylesheet", href: global },
     { rel: "stylesheet", href: tailwind },
     { rel: "stylesheet", href: splideCss },

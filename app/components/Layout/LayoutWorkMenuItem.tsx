@@ -54,7 +54,6 @@ const LayoutWorkMenuItem = forwardRef<HTMLButtonElement, Props>(
             style={{
               width: 500,
               height: 12.59,
-              willChange: "transform",
               transform: "scale(0.10909)",
               transformOrigin: "top left",
             }}
@@ -64,9 +63,9 @@ const LayoutWorkMenuItem = forwardRef<HTMLButtonElement, Props>(
               {item.primary.name}
             </h1>
           </div>
-          <span className={"label--2 mobile-only text-white"}>
+          {/*<span className={"label--2 mobile-only text-white"}>
             {`${index + 1}/${length}`}
-          </span>
+          </span>*/}
         </div>
 
         <div

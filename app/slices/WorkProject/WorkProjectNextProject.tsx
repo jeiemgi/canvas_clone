@@ -1,15 +1,9 @@
-import easings from "~/lib/easings";
 import { gsap } from "gsap";
 import { useRef } from "react";
 import { useNavigate } from "react-router";
-import { useLayoutEffect } from "~/hooks";
-import {
-  animateBanner,
-  ProjectPrefetchLink,
-  setupBannerAnimation,
-} from "~/components/ProjectHero";
 import { Image } from "~/components/Image";
 import ProjectHero from "~/components/ProjectHero/ProjectHero";
+import { animateBanner, ProjectPrefetchLink } from "~/components/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
@@ -49,10 +43,6 @@ function WorkProjectNextContent({ title }: { title: KeyTextField }) {
 function WorkProjectNextProject({ item, lazy }: Props) {
   const navigate = useNavigate();
   const container = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    if (container.current) setupBannerAnimation(container.current);
-  }, []);
 
   const onClick = (e: MouseEvent<HTMLDivElement>, slug: string) => {
     const duration = 1;

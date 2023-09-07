@@ -56,7 +56,6 @@ function Navigation({
             active={modalOpen === "work"}
             dark={theme === "transparent"}
             onClick={() => {
-              console.log("click");
               if (modalOpen === "work") setModalOpen(null);
               else setModalOpen("work");
             }}

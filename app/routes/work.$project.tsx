@@ -108,7 +108,7 @@ function WorkProject() {
           field: hero.reel as FilledLinkToWebField,
         }}
       />
-      <WorkProjectSliceZone key={`WorkProjectSlices-${location.pathname}`} />
+      {/*<WorkProjectSliceZone key={`WorkProjectSlices-${location.pathname}`} />
       <WorkProjectDetails
         key={`WorkProjectDetails-${location.pathname}`}
         isOpen={showDetails}
@@ -117,7 +117,7 @@ function WorkProject() {
       <WorkProjectDetailsButton
         key={`WorkProjectButton-${location.pathname}`}
         onClick={openDetailsModal}
-      />
+      />*/}
     </div>
   );
 }

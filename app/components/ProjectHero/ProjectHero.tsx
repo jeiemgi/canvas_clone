@@ -97,14 +97,19 @@ interface ProjectHeroCTAProps {
 }
 
 export function ProjectHeroCTA({
-  isClone = false,
   field,
+  isClone = false,
   ...props
 }: ProjectHeroCTAProps & ButtonProps) {
   return (
     <div className="desktop-only relative overflow-hidden md:col-span-5">
       <button {...props} className={clsx("overflow-hidden", props.className)}>
-        <div className={"hero-table-row__item flex items-center"}>
+        <div
+          className={clsx(
+            "hero-table-row__item flex items-center",
+            isClone ? "translate-y-full" : ""
+          )}
+        >
           <span className={"heading--3 mr-1 inline-block text-white"}>( </span>
           <TextCta className={"heading--3 text-white"}>
             {typeof field === "string" ? field : field ? asText(field) : ""}
@@ -144,11 +149,16 @@ export function ProjectBackground({
   );
 }
 
-export const ProjectHeroLine = ({ top = false, className = "" }) => {
+export const ProjectHeroLine = ({
+  top = false,
+  isClone = false,
+  className = "",
+}) => {
   return (
     <div
       className={clsx(
         className,
+        isClone ? "scale-x-0" : "",
         top ? "top-0" : "bottom-0",
         "hero-table-line absolute bottom-0 left-0 block h-[1px] w-full origin-left bg-white/30"
       )}
@@ -163,10 +173,10 @@ type GSAPAnimationFunction = (
     title: HTMLElement;
     subtitle?: HTMLElement;
     background?: HTMLElement;
-    scope: Element | Document;
     itemsScope?: Element;
+    scope: Element | Document;
   }
-) => GSAPTimeline | undefined;
+) => Function;
 
 export const animateBanner: GSAPAnimationFunction = (
   tl,
@@ -195,21 +205,34 @@ export const animateBanner: GSAPAnimationFunction = (
     );
   }
 
+  const cloneTitle = scope.querySelector(".ProjectHeroTitle");
+
+  let originalDiv: Node;
+  let originalDivParent: HTMLElement | null;
+
+  const flipConfig = {
+    ...vars,
+    delay: position,
+  };
+
+  const reverseTitle = () => {
+    cloneTitle?.replaceChildren();
+    originalDivParent?.replaceChildren(originalDiv);
+  };
+
   function animateTitle() {
-    const cloneTitle = scope.querySelector(".ProjectHeroTitle");
     if (cloneTitle) {
+      originalDiv = title.cloneNode(true);
+      originalDivParent = title.parentElement;
       const state = Flip.getState(title);
       cloneTitle?.appendChild(title);
-      const transition = Flip.from(state, {
-        absolute: true,
-        ...vars,
-        delay: position,
+      Flip.from(state, {
+        ...flipConfig,
         onComplete: () => {
           title.style.cssText = "";
         },
       });
-      transition.to(title, { scale: 1, ...vars }, position);
-      return transition;
+      tl.to(title, { scale: 1, ...vars }, position);
     } else {
       console.warn("NO CLONE TITLE DETECTED IN SCOPE");
     }
@@ -230,14 +253,9 @@ export const animateBanner: GSAPAnimationFunction = (
 
   animateTable();
   animateSubTitle();
-  return animateTitle();
-};
+  animateTitle();
 
-export const setupBannerAnimation = (scope: Element) => {
-  const tableLines = scope.querySelectorAll(".hero-table-line");
-  const tableItems = scope.querySelectorAll(".hero-table-row__item");
-  gsap.set(tableLines, { scaleX: 0 });
-  gsap.set(tableItems, { y: "200%" });
+  return reverseTitle;
 };
 
 export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {
@@ -343,12 +361,6 @@ function ProjectHero({
     ? "absolute min-h-screen w-full left-0 top-0"
     : "relative";
 
-  useLayoutEffect(() => {
-    if (isClone && container.current) {
-      setupBannerAnimation(container.current);
-    }
-  }, [isClone]);
-
   return (
     <div
       {...props}
@@ -390,9 +402,10 @@ function ProjectHero({
           field={subTitleField}
         />
         <div className={"relative col-span-4 mb-3 md:col-span-12"}>
-          <ProjectHeroLine />
+          <ProjectHeroLine isClone={isClone} />
         </div>
         <ProjectHeroCTA
+          isClone={isClone}
           tabIndex={isClone ? -1 : 0}
           className={debugClassNames}
           field={"SEE PROJECT DETAILS"}
