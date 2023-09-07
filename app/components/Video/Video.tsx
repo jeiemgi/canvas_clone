@@ -49,4 +49,5 @@ const Video = forwardRef<HTMLVideoElement, Props>(
   }
 );
 
+Video.displayName = "Video";
 export default Video;

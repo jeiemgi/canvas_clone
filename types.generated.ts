@@ -184,6 +184,16 @@ export interface HomepageDocumentDataBodyHomepageProjectSliceItem {
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	slide: prismic.ImageField<never>;
+	
+	/**
+	 * video field in *Homepage → Slice zone → Home Project → Items*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_project.items.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkToMediaField;
 }
 
 /**
@@ -360,6 +370,16 @@ export interface HomepageDocumentDataBodyHomepagePortfolioDesktopSliceItem {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	tags: prismic.KeyTextField;
+	
+	/**
+	 * video field in *Homepage → Slice zone → Home Portfolio Desktop → Items*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: homepage.body[].homepage_portfolio_desktop.items.video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkToMediaField;
 }
 
 /**

@@ -5,7 +5,7 @@ import type { PrismicImageProps } from "@prismicio/react";
 
 export const Image = forwardRef(
   (
-    { field, ...props }: PrismicImageProps,
+    { field, imgixParams, ...props }: PrismicImageProps,
     ref: ForwardedRef<HTMLImageElement>
   ) => {
     return (
@@ -13,9 +13,9 @@ export const Image = forwardRef(
         // @ts-ignore
         ref={ref}
         fallbackAlt={""}
-        widths={[800, 1000, 1600, 1920, 2400]}
-        imgixParams={{ auto: ["format"] }}
         field={field}
+        widths={props.widths ? props.widths : [800, 1000, 1600, 1920, 2400]}
+        imgixParams={{ auto: ["format"], ...imgixParams }}
         {...props}
       />
     );
