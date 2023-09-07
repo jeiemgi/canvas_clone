@@ -25,7 +25,7 @@ function Navigation({
       const isMobile = window.innerWidth < MOBILE_BREAKPOINT && window.innerWidth > 0;
       const isScrolled = window.scrollY > 0;
       if (isMobile && isScrolled) setTheme("white");
-      else setTheme("transparent");
+      else if (isMobile) setTheme("transparent");
     };
 
     window.addEventListener("resize", listener);
