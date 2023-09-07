@@ -168,11 +168,13 @@ export const ProjectHeroLine = ({
 
 type GSAPAnimationFunction = (
   tl: GSAPTimeline,
-  vars: GSAPTimelineVars,
-  elements: {
+  options: {
+    titlesVars: GSAPTimelineVars;
+    itemsVars: GSAPTimelineVars;
+
     title: HTMLElement;
     subtitle?: HTMLElement;
-    background?: HTMLElement;
+
     itemsScope?: Element;
     scope: Element | Document;
   }
@@ -180,10 +182,10 @@ type GSAPAnimationFunction = (
 
 export const animateBanner: GSAPAnimationFunction = (
   tl,
-  { position, stagger, ...vars },
-  { title, subtitle, scope, itemsScope }
+  { title, subtitle, scope, itemsScope, itemsVars, titlesVars }
 ) => {
   function animateTable() {
+    const { position } = itemsVars;
     // ANIMATE TABLE
     const tableLines = itemsScope
       ? itemsScope.querySelectorAll(".hero-table-line")
@@ -193,49 +195,38 @@ export const animateBanner: GSAPAnimationFunction = (
       ? itemsScope.querySelectorAll(".hero-table-row__item")
       : scope.querySelectorAll(".hero-table-row__item");
 
-    tl.to(tableLines, { scaleX: 1, ...vars }, position);
-    tl.to(
-      tableItems,
-      {
-        y: "0%",
-        stagger,
-        ...vars,
-      },
-      position
-    );
+    tl.to(tableLines, { scaleX: 1, ...itemsVars }, position);
+    tl.to(tableItems, { y: "0%", ...itemsVars }, position);
   }
 
-  const cloneTitle = scope.querySelector(".ProjectHeroTitle");
-
-  let originalDiv: Node;
-  let originalDivParent: HTMLElement | null;
-
-  const flipConfig = {
-    ...vars,
-    delay: position,
-  };
-
-  const reverseTitle = () => {
-    cloneTitle?.replaceChildren();
-    originalDivParent?.replaceChildren(originalDiv);
-  };
-
   function animateTitle() {
+    let originalDiv: Node;
+    let originalDivParent: HTMLElement | null;
+    const cloneTitle = scope.querySelector(".ProjectHeroTitle");
+
+    const reverseTitle = () => {
+      cloneTitle?.replaceChildren();
+      originalDivParent?.replaceChildren(originalDiv);
+    };
+
     if (cloneTitle) {
       originalDiv = title.cloneNode(true);
       originalDivParent = title.parentElement;
       const state = Flip.getState(title);
       cloneTitle?.appendChild(title);
-      Flip.from(state, {
-        ...flipConfig,
+      const _tl = Flip.from(state, {
+        ...titlesVars,
         onComplete: () => {
           title.style.cssText = "";
         },
       });
-      tl.to(title, { scale: 1, ...vars }, position);
+      _tl.to(title, { scale: 1, ...titlesVars }, 0);
+      return reverseTitle;
     } else {
       console.warn("NO CLONE TITLE DETECTED IN SCOPE");
     }
+
+    return reverseTitle;
   }
 
   function animateSubTitle() {
@@ -244,7 +235,7 @@ export const animateBanner: GSAPAnimationFunction = (
       if (cloneSubtitle) {
         const subtitleState = Flip.getState(subtitle);
         cloneSubtitle?.replaceChildren(subtitle);
-        Flip.from(subtitleState, { delay: position, ...vars });
+        Flip.from(subtitleState, { ...titlesVars });
       } else {
         console.warn("NO CLONE SUBTITLE DETECTED IN SCOPE");
       }
@@ -253,9 +244,7 @@ export const animateBanner: GSAPAnimationFunction = (
 
   animateTable();
   animateSubTitle();
-  animateTitle();
-
-  return reverseTitle;
+  return animateTitle();
 };
 
 export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {

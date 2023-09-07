@@ -1,14 +1,15 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
+import easings from "~/lib/easings";
 import { useNavigate } from "react-router";
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Image } from "~/components/Image";
 import ProjectHero, { animateBanner } from "~/components/ProjectHero";
 import LayoutWorkMenuItem from "~/components/Layout/LayoutWorkMenuItem";
+import type { RefObject } from "react";
 import type { WorkmenuDocument } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
-import easings from "~/lib/easings";
 
 const transition = (index: number, onCompleteCb: () => void) => {
   let reverseTitles: Function;
@@ -47,21 +48,24 @@ const transition = (index: number, onCompleteCb: () => void) => {
 
   function animateTitles() {
     console.log("transition--animateTitles");
-    // prettier-ignore
-    const title = document.querySelectorAll(".LayoutWorkMenuItem__title")[index] as HTMLElement;
     const hero = document.querySelector(".LayoutWorkMenu-Hero")!;
+    const titles = document.querySelectorAll(".LayoutWorkMenuItem__title");
+    const title = titles[index] as HTMLElement;
 
-    return animateBanner(
-      tl,
-      {
-        ...tlVars,
-        position: 0.2,
+    return animateBanner(tl, {
+      title,
+      scope: hero,
+      titlesVars: {
+        delay: 0,
+        duration: 1,
+        ease: easings.one,
       },
-      {
-        title,
-        scope: hero,
-      }
-    );
+      itemsVars: {
+        duration: 1,
+        position: 0.5,
+        ease: easings.mask,
+      },
+    });
   }
 
   animateBackground();
@@ -115,6 +119,7 @@ function LayoutWorkMenu({
   data: WorkmenuDocument;
 }) {
   const navigate = useNavigate();
+  // const [animating, setAnimating] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [itemData, setItemData] = useState<ProjectHeroTableProps>();
@@ -130,9 +135,11 @@ function LayoutWorkMenu({
   // OPEN AND CLOSES THE MENU
   useEffect(() => {
     const tl = timelineOpen.current;
-    if (show) tl?.play();
-    else if (!clicked) tl?.reverse();
-    else console.log("CLOSE");
+    if (show) {
+      tl?.play();
+    } else if (!clicked) {
+      tl?.reverse();
+    }
   }, [show]);
 
   const onMouseEnter = (index: number) => {
@@ -164,42 +171,30 @@ function LayoutWorkMenu({
       .querySelectorAll(".LayoutWorkMenu-Background")
       [index].querySelector("img");
 
-    const resetBackground = () => {
-      gsap.set(background, { y: 0 });
-    };
-
     const hardClose = () => {
-      // HARD CLOSE
-      console.log("hardClose");
-
       // DESTROY THE TIMELINE SO IT'S JUST REMOVED NOT ANIMATED
       timelineOpen.current?.pause(0);
       timelineOpen.current?.clear(true);
       timelineOpen.current = setupTimeline(containerRefs, itemsRefs);
-
       // KEEP THE BACKGROUND IN ITS POSITION
       gsap.set(background, {
         y: background ? background?.scrollHeight - window.innerHeight : 0,
       });
-      // ACTUALLY CLOSE THE MODAL
+      // ACTUALLY CLOSE
       onClose();
     };
 
     const onComplete = () => {
-      console.log("onComplete");
       hardClose();
-      // AFTER WE CLOSE
+      // --- AFTER WE CLOSE
       setClicked(false);
       setHoveredIndex(null);
-      // resetBackground();
     };
 
     setClicked(true);
     navigate(`/work/${slug}`);
     transition(index, onComplete);
   };
-
-  console.log("render");
 
   return (
     <div className={clsx("fixed left-0 top-0 h-0 w-full", containerClassNames)}>

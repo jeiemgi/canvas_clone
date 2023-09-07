@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router";
-import { useWindowSize } from "usehooks-ts";
-import useIsScrolled from "~/hooks/useIsScrolled";
 import { useEffect } from "react";
 import { useNavTheme } from "~/components/Navigation/NavThemeProvider";
 import Nav from "~/components/Navigation/Nav";
@@ -43,9 +41,16 @@ function Navigation({
   const onLogoClick = () => {
     if (modalOpen) {
       setModalOpen(null);
+    } else if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       navigate("/");
     }
+  };
+
+  const toggleModal = (name: LayoutModalName) => {
+    if (modalOpen === name) setModalOpen(null);
+    else setModalOpen(name);
   };
 
   return (
@@ -53,12 +58,9 @@ function Navigation({
       <ul>
         <NavListItem hidden={theme === "hidden"}>
           <PrimaryCTAButton
-            active={modalOpen === "work"}
             dark={theme === "transparent"}
-            onClick={() => {
-              if (modalOpen === "work") setModalOpen(null);
-              else setModalOpen("work");
-            }}
+            active={modalOpen === "work"}
+            onClick={() => toggleModal("work")}
           >
             WORK
           </PrimaryCTAButton>
@@ -73,7 +75,7 @@ function Navigation({
           <PrimaryCTAButton
             dark={theme === "transparent"}
             active={modalOpen === "contact"}
-            onClick={() => setModalOpen("contact")}
+            onClick={() => toggleModal("contact")}
           >
             Contact
           </PrimaryCTAButton>

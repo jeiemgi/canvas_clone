@@ -7,6 +7,7 @@ import { animateBanner, ProjectPrefetchLink } from "~/components/ProjectHero";
 import type { MouseEvent } from "react";
 import type { ProjectPageDocumentDataBodyProjectNextBannerSlice } from "types.generated";
 import type { KeyTextField } from "@prismicio/types";
+import easings from "~/lib/easings";
 
 interface Props {
   lazy: boolean;
@@ -46,7 +47,7 @@ function WorkProjectNextProject({ item, lazy }: Props) {
 
   const onClick = (e: MouseEvent<HTMLDivElement>, slug: string) => {
     const duration = 1;
-    const ease = "power2.inOut";
+    const ease = easings.one;
 
     if (e.target instanceof Element) {
       const tl = gsap.timeline({
@@ -81,18 +82,20 @@ function WorkProjectNextProject({ item, lazy }: Props) {
         ".WorkProjectNextContentTitle"
       ) as HTMLElement;
       if (title) {
-        animateBanner(
-          tl,
-          {
+        animateBanner(tl, {
+          title,
+          scope: e.target,
+          titlesVars: {
+            delay: 0,
+            duration: 1,
+            ease: easings.one,
+          },
+          itemsVars: {
             ease,
             duration,
             position: 0.5,
           },
-          {
-            title,
-            scope: e.target,
-          }
-        );
+        });
       }
     }
   };

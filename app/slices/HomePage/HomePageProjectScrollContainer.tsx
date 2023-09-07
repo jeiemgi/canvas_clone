@@ -14,6 +14,7 @@ import {
 import type { MouseEvent } from "react";
 import type { HomePageProjectsData } from "~/slices/HomePage/HomePageProjects";
 import type { HomepageDocumentDataBodyHomepageProjectSlice } from "types.generated";
+import easings from "~/lib/easings";
 
 const HomePageProjectScrollItemContent = ({
   project,
@@ -63,52 +64,37 @@ function HomePageProjectScrollContainer({
     setLocked(true);
     setClickedIndex(index);
 
-    const duration = 1;
-    const ease = "power2.inOut";
-
     const tl = gsap.timeline({
       paused: true,
+      defaults: {
+        duration: 1,
+        ease: easings.one,
+      },
       onComplete: () => {
         navigate(`/work/${slug}`);
       },
     });
 
     function animateBackground() {
-      const background = document
-        .querySelectorAll(".HomePageBackground-Image")
-        [index].querySelector("img");
-      tl.to(
-        background,
-        {
-          ease,
-          duration,
-          y: background ? background?.scrollHeight - window.innerHeight : 0,
-        },
-        0
-      );
+      // prettier-ignore
+      const backgrounds = document.querySelectorAll(".HomePageBackground-Image");
+      const bgImg = backgrounds[index].querySelector("img");
+      const bgPos = bgImg ? bgImg?.scrollHeight - window.innerHeight : 0;
+      if (bgImg) tl.to(bgImg, { y: bgPos }, 0);
     }
 
     function animateContent() {
       const label = document.querySelector(".HomePageProject__labels");
-      tl.to(label, { ease, duration: 0.3, autoAlpha: 0 }, 0);
+      tl.to(label, { duration: 0.3, autoAlpha: 0 }, 0);
 
       const content = document.querySelectorAll(
         ".HomePageProjectScrollItem__content"
       )[index];
-      tl.to(
-        content,
-        {
-          ease,
-          autoAlpha: 0,
-          duration: 0.3,
-        },
-        0
-      );
+      tl.to(content, { autoAlpha: 0, duration: 0.3 }, 0);
     }
 
     function animateTitles() {
       if (!(e.target instanceof HTMLElement)) return;
-      const vars = { ease, duration, position: 0 };
       // prettier-ignore
       const titles = document.querySelectorAll(`.${HOMEPAGE_PROJECT_TITLE_ID}`);
       const title = titles[index] as HTMLElement;
@@ -122,11 +108,18 @@ function HomePageProjectScrollContainer({
       const itemsScope = document.querySelectorAll(".HomePageBackground-Item")[index];
 
       if (scope && itemsScope)
-        return animateBanner(tl, vars, {
-          title,
-          subtitle,
+        return animateBanner(tl, {
           scope,
           itemsScope,
+          title,
+          subtitle,
+          itemsVars: {
+            position: 0,
+          },
+          titlesVars: {
+            duration: 0.8,
+            ease: easings.one,
+          },
         });
     }
 

@@ -79,7 +79,7 @@ const LayoutWorkMenuItem = forwardRef<HTMLButtonElement, Props>(
         <div
           className={`col-span-2 flex h-full items-center ${opacity} ${opacityTransition}`}
         >
-          <h3 className={"label--2  text-left text-white"}>
+          <h3 className={"label--2 text-left text-white"}>
             {item.primary.capabilities?.split(", ").map((_it, _idx) => (
               <span key={`LayoutWorkMenuItem-capabilities-${_it}-${_idx}`}>
                 {_it}
