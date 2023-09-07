@@ -23,7 +23,8 @@ import Flip from "gsap/dist/Flip";
 import SplitText from "gsap/dist/SplitText";
 import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-
+import { PrismicToolbar } from "@prismicio/react";
+import { PRISMIC_REPOSITORY_NAME } from "~/lib/constants";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
 
@@ -117,6 +118,7 @@ export default function App() {
 
   return (
     <Document>
+      <PrismicToolbar repositoryName={PRISMIC_REPOSITORY_NAME} />
       <Layout workMenuData={workMenu}>
         <Outlet />
       </Layout>

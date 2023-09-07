@@ -275,7 +275,7 @@
     }
 
     .noise-background {
-        background: url("/images/footer-noise-background.png") fixed repeat center center;
+        background: url("/images/footer-noise-background.webp") fixed repeat center center;
     }
 
     .texture-404-background {
@@ -284,7 +284,7 @@
     }
 
     .texture-background {
-        background: url("/images/texture-background.png") repeat center center;
+        background: url("/images/texture-background.webp") repeat center center;
     }
 
     /* Utilities */

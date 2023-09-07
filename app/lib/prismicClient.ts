@@ -1,7 +1,5 @@
 import * as prismic from "@prismicio/client";
-
-// Fill in your repository name
-export const repositoryName = "canvas-website-v4";
+import { PRISMIC_REPOSITORY_NAME } from "~/lib/constants";
 
 // export const client = prismic.createClient(repositoryName, {
 // If your repository is private, add an access token
@@ -23,7 +21,7 @@ export const repositoryName = "canvas-website-v4";
 // });
 
 export function createClient() {
-  return prismic.createClient(repositoryName, {
+  return prismic.createClient(PRISMIC_REPOSITORY_NAME, {
     // If your repository is private, add an access token
     accessToken: process.env.PRISMIC_ACCESS_TOKEN,
 

@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import { gsap } from "gsap";
-import { useMemo, useRef, useState } from "react";
-import TextCta from "~/components/CTA/TextCTA";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Image } from "~/components/Image";
-import { Video } from "~/components/Video";
+import TextCta from "~/components/CTA/TextCTA";
+import HomePagePortfolioDesktopCursor from "./HomePagePortfolioDesktopCursor";
 import type { MouseEvent } from "react";
 import type { ImageField, LinkToMediaField } from "@prismicio/types";
 import type { DivProps } from "react-html-props";
@@ -11,9 +10,65 @@ import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "type
 
 const ALL_TAGS_ID = "all";
 
+export type HomePagePortFolioItemData = {
+  image: ImageField;
+  video: LinkToMediaField;
+} | null;
+
 interface ImageProps extends DivProps {
   active: boolean;
   image: ImageField;
+}
+
+interface HomePagePortfolioFilterProps {
+  hoveredTag: string | null;
+  selectedTag: string | null;
+  onItemClick: (tag: string) => void;
+  onItemMouseLeave: (tag: string | null) => void;
+  onItemMouseEnter: (tag: string | null) => void;
+}
+
+function HomePagePortfolioFilter({
+  data,
+  onItemMouseEnter,
+  onItemMouseLeave,
+  hoveredTag,
+  selectedTag,
+  onItemClick,
+}: Props & HomePagePortfolioFilterProps) {
+  const availableTags = useMemo(() => {
+    return [ALL_TAGS_ID, ...(data.primary.available_tags?.split(", ") || [])];
+  }, [data.primary.available_tags]);
+
+  return (
+    <div className={"max-container pb-16"}>
+      <div className={"flex flex-row justify-end text-black/30"}>
+        {availableTags?.map((tag, index) => {
+          const isActive = selectedTag === tag;
+
+          return (
+            <div
+              key={`PortfolioDesk-${index}-${tag}`}
+              onMouseEnter={() => onItemMouseEnter(tag)}
+              onMouseLeave={() => onItemMouseLeave(null)}
+              onClick={() => {
+                onItemClick(tag);
+              }}
+              className={clsx(
+                "heading--2 cursor-pointer hover:text-black",
+                isActive ? "text-black" : "text-grey"
+              )}
+            >
+              {isActive ? <span>(&nbsp;</span> : null}
+              <TextCta className={"inline-block align-middle"}>{tag}</TextCta>
+              {isActive ? <span>&nbsp;)</span> : null}
+              {index !== availableTags?.length - 1 ? <>,&nbsp;</> : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function HomePagePortFolioItem({ active, image, ...props }: ImageProps) {
@@ -30,9 +85,11 @@ function HomePagePortFolioItem({ active, image, ...props }: ImageProps) {
       {image.url ? (
         <Image
           field={image}
+          width={150}
+          height={150}
           loading={"eager"}
-          widths={"thumbnails"}
-          className={"object-contain"}
+          widths={[200, 400]}
+          className={"w-full object-contain"}
         />
       ) : (
         <div
@@ -40,7 +97,7 @@ function HomePagePortFolioItem({ active, image, ...props }: ImageProps) {
             "absolute flex aspect-square w-full items-center justify-center border"
           }
         >
-          <div className="label--2">NO THUMBNAIL</div>
+          <div className="label--2  text-center">NO THUMBNAIL</div>
         </div>
       )}
     </div>
@@ -51,108 +108,54 @@ interface Props {
   data: HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
 }
 
-function getCustomPosition(e: MouseEvent<HTMLDivElement>, width: number) {
-  const yOffset = 28;
-  // left
-  if (e.clientX < width / 2) {
-    return [e.clientX, e.clientY + yOffset] as const;
-  }
-  // right
-  if (e.clientX > window.innerWidth - width / 2) {
-    return [e.clientX - width, e.clientY + yOffset] as const;
-  }
-  // center
-  return [e.clientX - width / 2, e.clientY + yOffset] as const;
-}
-
 function HomePagePortfolioDesktop({ data }: Props) {
-  const availableTags = useMemo(() => {
-    return [ALL_TAGS_ID, ...(data.primary.available_tags?.split(", ") || [])];
-  }, [data.primary.available_tags]);
+  const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
 
-  const contentRef = useRef<HTMLImageElement>(null);
+  const [isLoading, setLoading] = useState(false);
+  const loadedVideos = useRef<string[]>([]);
+
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
-  const [hasMovedMouse, setHasmovedMouse] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
 
-  const [hoverData, setHoverData] = useState<{
-    image: ImageField;
-    video?: LinkToMediaField;
-  } | null>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const loadVideo = (url: string) => {
+    if (loadedVideos.current.includes(url)) return;
+    const loaded = () => {
+      setLoading(false);
+      loadedVideos.current.push(url);
+    };
 
-  const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!hasMovedMouse) setHasmovedMouse(true);
-
-    if (contentRef.current) {
-      gsap.killTweensOf(contentRef.current);
-      const [x, y] = getCustomPosition(e, contentRef.current.clientWidth);
-      gsap.to(cursorRef.current, {
-        x,
-        y,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    }
+    setLoading(true);
+    const fakeVideo = document.createElement("video");
+    fakeVideo.addEventListener("load", loaded);
+    fakeVideo.src = url;
   };
 
   const onMouseEnterImage = (
     e: MouseEvent<HTMLDivElement>,
-    data: {
-      image: ImageField;
-      video: LinkToMediaField;
-    }
+    data: HomePagePortFolioItemData
   ) => {
-    if (contentRef.current) {
-      const [x, y] = getCustomPosition(e, contentRef.current.clientWidth);
-      gsap.set(cursorRef.current, {
-        x: x,
-        y: y,
-      });
-    }
     setHoverData(data);
-    setIsHovered(true);
+    if (data && "url" in data?.video) loadVideo(data.video.url);
   };
 
   const onMouseLeaveImage = (e: MouseEvent<HTMLImageElement>) => {
-    setIsHovered(false);
     setHoverData(null);
   };
 
-  const videosRef = useRef<HTMLVideoElement>(null);
-
   return (
-    <section
-      onMouseMove={onMouseMove}
+    <HomePagePortfolioDesktopCursor
+      isLoading={isLoading}
+      hoverData={hoverData}
       className={"desktop-only overflow-hidden pb-64 pt-20"}
     >
-      <div className={"max-container pb-16"}>
-        <div className={"flex flex-row justify-end text-black/30"}>
-          {availableTags?.map((tag, index) => {
-            const isActive = selectedTag === tag;
-            return (
-              <div
-                key={`PortfolioDesk-${index}-${tag}`}
-                onMouseEnter={() => setHoveredTag(tag)}
-                onMouseLeave={() => setHoveredTag(null)}
-                onClick={() => {
-                  setSelectedTag(tag);
-                }}
-                className={clsx(
-                  "heading--2 cursor-pointer hover:text-black",
-                  isActive ? "text-black" : "text-grey"
-                )}
-              >
-                {isActive ? <span>(&nbsp;</span> : null}
-                <TextCta className={"inline-block align-middle"}>{tag}</TextCta>
-                {isActive ? <span>&nbsp;)</span> : null}
-                {index !== availableTags?.length - 1 ? <>,&nbsp;</> : null}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <HomePagePortfolioFilter
+        hoveredTag={hoveredTag}
+        selectedTag={selectedTag}
+        onItemMouseEnter={(tag) => setHoveredTag(tag)}
+        onItemMouseLeave={(tag) => setHoveredTag(tag)}
+        onItemClick={(tag) => setSelectedTag(tag)}
+        data={data}
+      />
 
       <div className={"relative grid grid-cols-17 gap-2 px-2"}>
         {data.items.map((item, index) => {
@@ -162,8 +165,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
             : tags.includes(selectedTag) || selectedTag === ALL_TAGS_ID;
           return (
             <HomePagePortFolioItem
-              image={item.image}
               active={active}
+              image={item.image}
               onMouseLeave={onMouseLeaveImage}
               onMouseEnter={(e) => onMouseEnterImage(e, item)}
               key={`PortfolioDesk-Image-${index}}`}
@@ -171,50 +174,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
           );
         })}
       </div>
-
-      <div
-        ref={cursorRef}
-        className={"pointer-events-none fixed left-0 top-0 z-10"}
-      >
-        <div
-          ref={contentRef}
-          className={clsx(
-            "relative min-h-[300px]  min-w-[500px] transition-all ease-out",
-            isHovered && hasMovedMouse
-              ? "opacity-100 duration-200"
-              : "opacity-0 delay-500 duration-200"
-          )}
-        >
-          {isHovered ? (
-            <div
-              className={
-                "absolute flex h-full w-full items-center justify-center bg-black"
-              }
-            >
-              <span className={"label--1 text-white"}>Loading ...</span>
-            </div>
-          ) : null}
-          <div className={"relative"}>
-            {hoverData?.video && "url" in hoverData?.video ? (
-              <Video
-                lazy={!isHovered}
-                autoPlay={true}
-                src={hoverData.video.url}
-                poster={hoverData.image.url || undefined}
-                className={"max-h-[45vh] max-w-[45vh]"}
-              />
-            ) : (
-              <Image
-                loading={"lazy"}
-                aria-hidden={true}
-                field={hoverData?.image}
-                className={"max-h-[45vh] w-full max-w-[45vh]"}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
+    </HomePagePortfolioDesktopCursor>
   );
 }
 
