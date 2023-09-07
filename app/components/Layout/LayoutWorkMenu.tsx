@@ -8,19 +8,17 @@ import ProjectHero, { animateBanner } from "~/components/ProjectHero";
 import LayoutWorkMenuItem from "~/components/Layout/LayoutWorkMenuItem";
 import type { RefObject } from "react";
 import type { WorkmenuDocument } from "types.generated";
-import type { KeyTextField } from "@prismicio/types";
+import type { ImageField, KeyTextField } from "@prismicio/types";
 import type { ProjectHeroTableProps } from "~/components/ProjectHero/ProjectHeroTable";
 
 const transition = (index: number, onCompleteCb: () => void) => {
   let reverseTitles: Function;
 
-  const tlVars: GSAPTimelineVars = {
-    duration: 1,
-    ease: "power4.inOut",
-  };
-
   const tl = gsap.timeline({
-    defaults: tlVars,
+    defaults: {
+      duration: 1,
+      ease: easings.one,
+    },
     onComplete: () => {
       tl.pause(0);
       tl.clear();
@@ -73,10 +71,19 @@ const transition = (index: number, onCompleteCb: () => void) => {
   reverseTitles = animateTitles();
 };
 
-const getTableData = (index: number, data: WorkmenuDocument) => {
-  // @ts-ignore
-  // prettier-ignore
-  return data.data.body[index].primary.project_page_data?.data as ProjectHeroTableProps;
+const getHeroData = (index: number, data: WorkmenuDocument) => {
+  const reel_cover =
+    // @ts-ignore
+    data.data.body[index].primary.project_page_data?.data.reel_cover;
+  const table = {
+    // @ts-ignore
+    roles: data.data.body[index].primary.project_page_data?.data.roles,
+    // @ts-ignore
+    links: data.data.body[index].primary.project_page_data?.data.links,
+  };
+
+  console.log(reel_cover);
+  return { table, reel_cover };
 };
 
 const setupTimeline = (
@@ -122,13 +129,17 @@ function LayoutWorkMenu({
   // const [animating, setAnimating] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [itemData, setItemData] = useState<ProjectHeroTableProps>();
+  const [itemData, setItemData] = useState<{
+    reel_cover: ImageField;
+    table: ProjectHeroTableProps;
+  }>();
 
   const timelineOpen = useRef<GSAPTimeline>();
   const itemsRefs = useRef<HTMLButtonElement[]>([]);
   const containerRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
+    console.log("USEFFECT - SETUP TABLE");
     timelineOpen.current = setupTimeline(containerRefs, itemsRefs);
   }, []);
 
@@ -139,13 +150,15 @@ function LayoutWorkMenu({
       tl?.play();
     } else if (!clicked) {
       tl?.reverse();
+    } else {
+      console.log("CLOSE");
     }
   }, [show]);
 
   const onMouseEnter = (index: number) => {
     if (!clicked) {
       setHoveredIndex(index);
-      const hoverData = getTableData(index, data);
+      const hoverData = getHeroData(index, data);
       setItemData(hoverData);
     }
   };
@@ -167,28 +180,30 @@ function LayoutWorkMenu({
     : "pointer-events-none";
 
   const onItemClick = (index: number, slug: string | KeyTextField) => {
-    const background = document
-      .querySelectorAll(".LayoutWorkMenu-Background")
-      [index].querySelector("img");
+    const onComplete = async () => {
+      // HARD CLOSING THE MODAL
+      gsap.set(containerRef.current, { opacity: 0, pointerEvents: "none" });
+      onClose();
 
-    const hardClose = () => {
+      // --- CLEANUP AFTER WE CLOSE
       // DESTROY THE TIMELINE SO IT'S JUST REMOVED NOT ANIMATED
+      console.log("--- AFTER WE CLOSE");
       timelineOpen.current?.pause(0);
       timelineOpen.current?.clear(true);
       timelineOpen.current = setupTimeline(containerRefs, itemsRefs);
       // KEEP THE BACKGROUND IN ITS POSITION
+      const background = document
+        .querySelectorAll(".LayoutWorkMenu-Background")
+        [index].querySelector("img");
       gsap.set(background, {
         y: background ? background?.scrollHeight - window.innerHeight : 0,
       });
-      // ACTUALLY CLOSE
-      onClose();
-    };
-
-    const onComplete = () => {
-      hardClose();
-      // --- AFTER WE CLOSE
       setClicked(false);
       setHoveredIndex(null);
+
+      setTimeout(() => {
+        gsap.set(containerRef.current, { opacity: 1, pointerEvents: "auto" });
+      }, 500);
     };
 
     setClicked(true);
@@ -196,8 +211,13 @@ function LayoutWorkMenu({
     transition(index, onComplete);
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className={clsx("fixed left-0 top-0 h-0 w-full", containerClassNames)}>
+    <div
+      ref={containerRef}
+      className={clsx("fixed left-0 top-0 h-0 w-full", containerClassNames)}
+    >
       {/*Background*/}
       <div
         id={"LayoutWorkMenu-BackDrop"}
@@ -246,7 +266,8 @@ function LayoutWorkMenu({
             absolute
             isClone={true}
             className={"LayoutWorkMenu-Hero"}
-            tableData={itemData}
+            video={{ poster: itemData?.reel_cover }}
+            tableData={itemData?.table}
           />
         </div>
 

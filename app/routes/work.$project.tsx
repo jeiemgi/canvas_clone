@@ -96,8 +96,9 @@ function WorkProject() {
   return (
     <div key={`WorkProjectPage-${location.pathname}`}>
       <ProjectHero
+        // animateDelay={1}
+        // animateVideo={true}
         key={`WorkProjectHero-${location.pathname}`}
-        animateVideo={true}
         cta={() => openDetailsModal()}
         image={hero.background_image}
         subTitleField={hero.capabilities}

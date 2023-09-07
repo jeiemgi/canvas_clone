@@ -184,6 +184,16 @@ export const animateBanner: GSAPAnimationFunction = (
   tl,
   { title, subtitle, scope, itemsScope, itemsVars, titlesVars }
 ) => {
+  function animateVideo() {
+    const { position } = itemsVars;
+    // ANIMATE TABLE
+    const video = itemsScope
+      ? itemsScope.querySelectorAll(".ProjectHero-Video")
+      : scope.querySelectorAll(".ProjectHero-Video");
+    console.log(video);
+    tl.to(video, { y: 0, opacity: 1, ...itemsVars }, position);
+  }
+
   function animateTable() {
     const { position } = itemsVars;
     // ANIMATE TABLE
@@ -244,6 +254,7 @@ export const animateBanner: GSAPAnimationFunction = (
 
   animateTable();
   animateSubTitle();
+  animateVideo();
   return animateTitle();
 };
 
@@ -259,13 +270,15 @@ export function ProjectPrefetchLink({ slug }: { slug: string | KeyTextField }) {
 
 export function ProjectHeroVideo({
   animate = true,
+  animateDelay = 0,
   field,
   poster,
   className,
 }: {
   animate?: boolean;
+  animateDelay: number;
   field: FilledLinkToWebField;
-  poster: ImageField;
+  poster?: ImageField;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -285,6 +298,7 @@ export function ProjectHeroVideo({
         duration: 1,
         autoAlpha: 1,
         ease: easings.mask,
+        delay: animateDelay,
       });
     });
 
@@ -295,18 +309,20 @@ export function ProjectHeroVideo({
     <div
       ref={ref}
       className={clsx(
+        "ProjectHero-Video",
         animate ? "translate-y-1/2 opacity-0" : "",
         "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3 md:aspect-video",
         className
       )}
     >
-      <Video autoPlay src={field.url} poster={poster.url ?? ""} />
+      <Video autoPlay src={field.url} poster={poster?.url ?? ""} />
     </div>
   );
 }
 
 export interface ProjectHeroProps extends DivProps {
   absolute?: boolean;
+  animateDelay?: number;
   animateTitles?: boolean;
   animateVideo?: boolean;
   children?: ReactNode;
@@ -319,13 +335,14 @@ export interface ProjectHeroProps extends DivProps {
   tableData?: ProjectHeroTableProps;
   titleField?: RichTextField;
   video?: {
-    poster: ImageField;
-    field: FilledLinkToWebField;
+    poster?: ImageField;
+    field?: FilledLinkToWebField;
   };
 }
 
 function ProjectHero({
   animateVideo = false,
+  animateDelay = 0,
   absolute = false,
   animateTitles = false,
   children,
@@ -407,19 +424,28 @@ function ProjectHero({
           <ProjectHeroTable isClone={isClone} data={tableData} />
         ) : null}
 
-        {video && !isClone ? (
+        {video && video.field && !isClone ? (
           <ProjectHeroVideo
+            animateDelay={animateDelay}
             animate={animateVideo}
             className={debugClassNames}
-            {...video}
+            poster={video.poster}
+            field={video.field}
           />
         ) : (
           <div
             className={clsx(
-              "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3",
+              "ProjectHero-Video",
+              "pointer-events-none translate-y-1/3 opacity-0",
+              "col-span-4 mb-10 aspect-video bg-black md:col-span-8 md:col-start-3",
               debugClassNames
             )}
-          ></div>
+          >
+            <Image
+              field={video?.poster}
+              className={"h-full w-full object-cover"}
+            />
+          </div>
         )}
       </div>
       {/*<div className="grid-container">

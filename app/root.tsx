@@ -45,7 +45,11 @@ export const links: LinksFunction = () => {
 export const loader = async () => {
   const client = createClient();
   const workMenu = await client.getSingle("workmenu", {
-    fetchLinks: ["project_page.roles", "project_page.links"],
+    fetchLinks: [
+      "project_page.roles",
+      "project_page.links",
+      "project_page.reel_cover",
+    ],
   });
 
   return defer({
