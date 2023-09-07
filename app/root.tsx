@@ -6,6 +6,8 @@ import {
   LiveReload,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
+  isRouteErrorResponse,
 } from "@remix-run/react";
 import { defer } from "@remix-run/node";
 import { createClient } from "~/lib/prismicClient";
@@ -15,6 +17,7 @@ import components from "~/styles/components/index.css";
 import splideCss from "@splidejs/splide/dist/css/splide-core.min.css";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import Layout from "~/components/Layout";
+import ErrorBoundaryComponent from "~/components/ErrorBoundary";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
 import SplitText from "gsap/dist/SplitText";
@@ -82,7 +85,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
   );
 }
 
-/*export function ErrorBoundary() {
+export function ErrorBoundary() {
   const error = useRouteError();
   console.error(error);
 
@@ -105,7 +108,7 @@ function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
       </div>
     </Document>
   );
-}*/
+}
 
 export type RootLoader = typeof loader;
 
