@@ -28,7 +28,7 @@ const transition = (index: number, onCompleteCb: () => void) => {
   });
 
   function animateBackground() {
-    console.log("transition--animateBackground");
+    // console.log("transition--animateBackground");
     const backgrounds = document.querySelectorAll(".LayoutWorkMenu-Background");
     const backgroundImage = backgrounds[index].querySelector("img");
     if (backgroundImage) {
@@ -38,14 +38,14 @@ const transition = (index: number, onCompleteCb: () => void) => {
   }
 
   function animateOtherItems() {
-    console.log("transition--animateOtherItems");
+    // console.log("transition--animateOtherItems");
     // prettier-ignore
     const allItems = gsap.utils.toArray(".LayoutWorkMenuItem");
     tl.to(allItems, { opacity: 0, duration: 0.3 }, 0);
   }
 
   function animateTitles() {
-    console.log("transition--animateTitles");
+    // console.log("transition--animateTitles");
     const hero = document.querySelector(".LayoutWorkMenu-Hero")!;
     const titles = document.querySelectorAll(".LayoutWorkMenuItem__title");
     const title = titles[index] as HTMLElement;
@@ -82,7 +82,7 @@ const getHeroData = (index: number, data: WorkmenuDocument) => {
     links: data.data.body[index].primary.project_page_data?.data.links,
   };
 
-  console.log(reel_cover);
+  // console.log(reel_cover);
   return { table, reel_cover };
 };
 
@@ -139,7 +139,7 @@ function LayoutWorkMenu({
   const containerRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    console.log("USEFFECT - SETUP TABLE");
+    // console.log("USEFFECT - SETUP TABLE");
     timelineOpen.current = setupTimeline(containerRefs, itemsRefs);
   }, []);
 
@@ -151,7 +151,7 @@ function LayoutWorkMenu({
     } else if (!clicked) {
       tl?.reverse();
     } else {
-      console.log("CLOSE");
+      // console.log("CLOSE");
     }
   }, [show]);
 
@@ -187,7 +187,6 @@ function LayoutWorkMenu({
 
       // --- CLEANUP AFTER WE CLOSE
       // DESTROY THE TIMELINE SO IT'S JUST REMOVED NOT ANIMATED
-      console.log("--- AFTER WE CLOSE");
       timelineOpen.current?.pause(0);
       timelineOpen.current?.clear(true);
       timelineOpen.current = setupTimeline(containerRefs, itemsRefs);

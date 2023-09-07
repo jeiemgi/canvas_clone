@@ -124,6 +124,10 @@ function WorkProjectNextProject({ item, lazy }: Props) {
       <ProjectHero
         isClone={true}
         animateTitles={true}
+        video={{
+          //@ts-ignore
+          poster: item.primary.next_project_data.data.reel_cover,
+        }}
         //@ts-ignore
         subTitleField={item.primary.next_project_data.data.capabilities}
         //@ts-ignore

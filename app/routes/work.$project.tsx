@@ -23,6 +23,7 @@ export const loader = async ({ params }: LoaderArgs) => {
       "project_page.roles",
       "project_page.links",
       "project_page.capabilities",
+      "project_page.reel_cover",
     ],
   });
 

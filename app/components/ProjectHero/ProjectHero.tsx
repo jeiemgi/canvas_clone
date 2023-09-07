@@ -68,14 +68,14 @@ export const ProjectHeroSubtitle = ({
       {...props}
       className={clsx(
         "ProjectHeroSubtitle",
-        "heading--3 relative col-span-4 mb-12 text-white md:col-span-12 md:mb-2 md:h-[1rem] md:pb-20",
+        "relative col-span-4 mb-12 text-white md:col-span-12 md:mb-2 md:h-[1rem] md:pb-20",
         props.className
       )}
     >
       {field ? (
         <h3 className={"heading--3 overflow-hidden"}>
           {animateTitles ? (
-            <span className={"hero-table-row__item block"}>
+            <span className={"hero-table-row__item block translate-y-[200%]"}>
               {field ? asText(field) : ""}
             </span>
           ) : field ? (
@@ -85,7 +85,7 @@ export const ProjectHeroSubtitle = ({
           )}
         </h3>
       ) : (
-        children
+        <h3 className={"heading--3"}>{children}</h3>
       )}
     </div>
   );
