@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
+import Flip from "gsap/dist/Flip";
 import { useMemo, useRef, useState } from "react";
 import TextCta from "~/components/CTA/TextCTA";
 import { Image } from "~/components/Image";
@@ -20,7 +21,7 @@ function HomePagePortFolioItem({ active, image, ...props }: ImageProps) {
   return (
     <div
       className={clsx(
-        "relative col-span-1 cursor-pointer transition-opacity",
+        "relative col-span-1 aspect-square cursor-pointer transition-opacity",
         active
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-5"
@@ -178,25 +179,38 @@ function HomePagePortfolioDesktop({ data }: Props) {
         <div
           ref={contentRef}
           className={clsx(
-            "min-w-[500px] transition-opacity duration-100 ease-out",
-            isHovered && hasMovedMouse ? "opacity-100" : "opacity-0 delay-300"
+            "relative min-h-[300px]  min-w-[500px] transition-all ease-out",
+            isHovered && hasMovedMouse
+              ? "opacity-100 duration-200"
+              : "opacity-0 delay-500 duration-200"
           )}
         >
-          {hoverData?.video && "url" in hoverData?.video ? (
-            <Video
-              autoPlay={true}
-              src={hoverData.video.url}
-              poster={hoverData.image.url || undefined}
-              className={"max-h-[45vh] max-w-[45vh]"}
-            />
-          ) : (
-            <Image
-              loading={"lazy"}
-              aria-hidden={true}
-              field={hoverData?.image}
-              className={"max-h-[45vh] w-full max-w-[45vh]"}
-            />
-          )}
+          {isHovered ? (
+            <div
+              className={
+                "absolute flex h-full w-full items-center justify-center bg-black"
+              }
+            >
+              <span className={"label--1 text-white"}>Loading ...</span>
+            </div>
+          ) : null}
+          <div className={"relative"}>
+            {hoverData?.video && "url" in hoverData?.video ? (
+              <Video
+                autoPlay={true}
+                src={hoverData.video.url}
+                poster={hoverData.image.url || undefined}
+                className={"max-h-[45vh] max-w-[45vh]"}
+              />
+            ) : (
+              <Image
+                loading={"lazy"}
+                aria-hidden={true}
+                field={hoverData?.image}
+                className={"max-h-[45vh] w-full max-w-[45vh]"}
+              />
+            )}
+          </div>
         </div>
       </div>
     </section>
