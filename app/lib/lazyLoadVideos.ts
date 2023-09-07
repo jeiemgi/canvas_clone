@@ -1,7 +1,19 @@
+export const loadLazyVideo = (video: HTMLVideoElement, onLoad?: Function) => {
+  for (let source in video.children) {
+    let videoSource = video.children[source];
+    if (videoSource.tagName === "SOURCE") {
+      // @ts-ignore
+      videoSource.src = videoSource.dataset.src;
+    }
+  }
+  if (onLoad) onLoad();
+};
+
 export const lazyLoadVideos = (
-  videos: NodeListOf<HTMLVideoElement>,
+  videos: Array<HTMLVideoElement>,
   onItemLoad?: Function
 ) => {
+  console.log(videos);
   if ("IntersectionObserver" in window) {
     let lazyVideoObserver = new IntersectionObserver(
       (entries) => {

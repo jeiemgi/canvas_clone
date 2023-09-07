@@ -51,7 +51,19 @@ const ContactPage = () => {
                 We’re curious to learn about your company and how we could help.
                 Fill out the form below or if you would prefer to email us hit
                 us up at{" "}
-                <a href="mailto:biz@canvascreative.co">biz@canvascreative.co</a>
+                <span className="relative inline-block">
+                  <LinkCTA
+                    className={"relative"}
+                    to="mailto:biz@canvascreative.co"
+                  >
+                    biz@canvascreative.co
+                  </LinkCTA>
+                  <div
+                    className={
+                      "absolute bottom-0 left-0  h-[1px] w-full w-full bg-white/30"
+                    }
+                  ></div>
+                </span>
               </p>
             </div>
           </div>

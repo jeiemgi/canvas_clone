@@ -1,14 +1,13 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
-import Flip from "gsap/dist/Flip";
 import { useMemo, useRef, useState } from "react";
 import TextCta from "~/components/CTA/TextCTA";
 import { Image } from "~/components/Image";
+import { Video } from "~/components/Video";
 import type { MouseEvent } from "react";
 import type { ImageField, LinkToMediaField } from "@prismicio/types";
 import type { DivProps } from "react-html-props";
 import type { HomepageDocumentDataBodyHomepagePortfolioDesktopSlice } from "types.generated";
-import { Video } from "~/components/Video";
 
 const ALL_TAGS_ID = "all";
 
@@ -30,9 +29,9 @@ function HomePagePortFolioItem({ active, image, ...props }: ImageProps) {
     >
       {image.url ? (
         <Image
-          loading={"lazy"}
-          widths={"thumbnails"}
           field={image}
+          loading={"eager"}
+          widths={"thumbnails"}
           className={"object-contain"}
         />
       ) : (
@@ -112,7 +111,6 @@ function HomePagePortfolioDesktop({ data }: Props) {
         y: y,
       });
     }
-
     setHoverData(data);
     setIsHovered(true);
   };
@@ -121,6 +119,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
     setIsHovered(false);
     setHoverData(null);
   };
+
+  const videosRef = useRef<HTMLVideoElement>(null);
 
   return (
     <section
@@ -164,8 +164,8 @@ function HomePagePortfolioDesktop({ data }: Props) {
             <HomePagePortFolioItem
               image={item.image}
               active={active}
-              onMouseEnter={(e) => onMouseEnterImage(e, item)}
               onMouseLeave={onMouseLeaveImage}
+              onMouseEnter={(e) => onMouseEnterImage(e, item)}
               key={`PortfolioDesk-Image-${index}}`}
             />
           );
@@ -197,6 +197,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
           <div className={"relative"}>
             {hoverData?.video && "url" in hoverData?.video ? (
               <Video
+                lazy={!isHovered}
                 autoPlay={true}
                 src={hoverData.video.url}
                 poster={hoverData.image.url || undefined}
