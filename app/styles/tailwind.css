@@ -275,7 +275,7 @@
     }
 
     .noise-background {
-        background: url("/images/footer-noise-background.webp") fixed repeat center center;
+        background: url("/images/noise-background.webp") fixed repeat center center;
     }
 
     .texture-404-background {

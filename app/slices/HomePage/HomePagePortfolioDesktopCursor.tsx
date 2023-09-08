@@ -1,13 +1,13 @@
-import clsx from "clsx";
 import { gsap } from "gsap";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
-import type { MouseEvent } from "react";
 import type { SectionProps } from "react-html-props";
 import type { HomePagePortFolioItemData } from "~/slices/HomePage/HomePagePortfolioDesktop";
 
-const offSet = 30;
+const margin = 20;
+const yOffset = 30;
+const xOffset = 30;
 
 function getCustomPosition(
   x: number,
@@ -15,99 +15,98 @@ function getCustomPosition(
   width: number,
   height: number
 ) {
-  const baseXPosition = width / 2;
-  const baseYPosition = height / 2;
+  console.log(width, height);
+  const windowWidth = window.innerWidth - margin;
+  const windowHeight = window.innerHeight - margin;
+
+  const baseX = width / 2;
+
+  const leftLimit = baseX;
+  const rightLimit = windowWidth - baseX;
+
+  const bottomLimit = windowHeight - height;
+  const yPos = y > bottomLimit ? y - height : y + yOffset;
 
   // left
-  if (x < baseXPosition) {
-    return [offSet, y + offSet] as const;
+  if (x < leftLimit) {
+    const xPos = x + xOffset;
+    return [xPos, yPos] as const;
   }
+
   // right
-  if (x > window.innerWidth - baseXPosition) {
-    return [window.innerWidth - width - offSet, y + offSet] as const;
+  if (x > rightLimit) {
+    const xPos = x - width;
+    return [xPos, yPos] as const;
   }
 
   // center
-  return [x - width / 2, y + offSet] as const;
+  return [x - baseX, yPos] as const;
 }
 
 interface Props {
   hoverData: HomePagePortFolioItemData;
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
 function HomePagePortfolioDesktopCursor({
+  position,
   children,
   hoverData,
   ...props
 }: SectionProps & Props) {
-  const itemIsHovered = Boolean(hoverData);
   const contentRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  const moveMouse = (cursorX: number, cursorY: number, animated = true) => {
+  const moveMouse = (cursorX: number, cursorY: number) => {
     const cursor = cursorRef.current;
+    const content = contentRef.current;
 
-    if (cursor) {
+    if (cursor && content) {
       gsap.killTweensOf(cursor);
       const [x, y] = getCustomPosition(
         cursorX,
         cursorY,
-        cursor.clientWidth,
-        cursor.clientHeight
+        content.clientWidth,
+        content.clientHeight
       );
-
-      if (animated) {
-        gsap.to(cursor, { x, y, ease: "power2.out", duration: 0.3 });
-      } else {
-        gsap.set(cursor, { x, y });
-      }
+      gsap.to(cursor, { x, y, duration: 0.2, ease: "power1.out" });
     }
   };
 
-  const onMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
-    moveMouse(e.clientX, e.clientY, false);
-  };
+  useEffect(() => {
+    moveMouse(position.x, position.y);
+  }, [position]);
 
-  const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (contentRef.current) {
-      moveMouse(e.clientX, e.clientY);
-    }
-  };
-
-  const cursorClassName = clsx(
-    "origin-center pointer-events-none fixed w-[500px] left-0 top-0 z-10"
-  );
+  const cursorClassName = "pointer-events-none fixed left-0 top-0 z-10";
 
   return (
-    <section onMouseEnter={onMouseEnter} onMouseMove={onMouseMove} {...props}>
+    <section {...props}>
       {children}
 
       <div ref={cursorRef} className={cursorClassName}>
-        <div ref={contentRef} className={"relative"}>
-          <div className={"relative max-h-[40vh] max-w-[40vh]"}>
-            {hoverData?.video && "url" in hoverData?.video ? (
-              <>
-                {itemIsHovered ? (
-                  <Video
-                    autoPlay={true}
-                    src={hoverData.video.url}
-                    poster={hoverData.image.url || undefined}
-                    className={"w-full"}
-                  />
-                ) : null}
-              </>
+        {hoverData ? (
+          <div ref={contentRef} className={"w-[40vh] bg-red"}>
+            {"url" in hoverData.video ? (
+              <Video
+                autoPlay={true}
+                src={hoverData.video.url}
+                poster={hoverData.image.url || undefined}
+                className={"w-full"}
+              />
             ) : (
               <Image
-                width={500}
-                widths={[500, 800]}
                 loading={"lazy"}
                 aria-hidden={true}
+                widths={[500]}
                 field={hoverData?.image}
-                className={"w-full object-cover"}
+                className={"w-full object-contain"}
               />
             )}
           </div>
-        </div>
+        ) : null}
       </div>
     </section>
   );

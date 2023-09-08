@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
 import HomePagePortfolioDesktopCursor from "./HomePagePortfolioDesktopCursor";
@@ -108,24 +108,43 @@ interface Props {
   data: HomepageDocumentDataBodyHomepagePortfolioDesktopSlice;
 }
 
+const LEAVE_TIMEOUT = 300;
+
+const DEFAULT_POS = {
+  x: 0,
+  y: 0,
+};
+
 function HomePagePortfolioDesktop({ data }: Props) {
+  const timeout = useRef<NodeJS.Timeout | undefined>();
+  const [position, setPosition] = useState(DEFAULT_POS);
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
+
+  useEffect(() => {
+    const onMouseMove = (e: any) => setPosition({ x: e.clientX, y: e.clientY });
+    document.addEventListener("mousemove", onMouseMove);
+    return () => document.removeEventListener("mousemove", onMouseMove);
+  }, []);
 
   const onMouseEnterImage = (
     e: MouseEvent<HTMLDivElement>,
     data: HomePagePortFolioItemData
   ) => {
+    clearTimeout(timeout.current);
     setHoverData(data);
   };
 
   const onMouseLeaveImage = (e: MouseEvent<HTMLImageElement>) => {
-    setHoverData(null);
+    timeout.current = setTimeout(() => {
+      setHoverData(null);
+    }, LEAVE_TIMEOUT);
   };
 
   return (
     <HomePagePortfolioDesktopCursor
+      position={position}
       hoverData={hoverData}
       className={"desktop-only overflow-hidden pb-64 pt-20"}
     >
