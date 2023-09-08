@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
 import HomePagePortfolioDesktopCursor from "./HomePagePortfolioDesktopCursor";
@@ -109,33 +109,15 @@ interface Props {
 }
 
 function HomePagePortfolioDesktop({ data }: Props) {
-  const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
-
-  const [isLoading, setLoading] = useState(false);
-  const loadedVideos = useRef<string[]>([]);
-
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
-
-  const loadVideo = (url: string) => {
-    if (loadedVideos.current.includes(url)) return;
-    const loaded = () => {
-      setLoading(false);
-      loadedVideos.current.push(url);
-    };
-
-    setLoading(true);
-    const fakeVideo = document.createElement("video");
-    fakeVideo.addEventListener("load", loaded);
-    fakeVideo.src = url;
-  };
+  const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
 
   const onMouseEnterImage = (
     e: MouseEvent<HTMLDivElement>,
     data: HomePagePortFolioItemData
   ) => {
     setHoverData(data);
-    if (data && "url" in data?.video) loadVideo(data.video.url);
   };
 
   const onMouseLeaveImage = (e: MouseEvent<HTMLImageElement>) => {
@@ -144,7 +126,6 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   return (
     <HomePagePortfolioDesktopCursor
-      isLoading={isLoading}
       hoverData={hoverData}
       className={"desktop-only overflow-hidden pb-64 pt-20"}
     >
