@@ -387,14 +387,13 @@ function ProjectHero({
         debugClassNames
       )}
     >
-      {image ? <ProjectBackground isClone={isClone} field={image} /> : null}
-
       <div
         className={clsx(
           "grid-container relative pt-header md:pb-56 md:pt-headerDesk",
           debugClassNames
         )}
       >
+        {image ? <ProjectBackground isClone={isClone} field={image} /> : null}
         {children}
         {debug ? (
           <div className="absolute left-0 top-0 bg-black text-white">

@@ -2,7 +2,13 @@ import clsx from "clsx";
 import { gsap } from "gsap";
 import easings from "~/lib/easings";
 import { useNavigate } from "react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Image } from "~/components/Image";
 import ProjectHero, { animateBanner } from "~/components/ProjectHero";
 import LayoutWorkMenuItem from "~/components/Layout/LayoutWorkMenuItem";
@@ -31,9 +37,9 @@ const transition = (index: number, onCompleteCb: () => void) => {
     // console.log("transition--animateBackground");
     const backgrounds = document.querySelectorAll(".LayoutWorkMenu-Background");
     const backgroundImage = backgrounds[index].querySelector("img");
+
     if (backgroundImage) {
-      const posY = backgroundImage.scrollHeight - window.innerHeight;
-      tl.to(backgroundImage, { y: posY }, 0);
+      tl.to(backgroundImage, { y: 0 }, 0);
     }
   }
 
@@ -190,17 +196,23 @@ function LayoutWorkMenu({
       timelineOpen.current?.pause(0);
       timelineOpen.current?.clear(true);
       timelineOpen.current = setupTimeline(containerRefs, itemsRefs);
+
       // KEEP THE BACKGROUND IN ITS POSITION
-      const background = document
-        .querySelectorAll(".LayoutWorkMenu-Background")
-        [index].querySelector("img");
-      gsap.set(background, {
-        y: background ? background?.scrollHeight - window.innerHeight : 0,
-      });
+      // ------------------- CHECK IF NEEDED
+
+      // const background = document
+      //   .querySelectorAll(".LayoutWorkMenu-Background")
+      //   [index].querySelector("img");
+
+      // gsap.set(background, {
+      //   y: background ? background?.scrollHeight - window.innerHeight : 0,
+      // });
+
       setClicked(false);
       setHoveredIndex(null);
 
       setTimeout(() => {
+        // RESET THE BACKGROUND SO WE CAN OPEN THIS AGAIN BUT IT WON'T BE VISIBLE
         gsap.set(containerRef.current, { opacity: 1, pointerEvents: "auto" });
       }, 500);
     };
@@ -211,6 +223,14 @@ function LayoutWorkMenu({
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const images = document.querySelectorAll(".LayoutWorkMenu-Background>img");
+    images.forEach((img) => {
+      const imgPos = -(img.clientHeight - window.innerHeight);
+      gsap.set(img, { y: imgPos });
+    });
+  }, []);
 
   return (
     <div
@@ -232,28 +252,6 @@ function LayoutWorkMenu({
         id={"LayoutWorkMenu-Background-Container"}
         className={clsx("fixed inset-0 h-full w-full", containerClassNames)}
       >
-        {data.data.body.map((item, _idx) => {
-          const hovered = hoveredIndex === _idx;
-
-          return (
-            <div
-              key={`LayoutWorkMenu-BackgroundItem--${_idx}`}
-              className={
-                "LayoutWorkMenu-Background pointer-events-none absolute flex h-full w-full items-end"
-              }
-            >
-              <Image
-                className={clsx(
-                  "absolute w-full items-start object-cover",
-                  clicked ? "" : "transition-opacity duration-500 ease-out",
-                  hovered ? "opacity-100" : "opacity-0 delay-100"
-                )}
-                field={item.primary.background}
-              />
-            </div>
-          );
-        })}
-
         <div
           id={"LayoutWorkMenu-HeroContainer"}
           className={clsx(
@@ -267,7 +265,29 @@ function LayoutWorkMenu({
             className={"LayoutWorkMenu-Hero"}
             video={{ poster: itemData?.reel_cover }}
             tableData={itemData?.table}
-          />
+          >
+            {data.data.body.map((item, _idx) => {
+              const hovered = hoveredIndex === _idx;
+
+              return (
+                <div
+                  key={`LayoutWorkMenu-BackgroundItem--${_idx}`}
+                  className={
+                    "LayoutWorkMenu-Background pointer-events-none absolute h-full w-full items-end"
+                  }
+                >
+                  <Image
+                    className={clsx(
+                      "absolute w-full items-start object-cover",
+                      clicked ? "" : "transition-opacity duration-500 ease-out",
+                      hovered ? "opacity-100" : "opacity-0"
+                    )}
+                    field={item.primary.background}
+                  />
+                </div>
+              );
+            })}
+          </ProjectHero>
         </div>
 
         <div

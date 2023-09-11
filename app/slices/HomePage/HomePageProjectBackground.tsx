@@ -141,7 +141,7 @@ function HomePageBackgroundContainer({
               // @ts-ignore
               tableData={project.primary.project_data?.data}
             >
-              <div className="HomePageBackground-Image absolute flex h-full w-full items-end">
+              <div className="HomePageBackground-Image absolute h-full w-full">
                 <Image
                   field={project.primary.background_image}
                   className={"min-h-full w-full object-cover"}
