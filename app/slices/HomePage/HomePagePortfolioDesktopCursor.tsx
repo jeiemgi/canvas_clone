@@ -87,7 +87,7 @@ function HomePagePortfolioDesktopCursor({
 
       <div ref={cursorRef} className={cursorClassName}>
         {hoverData ? (
-          <div ref={contentRef} className={"min-h-[20vh] w-[40vh]"}>
+          <div ref={contentRef} className={"w-[50h]"}>
             {"url" in hoverData.video ? (
               <Video
                 autoPlay={true}

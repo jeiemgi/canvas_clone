@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { gsap } from "gsap";
 import Flip from "gsap/dist/Flip";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useLayoutEffect } from "~/hooks";
 import { Link } from "@remix-run/react";
 import { asText } from "@prismicio/richtext";
@@ -302,8 +302,14 @@ export function ProjectHeroVideo({
       });
     });
 
+    setTimeout(() => {
+      setPlay(true);
+      console.log("Play");
+    }, 1000);
     return () => ctx.revert();
   }, []);
+
+  const [play, setPlay] = useState(false);
 
   return (
     <div
@@ -311,11 +317,13 @@ export function ProjectHeroVideo({
       className={clsx(
         "ProjectHero-Video",
         animate ? "translate-y-1/2 opacity-0" : "",
-        "col-span-4 mb-10 aspect-video md:col-span-8 md:col-start-3 md:aspect-video",
+        "col-span-4 mb-10 aspect-video bg-black md:col-span-8 md:col-start-3 md:aspect-video",
         className
       )}
     >
-      <Video autoPlay src={field.url} poster={poster?.url ?? ""} />
+      {play ? (
+        <Video autoPlay src={field.url} poster={poster?.url ?? ""} />
+      ) : null}
     </div>
   );
 }
