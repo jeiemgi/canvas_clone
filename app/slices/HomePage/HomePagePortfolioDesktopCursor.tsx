@@ -25,21 +25,22 @@ function getCustomPosition(
 
   const bottomLimit = windowHeight - height;
   const yPos = y > bottomLimit ? y - height : y + yOffset;
+  const yTransform = y > bottomLimit ? "bottom" : "top";
 
   // left
   if (x < leftLimit) {
     const xPos = x + xOffset;
-    return [xPos, yPos] as const;
+    return [xPos, yPos, `left ${yTransform}`] as const;
   }
 
   // right
   if (x > rightLimit) {
     const xPos = x - width;
-    return [xPos, yPos] as const;
+    return [xPos, yPos, `right ${yTransform}`] as const;
   }
 
   // center
-  return [x - baseX, yPos] as const;
+  return [x - baseX, yPos, `center ${yTransform}`] as const;
 }
 
 interface Props {
@@ -59,53 +60,63 @@ function HomePagePortfolioDesktopCursor({
   const contentRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  const moveMouse = (cursorX: number, cursorY: number) => {
+  useEffect(() => {
     const cursor = cursorRef.current;
     const content = contentRef.current;
+    const vars = { duration: 0.8, ease: "power3.out" };
 
-    if (cursor && content) {
-      gsap.killTweensOf(cursor);
-      const [x, y] = getCustomPosition(
-        cursorX,
-        cursorY,
-        content.clientWidth,
-        content.clientHeight
-      );
-      gsap.to(cursor, { x, y, duration: 0.2, ease: "power1.out" });
-    }
-  };
+    const animate = () => {
+      if (!hoverData) {
+        gsap.set(cursor, { x: position.x, y: position.y });
+      } else if (cursor && content) {
+        gsap.killTweensOf(cursor);
+        const [x, y] = getCustomPosition(
+          position.x,
+          position.y,
+          content.clientWidth,
+          content.clientHeight
+        );
+        gsap.to(cursor, { x, y, ...vars });
 
-  useEffect(() => {
-    moveMouse(position.x, position.y);
-  }, [position]);
+        // gsap.set(cursor, { x: position.x, y: position.y });
+      }
+    };
 
-  const cursorClassName = "pointer-events-none fixed left-0 top-0 z-10";
+    const request = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(request);
+  }, [hoverData, position]);
 
   return (
     <section {...props}>
       {children}
-
-      <div ref={cursorRef} className={cursorClassName}>
-        {hoverData ? (
-          <div ref={contentRef} className={"w-[50h]"}>
-            {"url" in hoverData.video ? (
-              <Video
-                autoPlay={true}
-                src={hoverData.video.url}
-                poster={hoverData.image.url || undefined}
-                className={"w-full"}
-              />
-            ) : (
-              <Image
-                loading={"lazy"}
-                aria-hidden={true}
-                widths={[500]}
-                field={hoverData?.image}
-                className={"w-full object-contain"}
-              />
-            )}
-          </div>
-        ) : null}
+      <div
+        ref={cursorRef}
+        className={
+          "pointer-events-none fixed left-0 top-0 z-10 overflow-hidden"
+        }
+      >
+        <div ref={contentRef}>
+          {hoverData ? (
+            <>
+              {"url" in hoverData.video ? (
+                <Video
+                  autoPlay={true}
+                  src={hoverData.video.url}
+                  poster={hoverData.image.url || undefined}
+                  style={{ width: "45vh" }}
+                />
+              ) : (
+                <Image
+                  style={{ width: "45vh" }}
+                  widths={[500]}
+                  aria-hidden={true}
+                  field={hoverData?.image}
+                />
+              )}
+            </>
+          ) : null}
+        </div>
       </div>
     </section>
   );
