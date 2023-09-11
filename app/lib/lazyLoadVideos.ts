@@ -13,7 +13,6 @@ export const lazyLoadVideos = (
   videos: Array<HTMLVideoElement>,
   onItemLoad?: Function
 ) => {
-  console.log(videos);
   if ("IntersectionObserver" in window) {
     let lazyVideoObserver = new IntersectionObserver(
       (entries) => {

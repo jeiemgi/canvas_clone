@@ -59,6 +59,8 @@ function HomePageBackgroundContainer({
       );
 
       bgItems.forEach((bgItem, _index, arr) => {
+        console.log(bgItem);
+
         const isFirst = _index === 0;
         const isLast = _index === arr.length - 1;
         const scrollItem = scrollItems[_index];
@@ -77,10 +79,16 @@ function HomePageBackgroundContainer({
         });
 
         const image = bgItem.querySelector(".HomePageBackground-Image>img");
-        gsap.set(image, { y: isFirst ? "0%" : "10%" });
+        if (!image) return;
+
+        const imgPos = -(image.clientHeight - window.innerHeight);
+        const imgPos10 = imgPos - imgPos * 0.1;
+
+        gsap.set(image, { y: isFirst ? imgPos : imgPos10 });
+
         gsap.to(image, {
           ease,
-          y: "0%",
+          y: imgPos,
           immediateRender: false,
           scrollTrigger: {
             trigger: scrollItem,
@@ -93,11 +101,11 @@ function HomePageBackgroundContainer({
         if (!isLast) {
           gsap.to(image, {
             ease,
-            y: "-10%",
+            y: imgPos10,
             immediateRender: false,
             scrollTrigger: {
-              trigger: scrollItem,
               start: "bottom 85%",
+              trigger: scrollItem,
               end: "+=100%",
               scrub: true,
             },
@@ -127,19 +135,19 @@ function HomePageBackgroundContainer({
             key={`HomePageBackground-Item-${project.id}`}
             className={"HomePageBackground-Item absolute h-full w-full"}
           >
-            <div className="HomePageBackground-Image absolute flex h-full w-full items-end">
-              <Image
-                field={project.primary.background_image}
-                className={"min-h-full w-full object-cover"}
-              />
-            </div>
-
             <ProjectHero
               isClone={true}
               absolute={false}
               // @ts-ignore
               tableData={project.primary.project_data?.data}
-            />
+            >
+              <div className="HomePageBackground-Image absolute flex h-full w-full items-end">
+                <Image
+                  field={project.primary.background_image}
+                  className={"min-h-full w-full object-cover"}
+                />
+              </div>
+            </ProjectHero>
           </div>
         ))}
         <HomePageTitleContainer data={data} />

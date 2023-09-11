@@ -79,8 +79,9 @@ function HomePageProjectScrollContainer({
       // prettier-ignore
       const backgrounds = document.querySelectorAll(".HomePageBackground-Image");
       const bgImg = backgrounds[index].querySelector("img");
-      const bgPos = bgImg ? bgImg?.scrollHeight - window.innerHeight : 0;
-      if (bgImg) tl.to(bgImg, { y: bgPos }, 0);
+      // const bgPos = bgImg ? bgImg?.scrollHeight - window.innerHeight : 0;
+
+      if (bgImg) tl.to(bgImg, { y: 0 }, 0);
     }
 
     function animateContent() {

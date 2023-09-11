@@ -143,7 +143,7 @@ export function ProjectBackground({
       <Image
         {...props}
         field={field}
-        className={clsx(props?.className, "min-h-full w-full object-cover")}
+        className={clsx(props?.className, "h-full w-full object-cover")}
       />
     </div>
   );
@@ -190,7 +190,6 @@ export const animateBanner: GSAPAnimationFunction = (
     const video = itemsScope
       ? itemsScope.querySelectorAll(".ProjectHero-Video")
       : scope.querySelectorAll(".ProjectHero-Video");
-    console.log(video);
     tl.to(video, { y: 0, opacity: 1, ...itemsVars }, position);
   }
 
@@ -392,10 +391,11 @@ function ProjectHero({
 
       <div
         className={clsx(
-          "grid-container relative pt-header md:pt-headerDesk",
+          "grid-container relative pt-header md:pb-56 md:pt-headerDesk",
           debugClassNames
         )}
       >
+        {children}
         {debug ? (
           <div className="absolute left-0 top-0 bg-black text-white">
             ProjectHero
