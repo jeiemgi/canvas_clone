@@ -15,7 +15,6 @@ function getCustomPosition(
   width: number,
   height: number
 ) {
-  console.log(width, height);
   const windowWidth = window.innerWidth - margin;
   const windowHeight = window.innerHeight - margin;
 
@@ -88,7 +87,7 @@ function HomePagePortfolioDesktopCursor({
 
       <div ref={cursorRef} className={cursorClassName}>
         {hoverData ? (
-          <div ref={contentRef} className={"w-[40vh] bg-red"}>
+          <div ref={contentRef} className={"min-h-[20vh] w-[40vh]"}>
             {"url" in hoverData.video ? (
               <Video
                 autoPlay={true}
