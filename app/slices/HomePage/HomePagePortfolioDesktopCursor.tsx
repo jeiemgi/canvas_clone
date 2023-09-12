@@ -4,117 +4,143 @@ import { Video } from "~/components/Video";
 import { Image } from "~/components/Image";
 import type { SectionProps } from "react-html-props";
 import type { HomePagePortFolioItemData } from "~/slices/HomePage/HomePagePortfolioDesktop";
+import clsx from "clsx";
 
 const margin = 20;
-const yOffset = 30;
-const xOffset = 30;
+
+function getOrientation(
+  position: {
+    x: number;
+    y: number;
+  },
+  contentDiv: HTMLElement
+) {
+  const { x, y } = position;
+  const windowWidth = window.innerWidth - margin;
+  const windowHeight = window.innerHeight - margin;
+  const width = contentDiv.clientWidth;
+  const baseX = width / 2;
+  const leftLimit = baseX;
+  const rightLimit = windowWidth - baseX;
+  const bottomLimit = windowHeight / 2;
+  const yPos = y > bottomLimit ? "top" : "bottom";
+
+  if (x < leftLimit) return ["left", yPos];
+  if (x > rightLimit) return ["right", yPos];
+  return ["center", yPos];
+}
 
 function getCustomPosition(
-  x: number,
-  y: number,
-  width: number,
-  height: number
+  position: {
+    x: number;
+    y: number;
+  },
+  contentDiv: Element
 ) {
+  const { x, y } = position;
+  const width = contentDiv.clientWidth;
+  const height = contentDiv.clientHeight;
   const windowWidth = window.innerWidth - margin;
   const windowHeight = window.innerHeight - margin;
 
   const baseX = width / 2;
-
   const leftLimit = baseX;
   const rightLimit = windowWidth - baseX;
+  const bottomLimit = windowHeight / 2;
+  const yPos = y > bottomLimit ? -height : 0;
 
-  const bottomLimit = windowHeight - height;
-  const yPos = y > bottomLimit ? y - height : y + yOffset;
-  const yTransform = y > bottomLimit ? "bottom" : "top";
-
-  // left
-  if (x < leftLimit) {
-    const xPos = x + xOffset;
-    return [xPos, yPos, `left ${yTransform}`] as const;
-  }
-
-  // right
-  if (x > rightLimit) {
-    const xPos = x - width;
-    return [xPos, yPos, `right ${yTransform}`] as const;
-  }
-
-  // center
-  return [x - baseX, yPos, `center ${yTransform}`] as const;
+  if (x < leftLimit) return [0, yPos] as const;
+  if (x > rightLimit) return [-width, yPos] as const;
+  return [-baseX, yPos] as const;
 }
 
 interface Props {
   hoverData: HomePagePortFolioItemData;
-  position: {
-    x: number;
-    y: number;
-  };
 }
 
 function HomePagePortfolioDesktopCursor({
-  position,
   children,
   hoverData,
   ...props
 }: SectionProps & Props) {
-  const contentRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let timerId: number;
+    let position = { x: 0, y: 0 };
+
     const cursor = cursorRef.current;
     const content = contentRef.current;
-    const vars = { duration: 0.8, ease: "power3.out" };
-
-    const animate = () => {
-      if (!hoverData) {
-        gsap.set(cursor, { x: position.x, y: position.y });
-      } else if (cursor && content) {
-        gsap.killTweensOf(cursor);
-        const [x, y] = getCustomPosition(
-          position.x,
-          position.y,
-          content.clientWidth,
-          content.clientHeight
-        );
-        gsap.to(cursor, { x, y, ...vars });
-
-        // gsap.set(cursor, { x: position.x, y: position.y });
-      }
+    const vars = {
+      duration: 0.2,
+      ease: "power3.out",
     };
 
-    const request = requestAnimationFrame(animate);
+    const moveMouse = () => {
+      if (!cursor && content) return;
+      gsap.to(cursor, { x: position.x, y: position.y, ...vars });
+    };
 
-    return () => cancelAnimationFrame(request);
-  }, [hoverData, position]);
+    const animateContent = () => {
+      if (!cursor || !content) return;
+      gsap.killTweensOf(content);
+      const [x, y] = getCustomPosition(position, content);
+      gsap.to(content, {
+        x,
+        y,
+      });
+    };
+
+    const setPosition = (x: number, y: number) => {
+      position = { x, y };
+    };
+
+    const animate = () => {
+      moveMouse();
+      animateContent();
+      timerId = requestAnimationFrame(animate);
+    };
+
+    const onMouseMove = (e: any) => {
+      setPosition(e.clientX, e.clientY);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    timerId = requestAnimationFrame(animate);
+
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      cancelAnimationFrame(timerId);
+    };
+  }, []);
 
   return (
     <section {...props}>
       {children}
       <div
         ref={cursorRef}
-        className={
-          "pointer-events-none fixed left-0 top-0 z-10 overflow-hidden"
-        }
+        className={clsx(
+          "border-2 border-red bg-gray-300/50",
+          "pointer-events-none fixed left-0 top-0 z-10 h-1 w-1"
+        )}
       >
-        <div ref={contentRef}>
-          {hoverData ? (
-            <>
-              {"url" in hoverData.video ? (
-                <Video
-                  autoPlay={true}
-                  src={hoverData.video.url}
-                  poster={hoverData.image.url || undefined}
-                  style={{ width: "45vh" }}
-                />
-              ) : (
-                <Image
-                  style={{ width: "45vh" }}
-                  widths={[500]}
-                  aria-hidden={true}
-                  field={hoverData?.image}
-                />
-              )}
-            </>
+        <div className={"h-[40vh] w-[30vw] overflow-hidden"} ref={contentRef}>
+          {hoverData?.video && "url" in hoverData?.video ? (
+            <Video
+              autoPlay={true}
+              src={hoverData?.video.url}
+              poster={hoverData?.image.url || undefined}
+              className={"h-full w-full object-contain"}
+            />
+          ) : hoverData ? (
+            <Image
+              width={500}
+              widths={[500]}
+              aria-hidden={true}
+              field={hoverData?.image}
+              className={"h-full w-full object-contain"}
+            />
           ) : null}
         </div>
       </div>

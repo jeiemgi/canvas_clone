@@ -2,13 +2,8 @@ import clsx from "clsx";
 import { gsap } from "gsap";
 import easings from "~/lib/easings";
 import { useNavigate } from "react-router";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLayoutEffect } from "~/hooks";
 import { Image } from "~/components/Image";
 import ProjectHero, { animateBanner } from "~/components/ProjectHero";
 import LayoutWorkMenuItem from "~/components/Layout/LayoutWorkMenuItem";

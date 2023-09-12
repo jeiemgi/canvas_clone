@@ -117,16 +117,10 @@ const DEFAULT_POS = {
 
 function HomePagePortfolioDesktop({ data }: Props) {
   const timeout = useRef<NodeJS.Timeout | undefined>();
-  const [position, setPosition] = useState(DEFAULT_POS);
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
-
-  useEffect(() => {
-    const onMouseMove = (e: any) => setPosition({ x: e.clientX, y: e.clientY });
-    document.addEventListener("mousemove", onMouseMove);
-    return () => document.removeEventListener("mousemove", onMouseMove);
-  }, []);
+  // const [position, setPosition] = useState(DEFAULT_POS);
 
   const onMouseEnterImage = (
     e: MouseEvent<HTMLDivElement>,
@@ -144,7 +138,6 @@ function HomePagePortfolioDesktop({ data }: Props) {
 
   return (
     <HomePagePortfolioDesktopCursor
-      position={position}
       hoverData={hoverData}
       className={"desktop-only overflow-hidden pb-64 pt-20"}
     >
