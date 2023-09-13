@@ -25,8 +25,10 @@ import ScrollSmoother from "gsap/dist/ScrollSmoother";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { PrismicToolbar } from "@prismicio/react";
 import { PRISMIC_REPOSITORY_NAME } from "~/lib/constants";
+import { FpsView } from "react-fps";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import type { PropsWithChildren } from "react";
+import * as process from "process";
 
 // NOTE: Register plugins here, so we register them only once.
 gsap.registerPlugin(Flip, ScrollTrigger, ScrollSmoother, SplitText);
@@ -118,6 +120,7 @@ export default function App() {
 
   return (
     <Document>
+      <FpsView />
       <PrismicToolbar repositoryName={PRISMIC_REPOSITORY_NAME} />
       <Layout workMenuData={workMenu}>
         <Outlet />

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Image } from "~/components/Image";
 import TextCta from "~/components/CTA/TextCTA";
 import HomePagePortfolioDesktopCursor from "./HomePagePortfolioDesktopCursor";
@@ -110,17 +110,11 @@ interface Props {
 
 const LEAVE_TIMEOUT = 300;
 
-const DEFAULT_POS = {
-  x: 0,
-  y: 0,
-};
-
 function HomePagePortfolioDesktop({ data }: Props) {
   const timeout = useRef<NodeJS.Timeout | undefined>();
   const [selectedTag, setSelectedTag] = useState<string>(ALL_TAGS_ID);
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [hoverData, setHoverData] = useState<HomePagePortFolioItemData>(null);
-  // const [position, setPosition] = useState(DEFAULT_POS);
 
   const onMouseEnterImage = (
     e: MouseEvent<HTMLDivElement>,
@@ -139,7 +133,7 @@ function HomePagePortfolioDesktop({ data }: Props) {
   return (
     <HomePagePortfolioDesktopCursor
       hoverData={hoverData}
-      className={"desktop-only overflow-hidden pb-64 pt-20"}
+      className={"desktop-only relative overflow-hidden pb-64 pt-20"}
     >
       <HomePagePortfolioFilter
         hoveredTag={hoveredTag}

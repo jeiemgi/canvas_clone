@@ -44,6 +44,7 @@
     "lottie-web": "^5.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-fps": "^1.0.6",
     "react-transition-group": "^4.4.5",
     "remix-validated-form": "^5.0.2",
     "three": "^0.155.0",

@@ -8,28 +8,6 @@ import clsx from "clsx";
 
 const margin = 20;
 
-function getOrientation(
-  position: {
-    x: number;
-    y: number;
-  },
-  contentDiv: HTMLElement
-) {
-  const { x, y } = position;
-  const windowWidth = window.innerWidth - margin;
-  const windowHeight = window.innerHeight - margin;
-  const width = contentDiv.clientWidth;
-  const baseX = width / 2;
-  const leftLimit = baseX;
-  const rightLimit = windowWidth - baseX;
-  const bottomLimit = windowHeight / 2;
-  const yPos = y > bottomLimit ? "top" : "bottom";
-
-  if (x < leftLimit) return ["left", yPos];
-  if (x > rightLimit) return ["right", yPos];
-  return ["center", yPos];
-}
-
 function getCustomPosition(
   position: {
     x: number;
@@ -69,27 +47,21 @@ function HomePagePortfolioDesktopCursor({
   useEffect(() => {
     let timerId: number;
     let position = { x: 0, y: 0 };
-
     const cursor = cursorRef.current;
     const content = contentRef.current;
+
     const vars = {
       duration: 0.2,
       ease: "power3.out",
     };
 
     const moveMouse = () => {
-      if (!cursor && content) return;
-      gsap.to(cursor, { x: position.x, y: position.y, ...vars });
-    };
-
-    const animateContent = () => {
-      if (!cursor || !content) return;
-      gsap.killTweensOf(content);
-      const [x, y] = getCustomPosition(position, content);
-      gsap.to(content, {
-        x,
-        y,
-      });
+      if (cursor && content) {
+        gsap.killTweensOf(content);
+        const [x, y] = getCustomPosition(position, content);
+        gsap.to(cursor, { x: position.x, y: position.y, ...vars });
+        gsap.to(content, { x, y, height: "100%", left: 0, ...vars });
+      }
     };
 
     const setPosition = (x: number, y: number) => {
@@ -98,7 +70,6 @@ function HomePagePortfolioDesktopCursor({
 
     const animate = () => {
       moveMouse();
-      animateContent();
       timerId = requestAnimationFrame(animate);
     };
 
@@ -115,23 +86,24 @@ function HomePagePortfolioDesktopCursor({
     };
   }, []);
 
+  const childClassNames = "w-full h-full object-contain";
+
   return (
     <section {...props}>
       {children}
       <div
         ref={cursorRef}
         className={clsx(
-          "border-2 border-red bg-gray-300/50",
-          "pointer-events-none fixed left-0 top-0 z-10 h-1 w-1"
+          "pointer-events-none fixed left-0 top-0 z-10 h-[33vw] w-[33vw]"
         )}
       >
-        <div className={"h-[40vh] w-[30vw] overflow-hidden"} ref={contentRef}>
+        <div ref={contentRef}>
           {hoverData?.video && "url" in hoverData?.video ? (
             <Video
               autoPlay={true}
               src={hoverData?.video.url}
               poster={hoverData?.image.url || undefined}
-              className={"h-full w-full object-contain"}
+              className={childClassNames}
             />
           ) : hoverData ? (
             <Image
@@ -139,7 +111,7 @@ function HomePagePortfolioDesktopCursor({
               widths={[500]}
               aria-hidden={true}
               field={hoverData?.image}
-              className={"h-full w-full object-contain"}
+              className={childClassNames}
             />
           ) : null}
         </div>

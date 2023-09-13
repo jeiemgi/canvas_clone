@@ -59,8 +59,6 @@ function HomePageBackgroundContainer({
       );
 
       bgItems.forEach((bgItem, _index, arr) => {
-        console.log(bgItem);
-
         const isFirst = _index === 0;
         const isLast = _index === arr.length - 1;
         const scrollItem = scrollItems[_index];
