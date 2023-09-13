@@ -51,7 +51,7 @@ function HomePagePortfolioDesktopCursor({
     const content = contentRef.current;
 
     const vars = {
-      duration: 0.2,
+      duration: 0.5,
       ease: "power3.out",
     };
 
@@ -98,21 +98,25 @@ function HomePagePortfolioDesktopCursor({
         )}
       >
         <div ref={contentRef}>
-          {hoverData?.video && "url" in hoverData?.video ? (
-            <Video
-              autoPlay={true}
-              src={hoverData?.video.url}
-              poster={hoverData?.image.url || undefined}
-              className={childClassNames}
-            />
-          ) : hoverData ? (
-            <Image
-              width={500}
-              widths={[500]}
-              aria-hidden={true}
-              field={hoverData?.image}
-              className={childClassNames}
-            />
+          {hoverData ? (
+            <>
+              {hoverData?.video && "url" in hoverData?.video ? (
+                <Video
+                  autoPlay={true}
+                  src={hoverData?.video.url}
+                  poster={hoverData?.image.url || undefined}
+                  className={childClassNames}
+                />
+              ) : hoverData ? (
+                <Image
+                  width={500}
+                  widths={[500]}
+                  aria-hidden={true}
+                  field={hoverData?.image}
+                  className={childClassNames}
+                />
+              ) : null}
+            </>
           ) : null}
         </div>
       </div>
